@@ -1,5 +1,5 @@
-book_filename: "bookdown-demo"
+book_filename: "nerd-pf"
 language:
   ui:
-    chapter_name: "Chapter "
+    chapter_name: "Sección "
 delete_merged_file: true
