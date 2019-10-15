@@ -1,11 +1,25 @@
 language: r
-cache: packages
-pandoc_version: 1.19.2.1
+pandoc_version: 2.3.1
 
-before_script:
-  - chmod +x ./_build.sh
-  - chmod +x ./_deploy.sh
+branches:
+  only:
+    - master
+
+cache:
+  packages: yes
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_fa177754570b_key -iv $encrypted_fa177754570b_iv -in deploy-key.enc -out deploy-key -d
 
 script:
-  - ./_build.sh
-  - ./_deploy.sh
+  - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
+  - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book')"
+  - Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::epub_book')"
+
+deploy:
+  provider: pages:git
+  deploy_key: ./deploy-key
+  edge: true # opt in to dpl v2
+  on:
+    branch: master
+  local_dir: ./_book

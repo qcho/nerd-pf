@@ -1,7 +1,29 @@
+\usepackage[spanish]{babel} % español
+
 \usepackage{booktabs}
 \usepackage{amsthm}
+% \usepackage{biblatex}
+
+\usepackage{fontspec} % xelatexfont
+\setmainfont{Verdana} % use verdana
+
+\usepackage{hyperref} % for links between refs
+\hypersetup{
+    colorlinks = true % ref links
+}
+\usepackage[hypcap=true, labelfont=bf]{caption} % ref links point to top of images instead of caption
+\usepackage{float} % for images with H
+
+\usepackage{csquotes} % for quoting
+\usepackage[usenames,dvipsnames]{xcolor} % for colors
+\definecolor{quotecolor}{gray}{0.4}
+\AtBeginEnvironment{quote}{\color{quotecolor}}
+
+% \BeforeBeginEnvironment{tableofcontents}{\pagebreak}
+% \AfterEndEnvironment{tableofcontents}{\pagebreak}
+
 \makeatletter
-\def\thm@space@setup{%
+\def\thm@space@setup{
   \thm@preskip=8pt plus 2pt minus 4pt
   \thm@postskip=\thm@preskip
 }

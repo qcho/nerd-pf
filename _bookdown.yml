@@ -1,5 +1,21 @@
 book_filename: "nerd-pf"
 language:
+  label:
+    fig: 'Figura '
+    tab: 'Tabla '
+    eq: 'Ecuación '
+    thm: 'Teorema '
+    lem: 'Lema '
+    cor: 'Corolario '
+    prp: 'Proposición '
+    cnj: 'Conjetura '
+    def: 'Definición '
+    exm: 'Ejemplo '
+    exr: 'Ejercicio '
+    proof: 'Demostración. '
+    remark: 'Remark. '
+    solution: 'Solución. '
   ui:
-    chapter_name: "Sección "
+    edit: Editar
+    chapter_name: "Capítulo "
 delete_merged_file: true

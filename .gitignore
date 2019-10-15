@@ -5,3 +5,7 @@ _publish.R
 _book
 _bookdown_files
 rsconnect
+.DS_Store
+deploy-key
+deploy-key.pub
+nerd-pf.log
