@@ -1,0 +1,64 @@
+# NERd (Implementación) {#implementation}
+
+Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de tagueo de entidades.
+Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos.
+El nombre de esta herramienta es **NERd**, sigla cuyo significado en inglés es _**N**amed **E**ntity **R**ecognition **D**uh_^[Expresión de obviedad. _Used to express your belief that what was said was extremely obvious_ [@cambridge_duh]]!
+
+Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1.
+
+```{r arq41, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Ilustración de arquitectura 4+1'}
+knitr::include_graphics('assets/4+1_Architectural_View_Model.svg')
+```
+
+Este modelo nos permite describir la aplicación de una manera genérica y ordenada.
+
+> _The “4+1” view model is rather “generic”: other notations and tools can be used, other design methods can be used, especially for the logical and process decompositions, but we have indicated the ones we have used with success._
+>
+> `r tufte::quote_footer('--- [@Kruchten:1995:VMA:624610.625529]')` 
+
+## Vista lógica
+> La vista lógica se refiere a la funcionalidad que el sistema proporciona a los usuarios finales.
+<!-- Los diagramas UML se utilizan para representar la vista lógica e incluyen diagramas de clase y diagramas de estado. -->
+
+<!-- TODO: explicar features -->
+
+## Vista de proceso
+> La vista de proceso trata los aspectos dinámicos del sistema, explica los procesos del sistema y cómo se comunican, y se centra en el comportamiento del sistema en tiempo de ejecución.
+La vista de proceso aborda concurrencia, distribución, integradores, rendimiento y escalabilidad, etc.
+<!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
+
+<!-- TODO: explicar ui vs backend vs mensajes amq vs workers (no detalles de implementación ver siguiente) -->
+
+## Vista de desarrollo
+> La vista de desarrollo ilustra un sistema desde la perspectiva de un programador y se ocupa de la gestión de software.
+Esta vista también se conoce como la vista de implementación.
+<!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
+<!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
+
+<!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
+
+Python es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial NLP [@github_machine_learning]
+
+Spacy es el framework mejor ranqueado para la tarea de NLP [@github_machine_learning].
+Su implementación es robusta y orientada a la implementción de apliciones en producción, a diferencia de muchas otras librerías de NLP que sólo se utilizan con fines académicos.
+
+
+
+## Vista física
+> La vista física representa el sistema desde el punto de vista de un ingeniero de sistemas.
+Se refiere a la topología de los componentes de software en la capa física, así como a las conexiones físicas entre estos componentes.
+Esta vista también se conoce como la vista de _deployment_.
+<!-- Los diagramas UML utilizados para representar la vista física incluyen el diagrama de deployment. -->
+
+<!-- TODO: explicar docker. docker-package. red. nginx. etc -->
+
+## Escenarios
+> La descripción de una arquitectura se ilustra utilizando un pequeño conjunto de casos de uso, o escenarios, que se convierten en una quinta vista.
+> Los escenarios describen secuencias de interacciones entre objetos y entre procesos.
+> Se utilizan para identificar elementos arquitectónicos y para ilustrar y validar el diseño de la arquitectura.
+> También sirven como punto de partida para las pruebas de un prototipo de arquitectura.
+> Esta vista también se conoce como vista de caso de uso. 
+
+<!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
+
+

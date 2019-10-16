@@ -1,0 +1,37 @@
+# Discusión {#discussion}
+
+## Tipos de entidades relevantes
+
+tener en cuenta [@brunstein2002]
+
+```
+# Notas sobre mejora en tipos de entidades
+Presidente -> Person Descriptor
+NORP -> (Polical) Peronistas, Kirchneristas
+Facility Name -> usually location. "Wall Street", "Muralla China"
+
+Organization Name -> Government vs Corporation.
+Product Name -> autos "Fiat Toro", celulares "Galaxy S10"
+Events -> Superclásico. Superliga. Copa argentina. Elecciones 2019. Las Paso.
+Disease -> 
+Game -> Football, Basket (para "titulos" no tan relevante)
+```
+
+## Seed en los types
+en especial para los nuevos.
+
+## Mejora live vs offline
+Mejora "Uncertainty sampling" -> buscar entidades que tengan un score ~ 0.5
+
+## Utilidad de la herramienta
+Para poder poner a prueba nuestra herramienta **NERd** en un entorno real participamos de la hackaton en MediaParty 2019.
+
+> **[@hackaton2019]** es un evento de tres días en Argentina, que reúne a 2500 emprendedores, periodistas, programadores de software y diseñadores de cinco continentes para trabajar juntos para el futuro de los medios de comunicación.
+> Nacido de Hacks/Hackers Buenos Aires, el evento fusiona a grandes empresas como New York Times, The Guardian, Vox, ProPublica, Watchup, Neo4J o DocumentCloud y comunidades regionales de la mayor red de periodistas y desarrolladores del mundo.
+
+Participamos en conjunto con otro proyecto final en el que van a utilizar nuestra API para hacer detección de entidades en documentos PDF.
+
+La experiencia fue muy satisfactoria, recibimos buenas críticas sobre la Usabilidad de nuestra aplicación y la gran utilidad que presta a la comunidad.
+
+
+Por tal motivo recibimos el primer premio de dicha hackaton [@mediaparty2019_win]
