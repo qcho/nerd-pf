@@ -1,26 +1,47 @@
+% Usefull information about documentclass
+% http://ctan.dcc.uchile.cl/macros/latex/contrib/koma-script/doc/scrguien.pdf
+
 \usepackage[spanish]{babel} % español
+
+\usepackage{fontspec} % xelatexfont
+\defaultfontfeatures[TeX Gyre Adventor]
+{
+  Extension      = .otf,
+  UprightFont    = texgyreadventor-regular,
+  BoldFont       = texgyreadventor-bold,
+  ItalicFont     = texgyreadventor-italic,
+  BoldItalicFont = texgyreadventor-bolditalic,
+}
+\setmainfont{TeX Gyre Adventor}
 
 \usepackage{booktabs}
 \usepackage{amsthm}
 % \usepackage{biblatex}
 
-\usepackage{fontspec} % xelatexfont
-\setmainfont{Verdana} % use verdana
+%\usepackage{hyperref} % for links between refs
+%\hypersetup{
+%    colorlinks = true % ref links,
+%    linkcolor=\color{Maroon},
+%    urlcolor=\color{Maroon}
+%}
 
-\usepackage{hyperref} % for links between refs
-\hypersetup{
-    colorlinks = true % ref links
-}
 \usepackage[hypcap=true, labelfont=bf]{caption} % ref links point to top of images instead of caption
 \usepackage{float} % for images with H
 
 \usepackage{csquotes} % for quoting
-\usepackage[usenames,dvipsnames]{xcolor} % for colors
-\definecolor{quotecolor}{gray}{0.4}
-\AtBeginEnvironment{quote}{\color{quotecolor}}
+% Don't use xcolor (bug with bookdown).
+% Define them instead. http://latexcolor.com/
+\definecolor{slategray}{rgb}{0.44, 0.5, 0.56}
+\AtBeginEnvironment{quote}{\color{slategray}}
 
 % \BeforeBeginEnvironment{tableofcontents}{\pagebreak}
 % \AfterEndEnvironment{tableofcontents}{\pagebreak}
+
+\usepackage{lastpage} % to get the last page
+\usepackage{scrlayer-scrpage} % Control of page headers and footers with KOMA documentclass
+\cfoot{\thepage\ de \pageref{LastPage}}
+\ohead{Instituto Tecnológico de Buenos Aires \linebreak Proyecto Final - Gomez, Orsay}
+\pagestyle{scrheadings}
 
 \makeatletter
 \def\thm@space@setup{

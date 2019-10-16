@@ -22,19 +22,13 @@ github-repo: qcho/nerd-pf
 description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
 ---
 
+```{r include=FALSE}
+library(knitr)
+source('./initial_setup.R')
+```
+
 \newpage
 
 # *Abstract* {-}
 
 > TODO: escribir abstract
-
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
-
-options(tinytex.verbose = TRUE)
-options(knitr.include_graphics.ext = TRUE)
-options(knitr.graphics.auto_pdf = TRUE)
-```

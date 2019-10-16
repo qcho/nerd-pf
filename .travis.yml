@@ -9,6 +9,7 @@ cache:
   packages: yes
 
 before_install:
+  - tlmgr install tex-gyre
   - openssl aes-256-cbc -K $encrypted_fa177754570b_key -iv $encrypted_fa177754570b_iv -in deploy-key.enc -out deploy-key -d
 
 script:
