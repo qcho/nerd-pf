@@ -70,7 +70,11 @@
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
-\usepackage{graphicx,grffile}
+\usepackage{graphicx}
+% grffile has become a legacy package: https://ctan.org/pkg/grffile
+\IfFileExists{grffile.sty}{%
+\usepackage{grffile}
+}{}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -124,7 +128,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-10-16}
+    \date{2019-11-19}
 
 % Usefull information about documentclass
 % http://ctan.dcc.uchile.cl/macros/latex/contrib/koma-script/doc/scrguien.pdf
@@ -304,7 +308,7 @@ quote de: \url{https://github.com/explosion/talks/blob/master/2016-11-28_The-Sta
 \section{NERd (Implementación)}\label{implementation}}
 
 Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de tagueo de entidades.
-Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos.
+Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.
 El nombre de esta herramienta es \textbf{NERd}, sigla cuyo significado en inglés es \emph{\textbf{N}amed \textbf{E}ntity \textbf{R}ecognition \textbf{D}uh}\footnote{Expresión de obviedad. \emph{Used to express your belief that what was said was extremely obvious} (``Duh definition,'' \protect\hyperlink{ref-cambridge_duh}{2019})}!
 
 Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1.
@@ -329,9 +333,226 @@ Este modelo nos permite describir la aplicación de una manera genérica y orden
 \hypertarget{vista-luxf3gica}{%
 \subsection{Vista lógica}\label{vista-luxf3gica}}
 
-\begin{quote}
-La vista lógica se refiere a la funcionalidad que el sistema proporciona a los usuarios finales.
-\end{quote}
+\hypertarget{inicio}{%
+\subsubsection{Inicio}\label{inicio}}
+
+Pantalla de inicio donde se encuentran accesos rápidos para entrenar el modelo o para poder buscar entidades en textos.
+También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/home-logged-all.pdf} 
+
+}
+
+\caption{Pantalla de inicio con usuario logueado}\label{fig:logic-home}
+\end{figure}
+
+Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/home-logged-not_trainer.pdf} 
+
+}
+
+\caption{Pantalla de inicio sin rol de entrenador}\label{fig:logic-home-logged-nontrainer}
+\end{figure}
+
+Si la persona visitando la página no cuenta con una sesión activa, se le invita a ingresar con una cuenta pre-existente o a registrarse.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/home-anonymous.pdf} 
+
+}
+
+\caption{Pantalla de inicio sin sesión}\label{fig:logic-home-anonymous}
+\end{figure}
+
+\hypertarget{entrenamiento}{%
+\subsubsection{Entrenamiento}\label{entrenamiento}}
+
+La pantalla de \emph{Entrenamiento} es el núcleo de la web en la cual es posible entrenar el modelo.
+
+El usuario es presentado con un texto perteneciente al Corpus del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/train.pdf} 
+
+}
+
+\caption{Pantalla de entrenamiento}\label{fig:logic-train}
+\end{figure}
+
+\hypertarget{usabilidad}{%
+\paragraph{Usabilidad}\label{usabilidad}}
+
+Tuvimos un foco fuerte en la usabilidad del widget ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.
+
+\hypertarget{llamado-a-acciuxf3n-y-ayuda}{%
+\subparagraph{Llamado a acción y ayuda}\label{llamado-a-acciuxf3n-y-ayuda}}
+
+Dado que lo primero que ve el usuario es un texto con anotaciones, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el widget de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
+Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/train-help.pdf} 
+
+}
+
+\caption{Ayuda del entrenador}\label{fig:logic-train-help}
+\end{figure}
+
+\hypertarget{creaciuxf3n-y-ediciuxf3n-de-entidades}{%
+\subparagraph{Creación y edición de entidades}\label{creaciuxf3n-y-ediciuxf3n-de-entidades}}
+
+Para la creación de entidades decidimos ofrecer dos maneras: La primera es arrastrando un conjunto de palabras de manera tal de unirlas todas en una única entidad.
+La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de la ubicación de la palabra dentro del texto:
+
+\begin{itemize}
+\tightlist
+\item
+  Si no existen entidades en el texto actual, se le asigna por defecto el tipo \emph{MISC} y se muestran el resto de los tipos para permitir cambiarlo de ser necesario.
+\item
+  Si existen entidades antes o después, se ofrece la opción de unir la palabra actual con la entidada más próxima para el lado elegido.
+\end{itemize}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/train-popup.pdf} 
+
+}
+
+\caption{Edición de entidad}\label{fig:logic-train-popup}
+\end{figure}
+
+Para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
+Si el modelo infirió una entidad de manera incorrecta, ya sea por que sea una entidad inválida o agregó palabras de más a una entidad inválida, permitimos que el usuario remueva la entidad y que después vuelva a agregar la entidad correcta.
+
+\hypertarget{optimizaciuxf3n-en-tiempos-de-carga}{%
+\subparagraph{Optimización en tiempos de carga}\label{optimizaciuxf3n-en-tiempos-de-carga}}
+
+Dado que es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario una experiencia completamente fluida.
+
+\hypertarget{administraciuxf3n-de-usuarios}{%
+\subsubsection{Administración de usuarios}\label{administraciuxf3n-de-usuarios}}
+
+La pantalla de \emph{Administración de usuarios} permite a los usuarios con el rol de administrador poder modificar los roles de todos los usuarios del sistema, borrarlos o acceder a los detalles del usuario, tal como la lista de textos entrenados.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/user-list.pdf} 
+
+}
+
+\caption{Administración de usuarios}\label{fig:logic-user-list}
+\end{figure}
+
+\hypertarget{detalles-de-usuario}{%
+\subsubsection{Detalles de usuario}\label{detalles-de-usuario}}
+
+La pantalla de detalle de usuario permite al usuario con sesión activa ver sus entrenamientos y cambiar su contraseña.
+
+Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero a otros usuarios.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/user-profile.pdf} 
+
+}
+
+\caption{Perfil de usuario}\label{fig:logic-user-profile}
+\end{figure}
+
+\hypertarget{corpus}{%
+\subsubsection{Corpus}\label{corpus}}
+
+La pantalla de \emph{Corpus} permite a un usuario con el rol de administrador realizar tareas relacionadas con el corpus del sistema.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/corpus-management.pdf} 
+
+}
+
+\caption{Administración de corpus}\label{fig:logic-corpus-management}
+\end{figure}
+
+Desde aquí es posible agregar textos al corpus utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión \emph{.txt} y cada línea del archivo será agregada al corpus como un texto individual.
+
+También es posible desde aquí ver todos los textos que forman parte del corpus así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del corpus así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.
+
+\hypertarget{estado}{%
+\subsubsection{Estado}\label{estado}}
+
+La pantalla de \emph{Estado} permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del corpus así como también realizar diversas acciones sobre los \emph{workers}.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/status.pdf} 
+
+}
+
+\caption{Información de corpus y manejo de workers}\label{fig:logic-status}
+\end{figure}
+
+\hypertarget{secciones}{%
+\paragraph{Secciones}\label{secciones}}
+
+\hypertarget{corpus-1}{%
+\subparagraph{Corpus}\label{corpus-1}}
+
+Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el corpus contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de \emph{Corpus}.
+
+\hypertarget{crear-snapshot}{%
+\subparagraph{Crear snapshot}\label{crear-snapshot}}
+
+Es la sección en la cual será posible crear, borrar o modificar los tipos de entidades reconocidos por el snapshot actual. La acción de editar las entidades genera un snapshot nuevo.
+
+Si el administrador así lo quisiera, puede utilizar esta sección para crear un snapshot nuevo sin editar entidades.
+
+\hypertarget{snapshots}{%
+\subparagraph{Snapshots}\label{snapshots}}
+
+Sección en la cual podemos ver la lista completa de snapshots.
+Para cada Snapshot, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.
+
+\hypertarget{reasignar-trabajador}{%
+\subparagraph{Reasignar trabajador}\label{reasignar-trabajador}}
+
+Sección que permite reasignar trabajadores para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar distintas pruebas sobre los mismos.
+
+\hypertarget{sandbox}{%
+\subsubsection{Sandbox}\label{sandbox}}
+
+La pantalla de \emph{Sandbox} permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
+Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al corpus.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/sandbox.pdf} 
+
+}
+
+\caption{Inferencia de entidades en sandbox}\label{fig:logic-sandbox}
+\end{figure}
+
+\hypertarget{comparar}{%
+\subsubsection{Comparar}\label{comparar}}
+
+Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/compare.pdf} 
+
+}
+
+\caption{Comparativa de modelos}\label{fig:logic-compare}
+\end{figure}
 
 \hypertarget{vista-de-proceso}{%
 \subsection{Vista de proceso}\label{vista-de-proceso}}
