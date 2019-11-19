@@ -87,7 +87,7 @@ Dado que es esperado que un usuario entrene más de un texto, al momento de pedi
 La pantalla de _Administración de usuarios_ permite a los usuarios con el rol de administrador poder modificar los roles de todos los usuarios del sistema, borrarlos o acceder a los detalles del usuario, tal como la lista de textos entrenados.
 
 ```{r logic-user-list, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Administración de usuarios'}
-knitr::include_graphics('assets/logic-user-list.png')
+knitr::include_graphics('assets/logic/user-list.png')
 ```
 
 ### Detalles de usuario
