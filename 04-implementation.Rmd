@@ -26,18 +26,18 @@ Pantalla de inicio donde se encuentran accesos rápidos para entrenar el modelo 
 También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más.
 
 ```{r logic-home, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pantalla de inicio con usuario logueado'}
-knitr::include_graphics('assets/logic/home-logged-all.pdf')
+knitr::include_graphics('assets/logic/home-logged-all.png')
 ```
 Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso.
 
 ```{r logic-home-logged-nontrainer, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pantalla de inicio sin rol de entrenador'}
-knitr::include_graphics('assets/logic/home-logged-not_trainer.pdf')
+knitr::include_graphics('assets/logic/home-logged-not_trainer.png')
 ```
 
 Si la persona visitando la página no cuenta con una sesión activa, se le invita a ingresar con una cuenta pre-existente o a registrarse.
 
 ```{r logic-home-anonymous, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pantalla de inicio sin sesión'}
-knitr::include_graphics('assets/logic/home-anonymous.pdf')
+knitr::include_graphics('assets/logic/home-anonymous.png')
 ```
 
 ### Entrenamiento
@@ -47,7 +47,7 @@ La pantalla de _Entrenamiento_ es el núcleo de la web en la cual es posible ent
 El usuario es presentado con un texto perteneciente al Corpus del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual.
 
 ```{r logic-train, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pantalla de entrenamiento'}
-knitr::include_graphics('assets/logic/train.pdf')
+knitr::include_graphics('assets/logic/train.png')
 ```
 
 #### Usabilidad
@@ -60,7 +60,7 @@ Dado que lo primero que ve el usuario es un texto con anotaciones, agregamos un 
 Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo.
 
 ```{r logic-train-help, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Ayuda del entrenador'}
-knitr::include_graphics('assets/logic/train-help.pdf')
+knitr::include_graphics('assets/logic/train-help.png')
 ```
 
 ##### Creación y edición de entidades
@@ -72,7 +72,7 @@ La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de 
 - Si existen entidades antes o después, se ofrece la opción de unir la palabra actual con la entidada más próxima para el lado elegido.
 
 ```{r logic-train-popup, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Edición de entidad'}
-knitr::include_graphics('assets/logic/train-popup.pdf')
+knitr::include_graphics('assets/logic/train-popup.png')
 ```
 
 Para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
@@ -87,7 +87,7 @@ Dado que es esperado que un usuario entrene más de un texto, al momento de pedi
 La pantalla de _Administración de usuarios_ permite a los usuarios con el rol de administrador poder modificar los roles de todos los usuarios del sistema, borrarlos o acceder a los detalles del usuario, tal como la lista de textos entrenados.
 
 ```{r logic-user-list, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Administración de usuarios'}
-knitr::include_graphics('assets/logic/user-list.pdf')
+knitr::include_graphics('assets/logic-user-list.png')
 ```
 
 ### Detalles de usuario
@@ -97,7 +97,7 @@ La pantalla de detalle de usuario permite al usuario con sesión activa ver sus 
 Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero a otros usuarios.
 
 ```{r logic-user-profile, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Perfil de usuario'}
-knitr::include_graphics('assets/logic/user-profile.pdf')
+knitr::include_graphics('assets/logic/user-profile.png')
 ```
 
 ### Corpus
@@ -105,7 +105,7 @@ knitr::include_graphics('assets/logic/user-profile.pdf')
 La pantalla de _Corpus_ permite a un usuario con el rol de administrador realizar tareas relacionadas con el corpus del sistema.
 
 ```{r logic-corpus-management, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Administración de corpus'}
-knitr::include_graphics('assets/logic/corpus-management.pdf')
+knitr::include_graphics('assets/logic/corpus-management.png')
 ```
 
 Desde aquí es posible agregar textos al corpus utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión _.txt_ y cada línea del archivo será agregada al corpus como un texto individual.
@@ -117,7 +117,7 @@ También es posible desde aquí ver todos los textos que forman parte del corpus
 La pantalla de _Estado_ permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del corpus así como también realizar diversas acciones sobre los _workers_.
 
 ```{r logic-status, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Información de corpus y manejo de workers'}
-knitr::include_graphics('assets/logic/status.pdf')
+knitr::include_graphics('assets/logic/status.png')
 ```
 
 #### Secciones
@@ -148,7 +148,7 @@ La pantalla de _Sandbox_ permite a los usuarios hacer consultas al servicio NERd
 Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al corpus.
 
 ```{r logic-sandbox, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Inferencia de entidades en sandbox'}
-knitr::include_graphics('assets/logic/sandbox.pdf')
+knitr::include_graphics('assets/logic/sandbox.png')
 ```
 
 ### Comparar
@@ -156,7 +156,7 @@ knitr::include_graphics('assets/logic/sandbox.pdf')
 Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual.
 
 ```{r logic-compare, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Comparativa de modelos'}
-knitr::include_graphics('assets/logic/compare.pdf')
+knitr::include_graphics('assets/logic/compare.png')
 ```
 
 ## Vista de proceso
