@@ -1,5 +1,7 @@
 Proyecto Final **ITBA**
 
+[![Build Status](https://travis-ci.org/qcho/nerd-pf.svg?branch=master)](https://travis-ci.org/qcho/nerd-pf)
+
 **Título**: Named Entity Recognition Duh!
 **Autores**: Horacio Miguel Gómez - Juan Pablo Orsay
 
