@@ -291,9 +291,45 @@ knitr::include_graphics('assets/logic/compare.png')
 ## Vista de proceso
 > La vista de proceso trata los aspectos dinámicos del sistema, explica los procesos del sistema y cómo se comunican, y se centra en el comportamiento del sistema en tiempo de ejecución.
 La vista de proceso aborda concurrencia, distribución, integradores, rendimiento y escalabilidad, etc.
+
+Existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.
+
+```{r process-overview-client, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Componentes del sistema'}
+knitr::include_graphics('assets/process/process-overview-client.png')
+```
+
+### API
+
+Servicio en el cual los clientes pueden pedir las _Entidades Nombradas_ de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
+El _API_ se comunica el servicio de _Bases de Datos_ para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos _snapshots_ y con el _Task Scheduler_ para realizar diversas tareas relacionadas con _Spacy_.
+
+### Task Scheduler
+
+Recibe tareas desde el _API_ tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. Dado que su tarea es recibir tareas desde el _API_ y enviar y recibir mensajes de los _Workers_, debería existir una única instancia del mismo.
+A su vez, notifica al _API_ la finalización de tareas asincrónicas
+
+### Worker
+
+Un _Worker_ se encarga de realizar el _Reconocimiento de Entidades Nombradas_ así como también de entrenar modelos de inferencia. Es un servicio que existe de manera independiente y necesita de dos otros servicios para funcionar:
+
+* _Base de datos_ para obtener los datos necesarios para entrenar un modelo.
+* _Task scheduler_ para poder recibir tareas.
+
+Como el _Worker_ es una unidad de trabajo que recibe tareas desde el _Task Scheduler_, es posible tener varios _Workers_ donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos snapshots).
+
+### Database
+
+Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de API funcione así como también los datos necesarios por los workers (entrenamientos).
+
+### Cliente
+
+Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-generado a partir de la definición de _OpenAPI_. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades
+
+
 <!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
 
 <!-- TODO: explicar ui vs backend vs mensajes amq vs workers (no detalles de implementación ver siguiente) -->
+<!-- TODO: Diagrama de actividad para contar procesos? O nah? -->
 
 ## Vista de desarrollo
 > La vista de desarrollo ilustra un sistema desde la perspectiva de un programador y se ocupa de la gestión de software.
@@ -302,6 +338,7 @@ Esta vista también se conoce como la vista de implementación.
 <!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
 
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
+<!-- TODO: Hablar sobre Atributos de calidad de software -->
 
 
 ## Vista física
