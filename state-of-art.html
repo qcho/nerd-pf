@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Capítulo 3 Estado del arte | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15.2 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Capítulo 3 Estado del arte | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
   <meta property="og:type" content="book" />
@@ -153,19 +153,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="state-of-art.html"><a href="state-of-art.html#stack-de-software"><i class="fa fa-check"></i><b>3.1</b> Stack de software</a></li>
 <li class="chapter" data-level="3.2" data-path="state-of-art.html"><a href="state-of-art.html#el-pipeline"><i class="fa fa-check"></i><b>3.2</b> El pipeline</a></li>
 <li class="chapter" data-level="3.3" data-path="state-of-art.html"><a href="state-of-art.html#algoritmo-de-tokenización"><i class="fa fa-check"></i><b>3.3</b> Algoritmo de tokenización</a></li>
-<li class="chapter" data-level="3.4" data-path="state-of-art.html"><a href="state-of-art.html#reconocimiento-de-entidades-1"><i class="fa fa-check"></i><b>3.4</b> Reconocimiento de entidades</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="state-of-art.html"><a href="state-of-art.html#modelos-basados-en-reglas"><i class="fa fa-check"></i><b>3.4.1</b> Modelos basados en reglas</a></li>
-<li class="chapter" data-level="3.4.2" data-path="state-of-art.html"><a href="state-of-art.html#el-enfoque-de-spacy"><i class="fa fa-check"></i><b>3.4.2</b> El enfoque de spaCy</a></li>
-</ul></li>
-<li class="chapter" data-level="3.5" data-path="state-of-art.html"><a href="state-of-art.html#el-modelo-estadístico-deep-learning"><i class="fa fa-check"></i><b>3.5</b> El modelo estadístico “deep-learning”</a><ul>
+<li class="chapter" data-level="3.4" data-path="state-of-art.html"><a href="state-of-art.html#modelos-basados-en-reglas"><i class="fa fa-check"></i><b>3.4</b> Modelos basados en reglas</a></li>
+<li class="chapter" data-level="3.5" data-path="state-of-art.html"><a href="state-of-art.html#modelos-de-deep-learning"><i class="fa fa-check"></i><b>3.5</b> Modelos de “<em>deep-learning</em>”</a><ul>
 <li class="chapter" data-level="3.5.1" data-path="state-of-art.html"><a href="state-of-art.html#embed"><i class="fa fa-check"></i><b>3.5.1</b> embed</a></li>
 <li class="chapter" data-level="3.5.2" data-path="state-of-art.html"><a href="state-of-art.html#encode"><i class="fa fa-check"></i><b>3.5.2</b> encode</a></li>
 <li class="chapter" data-level="3.5.3" data-path="state-of-art.html"><a href="state-of-art.html#attend"><i class="fa fa-check"></i><b>3.5.3</b> attend</a></li>
 <li class="chapter" data-level="3.5.4" data-path="state-of-art.html"><a href="state-of-art.html#predict"><i class="fa fa-check"></i><b>3.5.4</b> predict</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="state-of-art.html"><a href="state-of-art.html#subword-features"><i class="fa fa-check"></i><b>3.6</b> Subword features</a></li>
-<li class="chapter" data-level="3.7" data-path="state-of-art.html"><a href="state-of-art.html#statistical-entity-recognition-model"><i class="fa fa-check"></i><b>3.7</b> statistical entity recognition model</a></li>
-<li class="chapter" data-level="3.8" data-path="state-of-art.html"><a href="state-of-art.html#word-vectors"><i class="fa fa-check"></i><b>3.8</b> Word vectors</a></li>
+<li class="chapter" data-level="3.6" data-path="state-of-art.html"><a href="state-of-art.html#usando-el-modelo-estadístico"><i class="fa fa-check"></i><b>3.6</b> Usando el modelo estadístico</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="implementation.html"><a href="implementation.html"><i class="fa fa-check"></i><b>4</b> NERd (Implementación)</a><ul>
 <li class="chapter" data-level="4.1" data-path="implementation.html"><a href="implementation.html#vista-lógica"><i class="fa fa-check"></i><b>4.1</b> Vista lógica</a><ul>
@@ -262,35 +257,138 @@ Figura 3.2: Transiciones del modelo Stack-LSTM indicando la acción aplicada y e
 </p>
 </div>
 </div>
-<div id="reconocimiento-de-entidades-1" class="section level2">
-<h2><span class="header-section-number">3.4</span> Reconocimiento de entidades</h2>
-<div id="modelos-basados-en-reglas" class="section level3">
-<h3><span class="header-section-number">3.4.1</span> Modelos basados en reglas</h3>
+<div id="modelos-basados-en-reglas" class="section level2">
+<h2><span class="header-section-number">3.4</span> Modelos basados en reglas</h2>
 <p>Antes de entrar en detalles de cómo trabaja el modelo estadístico de spacy y entender sus fortalezas es importante esbozar brevemente el grupo de algorítmos más “naive” posible. El de los modelos basados en reglas fijas.</p>
 <p>En estos modelos se implementan reglas finitas o expresiones regulares para la detección de las entidades. Las principales limitaciones de este enfoque son:</p>
 <ul>
-<li><strong>Mucho trabajo manua</strong>l: el sistema RB exige un profundo conocimiento del dominio, así como mucho trabajo manual.</li>
+<li><strong>Mucho trabajo manua</strong>l: el sistema RB exige un profundo conocimiento del dominio, este analisis debe ser realizado por humanos expertos en el dominio.</li>
 <li><strong>Consumo de tiempo</strong>: la generación de reglas para un sistema complejo es bastante difícil y requiere mucho tiempo.</li>
 <li><strong>Menor capacidad de aprendizaje</strong>: el sistema generará el resultado según las reglas, por lo que la capacidad de aprendizaje del sistema por sí mismo es baja.</li>
 <li><strong>Dominios complejos</strong>: si el corpus demasiado complejo, la creación del sistema RB puede llevar mucho tiempo y análisis. La identificación de patrones complejos es una tarea desafiante en el enfoque RB.</li>
 </ul>
 </div>
-<div id="el-enfoque-de-spacy" class="section level3">
-<h3><span class="header-section-number">3.4.2</span> El enfoque de spaCy</h3>
-<!-- TODO
-2014 neural network CCN ~85%
--->
-<p>Cuando se busca mejorar el aprendizaje automático, generalmente se piensa en la eficiencia y la precisión, pero la dimensión más importante es la generalidad.</p>
+<div id="modelos-de-deep-learning" class="section level2">
+<h2><span class="header-section-number">3.5</span> Modelos de “<em>deep-learning</em>”</h2>
+<p>Cuando se busca mejorar el aprendizaje automático, generalmente se piensa en la eficiencia y la precisión, pero la dimensión más importante es la generalidad. Este es el modelo estadístico que usa spaCy.</p>
 <p>La mayoría de los problemas de <code>NLP</code> pueden reducirse a problemas de aprendizaje automático que toman uno o más textos como entrada. Si podemos transformar estos textos en vectores, podemos reutilizar soluciones de aprendizaje profundo (<em>deep-learning</em>) de propósito general.</p>
-<div id="máquina-de-estados" class="section level4">
-<h4><span class="header-section-number">3.4.2.1</span> Máquina de estados</h4>
-<p>Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte utilizando un autómata finito determinístico de pila en conjunción con una red neuronal <span class="citation">(Lample, Ballesteros, Subramanian, Kawakami, &amp; Dyer, <a href="#ref-DBLP:journals/corr/LampleBSKD16">2016</a>)</span></p>
+<p>Las representaciones de palabras embebidas (<em>embebed-words</em>), también conocidas como “vectores de palabras” (<em>word-vectors</em>), son una de las tecnologías de procesamiento de lenguaje natural más utilizadas en el estado del arte actual. El modelo de deep learning utilizado por spaCy puede ser descripto en 4 pasos.</p>
+<p>Los <em>word-embeddings</em> permiten tratar a las palabras individuales como <em>unidades de significado</em>, en lugar de identificaciones completamente distintas. A este proceso se le conoce como <strong><em>embed</em>.</strong></p>
+<p>Sin embargo, la mayoría de los problemas de <em>NLP</em> requieren la comprensión de tramos de texto más largos, no solo palabras individuales. Al juntar un conjunto de <em>word-embeddings</em> en una secuencia de vectores, se usan RNN bidireccionales para codificar los vectores en una matriz de oración. Las filas de esta matriz pueden entenderse como <em>vectores-de-tokens</em>: son sensibles al contexto del token dentro de la oración. Este paso se lo llama <strong><strong>encode</strong></strong></p>
+<p>Finalmente mecanismo de <strong><strong>attend</strong></strong> le permite reducir la matriz de oración a un vector de oración, listo para la predicción (<strong><strong>predict</strong></strong>).</p>
+<p>De esta manera quedan definidas las piezas que describen al modelo de spacy:</p>
+<div class="figure" style="text-align: center"><span id="fig:formula-shapes"></span>
+<img src="assets/deep-learning-formula-nlp_shapes.png" alt="Estados posibles para las diferentes etapas de la CNN"  />
+<p class="caption">
+Figura 3.3: Estados posibles para las diferentes etapas de la CNN
+</p>
+</div>
+<p>Estos 4 procesos seran descriptos en detalle en las siguientes secciones.</p>
+<div id="embed" class="section level3">
+<h3><span class="header-section-number">3.5.1</span> embed</h3>
+<blockquote>
+<p>Resuelve el problema: “todas las palabras se ven iguales para la computadora”</p>
+</blockquote>
+<p>La idea de <em>word embeddings</em> es la de “embeber” el conjunto de tokens que componen términos con información adicional. El resultado de esta operacion es una estructura abstracta que puede ser descripta como un “vector de significado”.</p>
+<div class="figure" style="text-align: center"><span id="fig:formula-embed"></span>
+<img src="assets/deep-learning-formula-nlp_embed.svg" alt="embed"  />
+<p class="caption">
+Figura 3.4: embed
+</p>
+</div>
+<p>Es importante destacar que en esta etapa de <em>embed</em>; toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razon es facilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras estan relacionadas entre si de manera eficiente y no supervisada)</p>
+<p>Esto permite al modelo poder inferir significado a partir de información no tagueada dentro del problema en particular a resolver (el de NER).</p>
+<p>Una tabla de <em>word-embeddings</em> mapea vectores largos binarios y esparsos en vectores cortos densos y continus, llenos de significado relevante. Existen varias estrategias para “infusionar” tokens con información adicional. Las dos fuentes mas grandes de información embebida más importantes son las de <em>información ligúistica</em> y los <em>word-vectors</em>.</p>
+<div id="información-ligúistica" class="section level4">
+<h4><span class="header-section-number">3.5.1.1</span> Información ligúistica</h4>
+<p>El objetivo de esta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingúisticas detectadas estan resumidas en el siguiente ejemplo:</p>
+<div class="figure" style="text-align: center"><span id="fig:formula-pos"></span>
+<img src="assets/pos.png" alt="características lingúisticas"  />
+<p class="caption">
+Figura 3.5: características lingúisticas
+</p>
+</div>
+<ul>
+<li><strong>Text</strong>: la palabra original texto.</li>
+<li><strong>Lemma</strong>: La forma básica de la palabra. <code>Es -&gt; ser</code>. Esto permite a las siguientes etapas trabajar con una definicón canónica del token.</li>
+<li><strong>POS</strong>: la etiqueta simple de parte-del-discurso (POS).</li>
+<li><strong>Tag</strong>: la etiqueta detallada de parte del discurso (POS).</li>
+<li><strong>Dep</strong>: dependencia sintáctica, es decir, la relación entre tokens.</li>
+<li><strong>Shape</strong>: la forma de la palabra: mayúsculas, puntuación, dígitos. Muy util para detectar patrones como números telefónicos, documentos de identidad, CBUs, etc.</li>
+<li><strong>is alpha</strong>: ¿el token es una secuencia de caracteres alfabéticos?</li>
+<li><strong>is stop</strong> : ¿es el token parte de una lista de palabras-de-stop, es decir, las palabras más comunes del idioma?</li>
+</ul>
+<div id="word-vectors" class="section level5">
+<h5><span class="header-section-number">3.5.1.1.1</span> Word Vectors</h5>
+<p>A diferencia de la información lingúistica que es obtenida en el momento. Existen otro tipo de embeddings más poderosos que son producto de preentrenamientos. Tal es el caso de los <em>word-vectors</em>. Los vectores de palabras se aprenden mediante la concatenación de incrustaciones de atributos léxicos NORM, PREFIX, SUFFIX y SHAPE. Luego se usa una capa oculta centro de una red neuronal convolucional (CNN) para permitir una combinación no lineal de la información en estos vectores concatenados.</p>
+<p>Los vectores de palabras son particularmente útiles para términos que no están bien representados en los datos de entrenamiento etiquetados. En nuestro uso de reconocimiento de entidades, siempre habrá muchos nombres de los que no se tendrán ejemplos. Por ejemplo, en los datos de entrenamiento es posible que existan algunos ejemplos del término “Coca-Cola”, pero ninguno que contenga el término “Manaos”.
+Es interesante pensar a las palabras como “vectores de significado”. Dentro del espacio vectorial de significados el vector “perro” se encuentra cercano al de “cachorro”, “beagle”, “bulldog”, “poodle”. Esto permite al modelo poder inferir nuevas relaciones en base a una cantidad reducida de input.
+Los vectores de palabras ponen ese hecho a disposición del modelo de reconocimiento de entidades. Si bien no existen ejemplos de “Manaos” etiquetados como “Producto”; se verá que “Manaos” tiene un vector de palabras que generalmente corresponde a los términos de un producto, por lo que puede hacer la inferencia. Y si se quiere llegar incluso al detalle de que es una Gaseosa.</p>
+<p>Otra forma interesante de analizar y entender los word-vectors en su contexto de espacio vectorial multidimensional de significados es a través del algebra de vectores, como se muestra en el Paper “Towards Understanding Linear Word Analogies” <span class="citation">(Ethayarajh, Duvenaud, &amp; Hirst, <a href="#ref-ethayarajh-etal-2019-towards">2019</a>)</span>:</p>
+<div class="figure" style="text-align: center"><span id="fig:vec-parallelogram"></span>
+<img src="assets/parallelogram.png" alt="Parallelogram structure in the vector space (by definition)"  />
+<p class="caption">
+Figura 3.6: Parallelogram structure in the vector space (by definition)
+</p>
+</div>
+<p>Es facil de entender viendo ese paralelogramo que al realizar algebra entre los diferentes vectores de significado se pueden inferir nuevos conceptos:</p>
+<p><span class="math display">\[\vec{Rey} - \vec{Hombre} \approx \vec{Realeza}\]</span>
+<span class="math display">\[\vec{Rey} - \vec{Hombre} + \vec{Mujer} \approx \vec{Reina}\]</span></p>
+</div>
+</div>
+</div>
+<div id="encode" class="section level3">
+<h3><span class="header-section-number">3.5.2</span> encode</h3>
+<blockquote>
+<p>Resuelve el problema: el contexto de los significados es relevante y esta siendo descartado</p>
+</blockquote>
+<p>El resultado de esta etapa es la de encodear vectores <strong>independientes-de-contexto</strong> en matrices de oración <strong>sensibles-al-contexto</strong></p>
+<div class="figure" style="text-align: center"><span id="fig:formula-encode"></span>
+<img src="assets/deep-learning-formula-nlp_encode.svg" alt="encode"  />
+<p class="caption">
+Figura 3.7: encode
+</p>
+</div>
+<p>La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizando como una <em>moving window</em> de 3 vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera. Por lo que se genera naturalmente un <em>efecto de decaimiento</em> en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor.</p>
+</div>
+<div id="attend" class="section level3">
+<h3><span class="header-section-number">3.5.3</span> attend</h3>
+<blockquote>
+<p>Resuelve el problema: tenemos demasiada información para inferir un significado específico al problema a resolver</p>
+</blockquote>
+<p>En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o tambien conocido como <em>vector de consulta</em> o <em>vector de contexto</em> representado en la siguiente figura como un vector mas oscuro.</p>
+<div class="figure" style="text-align: center"><span id="fig:formula-attend"></span>
+<img src="assets/deep-learning-formula-nlp_attend.svg" alt="attend"  />
+<p class="caption">
+Figura 3.8: attend
+</p>
+</div>
+<p>Al reducir la matriz a un vector, necesariamente se está perdiendo información. Es por eso que el <em>vector de contexto</em> es crucial: le dice qué información descartar, de modo que el vector “resumen” se adapte a la red que lo consume.</p>
+<p>El análisis de estas estrategias de consulta escapa el alcance de este trabajo pero resulta un tema interesante de investigación en si mismo. Por ejemplo; investigaciones recientes han demostrado que el mecanismo de atención es una técnica flexible y que se pueden usar nuevas variaciones para crear soluciones elegantes y poderosas. Por ejemplo, en <span class="citation">(Parikh, Täckström, Das, &amp; Uszkoreit, <a href="#ref-parikh-etal-2016-decomposable">2016</a>)</span> presentan un mecanismo de atención que toma dos matrices de oraciones y genera un solo vector.</p>
+</div>
+<div id="predict" class="section level3">
+<h3><span class="header-section-number">3.5.4</span> predict</h3>
+<blockquote>
+<p>Resuelve el problema: necesito un valor específico y no una representación genérica abstracta</p>
+</blockquote>
+<p>Finalmente en esta etapa tenemos un nuevo <em>vector de significado</em> que resulta de la query de al etapa anterior. Necesitamos ahora traducir este <em>vector</em> a un token efectivo. En el caso de NER el token que nos interesa obtener es el de que etiqueta de entidad es la que corresponde a esta tarea.</p>
+<div class="figure" style="text-align: center"><span id="fig:formula-predict"></span>
+<img src="assets/deep-learning-formula-nlp_predict.svg" alt="predict"  />
+<p class="caption">
+Figura 3.9: predict
+</p>
+</div>
+</div>
+</div>
+<div id="usando-el-modelo-estadístico" class="section level2">
+<h2><span class="header-section-number">3.6</span> Usando el modelo estadístico</h2>
+<p>Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte utilizando un autómata finito determinístico de pila en conjunción con una red neuronal <span class="citation">(Lample, Ballesteros, Subramanian, Kawakami, &amp; Dyer, <a href="#ref-DBLP:journals/corr/LampleBSKD16">2016</a>)</span>. En particular la red neuronal del modelo estadístico estudiado en la sección anterior.</p>
 <p>Este autómata de pila es el nexo entre la Red Neuronal Convolucional (CNN) que contiene el modelo estadístico para predecir entidades y el texto completo. No se envía el texto entero como input a dicha red, sino que se van enviando cada uno de los estados en los que el autómata de pila se mueve para ir generando entidades con una herística del tipo <em>greedy</em>.</p>
 <p>Las posibles acciones de transición de este autómata son las siguientes:</p>
 <div class="figure" style="text-align: center"><span id="fig:lampe-1"></span>
 <img src="assets/lampe_1.png" alt="Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante."  />
 <p class="caption">
-Figura 3.3: Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.
+Figura 3.10: Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.
 </p>
 </div>
 <ul>
@@ -302,7 +400,7 @@ Figura 3.3: Transiciones del modelo Stack-LSTM indicando la acción aplicada y e
 <div class="figure" style="text-align: center"><span id="fig:lampe-2"></span>
 <img src="assets/lampe_2.png" alt="Secuencia de tranciciones para el ejemplo &quot;Mark Watney visited Mars&quot; en el modelo de Stack-LSTM."  />
 <p class="caption">
-Figura 3.4: Secuencia de tranciciones para el ejemplo “Mark Watney visited Mars” en el modelo de Stack-LSTM.
+Figura 3.11: Secuencia de tranciciones para el ejemplo “Mark Watney visited Mars” en el modelo de Stack-LSTM.
 </p>
 </div>
 <ul>
@@ -312,92 +410,6 @@ Figura 3.4: Secuencia de tranciciones para el ejemplo “Mark Watney visited Mar
 <li>Se consume “visited” y la CNN predice que esto no forma parte de una entidad. Por lo tanto antes se REDUCE la entidad “Mark Watney” del stack actual.</li>
 <li>Análogamente se detecta la entidad “Mars”</li>
 </ul>
-</div>
-</div>
-</div>
-<div id="el-modelo-estadístico-deep-learning" class="section level2">
-<h2><span class="header-section-number">3.5</span> El modelo estadístico “deep-learning”</h2>
-<p>El modelo de deep learning elegido para trabajar es el de spaCy. Consiste en una Red Neuronal convolucional que predice las entidades.</p>
-<p>Redes neuronales convolucionales
-<a href="https://es.wikipedia.org/wiki/Redes_neuronales_convolucionales" class="uri">https://es.wikipedia.org/wiki/Redes_neuronales_convolucionales</a></p>
-<p>Para entender cómo funciona dicha red neuronal, se puede definir el proceso en 4 etapas que transforman la información entre diferentes estados</p>
-<div class="figure" style="text-align: center"><span id="fig:formula-shapes"></span>
-<img src="assets/deep-learning-formula-nlp_shapes.png" alt="Estados posibles para las diferentes etapas de la CNN"  />
-<p class="caption">
-Figura 3.5: Estados posibles para las diferentes etapas de la CNN
-</p>
-</div>
-<div id="embed" class="section level3">
-<h3><span class="header-section-number">3.5.1</span> embed</h3>
-<blockquote>
-<p>Problema: “todas las palabras sin iguales para la computadora”</p>
-</blockquote>
-<p>La idea de <em>word embeddings</em> es la de “embeber” el conjunto de tokens que componen términos con información adicional.</p>
-<div class="figure" style="text-align: center"><span id="fig:formula-embed"></span>
-<img src="assets/deep-learning-formula-nlp_embed.svg" alt="TODO: embed"  />
-<p class="caption">
-Figura 3.6: TODO: embed
-</p>
-</div>
-</div>
-<div id="encode" class="section level3">
-<h3><span class="header-section-number">3.5.2</span> encode</h3>
-<div class="figure" style="text-align: center"><span id="fig:formula-encode"></span>
-<img src="assets/deep-learning-formula-nlp_encode.svg" alt="TODO: encode"  />
-<p class="caption">
-Figura 3.7: TODO: encode
-</p>
-</div>
-</div>
-<div id="attend" class="section level3">
-<h3><span class="header-section-number">3.5.3</span> attend</h3>
-<div class="figure" style="text-align: center"><span id="fig:formula-attend"></span>
-<img src="assets/deep-learning-formula-nlp_attend.svg" alt="TODO: attend"  />
-<p class="caption">
-Figura 3.8: TODO: attend
-</p>
-</div>
-</div>
-<div id="predict" class="section level3">
-<h3><span class="header-section-number">3.5.4</span> predict</h3>
-<div class="figure" style="text-align: center"><span id="fig:formula-predict"></span>
-<img src="assets/deep-learning-formula-nlp_predict.svg" alt="TODO: predict"  />
-<p class="caption">
-Figura 3.9: TODO: predict
-</p>
-</div>
-<p>Here is a review of existing methods.</p>
-</div>
-</div>
-<div id="subword-features" class="section level2">
-<h2><span class="header-section-number">3.6</span> Subword features</h2>
-<p>Yes, spaCy’s NER (and other models) uses subword features, although it doesn’t use a character-based CNN to extract them. Instead, the word vectors are learned by concatenating embeddings of NORM, PREFIX, SUFFIX and SHAPE lexical attributes. A hidden layer is then used to allow a non-linear combination of the information in these concatenated vectors. The function for this can be found in spacy._ml.Tok2Vec.</p>
-<p>The best reference for this embedding strategy is currently the NER algorithm video: <a href="https://www.youtube.com/watch?v=sqDHBH9IjRU" class="uri">https://www.youtube.com/watch?v=sqDHBH9IjRU</a></p>
-<p>To add to @ honnibal’s comment above, there’s also a section in the API docs that describes the neural network model architecture in more detail: <a href="https://spacy.io/api/#nn-model" class="uri">https://spacy.io/api/#nn-model</a></p>
-</div>
-<div id="statistical-entity-recognition-model" class="section level2">
-<h2><span class="header-section-number">3.7</span> statistical entity recognition model</h2>
-</div>
-<div id="word-vectors" class="section level2">
-<h2><span class="header-section-number">3.8</span> Word vectors</h2>
-<!-- TODO expo word vectors
-Los vectores de palabras son particularmente útiles para términos que no están bien representados en los datos de entrenamiento etiquetados.
-Por ejemplo, si está haciendo un reconocimiento de entidad con nombre, siempre habrá muchos nombres de los que no tendrá ejemplos.
-Por ejemplo, imagine que sus datos de capacitación contienen algunos ejemplos del término "Microsoft", pero no contienen ningún ejemplo del término "Symantec".
-En su muestra de texto sin formato, hay muchos ejemplos de ambos términos, y se usan en contextos similares.
-Los vectores de palabras ponen ese hecho a disposición del modelo de reconocimiento de entidad. Todavía no verá ejemplos de "Symantec" etiquetados como empresa. Sin embargo, verá que "Symantec" tiene un vector de palabras que generalmente corresponde a los términos de la compañía, por lo que puede hacer la inferencia.
--->
-<p><span class="math display">\[\vec{king} - \vec{man} + \vec{woman} \approx \vec{queen}\]</span></p>
-<p><span class="citation">(Ethayarajh, Duvenaud, &amp; Hirst, <a href="#ref-ethayarajh-etal-2019-towards">2019</a>)</span></p>
-<div class="figure" style="text-align: center"><span id="fig:vec-parallelogram"></span>
-<img src="assets/parallelogram.png" alt="Parallelogram structure in the vector space (by definition)"  />
-<p class="caption">
-Figura 3.10: Parallelogram structure in the vector space (by definition)
-</p>
-</div>
-<p><a href="https://www.youtube.com/watch?v=sqDHBH9IjRU" class="uri">https://www.youtube.com/watch?v=sqDHBH9IjRU</a>
-SPACY’S ENTITY RECOGNITION MODEL: incremental parsing with Bloom embeddings &amp; residual CNNs</p>
-<p><a href="https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf" class="uri">https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf</a></p>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -409,6 +421,9 @@ SPACY’S ENTITY RECOGNITION MODEL: incremental parsing with Bloom embeddings &a
 </div>
 <div id="ref-DBLP:journals/corr/LampleBSKD16">
 <p>Lample, G., Ballesteros, M., Subramanian, S., Kawakami, K., &amp; Dyer, C. (2016). Neural architectures for named entity recognition. <em>CoRR</em>, <em>abs/1603.01360</em>. Retrieved from <a href="http://arxiv.org/abs/1603.01360">http://arxiv.org/abs/1603.01360</a></p>
+</div>
+<div id="ref-parikh-etal-2016-decomposable">
+<p>Parikh, A., Täckström, O., Das, D., &amp; Uszkoreit, J. (2016). A decomposable attention model for natural language inference. <em>Proceedings of the 2016 conference on empirical methods in natural language processing</em>, 2249–2255. <a href="https://doi.org/10.18653/v1/D16-1244">https://doi.org/10.18653/v1/D16-1244</a></p>
 </div>
 <div id="ref-github_machine_learning">
 <p>The state of the octoverse: Machine learning. (2019). Retrieved January 24, 2019, from <a href="https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/">https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/</a></p>

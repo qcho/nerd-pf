@@ -430,11 +430,8 @@ Ejemplo:
 \caption{Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.}\label{fig:spacy-tokenization}
 \end{figure}
 
-\hypertarget{reconocimiento-de-entidades-1}{%
-\subsection{Reconocimiento de entidades}\label{reconocimiento-de-entidades-1}}
-
 \hypertarget{modelos-basados-en-reglas}{%
-\subsubsection{Modelos basados en reglas}\label{modelos-basados-en-reglas}}
+\subsection{Modelos basados en reglas}\label{modelos-basados-en-reglas}}
 
 Antes de entrar en detalles de cómo trabaja el modelo estadístico de spacy y entender sus fortalezas es importante esbozar brevemente el grupo de algorítmos más \enquote{naive} posible. El de los modelos basados en reglas fijas.
 
@@ -443,7 +440,7 @@ En estos modelos se implementan reglas finitas o expresiones regulares para la d
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Mucho trabajo manua}l: el sistema RB exige un profundo conocimiento del dominio, así como mucho trabajo manual.
+  \textbf{Mucho trabajo manua}l: el sistema RB exige un profundo conocimiento del dominio, este analisis debe ser realizado por humanos expertos en el dominio.
 \item
   \textbf{Consumo de tiempo}: la generación de reglas para un sistema complejo es bastante difícil y requiere mucho tiempo.
 \item
@@ -452,17 +449,181 @@ En estos modelos se implementan reglas finitas o expresiones regulares para la d
   \textbf{Dominios complejos}: si el corpus demasiado complejo, la creación del sistema RB puede llevar mucho tiempo y análisis. La identificación de patrones complejos es una tarea desafiante en el enfoque RB.
 \end{itemize}
 
-\hypertarget{el-enfoque-de-spacy}{%
-\subsubsection{El enfoque de spaCy}\label{el-enfoque-de-spacy}}
+\hypertarget{modelos-de-deep-learning}{%
+\subsection{\texorpdfstring{Modelos de \enquote{\emph{deep-learning}}}{Modelos de ``deep-learning''}}\label{modelos-de-deep-learning}}
 
-Cuando se busca mejorar el aprendizaje automático, generalmente se piensa en la eficiencia y la precisión, pero la dimensión más importante es la generalidad.
+Cuando se busca mejorar el aprendizaje automático, generalmente se piensa en la eficiencia y la precisión, pero la dimensión más importante es la generalidad. Este es el modelo estadístico que usa spaCy.
 
 La mayoría de los problemas de \texttt{NLP} pueden reducirse a problemas de aprendizaje automático que toman uno o más textos como entrada. Si podemos transformar estos textos en vectores, podemos reutilizar soluciones de aprendizaje profundo (\emph{deep-learning}) de propósito general.
 
-\hypertarget{muxe1quina-de-estados}{%
-\paragraph{Máquina de estados}\label{muxe1quina-de-estados}}
+Las representaciones de palabras embebidas (\emph{embebed-words}), también conocidas como \enquote{vectores de palabras} (\emph{word-vectors}), son una de las tecnologías de procesamiento de lenguaje natural más utilizadas en el estado del arte actual. El modelo de deep learning utilizado por spaCy puede ser descripto en 4 pasos.
 
-Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte utilizando un autómata finito determinístico de pila en conjunción con una red neuronal (Lample, Ballesteros, Subramanian, Kawakami, \& Dyer, \protect\hyperlink{ref-DBLP:journalsux2fcorrux2fLampleBSKD16}{2016})
+Los \emph{word-embeddings} permiten tratar a las palabras individuales como \emph{unidades de significado}, en lugar de identificaciones completamente distintas. A este proceso se le conoce como \textbf{\emph{embed}.}
+
+Sin embargo, la mayoría de los problemas de \emph{NLP} requieren la comprensión de tramos de texto más largos, no solo palabras individuales. Al juntar un conjunto de \emph{word-embeddings} en una secuencia de vectores, se usan RNN bidireccionales para codificar los vectores en una matriz de oración. Las filas de esta matriz pueden entenderse como \emph{vectores-de-tokens}: son sensibles al contexto del token dentro de la oración. Este paso se lo llama \textbf{\textbf{encode}}
+
+Finalmente mecanismo de \textbf{\textbf{attend}} le permite reducir la matriz de oración a un vector de oración, listo para la predicción (\textbf{\textbf{predict}}).
+
+De esta manera quedan definidas las piezas que describen al modelo de spacy:
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/deep-learning-formula-nlp_shapes.pdf} 
+
+}
+
+\caption{Estados posibles para las diferentes etapas de la CNN}\label{fig:formula-shapes}
+\end{figure}
+
+Estos 4 procesos seran descriptos en detalle en las siguientes secciones.
+
+\hypertarget{embed}{%
+\subsubsection{embed}\label{embed}}
+
+\begin{quote}
+Resuelve el problema: \enquote{todas las palabras se ven iguales para la computadora}
+\end{quote}
+
+La idea de \emph{word embeddings} es la de \enquote{embeber} el conjunto de tokens que componen términos con información adicional. El resultado de esta operacion es una estructura abstracta que puede ser descripta como un \enquote{vector de significado}.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/deep-learning-formula-nlp_embed.pdf} 
+
+}
+
+\caption{embed}\label{fig:formula-embed}
+\end{figure}
+
+Es importante destacar que en esta etapa de \emph{embed}; toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razon es facilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras estan relacionadas entre si de manera eficiente y no supervisada)
+
+Esto permite al modelo poder inferir significado a partir de información no tagueada dentro del problema en particular a resolver (el de NER).
+
+Una tabla de \emph{word-embeddings} mapea vectores largos binarios y esparsos en vectores cortos densos y continus, llenos de significado relevante. Existen varias estrategias para \enquote{infusionar} tokens con información adicional. Las dos fuentes mas grandes de información embebida más importantes son las de \emph{información ligúistica} y los \emph{word-vectors}.
+
+\hypertarget{informaciuxf3n-liguxfaistica}{%
+\paragraph{Información ligúistica}\label{informaciuxf3n-liguxfaistica}}
+
+El objetivo de esta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingúisticas detectadas estan resumidas en el siguiente ejemplo:
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/pos.pdf} 
+
+}
+
+\caption{características lingúisticas}\label{fig:formula-pos}
+\end{figure}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Text}: la palabra original texto.
+\item
+  \textbf{Lemma}: La forma básica de la palabra. \texttt{Es\ -\textgreater{}\ ser}. Esto permite a las siguientes etapas trabajar con una definicón canónica del token.
+\item
+  \textbf{POS}: la etiqueta simple de parte-del-discurso (POS).
+\item
+  \textbf{Tag}: la etiqueta detallada de parte del discurso (POS).
+\item
+  \textbf{Dep}: dependencia sintáctica, es decir, la relación entre tokens.
+\item
+  \textbf{Shape}: la forma de la palabra: mayúsculas, puntuación, dígitos. Muy util para detectar patrones como números telefónicos, documentos de identidad, CBUs, etc.
+\item
+  \textbf{is alpha}: ¿el token es una secuencia de caracteres alfabéticos?
+\item
+  \textbf{is stop} : ¿es el token parte de una lista de palabras-de-stop, es decir, las palabras más comunes del idioma?
+\end{itemize}
+
+\hypertarget{word-vectors}{%
+\subparagraph{Word Vectors}\label{word-vectors}}
+
+A diferencia de la información lingúistica que es obtenida en el momento. Existen otro tipo de embeddings más poderosos que son producto de preentrenamientos. Tal es el caso de los \emph{word-vectors}. Los vectores de palabras se aprenden mediante la concatenación de incrustaciones de atributos léxicos NORM, PREFIX, SUFFIX y SHAPE. Luego se usa una capa oculta centro de una red neuronal convolucional (CNN) para permitir una combinación no lineal de la información en estos vectores concatenados.
+
+Los vectores de palabras son particularmente útiles para términos que no están bien representados en los datos de entrenamiento etiquetados. En nuestro uso de reconocimiento de entidades, siempre habrá muchos nombres de los que no se tendrán ejemplos. Por ejemplo, en los datos de entrenamiento es posible que existan algunos ejemplos del término \enquote{Coca-Cola}, pero ninguno que contenga el término \enquote{Manaos}.
+Es interesante pensar a las palabras como \enquote{vectores de significado}. Dentro del espacio vectorial de significados el vector \enquote{perro} se encuentra cercano al de \enquote{cachorro}, \enquote{beagle}, \enquote{bulldog}, \enquote{poodle}. Esto permite al modelo poder inferir nuevas relaciones en base a una cantidad reducida de input.
+Los vectores de palabras ponen ese hecho a disposición del modelo de reconocimiento de entidades. Si bien no existen ejemplos de \enquote{Manaos} etiquetados como \enquote{Producto}; se verá que \enquote{Manaos} tiene un vector de palabras que generalmente corresponde a los términos de un producto, por lo que puede hacer la inferencia. Y si se quiere llegar incluso al detalle de que es una Gaseosa.
+
+Otra forma interesante de analizar y entender los word-vectors en su contexto de espacio vectorial multidimensional de significados es a través del algebra de vectores, como se muestra en el Paper \enquote{Towards Understanding Linear Word Analogies} (Ethayarajh, Duvenaud, \& Hirst, \protect\hyperlink{ref-ethayarajh-etal-2019-towards}{2019}):
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/parallelogram.pdf} 
+
+}
+
+\caption{Parallelogram structure in the vector space (by definition)}\label{fig:vec-parallelogram}
+\end{figure}
+
+Es facil de entender viendo ese paralelogramo que al realizar algebra entre los diferentes vectores de significado se pueden inferir nuevos conceptos:
+
+\[\vec{Rey} - \vec{Hombre} \approx \vec{Realeza}\]
+\[\vec{Rey} - \vec{Hombre} + \vec{Mujer} \approx \vec{Reina}\]
+
+\hypertarget{encode}{%
+\subsubsection{encode}\label{encode}}
+
+\begin{quote}
+Resuelve el problema: el contexto de los significados es relevante y esta siendo descartado
+\end{quote}
+
+El resultado de esta etapa es la de encodear vectores \textbf{independientes-de-contexto} en matrices de oración \textbf{sensibles-al-contexto}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/deep-learning-formula-nlp_encode.pdf} 
+
+}
+
+\caption{encode}\label{fig:formula-encode}
+\end{figure}
+
+La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizando como una \emph{moving window} de 3 vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera. Por lo que se genera naturalmente un \emph{efecto de decaimiento} en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor.
+
+\hypertarget{attend}{%
+\subsubsection{attend}\label{attend}}
+
+\begin{quote}
+Resuelve el problema: tenemos demasiada información para inferir un significado específico al problema a resolver
+\end{quote}
+
+En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o tambien conocido como \emph{vector de consulta} o \emph{vector de contexto} representado en la siguiente figura como un vector mas oscuro.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/deep-learning-formula-nlp_attend.pdf} 
+
+}
+
+\caption{attend}\label{fig:formula-attend}
+\end{figure}
+
+Al reducir la matriz a un vector, necesariamente se está perdiendo información. Es por eso que el \emph{vector de contexto} es crucial: le dice qué información descartar, de modo que el vector \enquote{resumen} se adapte a la red que lo consume.
+
+El análisis de estas estrategias de consulta escapa el alcance de este trabajo pero resulta un tema interesante de investigación en si mismo. Por ejemplo; investigaciones recientes han demostrado que el mecanismo de atención es una técnica flexible y que se pueden usar nuevas variaciones para crear soluciones elegantes y poderosas. Por ejemplo, en (Parikh, Täckström, Das, \& Uszkoreit, \protect\hyperlink{ref-parikh-etal-2016-decomposable}{2016}) presentan un mecanismo de atención que toma dos matrices de oraciones y genera un solo vector.
+
+\hypertarget{predict}{%
+\subsubsection{predict}\label{predict}}
+
+\begin{quote}
+Resuelve el problema: necesito un valor específico y no una representación genérica abstracta
+\end{quote}
+
+Finalmente en esta etapa tenemos un nuevo \emph{vector de significado} que resulta de la query de al etapa anterior. Necesitamos ahora traducir este \emph{vector} a un token efectivo. En el caso de NER el token que nos interesa obtener es el de que etiqueta de entidad es la que corresponde a esta tarea.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/deep-learning-formula-nlp_predict.pdf} 
+
+}
+
+\caption{predict}\label{fig:formula-predict}
+\end{figure}
+
+\hypertarget{usando-el-modelo-estaduxedstico}{%
+\subsection{Usando el modelo estadístico}\label{usando-el-modelo-estaduxedstico}}
+
+Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte utilizando un autómata finito determinístico de pila en conjunción con una red neuronal (Lample, Ballesteros, Subramanian, Kawakami, \& Dyer, \protect\hyperlink{ref-DBLP:journalsux2fcorrux2fLampleBSKD16}{2016}). En particular la red neuronal del modelo estadístico estudiado en la sección anterior.
 
 Este autómata de pila es el nexo entre la Red Neuronal Convolucional (CNN) que contiene el modelo estadístico para predecir entidades y el texto completo. No se envía el texto entero como input a dicha red, sino que se van enviando cada uno de los estados en los que el autómata de pila se mueve para ir generando entidades con una herística del tipo \emph{greedy}.
 
@@ -511,114 +672,6 @@ Para saber que acción tomar se consulta el modelo estadístico.En la siguiente 
 \item
   Análogamente se detecta la entidad \enquote{Mars}
 \end{itemize}
-
-\hypertarget{el-modelo-estaduxedstico-deep-learning}{%
-\subsection{\texorpdfstring{El modelo estadístico \enquote{deep-learning}}{El modelo estadístico ``deep-learning''}}\label{el-modelo-estaduxedstico-deep-learning}}
-
-El modelo de deep learning elegido para trabajar es el de spaCy. Consiste en una Red Neuronal convolucional que predice las entidades.
-
-Redes neuronales convolucionales
-\url{https://es.wikipedia.org/wiki/Redes_neuronales_convolucionales}
-
-Para entender cómo funciona dicha red neuronal, se puede definir el proceso en 4 etapas que transforman la información entre diferentes estados
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/deep-learning-formula-nlp_shapes.pdf} 
-
-}
-
-\caption{Estados posibles para las diferentes etapas de la CNN}\label{fig:formula-shapes}
-\end{figure}
-
-\hypertarget{embed}{%
-\subsubsection{embed}\label{embed}}
-
-\begin{quote}
-Problema: \enquote{todas las palabras sin iguales para la computadora}
-\end{quote}
-
-La idea de \emph{word embeddings} es la de \enquote{embeber} el conjunto de tokens que componen términos con información adicional.
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/deep-learning-formula-nlp_embed.pdf} 
-
-}
-
-\caption{TODO: embed}\label{fig:formula-embed}
-\end{figure}
-
-\hypertarget{encode}{%
-\subsubsection{encode}\label{encode}}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/deep-learning-formula-nlp_encode.pdf} 
-
-}
-
-\caption{TODO: encode}\label{fig:formula-encode}
-\end{figure}
-
-\hypertarget{attend}{%
-\subsubsection{attend}\label{attend}}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/deep-learning-formula-nlp_attend.pdf} 
-
-}
-
-\caption{TODO: attend}\label{fig:formula-attend}
-\end{figure}
-
-\hypertarget{predict}{%
-\subsubsection{predict}\label{predict}}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/deep-learning-formula-nlp_predict.pdf} 
-
-}
-
-\caption{TODO: predict}\label{fig:formula-predict}
-\end{figure}
-
-Here is a review of existing methods.
-
-\hypertarget{subword-features}{%
-\subsection{Subword features}\label{subword-features}}
-
-Yes, spaCy's NER (and other models) uses subword features, although it doesn't use a character-based CNN to extract them. Instead, the word vectors are learned by concatenating embeddings of NORM, PREFIX, SUFFIX and SHAPE lexical attributes. A hidden layer is then used to allow a non-linear combination of the information in these concatenated vectors. The function for this can be found in spacy.\_ml.Tok2Vec.
-
-The best reference for this embedding strategy is currently the NER algorithm video: \url{https://www.youtube.com/watch?v=sqDHBH9IjRU}
-
-To add to @ honnibal's comment above, there's also a section in the API docs that describes the neural network model architecture in more detail: \url{https://spacy.io/api/\#nn-model}
-
-\hypertarget{statistical-entity-recognition-model}{%
-\subsection{statistical entity recognition model}\label{statistical-entity-recognition-model}}
-
-\hypertarget{word-vectors}{%
-\subsection{Word vectors}\label{word-vectors}}
-
-\[\vec{king} - \vec{man} + \vec{woman} \approx \vec{queen}\]
-
-(Ethayarajh, Duvenaud, \& Hirst, \protect\hyperlink{ref-ethayarajh-etal-2019-towards}{2019})
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/parallelogram.pdf} 
-
-}
-
-\caption{Parallelogram structure in the vector space (by definition)}\label{fig:vec-parallelogram}
-\end{figure}
-
-\url{https://www.youtube.com/watch?v=sqDHBH9IjRU}
-SPACY'S ENTITY RECOGNITION MODEL: incremental parsing with Bloom embeddings \& residual CNNs
-
-\url{https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf}
 
 \newpage
 
@@ -1601,6 +1654,9 @@ Mención itba. (2019). Retrieved October 3, 2019, from \url{https://www.instagra
 
 \leavevmode\hypertarget{ref-montani_AI}{}%
 Montani, I. (2016). Practical and effective neural ner. Retrieved November 28, 2016, from \url{https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf}
+
+\leavevmode\hypertarget{ref-parikh-etal-2016-decomposable}{}%
+Parikh, A., Täckström, O., Das, D., \& Uszkoreit, J. (2016). A decomposable attention model for natural language inference. \emph{Proceedings of the 2016 conference on empirical methods in natural language processing}, 2249--2255. \url{https://doi.org/10.18653/v1/D16-1244}
 
 \leavevmode\hypertarget{ref-Poibeau2000ProperNE}{}%
 Poibeau, T., \& Kosseim, L. (2000). Proper name extraction from non-journalistic texts. \emph{CLIN}.
