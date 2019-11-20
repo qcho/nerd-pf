@@ -22,7 +22,7 @@ The dependencies are defined in the `DESCRIPTION` file and can be installed with
 ```r
 install.packages('remotes')
 remotes::install_deps()
-// Choose All option 
+# Choose All option 
 ```
 
 ### Preview
