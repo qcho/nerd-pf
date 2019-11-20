@@ -359,6 +359,12 @@ Esta vista también se conoce como la vista de _deployment_.
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
 
 ```{r include=FALSE}
-DiagrammeR::mermaid("graph LR; A-->B; A-->C; C-->E; B-->D; C-->D; D-->F; E-->F")
+DiagrammeR::mermaid("
+sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    activate John
+    John-->>Alice: Great!
+    deactivate John
+")
 ```
 
