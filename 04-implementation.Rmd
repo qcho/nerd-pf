@@ -407,6 +407,30 @@ Debido a que el servicio implementado expone una definiciión de _OpenAPI_, pode
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
 <!-- TODO: Hablar sobre Atributos de calidad de software -->
 
+#### Arquitectura
+
+El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio.
+
+```{r developer-web-modules, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Módulos de la página web'}
+knitr::include_graphics('assets/developer/web-modules.png')
+```
+
+Los módulos marcados en azul son relacionados al contenido que se muestra cada ruta del sistema.
+
+Los módulos marcados en rojos son de utilidad, ya sea por que contienen todo el código relevante a la comunicación con el _API REST_ o a componentes utilizados en varias áreas de los módulos azules.
+
+#### Sesión
+
+El servicio web ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el _local storage_ del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.
+
+Si en algún momento en el futuro el _API_ nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código HTTP 401) y el token de refrescado dejó de ser válido, las credenciales se borran del _local storage_ y redirigimos al cliente a la pantalla de inicio.
+
+Ofrecemos también la posibilidad de no guardar la sesión, lo cual hará que una vez cerrada la pestaña, el usuario deba volver a ingresar al sistema para poder acceder a los distintos servicios.
+
+#### Internacionalización
+
+Así como las credenciales, las preferencias de internacionalización son guardadas en el _local storage_ del cliente web, de manera tal que los usuarios del sistema no deban elegir el idioma de su preferencia cada vez que ingresan a la página.
+
 
 ## Vista física
 > La vista física representa el sistema desde el punto de vista de un ingeniero de sistemas.
