@@ -1,3 +1,4 @@
+\newpage
 # NERd (Implementación) {#implementation}
 
 Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de tagueo de entidades.
@@ -301,12 +302,6 @@ Esta vista también se conoce como la vista de implementación.
 <!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
 
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
-
-Python es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial NLP [@github_machine_learning]
-
-Spacy es el framework mejor ranqueado para la tarea de NLP [@github_machine_learning].
-Su implementación es robusta y orientada a la implementción de apliciones en producción, a diferencia de muchas otras librerías de NLP que sólo se utilizan con fines académicos.
-
 
 
 ## Vista física

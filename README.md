@@ -7,7 +7,6 @@
 **Autores**: Horacio Miguel Gómez - Juan Pablo Orsay
 
 Octubre 2019
-
 ## Images
 Images need to have it's `PDF` counterparts. You may create the with:
 `convert -background none image_file.png image_file.pdf`

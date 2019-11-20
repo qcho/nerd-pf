@@ -1,3 +1,44 @@
+\newpage
 # Resultados {#results}
 
-<!-- TODO: add info about how the trained model is better
+<!-- TODO: add info about how the trained model is better -->
+
+Matriz de confusión -> dos indicadores!
+true possitive vs true negative
+Credibility: evaluation whats been leaerned.
+
+## Métrica: precisión y exhaustividad
+
+[@wiki_Precision_and_recall]
+
+> TODO: reescribir
+>
+> En conferencias académicas como CoNLL, se ha definido una variante del [[valor-F]] de la siguiente manera:
+> 
+> * Precisión es el número de entidades nombradas que coinciden exactamente con conjunto de evaluación. I.e. cuando se predice [Persona Hans] [Persona Blick], pero lo correcto era [Person Hans Blick], la precisión es cero. La precisión es después promediada por cada una de la entidades nombradas.
+> 
+> * El recobrado es el número de entidades del conjunto de evaluación que aparecen exactamente en la misma posición en las predicciones.
+> 
+> * El Valor-F es la media armónica de estos dos valores. Se deriva de la anterior definición que cualquier predicción que reconozca erróneamente un token como parte de una entidad nombrada o que deje de detectar un token que sí es una entidad nombrada o lo clasifique erróneamente no contribuirá ni a la precisión ni al recobrado.
+
+=== Evaluación formal ===
+Para evaluar la calidad de la salida de un sistema NER, se han definido varias medidas. Las medidas habituales se llaman
+[[Precision_and_recall | Precisión, recuperación]] y [[Puntuación F1]]. Sin embargo, quedan varios problemas sobre cómo calcular esos valores.
+
+Estas medidas estadísticas funcionan razonablemente bien para los casos obvios de encontrar o faltar una entidad real exactamente; y para encontrar una no entidad. Sin embargo, NER puede fallar de muchas otras maneras, muchas de las cuales son posiblemente "parcialmente correctas", y no deben considerarse como éxitos o fracasos competitivos. Por ejemplo, identificar una entidad real, pero:
+* con menos tokens de los deseados (por ejemplo, falta el último token de "John Smith, M.D.")
+* con más tokens de los deseados (por ejemplo, incluyendo la primera palabra de "The University of MD")
+* particionando entidades adyacentes de manera diferente (por ejemplo, tratando a "Smith, Jones Robinson" como entidades 2 vs. 3)
+* asignarle un tipo completamente incorrecto (por ejemplo, llamar a un nombre personal a una organización)
+* asignándole un tipo relacionado pero inexacto (por ejemplo, "sustancia" vs. "droga", o "escuela" vs. "organización")
+* identificar correctamente una entidad, cuando lo que el usuario quería era una entidad de menor o mayor alcance (por ejemplo, identificar "James Madison" como un nombre personal, cuando forma parte de la "Universidad James Madison". Algunos sistemas NER imponen la restricción que las entidades nunca se superpongan o aniden, lo que significa que en algunos casos uno debe tomar decisiones arbitrarias o específicas de la tarea.
+
+Un método demasiado simple para medir la precisión es simplemente contar qué fracción de todas las fichas en el texto se identificaron correcta o incorrectamente como parte de referencias de entidad (o como entidades del tipo correcto). Esto tiene al menos dos problemas: en primer lugar, la gran mayoría de los tokens en el texto del mundo real no forman parte de los nombres de las entidades, por lo que la precisión de la línea de base (siempre predice "no una entidad") es extravagantemente alta, típicamente> 90%; y segundo, predecir erróneamente el lapso completo del nombre de una entidad no se penaliza adecuadamente (encontrar solo el nombre de una persona cuando le sigue su apellido podría calificarse como ½ precisión).
+
+En conferencias académicas como CoNLL, una variante de la [[puntuación F1]] se ha definido de la siguiente manera: {{r | conll03intro}}
+
+* [[Precisión y recuperación | Precisión]] es el número de intervalos de nombre de entidad pronosticados que se alinean '' exactamente '' con intervalos en los datos de evaluación [[Verdad fundamental # Estadísticas y aprendizaje automático | estándar de oro]]. Es decir. cuando se predice [<sub> Persona </sub> Hans] [<sub> Persona </sub> Blick] pero se requiere [<sub> Persona </sub> Hans Blick], la precisión del nombre predicho es cero. La precisión se promedia sobre todos los nombres de entidad pronosticados.
+* Recordar es igualmente el número de nombres en el estándar de oro que aparecen exactamente en la misma ubicación en las predicciones.
+* La puntuación F1 es la [[media armónica]] de estos dos.
+
+De la definición anterior se deduce que cualquier predicción que omita un solo token, incluye un token espurio o tiene clase incorrecta, es un error difícil y no contribuye positivamente ni a la precisión ni a la recuperación. Por lo tanto, se puede decir que esta medida es pesimista: puede darse el caso de que muchos "errores" estén cerca de ser correctos, y podrían ser adecuados para un propósito dado. Por ejemplo, un sistema siempre puede omitir títulos como "Sra." o "Ph.D.", pero se compara con un sistema o datos de verdad que esperan que se incluyan títulos. En esos casos, cada nombre se trata como un error. Debido a tales problemas, es importante examinar los tipos de errores y decidir qué tan importantes se les dan los objetivos y requisitos.

@@ -1,3 +1,4 @@
+\newpage
 # Discusión {#discussion}
 
 ## Tipos de entidades relevantes
@@ -19,6 +20,9 @@ Game -> Football, Basket (para "titulos" no tan relevante)
 
 ## Seed en los types
 en especial para los nuevos.
+
+## Linkeo de entidades con Knowledge Base
+La tarea de reconocer entidades nombradas en el texto es Reconocimiento de entidades nombradas, mientras que la tarea de determinar la identidad de las entidades nombradas mencionadas en el texto se llama Desambiguación de entidades nombradas. Ambas tareas requieren algoritmos y recursos dedicados para ser abordados. [3]
 
 ## Mejora live vs offline
 Mejora "Uncertainty sampling" -> buscar entidades que tengan un score ~ 0.5

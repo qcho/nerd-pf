@@ -28,7 +28,3 @@ source('./initial_setup.R')
 ```
 
 \newpage
-
-# *Abstract* {-}
-
-> TODO: escribir abstract
