@@ -7,7 +7,7 @@ El análisis del estado del arte fue basado en la definición del problema.
 
 Python es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial NLP [@github_machine_learning]
 
-Spacy es el framework mejor ranqueado para la tarea de NLP [@github_machine_learning] y sabemos por la Figura \@ref(@fig:spacy-algos) que obtiene resultados a-la-par del estado del arte actual.
+Spacy es el framework mejor ranqueado para la tarea de NLP [@github_machine_learning] y sabemos por la Figura \@ref(fig:spacy-algos) que obtiene resultados a-la-par del estado del arte actual.
 
 Además la implementación de spacy es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de NLP que sólo se utilizan con fines académicos.
 
@@ -140,7 +140,7 @@ Yes, spaCy's NER (and other models) uses subword features, although it doesn't u
 
 The best reference for this embedding strategy is currently the NER algorithm video: https://www.youtube.com/watch?v=sqDHBH9IjRU
 
-To add to @honnibal's comment above, there's also a section in the API docs that describes the neural network model architecture in more detail: https://spacy.io/api/#nn-model
+To add to @ honnibal's comment above, there's also a section in the API docs that describes the neural network model architecture in more detail: https://spacy.io/api/#nn-model
 
 ## statistical entity recognition model
 
