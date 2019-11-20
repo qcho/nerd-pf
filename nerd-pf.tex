@@ -193,8 +193,6 @@
 }
 \newpage
 
-\newpage
-
 \hypertarget{intro}{%
 \section{Introducción}\label{intro}}
 
@@ -338,7 +336,7 @@ Es por esto que resulta interesante analizar que otro tipo de problemas podemos 
 \hypertarget{dominios-del-problema}{%
 \paragraph{Dominios del problema}\label{dominios-del-problema}}
 
-Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura @ref(({\textbf{???}})) coinciden; incluso los sistemas NER más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios (Poibeau \& Kosseim, \protect\hyperlink{ref-Poibeau2000ProperNE}{2000}). La puesta a punto de un sistema NER para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.
+Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura \ref{fig:spacy-algos} coinciden; incluso los sistemas NER más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios (Poibeau \& Kosseim, \protect\hyperlink{ref-Poibeau2000ProperNE}{2000}). La puesta a punto de un sistema NER para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.
 
 Se entiende por dominio a todos los textos que en su conjunto forman un corpus común. Ejemplos de estos son \enquote{Noticias periodísticas}, \enquote{Textos jurídicos}, \enquote{Reportes militares}, \enquote{Papers académicos}, etc.
 
@@ -371,7 +369,7 @@ El análisis del estado del arte fue basado en la definición del problema.
 
 Python es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial NLP (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019})
 
-Spacy es el framework mejor ranqueado para la tarea de NLP (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019}) y sabemos por la Figura @ref(({\textbf{???}})) que obtiene resultados a-la-par del estado del arte actual.
+Spacy es el framework mejor ranqueado para la tarea de NLP (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019}) y sabemos por la Figura \ref{fig:spacy-algos} que obtiene resultados a-la-par del estado del arte actual.
 
 Además la implementación de spacy es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de NLP que sólo se utilizan con fines académicos.
 
@@ -596,7 +594,7 @@ Yes, spaCy's NER (and other models) uses subword features, although it doesn't u
 
 The best reference for this embedding strategy is currently the NER algorithm video: \url{https://www.youtube.com/watch?v=sqDHBH9IjRU}
 
-To add to ({\textbf{???}})'s comment above, there's also a section in the API docs that describes the neural network model architecture in more detail: \url{https://spacy.io/api/\#nn-model}
+To add to @ honnibal's comment above, there's also a section in the API docs that describes the neural network model architecture in more detail: \url{https://spacy.io/api/\#nn-model}
 
 \hypertarget{statistical-entity-recognition-model}{%
 \subsection{statistical entity recognition model}\label{statistical-entity-recognition-model}}

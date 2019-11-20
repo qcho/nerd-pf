@@ -133,7 +133,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Named Entity Recognition Duh!</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
 <li class="chapter" data-level="2" data-path="problem-definition.html"><a href="problem-definition.html"><i class="fa fa-check"></i><b>2</b> Definición del problema</a><ul>
 <li class="chapter" data-level="2.1" data-path="problem-definition.html"><a href="problem-definition.html#conceptos-básicos"><i class="fa fa-check"></i><b>2.1</b> Conceptos básicos</a><ul>
 <li class="chapter" data-level="2.1.1" data-path="problem-definition.html"><a href="problem-definition.html#entidad-nombrada"><i class="fa fa-check"></i><b>2.1.1</b> Entidad nombrada</a></li>
@@ -209,7 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="stack-de-software" class="section level2">
 <h2><span class="header-section-number">3.1</span> Stack de software</h2>
 <p>Python es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial NLP <span class="citation">(“The state of the octoverse,” <a href="#ref-github_machine_learning">2019</a>)</span></p>
-<p>Spacy es el framework mejor ranqueado para la tarea de NLP <span class="citation">(“The state of the octoverse,” <a href="#ref-github_machine_learning">2019</a>)</span> y sabemos por la Figura @ref(<span class="citation">(<span class="citeproc-not-found" data-reference-id="fig:spacy-algos"><strong>???</strong></span>)</span>) que obtiene resultados a-la-par del estado del arte actual.</p>
+<p>Spacy es el framework mejor ranqueado para la tarea de NLP <span class="citation">(“The state of the octoverse,” <a href="#ref-github_machine_learning">2019</a>)</span> y sabemos por la Figura <a href="problem-definition.html#fig:spacy-algos">2.1</a> que obtiene resultados a-la-par del estado del arte actual.</p>
 <p>Además la implementación de spacy es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de NLP que sólo se utilizan con fines académicos.</p>
 </div>
 <div id="el-pipeline" class="section level2">
@@ -357,7 +357,7 @@ Figura 3.9: TODO: predict
 <h2><span class="header-section-number">3.6</span> Subword features</h2>
 <p>Yes, spaCy’s NER (and other models) uses subword features, although it doesn’t use a character-based CNN to extract them. Instead, the word vectors are learned by concatenating embeddings of NORM, PREFIX, SUFFIX and SHAPE lexical attributes. A hidden layer is then used to allow a non-linear combination of the information in these concatenated vectors. The function for this can be found in spacy._ml.Tok2Vec.</p>
 <p>The best reference for this embedding strategy is currently the NER algorithm video: <a href="https://www.youtube.com/watch?v=sqDHBH9IjRU" class="uri">https://www.youtube.com/watch?v=sqDHBH9IjRU</a></p>
-<p>To add to <span class="citation">(<span class="citeproc-not-found" data-reference-id="honnibal"><strong>???</strong></span>)</span>’s comment above, there’s also a section in the API docs that describes the neural network model architecture in more detail: <a href="https://spacy.io/api/#nn-model" class="uri">https://spacy.io/api/#nn-model</a></p>
+<p>To add to @ honnibal’s comment above, there’s also a section in the API docs that describes the neural network model architecture in more detail: <a href="https://spacy.io/api/#nn-model" class="uri">https://spacy.io/api/#nn-model</a></p>
 </div>
 <div id="statistical-entity-recognition-model" class="section level2">
 <h2><span class="header-section-number">3.7</span> statistical entity recognition model</h2>
