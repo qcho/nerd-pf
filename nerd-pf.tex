@@ -128,7 +128,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-11-19}
+    \date{2019-11-20}
 
 % Usefull information about documentclass
 % http://ctan.dcc.uchile.cl/macros/latex/contrib/koma-script/doc/scrguien.pdf
@@ -333,8 +333,389 @@ Este modelo nos permite describir la aplicación de una manera genérica y orden
 \hypertarget{vista-luxf3gica}{%
 \subsection{Vista lógica}\label{vista-luxf3gica}}
 
+La vista lógica se refiere a la funcionalidad que el sistema proporciona a los usuarios finales.
+
+A continuación detallamos distintas partes del servicio NERd así como también de la interfaz de entrenamiento.
+
+\hypertarget{servicio}{%
+\subsubsection{Servicio}\label{servicio}}
+
+El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI.
+A continuación detallamos los endpoints.
+
+\hypertarget{autenticaciuxf3n}{%
+\paragraph{Autenticación}\label{autenticaciuxf3n}}
+
+Rutas del API dedicadas a la autenticación de usuarios.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{POST} \emph{/api/auth/register}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Registrar un usuario nuevo.
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/auth/token}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Genera un nuevo token de acceso y refresco con credenciales.
+  \item
+    Utilizado para la funcionalidad de \emph{login}
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/auth/refresh}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Refresca el token de acceso.
+  \item
+    Utilizado cuando un token de acceso caducó.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{usuarios}{%
+\paragraph{Usuarios}\label{usuarios}}
+
+Conjunto de operaciones relacionadas con los usuarios del sistema.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{GET} \emph{/api/users}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Lista de usuarios existentes
+  \item
+    Separa los resultados en páginas
+  \end{itemize}
+\item
+  \textbf{GET} \emph{/api/users/top5}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Lista de los 5 usuarios con más entrenamientos
+  \end{itemize}
+\item
+  \textbf{GET} \emph{/api/users/me}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna la información del usuario logueado
+  \end{itemize}
+\item
+  \textbf{PATCH} \emph{/api/users/me}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Actualiza la información del usuario logueado
+  \end{itemize}
+\item
+  \textbf{GET} \emph{/api/users/me/trainings}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna los entrenamientos del usuario logueado
+  \end{itemize}
+\item
+  \textbf{GET} \emph{/api/users/\{user\_id\}}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna la información del usuario especificado por \emph{user\_id}
+  \end{itemize}
+\item
+  \textbf{PATCH} \emph{/api/users/\{user\_id\}}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Actualiza la información del usuario especificado por \emph{user\_id}
+  \end{itemize}
+\item
+  \textbf{DELETE} \emph{/api/users/\{user\_id\}}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Borra al usuario especificado por \emph{user\_id}
+  \end{itemize}
+\item
+  \textbf{GET} \_/api/users/\{user\_id\}/trainings
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna los entrenamientos del usuario especificado
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{roles}{%
+\paragraph{Roles}\label{roles}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{GET} \emph{/api/roles}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna la lista de todos los roles asignables a usuarios del sistema
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{corpus}{%
+\paragraph{Corpus}\label{corpus}}
+
+Rutas dedicadas a operaciones con el corpus del sistema.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{GET} \emph{/api/corpus/\{text\_id\}}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna los detalles del texto especificado por \emph{text\_id}
+  \end{itemize}
+\item
+  \textbf{DELETE} \emph{/api/corpus/\{text\_id\}}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Borra un texto especificado por \emph{text\_id} del corpus
+  \end{itemize}
+\item
+  \textbf{GET} \emph{/api/corpus/\{text\_id\}/trainings}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna la lista de entrenamientos proporcionados por los usuarios sobre las entidades en el texto
+  \end{itemize}
+\item
+  \textbf{PUT} \emph{/api/corpus/\{text\_id\}/trainings}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Agrega un entrenamiento para el texto con id \emph{text\_id}
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/corpus/upload}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Permite agregar textos de manera masiva al sistema
+  \item
+    Acepta una lista de archivos .txt donde cada línea es un texto a agregar
+  \item
+    Los archivos deben ser UTF-8
+  \end{itemize}
+\item
+  \textbf{GET} \emph{/api/corpus}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Lista de textos cargados en el sistema para entrenamiento
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/corpus}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Agrega un texto al sistema para entrenamiento
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{snapshots}{%
+\paragraph{Snapshots}\label{snapshots}}
+
+Conjunto de operaciones relacionadas con los snapshots y workers.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{GET} \emph{/api/snapshots}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Listado de los snapshots disponibles
+  \end{itemize}
+\item
+  \textbf{GET} \emph{/api/snapshots/\{snapshot\_id\}}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico
+  \end{itemize}
+\item
+  \textbf{DELETE} \emph{/api/snapshots/\{snapshot\_id\}}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Borra un snapshot con el id especificado
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/snapshots/\{snapshot\_id\}/force-train}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Envía la tarea de entrenamiento a los workers que tienen el snapshot \emph{snapshot\_id} cargado.
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/snapshots/\{snapshot\_id\}/force-untrain}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Envía la tarea de desentrenar a los workers que tienen el snapshot \emph{snapshot\_id} cargado.
+  \end{itemize}
+\item
+  \textbf{GET} \emph{/api/snapshots/current}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna información sobre el snapshot actual
+  \end{itemize}
+\item
+  \textbf{PUT} \emph{/api/snapshots/current}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Crea un nuevo snapshot con la información provista
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{reconocimiento-de-entidades-nombradas}{%
+\paragraph{Reconocimiento de Entidades Nombradas}\label{reconocimiento-de-entidades-nombradas}}
+
+Conjunto de operaciones relacionadas al \emph{Reconocimiento de Entidades Nombradas}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{GET} \emph{/api/ner/train}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna un texto para que un usuario del sistema revise si está correctamente inferido
+  \item
+    Únicamente retorna textos que el usuario logueado no haya corregido ya
+  \end{itemize}
+\item
+  \textbf{GET} \emph{/api/ner/compare/\{first\_snapshot\}/\{second\_snapshot\}}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Compara el \emph{Reconocimiento de Entidades Nombradas} entre dos snapshots distintos
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/ner/current/parse}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna un documento Spacy para un texto dado utilizando el snapshot actual
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/ner/\{snapshot\_id\}/parse}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna un documento Spacy para un texto dado utilizando el snapshot especificado
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/ner/current/entities}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna la lista de \emph{Entidades Nombradas} para un texto dado utilizando el modelo actual
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/ner/\{snapshot\_id\}/entities}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Retorna la lista de \emph{Entidades Nombradas} para un texto dado utilizando el modelo especificado
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{entrenamientos}{%
+\paragraph{Entrenamientos}\label{entrenamientos}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{DELETE} \emph{/api/trainings/\{training\_id\}}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Borra un entrenamiento
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{workers}{%
+\paragraph{Workers}\label{workers}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{GET} \emph{/api/workers/}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Lista de los workers disponibles
+  \end{itemize}
+\item
+  \textbf{POST} \emph{/api/workers/reassign}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Reasigna un trabajador de un a versión de snapshot a otra
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{web}{%
+\subsubsection{Web}\label{web}}
+
+La página web de \emph{NERd} está enfocada en las tareas de mantenimiento de los servicios ofrecidos por el \emph{API} así como también ofrece de interfaces que permiten a usuarios del sistema corregir de manera eficiente el modelo de inferencia.
+
 \hypertarget{inicio}{%
-\subsubsection{Inicio}\label{inicio}}
+\paragraph{Inicio}\label{inicio}}
 
 Pantalla de inicio donde se encuentran accesos rápidos para entrenar el modelo o para poder buscar entidades en textos.
 También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más.
@@ -371,7 +752,7 @@ Si la persona visitando la página no cuenta con una sesión activa, se le invit
 \end{figure}
 
 \hypertarget{entrenamiento}{%
-\subsubsection{Entrenamiento}\label{entrenamiento}}
+\paragraph{Entrenamiento}\label{entrenamiento}}
 
 La pantalla de \emph{Entrenamiento} es el núcleo de la web en la cual es posible entrenar el modelo.
 
@@ -387,12 +768,11 @@ El usuario es presentado con un texto perteneciente al Corpus del servicio con l
 \end{figure}
 
 \hypertarget{usabilidad}{%
-\paragraph{Usabilidad}\label{usabilidad}}
+\subparagraph{Usabilidad}\label{usabilidad}}
 
 Tuvimos un foco fuerte en la usabilidad del widget ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.
 
-\hypertarget{llamado-a-acciuxf3n-y-ayuda}{%
-\subparagraph{Llamado a acción y ayuda}\label{llamado-a-acciuxf3n-y-ayuda}}
+Llamado a acción y ayuda
 
 Dado que lo primero que ve el usuario es un texto con anotaciones, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el widget de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
 Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo.
@@ -406,8 +786,7 @@ Como refuerzo de este llamado a acción, agregamos un botón que al ser clickead
 \caption{Ayuda del entrenador}\label{fig:logic-train-help}
 \end{figure}
 
-\hypertarget{creaciuxf3n-y-ediciuxf3n-de-entidades}{%
-\subparagraph{Creación y edición de entidades}\label{creaciuxf3n-y-ediciuxf3n-de-entidades}}
+Creación y edición de entidades
 
 Para la creación de entidades decidimos ofrecer dos maneras: La primera es arrastrando un conjunto de palabras de manera tal de unirlas todas en una única entidad.
 La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de la ubicación de la palabra dentro del texto:
@@ -432,13 +811,12 @@ La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de 
 Para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
 Si el modelo infirió una entidad de manera incorrecta, ya sea por que sea una entidad inválida o agregó palabras de más a una entidad inválida, permitimos que el usuario remueva la entidad y que después vuelva a agregar la entidad correcta.
 
-\hypertarget{optimizaciuxf3n-en-tiempos-de-carga}{%
-\subparagraph{Optimización en tiempos de carga}\label{optimizaciuxf3n-en-tiempos-de-carga}}
+Optimización en tiempos de carga
 
 Dado que es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario una experiencia completamente fluida.
 
 \hypertarget{administraciuxf3n-de-usuarios}{%
-\subsubsection{Administración de usuarios}\label{administraciuxf3n-de-usuarios}}
+\paragraph{Administración de usuarios}\label{administraciuxf3n-de-usuarios}}
 
 La pantalla de \emph{Administración de usuarios} permite a los usuarios con el rol de administrador poder modificar los roles de todos los usuarios del sistema, borrarlos o acceder a los detalles del usuario, tal como la lista de textos entrenados.
 
@@ -452,7 +830,7 @@ La pantalla de \emph{Administración de usuarios} permite a los usuarios con el 
 \end{figure}
 
 \hypertarget{detalles-de-usuario}{%
-\subsubsection{Detalles de usuario}\label{detalles-de-usuario}}
+\paragraph{Detalles de usuario}\label{detalles-de-usuario}}
 
 La pantalla de detalle de usuario permite al usuario con sesión activa ver sus entrenamientos y cambiar su contraseña.
 
@@ -467,8 +845,8 @@ Los usuarios con rol administrador pueden realizar las acciones mencionadas prev
 \caption{Perfil de usuario}\label{fig:logic-user-profile}
 \end{figure}
 
-\hypertarget{corpus}{%
-\subsubsection{Corpus}\label{corpus}}
+\hypertarget{corpus-1}{%
+\paragraph{Corpus}\label{corpus-1}}
 
 La pantalla de \emph{Corpus} permite a un usuario con el rol de administrador realizar tareas relacionadas con el corpus del sistema.
 
@@ -486,7 +864,7 @@ Desde aquí es posible agregar textos al corpus utilizando la funcionalidad de s
 También es posible desde aquí ver todos los textos que forman parte del corpus así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del corpus así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.
 
 \hypertarget{estado}{%
-\subsubsection{Estado}\label{estado}}
+\paragraph{Estado}\label{estado}}
 
 La pantalla de \emph{Estado} permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del corpus así como también realizar diversas acciones sobre los \emph{workers}.
 
@@ -500,33 +878,29 @@ La pantalla de \emph{Estado} permite a un usuario con el rol de administrador vi
 \end{figure}
 
 \hypertarget{secciones}{%
-\paragraph{Secciones}\label{secciones}}
+\subparagraph{Secciones}\label{secciones}}
 
-\hypertarget{corpus-1}{%
-\subparagraph{Corpus}\label{corpus-1}}
+Corpus
 
 Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el corpus contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de \emph{Corpus}.
 
-\hypertarget{crear-snapshot}{%
-\subparagraph{Crear snapshot}\label{crear-snapshot}}
+Crear snapshot
 
 Es la sección en la cual será posible crear, borrar o modificar los tipos de entidades reconocidos por el snapshot actual. La acción de editar las entidades genera un snapshot nuevo.
 
 Si el administrador así lo quisiera, puede utilizar esta sección para crear un snapshot nuevo sin editar entidades.
 
-\hypertarget{snapshots}{%
-\subparagraph{Snapshots}\label{snapshots}}
+Snapshots
 
 Sección en la cual podemos ver la lista completa de snapshots.
 Para cada Snapshot, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.
 
-\hypertarget{reasignar-trabajador}{%
-\subparagraph{Reasignar trabajador}\label{reasignar-trabajador}}
+Reasignar trabajador
 
 Sección que permite reasignar trabajadores para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar distintas pruebas sobre los mismos.
 
 \hypertarget{sandbox}{%
-\subsubsection{Sandbox}\label{sandbox}}
+\paragraph{Sandbox}\label{sandbox}}
 
 La pantalla de \emph{Sandbox} permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
 Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al corpus.
@@ -541,7 +915,7 @@ Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las en
 \end{figure}
 
 \hypertarget{comparar}{%
-\subsubsection{Comparar}\label{comparar}}
+\paragraph{Comparar}\label{comparar}}
 
 Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual.
 
