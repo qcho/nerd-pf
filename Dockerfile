@@ -4,4 +4,7 @@ WORKDIR /usr/src
 
 COPY . .
 
+
+RUN R -q -e 'install.packages("DiagrammeR")'
+
 RUN R -q -e 'bookdown::render_book("index.Rmd", "bookdown::gitbook")' && mv _book /public
