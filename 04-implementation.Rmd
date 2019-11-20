@@ -317,6 +317,8 @@ Un _Worker_ se encarga de realizar el _Reconocimiento de Entidades Nombradas_ as
 
 Como el _Worker_ es una unidad de trabajo que recibe tareas desde el _Task Scheduler_, es posible tener varios _Workers_ donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos snapshots).
 
+
+
 ### Database
 
 Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de API funcione así como también los datos necesarios por los workers (entrenamientos).
@@ -336,6 +338,10 @@ Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-
 Esta vista también se conoce como la vista de implementación.
 <!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
 <!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
+
+### Web
+
+La página web que contiene la interfaz de administración así como también la de entrenamiento fue implementada utilizando el lenguaje _Typescript_
 
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
 <!-- TODO: Hablar sobre Atributos de calidad de software -->
@@ -358,13 +364,21 @@ Esta vista también se conoce como la vista de _deployment_.
 
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
 
-```{r results = asis, echo = FALSE}
-DiagrammeR::mermaid("
-sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    activate John
-    John-->>Alice: Great!
-    deactivate John
+```{r results = 'asis', echo = FALSE}
+DiagrammeR::DiagrammeR("
+  sequenceDiagram;
+   customer->>ticket seller: ask for a ticket;
+   ticket seller->>database: seats;
+   alt tickets available
+     database->>ticket seller: ok;
+     ticket seller->>customer: confirm;
+     customer->>ticket seller: ok;
+     ticket seller->>database: book a seat;
+     ticket seller->>printer: print a ticket;
+   else sold out
+     database->>ticket seller: none left;
+     ticket seller->>customer: sorry;
+   end
 ")
 ```
 
