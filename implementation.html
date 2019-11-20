@@ -179,7 +179,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.4" data-path="implementation.html"><a href="implementation.html#database"><i class="fa fa-check"></i><b>4.2.4</b> Database</a></li>
 <li class="chapter" data-level="4.2.5" data-path="implementation.html"><a href="implementation.html#cliente"><i class="fa fa-check"></i><b>4.2.5</b> Cliente</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="implementation.html"><a href="implementation.html#vista-de-desarrollo"><i class="fa fa-check"></i><b>4.3</b> Vista de desarrollo</a></li>
+<li class="chapter" data-level="4.3" data-path="implementation.html"><a href="implementation.html#vista-de-desarrollo"><i class="fa fa-check"></i><b>4.3</b> Vista de desarrollo</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="implementation.html"><a href="implementation.html#web-1"><i class="fa fa-check"></i><b>4.3.1</b> Web</a></li>
+</ul></li>
 <li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a></li>
 <li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a></li>
 </ul></li>
@@ -659,8 +661,12 @@ Esta vista también se conoce como la vista de implementación.
 <!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
 <!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. --></p>
 </blockquote>
+<div id="web-1" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Web</h3>
+<p>La página web que contiene la interfaz de administración así como también la de entrenamiento fue implementada utilizando el lenguaje <em>Typescript</em></p>
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
 <!-- TODO: Hablar sobre Atributos de calidad de software -->
+</div>
 </div>
 <div id="vista-física" class="section level2">
 <h2><span class="header-section-number">4.4</span> Vista física</h2>
@@ -682,6 +688,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
+<div id="htmlwidget-021e0aafcaa7347570d0" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-021e0aafcaa7347570d0">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
