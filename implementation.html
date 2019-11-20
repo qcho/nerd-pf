@@ -663,9 +663,33 @@ Esta vista también se conoce como la vista de implementación.
 </blockquote>
 <div id="web-1" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Web</h3>
-<p>La página web que contiene la interfaz de administración así como también la de entrenamiento fue implementada utilizando el lenguaje <em>Typescript</em></p>
+<p>La página web que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de <em>Single Page Application</em> que nos permitió generar un <em>bundle</em> que puede ser hosteado en <em>CDNs</em> y nos permite tener ciclos de release independientes al los del servicio.</p>
+<p>Poder separar las releases de la web y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el <em>API REST</em> y una baja por cambios a la interfaz de la web no afecta la disponibilidad del servicio.</p>
+<div id="tecnologías" class="section level4">
+<h4><span class="header-section-number">4.3.1.1</span> Tecnologías</h4>
+<p>Para la implementación utilizamos el lenguaje de programación llamado <strong>Typescript</strong>, lenguaje desarrollado por <em>Microsoft</em> que compila a <em>JavaScript</em> con el agregado de <em>Tipos</em> que permiten producir código de mayor calidad debido al agregado de la posibilidad del chequeo estático de código para validar su correctitud.</p>
+<p>Una vez definido el lenguaje, optamos por utilizar la librería llamada <strong>ReactJS</strong> <span class="citation">(Facebook, <a href="#ref-react">2019</a>)</span> desarrollada por <em>Facebook</em> para implementar la interfaz.</p>
+<p>Sumado a <strong>ReactJS</strong>, incluímos diversas librerías para poder resolver varios problemas en el desarrollo de una <em>SPA</em>:</p>
+<div id="material-ui" class="section level5">
+<h5><span class="header-section-number">4.3.1.1.1</span> Material UI</h5>
+<p>Provee de una biblioteca de componentes estilados siguiendo el patrón de diseño propuesto por <em>Google</em> llamado <em>Material Design</em>.</p>
+</div>
+<div id="react-router" class="section level5">
+<h5><span class="header-section-number">4.3.1.1.2</span> React Router</h5>
+<p>Desarrollada por <em>React Training</em>, proveé de mecanimos para la navegación en <em>SPAs</em>.</p>
+</div>
+<div id="i18next" class="section level5">
+<h5><span class="header-section-number">4.3.1.1.3</span> i18next</h5>
+<p>Librería que proveé mecanismos de internacionalización. A su vez, nos permitió generar los archivos de traducción mediante su extracción del código fuente utilizando la herramienta <code>i18next-scanner</code>.</p>
+</div>
+<div id="openapi-generator" class="section level5">
+<h5><span class="header-section-number">4.3.1.1.4</span> OpenAPI Generator</h5>
+<p><em>OpenAPI Generator</em> es una herramienta que permite generar código a partir de una definición de <em>OpenAPI</em>.
+Debido a que el servicio implementado expone una definiciión de <em>OpenAPI</em>, podemos utilizar ésta librería para auto-generar todo el código necesario para comunicarnos con el servicio usando el generador de <em>Typescript</em>.</p>
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
 <!-- TODO: Hablar sobre Atributos de calidad de software -->
+</div>
+</div>
 </div>
 </div>
 <div id="vista-física" class="section level2">
@@ -688,14 +712,17 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-d62aab697fc4191a3eee" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d62aab697fc4191a3eee">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-8a9d67498ecfb8edd6dc" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8a9d67498ecfb8edd6dc">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
+<div id="ref-react">
+<p>Facebook. (2019). React: A javascript library for building user interfaces. Retrieved November 20, 2019, from <a href="https://reactjs.org/">https://reactjs.org/</a></p>
+</div>
 <div id="ref-Kruchten:1995:VMA:624610.625529">
 <p>Kruchten, P. (1995). The 4+1 view model of architecture. <em>IEEE Softw.</em>, <em>12</em>(6), 42–50. <a href="https://doi.org/10.1109/52.469759">https://doi.org/10.1109/52.469759</a></p>
 </div>

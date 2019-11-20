@@ -1320,7 +1320,39 @@ Esta vista también se conoce como la vista de implementación.
 \hypertarget{web-1}{%
 \subsubsection{Web}\label{web-1}}
 
-La página web que contiene la interfaz de administración así como también la de entrenamiento fue implementada utilizando el lenguaje \emph{Typescript}
+La página web que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de \emph{Single Page Application} que nos permitió generar un \emph{bundle} que puede ser hosteado en \emph{CDNs} y nos permite tener ciclos de release independientes al los del servicio.
+
+Poder separar las releases de la web y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el \emph{API REST} y una baja por cambios a la interfaz de la web no afecta la disponibilidad del servicio.
+
+\hypertarget{tecnologuxedas}{%
+\paragraph{Tecnologías}\label{tecnologuxedas}}
+
+Para la implementación utilizamos el lenguaje de programación llamado \textbf{Typescript}, lenguaje desarrollado por \emph{Microsoft} que compila a \emph{JavaScript} con el agregado de \emph{Tipos} que permiten producir código de mayor calidad debido al agregado de la posibilidad del chequeo estático de código para validar su correctitud.
+
+Una vez definido el lenguaje, optamos por utilizar la librería llamada \textbf{ReactJS} (Facebook, \protect\hyperlink{ref-react}{2019}) desarrollada por \emph{Facebook} para implementar la interfaz.
+
+Sumado a \textbf{ReactJS}, incluímos diversas librerías para poder resolver varios problemas en el desarrollo de una \emph{SPA}:
+
+\hypertarget{material-ui}{%
+\subparagraph{Material UI}\label{material-ui}}
+
+Provee de una biblioteca de componentes estilados siguiendo el patrón de diseño propuesto por \emph{Google} llamado \emph{Material Design}.
+
+\hypertarget{react-router}{%
+\subparagraph{React Router}\label{react-router}}
+
+Desarrollada por \emph{React Training}, proveé de mecanimos para la navegación en \emph{SPAs}.
+
+\hypertarget{i18next}{%
+\subparagraph{i18next}\label{i18next}}
+
+Librería que proveé mecanismos de internacionalización. A su vez, nos permitió generar los archivos de traducción mediante su extracción del código fuente utilizando la herramienta \texttt{i18next-scanner}.
+
+\hypertarget{openapi-generator}{%
+\subparagraph{OpenAPI Generator}\label{openapi-generator}}
+
+\emph{OpenAPI Generator} es una herramienta que permite generar código a partir de una definición de \emph{OpenAPI}.
+Debido a que el servicio implementado expone una definiciión de \emph{OpenAPI}, podemos utilizar ésta librería para auto-generar todo el código necesario para comunicarnos con el servicio usando el generador de \emph{Typescript}.
 
 \hypertarget{vista-fuxedsica}{%
 \subsection{Vista física}\label{vista-fuxedsica}}
@@ -1542,6 +1574,9 @@ Duh definition. (2019). Retrieved October 14, 2019, from \url{https://dictionary
 
 \leavevmode\hypertarget{ref-ethayarajh-etal-2019-towards}{}%
 Ethayarajh, K., Duvenaud, D., \& Hirst, G. (2019). Towards understanding linear word analogies. \emph{Proceedings of the 57th annual meeting of the association for computational linguistics}, 3253--3262. \url{https://doi.org/10.18653/v1/P19-1315}
+
+\leavevmode\hypertarget{ref-react}{}%
+Facebook. (2019). React: A javascript library for building user interfaces. Retrieved November 20, 2019, from \url{https://reactjs.org/}
 
 \leavevmode\hypertarget{ref-hackaton2019}{}%
 Hackaton. (2019). Retrieved August 31, 2019, from \url{https://mediaparty.info/}
