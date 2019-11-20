@@ -18,9 +18,135 @@ Este modelo nos permite describir la aplicación de una manera genérica y orden
 
 ## Vista lógica
 
+La vista lógica se refiere a la funcionalidad que el sistema proporciona a los usuarios finales.
+
+A continuación detallamos distintas partes del servicio NERd así como también de la interfaz de entrenamiento.
+
 <!-- Los diagramas UML se utilizan para representar la vista lógica e incluyen diagramas de clase y diagramas de estado. -->
 
-### Inicio
+### Servicio
+
+El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI.
+A continuación detallamos los endpoints.
+
+#### Autenticación
+
+Rutas del API dedicadas a la autenticación de usuarios.
+
+* **POST** _/api/auth/register_
+    * Registrar un usuario nuevo.
+
+* **POST** _/api/auth/token_
+    * Genera un nuevo token de acceso y refresco con credenciales.
+    * Utilizado para la funcionalidad de _login_
+* **POST** _/api/auth/refresh_
+    * Refresca el token de acceso.
+    * Utilizado cuando un token de acceso caducó.
+
+#### Usuarios
+
+Conjunto de operaciones relacionadas con los usuarios del sistema.
+
+* **GET** _/api/users_
+    * Lista de usuarios existentes
+    * Separa los resultados en páginas
+* **GET** _/api/users/top5_
+    * Lista de los 5 usuarios con más entrenamientos
+* **GET** _/api/users/me_
+    * Retorna la información del usuario logueado
+* **PATCH** _/api/users/me_
+    * Actualiza la información del usuario logueado
+* **GET** _/api/users/me/trainings_
+    * Retorna los entrenamientos del usuario logueado
+* **GET** _/api/users/\{user\_id\}_
+    * Retorna la información del usuario especificado por _user\_id_
+* **PATCH** _/api/users/\{user\_id\}_
+    * Actualiza la información del usuario especificado por _user\_id_
+* **DELETE** _/api/users/\{user\_id\}_
+    * Borra al usuario especificado por _user\_id_
+* **GET** _/api/users/\{user\_id\}/trainings
+    * Retorna los entrenamientos del usuario especificado
+
+#### Roles
+
+* **GET** _/api/roles_
+    * Retorna la lista de todos los roles asignables a usuarios del sistema
+
+#### Corpus
+
+Rutas dedicadas a operaciones con el corpus del sistema.
+
+* **GET** _/api/corpus/\{text\_id\}_
+    * Retorna los detalles del texto especificado por _text\_id_
+* **DELETE** _/api/corpus/\{text\_id\}_
+    * Borra un texto especificado por _text\_id_ del corpus
+* **GET** _/api/corpus/\{text\_id\}/trainings_
+    * Retorna la lista de entrenamientos proporcionados por los usuarios sobre las entidades en el texto
+* **PUT** _/api/corpus/\{text\_id\}/trainings_
+    * Agrega un entrenamiento para el texto con id _text_id_
+* **POST** _/api/corpus/upload_
+    * Permite agregar textos de manera masiva al sistema
+    * Acepta una lista de archivos .txt donde cada línea es un texto a agregar
+    * Los archivos deben ser UTF-8
+* **GET** _/api/corpus_
+    * Lista de textos cargados en el sistema para entrenamiento
+* **POST** _/api/corpus_
+    * Agrega un texto al sistema para entrenamiento
+
+#### Snapshots
+
+Conjunto de operaciones relacionadas con los snapshots y workers.
+
+* **GET** _/api/snapshots_
+    * Listado de los snapshots disponibles
+* **GET** _/api/snapshots/\{snapshot_id}_
+    * Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico
+* **DELETE** _/api/snapshots/\{snapshot_id}_
+    * Borra un snapshot con el id especificado
+* **POST** _/api/snapshots/\{snapshot_id}/force-train_
+    * Envía la tarea de entrenamiento a los workers que tienen el snapshot _snapshot_id_ cargado.
+* **POST** _/api/snapshots/\{snapshot_id}/force-untrain_
+    * Envía la tarea de desentrenar a los workers que tienen el snapshot _snapshot_id_ cargado.
+* **GET** _/api/snapshots/current_
+    * Retorna información sobre el snapshot actual
+* **PUT** _/api/snapshots/current_
+    * Crea un nuevo snapshot con la información provista
+
+#### Reconocimiento de Entidades Nombradas
+
+Conjunto de operaciones relacionadas al _Reconocimiento de Entidades Nombradas_
+
+* **GET** _/api/ner/train_
+    * Retorna un texto para que un usuario del sistema revise si está correctamente inferido
+    * Únicamente retorna textos que el usuario logueado no haya corregido ya
+* **GET** _/api/ner/compare/\{first_snapshot\}/\{second_snapshot\}_
+    * Compara el _Reconocimiento de Entidades Nombradas_ entre dos snapshots distintos
+* **POST** _/api/ner/current/parse_
+    * Retorna un documento Spacy para un texto dado utilizando el snapshot actual
+* **POST** _/api/ner/\{snapshot_id\}/parse_
+    * Retorna un documento Spacy para un texto dado utilizando el snapshot especificado
+* **POST** _/api/ner/current/entities_
+    * Retorna la lista de _Entidades Nombradas_ para un texto dado utilizando el modelo actual
+* **POST** _/api/ner/\{snapshot_id\}/entities_
+    * Retorna la lista de _Entidades Nombradas_ para un texto dado utilizando el modelo especificado
+
+#### Entrenamientos
+
+* **DELETE** _/api/trainings/\{training_id\}_
+    * Borra un entrenamiento
+
+#### Workers
+
+* **GET** _/api/workers/_
+    * Lista de los workers disponibles
+* **POST** _/api/workers/reassign_
+    * Reasigna un trabajador de un a versión de snapshot a otra
+
+### Web
+
+La página web de _NERd_ está enfocada en las tareas de mantenimiento de los servicios ofrecidos por el _API_ así como también ofrece de interfaces que permiten a usuarios del sistema corregir de manera eficiente el modelo de inferencia.
+
+#### Inicio
 
 Pantalla de inicio donde se encuentran accesos rápidos para entrenar el modelo o para poder buscar entidades en textos.
 También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más.
@@ -40,7 +166,7 @@ Si la persona visitando la página no cuenta con una sesión activa, se le invit
 knitr::include_graphics('assets/logic/home-anonymous.png')
 ```
 
-### Entrenamiento
+#### Entrenamiento
 
 La pantalla de _Entrenamiento_ es el núcleo de la web en la cual es posible entrenar el modelo.
 
@@ -50,11 +176,11 @@ El usuario es presentado con un texto perteneciente al Corpus del servicio con l
 knitr::include_graphics('assets/logic/train.png')
 ```
 
-#### Usabilidad
+##### Usabilidad
 
 Tuvimos un foco fuerte en la usabilidad del widget ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.
 
-##### Llamado a acción y ayuda
+###### Llamado a acción y ayuda
 
 Dado que lo primero que ve el usuario es un texto con anotaciones, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el widget de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
 Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo.
@@ -63,7 +189,7 @@ Como refuerzo de este llamado a acción, agregamos un botón que al ser clickead
 knitr::include_graphics('assets/logic/train-help.png')
 ```
 
-##### Creación y edición de entidades
+###### Creación y edición de entidades
 
 Para la creación de entidades decidimos ofrecer dos maneras: La primera es arrastrando un conjunto de palabras de manera tal de unirlas todas en una única entidad.
 La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de la ubicación de la palabra dentro del texto:
@@ -78,11 +204,11 @@ knitr::include_graphics('assets/logic/train-popup.png')
 Para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
 Si el modelo infirió una entidad de manera incorrecta, ya sea por que sea una entidad inválida o agregó palabras de más a una entidad inválida, permitimos que el usuario remueva la entidad y que después vuelva a agregar la entidad correcta.
 
-##### Optimización en tiempos de carga
+###### Optimización en tiempos de carga
 
 Dado que es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario una experiencia completamente fluida.
 
-### Administración de usuarios
+#### Administración de usuarios
 
 La pantalla de _Administración de usuarios_ permite a los usuarios con el rol de administrador poder modificar los roles de todos los usuarios del sistema, borrarlos o acceder a los detalles del usuario, tal como la lista de textos entrenados.
 
@@ -90,7 +216,7 @@ La pantalla de _Administración de usuarios_ permite a los usuarios con el rol d
 knitr::include_graphics('assets/logic/user-list.png')
 ```
 
-### Detalles de usuario
+#### Detalles de usuario
 
 La pantalla de detalle de usuario permite al usuario con sesión activa ver sus entrenamientos y cambiar su contraseña.
 
@@ -100,7 +226,7 @@ Los usuarios con rol administrador pueden realizar las acciones mencionadas prev
 knitr::include_graphics('assets/logic/user-profile.png')
 ```
 
-### Corpus
+#### Corpus
 
 La pantalla de _Corpus_ permite a un usuario con el rol de administrador realizar tareas relacionadas con el corpus del sistema.
 
@@ -112,7 +238,7 @@ Desde aquí es posible agregar textos al corpus utilizando la funcionalidad de s
 
 También es posible desde aquí ver todos los textos que forman parte del corpus así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del corpus así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.
 
-### Estado
+#### Estado
 
 La pantalla de _Estado_ permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del corpus así como también realizar diversas acciones sobre los _workers_.
 
@@ -120,29 +246,29 @@ La pantalla de _Estado_ permite a un usuario con el rol de administrador visuali
 knitr::include_graphics('assets/logic/status.png')
 ```
 
-#### Secciones
+##### Secciones
 
-##### Corpus
+###### Corpus
 
 Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el corpus contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de _Corpus_.
 
-##### Crear snapshot
+###### Crear snapshot
 
 Es la sección en la cual será posible crear, borrar o modificar los tipos de entidades reconocidos por el snapshot actual. La acción de editar las entidades genera un snapshot nuevo.
 
 Si el administrador así lo quisiera, puede utilizar esta sección para crear un snapshot nuevo sin editar entidades.
 
-##### Snapshots
+###### Snapshots
 
 Sección en la cual podemos ver la lista completa de snapshots.
 Para cada Snapshot, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.
 
-##### Reasignar trabajador
+###### Reasignar trabajador
 
 Sección que permite reasignar trabajadores para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar distintas pruebas sobre los mismos.
 
 
-### Sandbox
+#### Sandbox
 
 La pantalla de _Sandbox_ permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
 Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al corpus.
@@ -151,7 +277,7 @@ Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las en
 knitr::include_graphics('assets/logic/sandbox.png')
 ```
 
-### Comparar
+#### Comparar
 
 Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual.
 
