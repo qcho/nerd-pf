@@ -18,7 +18,7 @@ Este modelo nos permite describir la aplicación de una manera genérica y orden
 
 ## Vista lógica
 
-La vista lógica se refiere a la funcionalidad que el sistema proporciona a los usuarios finales.
+> La vista lógica se refiere a la funcionalidad que el sistema proporciona a los usuarios finales.
 
 A continuación detallamos distintas partes del servicio NERd así como también de la interfaz de entrenamiento.
 
@@ -26,8 +26,7 @@ A continuación detallamos distintas partes del servicio NERd así como también
 
 ### Servicio
 
-El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI.
-A continuación detallamos los endpoints.
+El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI. A continuación detallamos los endpoints.
 
 #### Autenticación
 
@@ -58,6 +57,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
     * Actualiza la información del usuario logueado
 * **GET** _/api/users/me/trainings_
     * Retorna los entrenamientos del usuario logueado
+    * Separa los resultados en páginas
 * **GET** _/api/users/\{user\_id\}_
     * Retorna la información del usuario especificado por _user\_id_
 * **PATCH** _/api/users/\{user\_id\}_
@@ -90,6 +90,7 @@ Rutas dedicadas a operaciones con el corpus del sistema.
     * Los archivos deben ser UTF-8
 * **GET** _/api/corpus_
     * Lista de textos cargados en el sistema para entrenamiento
+    * Separa los resultados en páginas
 * **POST** _/api/corpus_
     * Agrega un texto al sistema para entrenamiento
 
@@ -99,6 +100,7 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
 
 * **GET** _/api/snapshots_
     * Listado de los snapshots disponibles
+    * Separa los resultados en páginas
 * **GET** _/api/snapshots/\{snapshot_id}_
     * Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico
 * **DELETE** _/api/snapshots/\{snapshot_id}_
