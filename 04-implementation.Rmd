@@ -167,6 +167,43 @@ Sección accesible únicamente a administradores en la que es posible comparar l
 knitr::include_graphics('assets/logic/compare.png')
 ```
 
+#### Registración
+
+Sección únicamente accesible cuando no hay una sesión activa. Aquí se registran los usuarios con la opción de que el inicio de sesión persista luego de que se cierre la pestaña del navegador.
+
+```{r logic-registration, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Registración'}
+knitr::include_graphics('assets/logic/register.png')
+```
+
+#### Login
+
+Sección únicamente accesible cuando no hay una sesión activa. Aquí ingresan los usuarios al sistema con la opción de que el inicio de sesión persista luego de que se cierre la pestaña del navegador.
+
+```{r logic-login, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Inicio de sesión'}
+knitr::include_graphics('assets/logic/login.png')
+```
+
+#### Barra de navegación
+
+La barra de navegación muestra distinta información dependiendo del contexto actual del sistema.
+
+Cuando no hay una sesión activa, se muestran únicamente las opciones para acceder al sistema, ya sea registrándose o ingresando utilizando credenciales.
+
+```{r logic-status-anonymous, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Usuario anónimo'}
+knitr::include_graphics('assets/logic/status-anonymous.png')
+```
+
+Cuando hay una sesión activa el usuario cuenta con el rol de _USER_ y/o de _TRAINER_ pero **no** con el de _ADMIN_, debería poder acceder únicamente a su perfil.
+
+```{r logic-status-user, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Usuario regular'}
+knitr::include_graphics('assets/logic/status-user.png')
+```
+
+Finalmente, cuando el usuario logueado tiene el rol de _ADMIN_, tiene acceso a todas las secciones de administración del sistema.
+
+```{r logic-status-admin, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Usuario administrador'}
+knitr::include_graphics('assets/logic/status-admin.png')
+```
 
 ### Servicio
 
