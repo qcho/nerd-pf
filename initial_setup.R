@@ -1,6 +1,6 @@
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'DiagrammeR'
 ), 'packages.bib')
 
 options(tinytex.verbose = TRUE)
