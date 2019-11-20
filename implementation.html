@@ -400,6 +400,51 @@ Figura 4.13: Comparativa de modelos
 </p>
 </div>
 </div>
+<div id="registración" class="section level4">
+<h4><span class="header-section-number">4.1.1.9</span> Registración</h4>
+<p>Sección únicamente accesible cuando no hay una sesión activa. Aquí se registran los usuarios con la opción de que el inicio de sesión persista luego de que se cierre la pestaña del navegador.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-registration"></span>
+<img src="assets/logic/register.png" alt="Registración"  />
+<p class="caption">
+Figura 4.14: Registración
+</p>
+</div>
+</div>
+<div id="login" class="section level4">
+<h4><span class="header-section-number">4.1.1.10</span> Login</h4>
+<p>Sección únicamente accesible cuando no hay una sesión activa. Aquí ingresan los usuarios al sistema con la opción de que el inicio de sesión persista luego de que se cierre la pestaña del navegador.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-login"></span>
+<img src="assets/logic/login.png" alt="Inicio de sesión"  />
+<p class="caption">
+Figura 4.15: Inicio de sesión
+</p>
+</div>
+</div>
+<div id="barra-de-navegación" class="section level4">
+<h4><span class="header-section-number">4.1.1.11</span> Barra de navegación</h4>
+<p>La barra de navegación muestra distinta información dependiendo del contexto actual del sistema.</p>
+<p>Cuando no hay una sesión activa, se muestran únicamente las opciones para acceder al sistema, ya sea registrándose o ingresando utilizando credenciales.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-status-anonymous"></span>
+<img src="assets/logic/status-anonymous.png" alt="Usuario anónimo"  />
+<p class="caption">
+Figura 4.16: Usuario anónimo
+</p>
+</div>
+<p>Cuando hay una sesión activa el usuario cuenta con el rol de <em>USER</em> y/o de <em>TRAINER</em> pero <strong>no</strong> con el de <em>ADMIN</em>, debería poder acceder únicamente a su perfil.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-status-user"></span>
+<img src="assets/logic/status-user.png" alt="Usuario regular"  />
+<p class="caption">
+Figura 4.17: Usuario regular
+</p>
+</div>
+<p>Finalmente, cuando el usuario logueado tiene el rol de <em>ADMIN</em>, tiene acceso a todas las secciones de administración del sistema.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-status-admin"></span>
+<img src="assets/logic/status-admin.png" alt="Usuario administrador"  />
+<p class="caption">
+Figura 4.18: Usuario administrador
+</p>
+</div>
+</div>
 </div>
 <div id="servicio" class="section level3">
 <h3><span class="header-section-number">4.1.2</span> Servicio</h3>
@@ -614,7 +659,7 @@ La vista de proceso aborda concurrencia, distribución, integradores, rendimient
 <div class="figure" style="text-align: center"><span id="fig:process-overview-client"></span>
 <img src="assets/process/process-overview-client.png" alt="Componentes del sistema"  />
 <p class="caption">
-Figura 4.14: Componentes del sistema
+Figura 4.19: Componentes del sistema
 </p>
 </div>
 <div id="api" class="section level3">
@@ -685,6 +730,28 @@ Debido a que el servicio implementado expone una definiciión de <em>OpenAPI</em
 <!-- TODO: Hablar sobre Atributos de calidad de software -->
 </div>
 </div>
+<div id="arquitectura" class="section level4">
+<h4><span class="header-section-number">4.3.1.2</span> Arquitectura</h4>
+<p>El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio.</p>
+<div class="figure" style="text-align: center"><span id="fig:developer-web-modules"></span>
+<img src="assets/developer/web-modules.png" alt="Módulos de la página web"  />
+<p class="caption">
+Figura 4.20: Módulos de la página web
+</p>
+</div>
+<p>Los módulos marcados en azul son relacionados al contenido que se muestra cada ruta del sistema.</p>
+<p>Los módulos marcados en rojos son de utilidad, ya sea por que contienen todo el código relevante a la comunicación con el <em>API REST</em> o a componentes utilizados en varias áreas de los módulos azules.</p>
+</div>
+<div id="sesión" class="section level4">
+<h4><span class="header-section-number">4.3.1.3</span> Sesión</h4>
+<p>El servicio web ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el <em>local storage</em> del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.</p>
+<p>Si en algún momento en el futuro el <em>API</em> nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código HTTP 401) y el token de refrescado dejó de ser válido, las credenciales se borran del <em>local storage</em> y redirigimos al cliente a la pantalla de inicio.</p>
+<p>Ofrecemos también la posibilidad de no guardar la sesión, lo cual hará que una vez cerrada la pestaña, el usuario deba volver a ingresar al sistema para poder acceder a los distintos servicios.</p>
+</div>
+<div id="internacionalización" class="section level4">
+<h4><span class="header-section-number">4.3.1.4</span> Internacionalización</h4>
+<p>Así como las credenciales, las preferencias de internacionalización son guardadas en el <em>local storage</em> del cliente web, de manera tal que los usuarios del sistema no deban elegir el idioma de su preferencia cada vez que ingresan a la página.</p>
+</div>
 </div>
 </div>
 <div id="vista-física" class="section level2">
@@ -707,8 +774,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-32b4039248f36e6b26a0" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-32b4039248f36e6b26a0">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-31f2dbf764a1d9bb3406" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-31f2dbf764a1d9bb3406">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>

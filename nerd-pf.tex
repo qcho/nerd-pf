@@ -929,6 +929,72 @@ Sección accesible únicamente a administradores en la que es posible comparar l
 \caption{Comparativa de modelos}\label{fig:logic-compare}
 \end{figure}
 
+\hypertarget{registraciuxf3n}{%
+\paragraph{Registración}\label{registraciuxf3n}}
+
+Sección únicamente accesible cuando no hay una sesión activa. Aquí se registran los usuarios con la opción de que el inicio de sesión persista luego de que se cierre la pestaña del navegador.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/register.pdf} 
+
+}
+
+\caption{Registración}\label{fig:logic-registration}
+\end{figure}
+
+\hypertarget{login}{%
+\paragraph{Login}\label{login}}
+
+Sección únicamente accesible cuando no hay una sesión activa. Aquí ingresan los usuarios al sistema con la opción de que el inicio de sesión persista luego de que se cierre la pestaña del navegador.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/login.pdf} 
+
+}
+
+\caption{Inicio de sesión}\label{fig:logic-login}
+\end{figure}
+
+\hypertarget{barra-de-navegaciuxf3n}{%
+\paragraph{Barra de navegación}\label{barra-de-navegaciuxf3n}}
+
+La barra de navegación muestra distinta información dependiendo del contexto actual del sistema.
+
+Cuando no hay una sesión activa, se muestran únicamente las opciones para acceder al sistema, ya sea registrándose o ingresando utilizando credenciales.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/status-anonymous.pdf} 
+
+}
+
+\caption{Usuario anónimo}\label{fig:logic-status-anonymous}
+\end{figure}
+
+Cuando hay una sesión activa el usuario cuenta con el rol de \emph{USER} y/o de \emph{TRAINER} pero \textbf{no} con el de \emph{ADMIN}, debería poder acceder únicamente a su perfil.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/status-user.pdf} 
+
+}
+
+\caption{Usuario regular}\label{fig:logic-status-user}
+\end{figure}
+
+Finalmente, cuando el usuario logueado tiene el rol de \emph{ADMIN}, tiene acceso a todas las secciones de administración del sistema.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/logic/status-admin.pdf} 
+
+}
+
+\caption{Usuario administrador}\label{fig:logic-status-admin}
+\end{figure}
+
 \hypertarget{servicio}{%
 \subsubsection{Servicio}\label{servicio}}
 
@@ -1406,6 +1472,38 @@ Librería que proveé mecanismos de internacionalización. A su vez, nos permiti
 
 \emph{OpenAPI Generator} es una herramienta que permite generar código a partir de una definición de \emph{OpenAPI}.
 Debido a que el servicio implementado expone una definiciión de \emph{OpenAPI}, podemos utilizar ésta librería para auto-generar todo el código necesario para comunicarnos con el servicio usando el generador de \emph{Typescript}.
+
+\hypertarget{arquitectura}{%
+\paragraph{Arquitectura}\label{arquitectura}}
+
+El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/web-modules.pdf} 
+
+}
+
+\caption{Módulos de la página web}\label{fig:developer-web-modules}
+\end{figure}
+
+Los módulos marcados en azul son relacionados al contenido que se muestra cada ruta del sistema.
+
+Los módulos marcados en rojos son de utilidad, ya sea por que contienen todo el código relevante a la comunicación con el \emph{API REST} o a componentes utilizados en varias áreas de los módulos azules.
+
+\hypertarget{sesiuxf3n}{%
+\paragraph{Sesión}\label{sesiuxf3n}}
+
+El servicio web ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el \emph{local storage} del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.
+
+Si en algún momento en el futuro el \emph{API} nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código HTTP 401) y el token de refrescado dejó de ser válido, las credenciales se borran del \emph{local storage} y redirigimos al cliente a la pantalla de inicio.
+
+Ofrecemos también la posibilidad de no guardar la sesión, lo cual hará que una vez cerrada la pestaña, el usuario deba volver a ingresar al sistema para poder acceder a los distintos servicios.
+
+\hypertarget{internacionalizaciuxf3n}{%
+\paragraph{Internacionalización}\label{internacionalizaciuxf3n}}
+
+Así como las credenciales, las preferencias de internacionalización son guardadas en el \emph{local storage} del cliente web, de manera tal que los usuarios del sistema no deban elegir el idioma de su preferencia cada vez que ingresan a la página.
 
 \hypertarget{vista-fuxedsica}{%
 \subsection{Vista física}\label{vista-fuxedsica}}
