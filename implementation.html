@@ -210,13 +210,14 @@ Figura 4.1: Ilustración de arquitectura 4+1
 </blockquote>
 <div id="vista-lógica" class="section level2">
 <h2><span class="header-section-number">4.1</span> Vista lógica</h2>
+<blockquote>
 <p>La vista lógica se refiere a la funcionalidad que el sistema proporciona a los usuarios finales.</p>
+</blockquote>
 <p>A continuación detallamos distintas partes del servicio NERd así como también de la interfaz de entrenamiento.</p>
 <!-- Los diagramas UML se utilizan para representar la vista lógica e incluyen diagramas de clase y diagramas de estado. -->
 <div id="servicio" class="section level3">
 <h3><span class="header-section-number">4.1.1</span> Servicio</h3>
-<p>El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI.
-A continuación detallamos los endpoints.</p>
+<p>El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI. A continuación detallamos los endpoints.</p>
 <div id="autenticación" class="section level4">
 <h4><span class="header-section-number">4.1.1.1</span> Autenticación</h4>
 <p>Rutas del API dedicadas a la autenticación de usuarios.</p>
@@ -261,6 +262,7 @@ A continuación detallamos los endpoints.</p>
 <li><strong>GET</strong> <em>/api/users/me/trainings</em>
 <ul>
 <li>Retorna los entrenamientos del usuario logueado</li>
+<li>Separa los resultados en páginas</li>
 </ul></li>
 <li><strong>GET</strong> <em>/api/users/{user_id}</em>
 <ul>
@@ -318,6 +320,7 @@ A continuación detallamos los endpoints.</p>
 <li><strong>GET</strong> <em>/api/corpus</em>
 <ul>
 <li>Lista de textos cargados en el sistema para entrenamiento</li>
+<li>Separa los resultados en páginas</li>
 </ul></li>
 <li><strong>POST</strong> <em>/api/corpus</em>
 <ul>
@@ -332,6 +335,7 @@ A continuación detallamos los endpoints.</p>
 <li><strong>GET</strong> <em>/api/snapshots</em>
 <ul>
 <li>Listado de los snapshots disponibles</li>
+<li>Separa los resultados en páginas</li>
 </ul></li>
 <li><strong>GET</strong> <em>/api/snapshots/{snapshot_id}</em>
 <ul>

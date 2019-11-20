@@ -333,15 +333,16 @@ Este modelo nos permite describir la aplicación de una manera genérica y orden
 \hypertarget{vista-luxf3gica}{%
 \subsection{Vista lógica}\label{vista-luxf3gica}}
 
+\begin{quote}
 La vista lógica se refiere a la funcionalidad que el sistema proporciona a los usuarios finales.
+\end{quote}
 
 A continuación detallamos distintas partes del servicio NERd así como también de la interfaz de entrenamiento.
 
 \hypertarget{servicio}{%
 \subsubsection{Servicio}\label{servicio}}
 
-El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI.
-A continuación detallamos los endpoints.
+El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI. A continuación detallamos los endpoints.
 
 \hypertarget{autenticaciuxf3n}{%
 \paragraph{Autenticación}\label{autenticaciuxf3n}}
@@ -428,6 +429,8 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \tightlist
   \item
     Retorna los entrenamientos del usuario logueado
+  \item
+    Separa los resultados en páginas
   \end{itemize}
 \item
   \textbf{GET} \emph{/api/users/\{user\_id\}}
@@ -536,6 +539,8 @@ Rutas dedicadas a operaciones con el corpus del sistema.
   \tightlist
   \item
     Lista de textos cargados en el sistema para entrenamiento
+  \item
+    Separa los resultados en páginas
   \end{itemize}
 \item
   \textbf{POST} \emph{/api/corpus}
@@ -561,6 +566,8 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
   \tightlist
   \item
     Listado de los snapshots disponibles
+  \item
+    Separa los resultados en páginas
   \end{itemize}
 \item
   \textbf{GET} \emph{/api/snapshots/\{snapshot\_id\}}
