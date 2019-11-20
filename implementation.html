@@ -169,8 +169,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="implementation.html"><a href="implementation.html"><i class="fa fa-check"></i><b>4</b> NERd (Implementación)</a><ul>
 <li class="chapter" data-level="4.1" data-path="implementation.html"><a href="implementation.html#vista-lógica"><i class="fa fa-check"></i><b>4.1</b> Vista lógica</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="implementation.html"><a href="implementation.html#servicio"><i class="fa fa-check"></i><b>4.1.1</b> Servicio</a></li>
-<li class="chapter" data-level="4.1.2" data-path="implementation.html"><a href="implementation.html#web"><i class="fa fa-check"></i><b>4.1.2</b> Web</a></li>
+<li class="chapter" data-level="4.1.1" data-path="implementation.html"><a href="implementation.html#web"><i class="fa fa-check"></i><b>4.1.1</b> Web</a></li>
+<li class="chapter" data-level="4.1.2" data-path="implementation.html"><a href="implementation.html#servicio"><i class="fa fa-check"></i><b>4.1.2</b> Servicio</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="implementation.html"><a href="implementation.html#vista-de-proceso"><i class="fa fa-check"></i><b>4.2</b> Vista de proceso</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="implementation.html"><a href="implementation.html#api"><i class="fa fa-check"></i><b>4.2.1</b> API</a></li>
@@ -245,11 +245,172 @@ Figura 4.1: Ilustración de arquitectura 4+1
 </blockquote>
 <p>A continuación detallamos distintas partes del servicio NERd así como también de la interfaz de entrenamiento.</p>
 <!-- Los diagramas UML se utilizan para representar la vista lógica e incluyen diagramas de clase y diagramas de estado. -->
+<div id="web" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> Web</h3>
+<p>La página web de <em>NERd</em> está enfocada en las tareas de mantenimiento de los servicios ofrecidos por el <em>API</em> así como también ofrece de interfaces que permiten a usuarios del sistema corregir de manera eficiente el modelo de inferencia.</p>
+<div id="inicio" class="section level4">
+<h4><span class="header-section-number">4.1.1.1</span> Inicio</h4>
+<p>Pantalla de inicio donde se encuentran accesos rápidos para entrenar el modelo o para poder buscar entidades en textos.
+También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-home"></span>
+<img src="assets/logic/home-logged-all.png" alt="Pantalla de inicio con usuario logueado"  />
+<p class="caption">
+Figura 4.2: Pantalla de inicio con usuario logueado
+</p>
+</div>
+<p>Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-home-logged-nontrainer"></span>
+<img src="assets/logic/home-logged-not_trainer.png" alt="Pantalla de inicio sin rol de entrenador"  />
+<p class="caption">
+Figura 4.3: Pantalla de inicio sin rol de entrenador
+</p>
+</div>
+<p>Si la persona visitando la página no cuenta con una sesión activa, se le invita a ingresar con una cuenta pre-existente o a registrarse.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-home-anonymous"></span>
+<img src="assets/logic/home-anonymous.png" alt="Pantalla de inicio sin sesión"  />
+<p class="caption">
+Figura 4.4: Pantalla de inicio sin sesión
+</p>
+</div>
+</div>
+<div id="entrenamiento" class="section level4">
+<h4><span class="header-section-number">4.1.1.2</span> Entrenamiento</h4>
+<p>La pantalla de <em>Entrenamiento</em> es el núcleo de la web en la cual es posible entrenar el modelo.</p>
+<p>El usuario es presentado con un texto perteneciente al Corpus del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-train"></span>
+<img src="assets/logic/train.png" alt="Pantalla de entrenamiento"  />
+<p class="caption">
+Figura 4.5: Pantalla de entrenamiento
+</p>
+</div>
+<div id="usabilidad" class="section level5">
+<h5><span class="header-section-number">4.1.1.2.1</span> Usabilidad</h5>
+<p>Tuvimos un foco fuerte en la usabilidad del widget ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.</p>
+<div id="llamado-a-acción-y-ayuda" class="section level6">
+<h6><span class="header-section-number">4.1.1.2.1.1</span> Llamado a acción y ayuda</h6>
+<p>Dado que lo primero que ve el usuario es un texto con anotaciones, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el widget de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
+Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-train-help"></span>
+<img src="assets/logic/train-help.png" alt="Ayuda del entrenador"  />
+<p class="caption">
+Figura 4.6: Ayuda del entrenador
+</p>
+</div>
+</div>
+<div id="creación-y-edición-de-entidades" class="section level6">
+<h6><span class="header-section-number">4.1.1.2.1.2</span> Creación y edición de entidades</h6>
+<p>Para la creación de entidades decidimos ofrecer dos maneras: La primera es arrastrando un conjunto de palabras de manera tal de unirlas todas en una única entidad.
+La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de la ubicación de la palabra dentro del texto:</p>
+<ul>
+<li>Si no existen entidades en el texto actual, se le asigna por defecto el tipo <em>MISC</em> y se muestran el resto de los tipos para permitir cambiarlo de ser necesario.</li>
+<li>Si existen entidades antes o después, se ofrece la opción de unir la palabra actual con la entidada más próxima para el lado elegido.</li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:logic-train-popup"></span>
+<img src="assets/logic/train-popup.png" alt="Edición de entidad"  />
+<p class="caption">
+Figura 4.7: Edición de entidad
+</p>
+</div>
+<p>Para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
+Si el modelo infirió una entidad de manera incorrecta, ya sea por que sea una entidad inválida o agregó palabras de más a una entidad inválida, permitimos que el usuario remueva la entidad y que después vuelva a agregar la entidad correcta.</p>
+</div>
+<div id="optimización-en-tiempos-de-carga" class="section level6">
+<h6><span class="header-section-number">4.1.1.2.1.3</span> Optimización en tiempos de carga</h6>
+<p>Dado que es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario una experiencia completamente fluida.</p>
+</div>
+</div>
+</div>
+<div id="administración-de-usuarios" class="section level4">
+<h4><span class="header-section-number">4.1.1.3</span> Administración de usuarios</h4>
+<p>La pantalla de <em>Administración de usuarios</em> permite a los usuarios con el rol de administrador poder modificar los roles de todos los usuarios del sistema, borrarlos o acceder a los detalles del usuario, tal como la lista de textos entrenados.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-user-list"></span>
+<img src="assets/logic/user-list.png" alt="Administración de usuarios"  />
+<p class="caption">
+Figura 4.8: Administración de usuarios
+</p>
+</div>
+</div>
+<div id="detalles-de-usuario" class="section level4">
+<h4><span class="header-section-number">4.1.1.4</span> Detalles de usuario</h4>
+<p>La pantalla de detalle de usuario permite al usuario con sesión activa ver sus entrenamientos y cambiar su contraseña.</p>
+<p>Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero a otros usuarios.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-user-profile"></span>
+<img src="assets/logic/user-profile.png" alt="Perfil de usuario"  />
+<p class="caption">
+Figura 4.9: Perfil de usuario
+</p>
+</div>
+</div>
+<div id="corpus" class="section level4">
+<h4><span class="header-section-number">4.1.1.5</span> Corpus</h4>
+<p>La pantalla de <em>Corpus</em> permite a un usuario con el rol de administrador realizar tareas relacionadas con el corpus del sistema.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-corpus-management"></span>
+<img src="assets/logic/corpus-management.png" alt="Administración de corpus"  />
+<p class="caption">
+Figura 4.10: Administración de corpus
+</p>
+</div>
+<p>Desde aquí es posible agregar textos al corpus utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión <em>.txt</em> y cada línea del archivo será agregada al corpus como un texto individual.</p>
+<p>También es posible desde aquí ver todos los textos que forman parte del corpus así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del corpus así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.</p>
+</div>
+<div id="estado" class="section level4">
+<h4><span class="header-section-number">4.1.1.6</span> Estado</h4>
+<p>La pantalla de <em>Estado</em> permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del corpus así como también realizar diversas acciones sobre los <em>workers</em>.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-status"></span>
+<img src="assets/logic/status.png" alt="Información de corpus y manejo de workers"  />
+<p class="caption">
+Figura 4.11: Información de corpus y manejo de workers
+</p>
+</div>
+<div id="secciones" class="section level5">
+<h5><span class="header-section-number">4.1.1.6.1</span> Secciones</h5>
+<div id="corpus-1" class="section level6">
+<h6><span class="header-section-number">4.1.1.6.1.1</span> Corpus</h6>
+<p>Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el corpus contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de <em>Corpus</em>.</p>
+</div>
+<div id="crear-snapshot" class="section level6">
+<h6><span class="header-section-number">4.1.1.6.1.2</span> Crear snapshot</h6>
+<p>Es la sección en la cual será posible crear, borrar o modificar los tipos de entidades reconocidos por el snapshot actual. La acción de editar las entidades genera un snapshot nuevo.</p>
+<p>Si el administrador así lo quisiera, puede utilizar esta sección para crear un snapshot nuevo sin editar entidades.</p>
+</div>
+<div id="snapshots" class="section level6">
+<h6><span class="header-section-number">4.1.1.6.1.3</span> Snapshots</h6>
+<p>Sección en la cual podemos ver la lista completa de snapshots.
+Para cada Snapshot, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.</p>
+</div>
+<div id="reasignar-trabajador" class="section level6">
+<h6><span class="header-section-number">4.1.1.6.1.4</span> Reasignar trabajador</h6>
+<p>Sección que permite reasignar trabajadores para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar distintas pruebas sobre los mismos.</p>
+</div>
+</div>
+</div>
+<div id="sandbox" class="section level4">
+<h4><span class="header-section-number">4.1.1.7</span> Sandbox</h4>
+<p>La pantalla de <em>Sandbox</em> permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
+Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al corpus.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-sandbox"></span>
+<img src="assets/logic/sandbox.png" alt="Inferencia de entidades en sandbox"  />
+<p class="caption">
+Figura 4.12: Inferencia de entidades en sandbox
+</p>
+</div>
+</div>
+<div id="comparar" class="section level4">
+<h4><span class="header-section-number">4.1.1.8</span> Comparar</h4>
+<p>Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-compare"></span>
+<img src="assets/logic/compare.png" alt="Comparativa de modelos"  />
+<p class="caption">
+Figura 4.13: Comparativa de modelos
+</p>
+</div>
+</div>
+</div>
 <div id="servicio" class="section level3">
-<h3><span class="header-section-number">4.1.1</span> Servicio</h3>
+<h3><span class="header-section-number">4.1.2</span> Servicio</h3>
 <p>El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI. A continuación detallamos los endpoints.</p>
 <div id="autenticación" class="section level4">
-<h4><span class="header-section-number">4.1.1.1</span> Autenticación</h4>
+<h4><span class="header-section-number">4.1.2.1</span> Autenticación</h4>
 <p>Rutas del API dedicadas a la autenticación de usuarios.</p>
 <ul>
 <li><strong>POST</strong> <em>/api/auth/register</em>
@@ -269,7 +430,7 @@ Figura 4.1: Ilustración de arquitectura 4+1
 </ul>
 </div>
 <div id="usuarios" class="section level4">
-<h4><span class="header-section-number">4.1.1.2</span> Usuarios</h4>
+<h4><span class="header-section-number">4.1.2.2</span> Usuarios</h4>
 <p>Conjunto de operaciones relacionadas con los usuarios del sistema.</p>
 <ul>
 <li><strong>GET</strong> <em>/api/users</em>
@@ -313,7 +474,7 @@ Figura 4.1: Ilustración de arquitectura 4+1
 </ul>
 </div>
 <div id="roles" class="section level4">
-<h4><span class="header-section-number">4.1.1.3</span> Roles</h4>
+<h4><span class="header-section-number">4.1.2.3</span> Roles</h4>
 <ul>
 <li><strong>GET</strong> <em>/api/roles</em>
 <ul>
@@ -321,8 +482,8 @@ Figura 4.1: Ilustración de arquitectura 4+1
 </ul></li>
 </ul>
 </div>
-<div id="corpus" class="section level4">
-<h4><span class="header-section-number">4.1.1.4</span> Corpus</h4>
+<div id="corpus-2" class="section level4">
+<h4><span class="header-section-number">4.1.2.4</span> Corpus</h4>
 <p>Rutas dedicadas a operaciones con el corpus del sistema.</p>
 <ul>
 <li><strong>GET</strong> <em>/api/corpus/{text_id}</em>
@@ -358,8 +519,8 @@ Figura 4.1: Ilustración de arquitectura 4+1
 </ul></li>
 </ul>
 </div>
-<div id="snapshots" class="section level4">
-<h4><span class="header-section-number">4.1.1.5</span> Snapshots</h4>
+<div id="snapshots-1" class="section level4">
+<h4><span class="header-section-number">4.1.2.5</span> Snapshots</h4>
 <p>Conjunto de operaciones relacionadas con los snapshots y workers.</p>
 <ul>
 <li><strong>GET</strong> <em>/api/snapshots</em>
@@ -394,7 +555,7 @@ Figura 4.1: Ilustración de arquitectura 4+1
 </ul>
 </div>
 <div id="reconocimiento-de-entidades-nombradas" class="section level4">
-<h4><span class="header-section-number">4.1.1.6</span> Reconocimiento de Entidades Nombradas</h4>
+<h4><span class="header-section-number">4.1.2.6</span> Reconocimiento de Entidades Nombradas</h4>
 <p>Conjunto de operaciones relacionadas al <em>Reconocimiento de Entidades Nombradas</em></p>
 <ul>
 <li><strong>GET</strong> <em>/api/ner/train</em>
@@ -425,7 +586,7 @@ Figura 4.1: Ilustración de arquitectura 4+1
 </ul>
 </div>
 <div id="entrenamientos" class="section level4">
-<h4><span class="header-section-number">4.1.1.7</span> Entrenamientos</h4>
+<h4><span class="header-section-number">4.1.2.7</span> Entrenamientos</h4>
 <ul>
 <li><strong>DELETE</strong> <em>/api/trainings/{training_id}</em>
 <ul>
@@ -434,7 +595,7 @@ Figura 4.1: Ilustración de arquitectura 4+1
 </ul>
 </div>
 <div id="workers" class="section level4">
-<h4><span class="header-section-number">4.1.1.8</span> Workers</h4>
+<h4><span class="header-section-number">4.1.2.8</span> Workers</h4>
 <ul>
 <li><strong>GET</strong> <em>/api/workers/</em>
 <ul>
@@ -445,167 +606,6 @@ Figura 4.1: Ilustración de arquitectura 4+1
 <li>Reasigna un trabajador de un a versión de snapshot a otra</li>
 </ul></li>
 </ul>
-</div>
-</div>
-<div id="web" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> Web</h3>
-<p>La página web de <em>NERd</em> está enfocada en las tareas de mantenimiento de los servicios ofrecidos por el <em>API</em> así como también ofrece de interfaces que permiten a usuarios del sistema corregir de manera eficiente el modelo de inferencia.</p>
-<div id="inicio" class="section level4">
-<h4><span class="header-section-number">4.1.2.1</span> Inicio</h4>
-<p>Pantalla de inicio donde se encuentran accesos rápidos para entrenar el modelo o para poder buscar entidades en textos.
-También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-home"></span>
-<img src="assets/logic/home-logged-all.png" alt="Pantalla de inicio con usuario logueado"  />
-<p class="caption">
-Figura 4.2: Pantalla de inicio con usuario logueado
-</p>
-</div>
-<p>Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-home-logged-nontrainer"></span>
-<img src="assets/logic/home-logged-not_trainer.png" alt="Pantalla de inicio sin rol de entrenador"  />
-<p class="caption">
-Figura 4.3: Pantalla de inicio sin rol de entrenador
-</p>
-</div>
-<p>Si la persona visitando la página no cuenta con una sesión activa, se le invita a ingresar con una cuenta pre-existente o a registrarse.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-home-anonymous"></span>
-<img src="assets/logic/home-anonymous.png" alt="Pantalla de inicio sin sesión"  />
-<p class="caption">
-Figura 4.4: Pantalla de inicio sin sesión
-</p>
-</div>
-</div>
-<div id="entrenamiento" class="section level4">
-<h4><span class="header-section-number">4.1.2.2</span> Entrenamiento</h4>
-<p>La pantalla de <em>Entrenamiento</em> es el núcleo de la web en la cual es posible entrenar el modelo.</p>
-<p>El usuario es presentado con un texto perteneciente al Corpus del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-train"></span>
-<img src="assets/logic/train.png" alt="Pantalla de entrenamiento"  />
-<p class="caption">
-Figura 4.5: Pantalla de entrenamiento
-</p>
-</div>
-<div id="usabilidad" class="section level5">
-<h5><span class="header-section-number">4.1.2.2.1</span> Usabilidad</h5>
-<p>Tuvimos un foco fuerte en la usabilidad del widget ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.</p>
-<div id="llamado-a-acción-y-ayuda" class="section level6">
-<h6><span class="header-section-number">4.1.2.2.1.1</span> Llamado a acción y ayuda</h6>
-<p>Dado que lo primero que ve el usuario es un texto con anotaciones, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el widget de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
-Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-train-help"></span>
-<img src="assets/logic/train-help.png" alt="Ayuda del entrenador"  />
-<p class="caption">
-Figura 4.6: Ayuda del entrenador
-</p>
-</div>
-</div>
-<div id="creación-y-edición-de-entidades" class="section level6">
-<h6><span class="header-section-number">4.1.2.2.1.2</span> Creación y edición de entidades</h6>
-<p>Para la creación de entidades decidimos ofrecer dos maneras: La primera es arrastrando un conjunto de palabras de manera tal de unirlas todas en una única entidad.
-La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de la ubicación de la palabra dentro del texto:</p>
-<ul>
-<li>Si no existen entidades en el texto actual, se le asigna por defecto el tipo <em>MISC</em> y se muestran el resto de los tipos para permitir cambiarlo de ser necesario.</li>
-<li>Si existen entidades antes o después, se ofrece la opción de unir la palabra actual con la entidada más próxima para el lado elegido.</li>
-</ul>
-<div class="figure" style="text-align: center"><span id="fig:logic-train-popup"></span>
-<img src="assets/logic/train-popup.png" alt="Edición de entidad"  />
-<p class="caption">
-Figura 4.7: Edición de entidad
-</p>
-</div>
-<p>Para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
-Si el modelo infirió una entidad de manera incorrecta, ya sea por que sea una entidad inválida o agregó palabras de más a una entidad inválida, permitimos que el usuario remueva la entidad y que después vuelva a agregar la entidad correcta.</p>
-</div>
-<div id="optimización-en-tiempos-de-carga" class="section level6">
-<h6><span class="header-section-number">4.1.2.2.1.3</span> Optimización en tiempos de carga</h6>
-<p>Dado que es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario una experiencia completamente fluida.</p>
-</div>
-</div>
-</div>
-<div id="administración-de-usuarios" class="section level4">
-<h4><span class="header-section-number">4.1.2.3</span> Administración de usuarios</h4>
-<p>La pantalla de <em>Administración de usuarios</em> permite a los usuarios con el rol de administrador poder modificar los roles de todos los usuarios del sistema, borrarlos o acceder a los detalles del usuario, tal como la lista de textos entrenados.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-user-list"></span>
-<img src="assets/logic/user-list.png" alt="Administración de usuarios"  />
-<p class="caption">
-Figura 4.8: Administración de usuarios
-</p>
-</div>
-</div>
-<div id="detalles-de-usuario" class="section level4">
-<h4><span class="header-section-number">4.1.2.4</span> Detalles de usuario</h4>
-<p>La pantalla de detalle de usuario permite al usuario con sesión activa ver sus entrenamientos y cambiar su contraseña.</p>
-<p>Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero a otros usuarios.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-user-profile"></span>
-<img src="assets/logic/user-profile.png" alt="Perfil de usuario"  />
-<p class="caption">
-Figura 4.9: Perfil de usuario
-</p>
-</div>
-</div>
-<div id="corpus-1" class="section level4">
-<h4><span class="header-section-number">4.1.2.5</span> Corpus</h4>
-<p>La pantalla de <em>Corpus</em> permite a un usuario con el rol de administrador realizar tareas relacionadas con el corpus del sistema.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-corpus-management"></span>
-<img src="assets/logic/corpus-management.png" alt="Administración de corpus"  />
-<p class="caption">
-Figura 4.10: Administración de corpus
-</p>
-</div>
-<p>Desde aquí es posible agregar textos al corpus utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión <em>.txt</em> y cada línea del archivo será agregada al corpus como un texto individual.</p>
-<p>También es posible desde aquí ver todos los textos que forman parte del corpus así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del corpus así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.</p>
-</div>
-<div id="estado" class="section level4">
-<h4><span class="header-section-number">4.1.2.6</span> Estado</h4>
-<p>La pantalla de <em>Estado</em> permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del corpus así como también realizar diversas acciones sobre los <em>workers</em>.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-status"></span>
-<img src="assets/logic/status.png" alt="Información de corpus y manejo de workers"  />
-<p class="caption">
-Figura 4.11: Información de corpus y manejo de workers
-</p>
-</div>
-<div id="secciones" class="section level5">
-<h5><span class="header-section-number">4.1.2.6.1</span> Secciones</h5>
-<div id="corpus-2" class="section level6">
-<h6><span class="header-section-number">4.1.2.6.1.1</span> Corpus</h6>
-<p>Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el corpus contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de <em>Corpus</em>.</p>
-</div>
-<div id="crear-snapshot" class="section level6">
-<h6><span class="header-section-number">4.1.2.6.1.2</span> Crear snapshot</h6>
-<p>Es la sección en la cual será posible crear, borrar o modificar los tipos de entidades reconocidos por el snapshot actual. La acción de editar las entidades genera un snapshot nuevo.</p>
-<p>Si el administrador así lo quisiera, puede utilizar esta sección para crear un snapshot nuevo sin editar entidades.</p>
-</div>
-<div id="snapshots-1" class="section level6">
-<h6><span class="header-section-number">4.1.2.6.1.3</span> Snapshots</h6>
-<p>Sección en la cual podemos ver la lista completa de snapshots.
-Para cada Snapshot, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.</p>
-</div>
-<div id="reasignar-trabajador" class="section level6">
-<h6><span class="header-section-number">4.1.2.6.1.4</span> Reasignar trabajador</h6>
-<p>Sección que permite reasignar trabajadores para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar distintas pruebas sobre los mismos.</p>
-</div>
-</div>
-</div>
-<div id="sandbox" class="section level4">
-<h4><span class="header-section-number">4.1.2.7</span> Sandbox</h4>
-<p>La pantalla de <em>Sandbox</em> permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
-Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al corpus.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-sandbox"></span>
-<img src="assets/logic/sandbox.png" alt="Inferencia de entidades en sandbox"  />
-<p class="caption">
-Figura 4.12: Inferencia de entidades en sandbox
-</p>
-</div>
-</div>
-<div id="comparar" class="section level4">
-<h4><span class="header-section-number">4.1.2.8</span> Comparar</h4>
-<p>Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual.</p>
-<div class="figure" style="text-align: center"><span id="fig:logic-compare"></span>
-<img src="assets/logic/compare.png" alt="Comparativa de modelos"  />
-<p class="caption">
-Figura 4.13: Comparativa de modelos
-</p>
-</div>
 </div>
 </div>
 </div>
@@ -712,8 +712,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-06fde13c57b74ddd4a14" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-06fde13c57b74ddd4a14">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-6bbb09601222efef72b6" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6bbb09601222efef72b6">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
