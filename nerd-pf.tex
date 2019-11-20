@@ -182,6 +182,8 @@
 }
 \makeatother
 
+% \setlength{\parindent}{48pt} % Left margin on paragraphs
+
 \begin{document}
 \maketitle
 
@@ -191,38 +193,354 @@
 }
 \newpage
 
-\hypertarget{abstract}{%
-\section*{\texorpdfstring{\emph{Abstract}}{Abstract}}\label{abstract}}
-\addcontentsline{toc}{section}{\emph{Abstract}}
-
-\begin{quote}
-TODO: escribir abstract
-\end{quote}
+\newpage
 
 \hypertarget{intro}{%
 \section{Introducción}\label{intro}}
 
+El \textbf{Reconocimiento de Entidades Nombradas} (\emph{NER}) es una subtarea de extracción de información que busca ubicar las menciones de \textbf{entidades nombradas} en textos no estructurados. Estas entidades son luego clasificadas en categorías predefinidas como los nombres de personas, organizaciones, ubicaciones, expresiones de tiempo, cantidades, valores monetarios, porcentajes, entre otras.
+
+Por ejemplo en el siguiente texto:
+
+\begin{quote}
+Este es el proyecto final de carrera de los alumnos Gómez y Orsay para el Instituto Tecnológico de Buenos Aires.
+\end{quote}
+
+Se pueden detectar 3 entidades:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Gómez}: Persona
+\item
+  \textbf{Orsay}: Persona
+\item
+  \textbf{Instituto Tecnológico de Buenos Aires}: Organización
+\end{itemize}
+
+El estado-del-arte de los sistemas \emph{NER} producen un rendimiento casi humano(Marsh \& Perzanowski, \protect\hyperlink{ref-marsh-perzanowski-1998-muc}{1998}) (cercanos al 95\% de \emph{valor-F}).
+
+A pesar de estos altos valores de rendimiento, la industria tiene dificultades para poder capitalizar la efectividad de dichas sistemas y algoritmos.
+Es por ello que en este trabajo final hemos tomado la decisión de implementar una plataforma Open Source para revertir esta situación.
+
+\newpage
+
+\hypertarget{problem-definition}{%
+\section{Definición del problema}\label{problem-definition}}
+
+\hypertarget{conceptos-buxe1sicos}{%
+\subsection{Conceptos básicos}\label{conceptos-buxe1sicos}}
+
+\hypertarget{entidad-nombrada}{%
+\subsubsection{Entidad nombrada}\label{entidad-nombrada}}
+
+En \emph{extracción de información}, una \emph{entidad nombrada} es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son \enquote{Mauricio Macri}, \enquote{Ciudad Autónoma de Buenos Aires}, \enquote{Apple Macbook}.
+También se suele definir sencillamente como aquellas entidades que se pueden ver como instancias de entidad (por ejemplo, la Ciudad Autónoma de Buenos Aires es una instancia de una ciudad).
+
+\hypertarget{definiciuxf3n-formal}{%
+\paragraph{Definición formal}\label{definiciuxf3n-formal}}
+
+Formalmente el concepto de \enquote{entidad nombrada} se deriva de la definición del filósofo estadounidense \textbf{Saul Kripke} de \textbf{designador rígido} (Kripke, \protect\hyperlink{ref-kripke1980naming}{1980}) que forma parte de la lógica modal y filosofía del lenguaje.
+
+\begin{quote}
+Un designador rígido designa a una misma entidad en todos los mundos posibles en los que esa entidad existe, y no designa nada en aquellos mundos en los que no existe.
+\end{quote}
+
+Algunos ejemplos de designadores rígidos son:
+
+\begin{itemize}
+\tightlist
+\item
+  Nombres propios como \enquote{Saul Kripke}, \enquote{Júpiter}, \enquote{Londres}, \enquote{4} y \enquote{Hércules}.
+\item
+  Descripciones definidas matemáticas como \enquote{la raíz cuadrada de 4} y \enquote{8 - 2}.
+\item
+  Nombres de clases naturales como \enquote{agua} y \enquote{bronce}.
+\item
+  Nombres de sensaciones como \enquote{dolor} y \enquote{alegría}.
+\end{itemize}
+
+Por el contrario, los \textbf{designadores flácidos} pueden designar diferentes cosas en diferentes mundos posibles y \textbf{no} son \emph{entidades nombradas}.
+
+Por ejemplo en la oración: \enquote{Mauricio Macri es el presidente de Argentina}:
+
+\begin{itemize}
+\tightlist
+\item
+  \enquote{Mauricio Macri} y \enquote{Argentina} son \emph{entidades nombradas}, ya que se refieren a objetos específicos.
+\item
+  \enquote{presidente} y \enquote{presidente de Argentina} no son \emph{entidades nombradas}, ya que pueden usarse para referirse a muchos objetos diferentes en mundos diferentes:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \enquote{presidente} puede ser de diferentes países u organizaciones que se refieren a diferentes personas.
+  \item
+    \enquote{presidente de Argentina}, si bien hace referencia a un mismo pais, puede ser de diferentes períodos presidenciales que se refieren a diferentes personas.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{definiciuxf3n-no-estricta}{%
+\paragraph{Definición no estricta}\label{definiciuxf3n-no-estricta}}
+
+Existe un acuerdo general en la comunidad \emph{NER} para considerar como entidades nombradas a otro tipos de entidades que violan el principio de designador rígido. Ejemplos de esto son:
+
+\begin{itemize}
+\tightlist
+\item
+  expresiones temporales como \enquote{3 de febrero}, \enquote{2019}.
+\item
+  expresiones numéricas, como cantidades de dinero y otros tipos de unidades
+\item
+  expresiones que según contexto denotan una entidad rígida pero no en sí mismas. Por ejemplo \enquote{Alfredo Fortabat, empresario argentino, fundador de la compañía cementera Loma Negra.} puede ser considerada una entidad nombrada, sin embargo, el término \enquote{Fortabat} por si sólo podría referirse a su viuda \enquote{María Amalia Lacroze de Fortabat}, al museo de arte \enquote{Museo Fortabat} o a la localidad Argentina \enquote{Villa Alfredo Fortabat}.
+\end{itemize}
+
+En este trabajo hemos priorizado esta definición laxa para tener una mayor expresividad en los tipos de entidades que vamos a detectar. Por lo tanto, en adelante, la definición del término \enquote{entidad nombrada} será utilizada bajo una definición no estricta.
+
+\hypertarget{reconocimiento-de-entidades}{%
+\subsubsection{Reconocimiento de entidades}\label{reconocimiento-de-entidades}}
+
+El Reconocimiento de entidades nombradas a menudo se divide en dos problemas distintos:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Detección de nombres
+\item
+  Clasificación de los nombres según el tipo de entidad al que hacen referencia a (persona, organización, ubicación y otro)
+\end{enumerate}
+
+En la primera fase los nombres se definen como tramos contiguos de tokens, sin anidamiento, de modo que \enquote{Instituto Tecnológico de Buenos Aires} es una entidad única, sin tener en cuenta el hecho de que dentro de esta, la subcadena \enquote{Buenos Aires} es en sí otra entidad.
+
+Esta forma de definir el problema, lo reduce a un problema de segmentación.
+
+La segunda fase requiere elegir una ontología para organizar categorías de cosas.
+
+\hypertarget{dificultades-para-encontrar-mejores-algoritmos}{%
+\paragraph{Dificultades para encontrar mejores algoritmos}\label{dificultades-para-encontrar-mejores-algoritmos}}
+
+El estado del arte de \texttt{NER} desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta (Honnibal, \protect\hyperlink{ref-honnibal_NER}{2017}). En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la siguiente figura:
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/state-of-the-art_difficulties.pdf} 
+
+}
+
+\caption{Principales avances del estado del arte para NER en los últimos años}\label{fig:spacy-algos}
+\end{figure}
+
+Las razones por las cuales esto ocurre escapa el alcance de este trabajo pero se pueden resumir bajo la ley de los rendimientos decrecientes. Se necesita mucho esfuerzo académico para obtener una mejora marginal en el estado del arte actual.
+
+Es por esto que resulta interesante analizar que otro tipo de problemas podemos atacar en este trabajo.
+
+\hypertarget{dominios-del-problema}{%
+\paragraph{Dominios del problema}\label{dominios-del-problema}}
+
+Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura @ref(({\textbf{???}})) coinciden; incluso los sistemas NER más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios (Poibeau \& Kosseim, \protect\hyperlink{ref-Poibeau2000ProperNE}{2000}). La puesta a punto de un sistema NER para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.
+
+Se entiende por dominio a todos los textos que en su conjunto forman un corpus común. Ejemplos de estos son \enquote{Noticias periodísticas}, \enquote{Textos jurídicos}, \enquote{Reportes militares}, \enquote{Papers académicos}, etc.
+
+\hypertarget{los-datos-son-el-problema}{%
+\subsection{Los datos son el problema}\label{los-datos-son-el-problema}}
+
+Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la IA es el la captura de datos, no los algoritmos (Montani, \protect\hyperlink{ref-montani_AI}{2016}).
+
+En particular para el estado actual del arte de \texttt{NER} es necesario tener el cuerpo de textos a analizar (Corpus) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.
+
+Este aprendizaje se carga en lo que se reconoce como un \enquote{Modelo estadístico} y es a ese model al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas / librerias / frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
+
+De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo)
+
+\begin{quote}
+Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas
+\end{quote}
+
+Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier corpus de documentos que posea una cantidad necesaria de datos.
+
+\newpage
+
 \hypertarget{state-of-art}{%
 \section{Estado del arte}\label{state-of-art}}
 
-\hypertarget{el-naive-approach}{%
-\subsection{\texorpdfstring{El \enquote{naive approach}}{El ``naive approach''}}\label{el-naive-approach}}
+El análisis del estado del arte fue basado en la definición del problema.
 
-tagueo con expresiones regulares\ldots{}
+\hypertarget{stack-de-software}{%
+\subsection{Stack de software}\label{stack-de-software}}
 
-\hypertarget{redes-neuronales-y-modelos-estaduxedsticos}{%
-\subsection{Redes neuronales y modelos estadísticos}\label{redes-neuronales-y-modelos-estaduxedsticos}}
+Python es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial NLP (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019})
+
+Spacy es el framework mejor ranqueado para la tarea de NLP (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019}) y sabemos por la Figura @ref(({\textbf{???}})) que obtiene resultados a-la-par del estado del arte actual.
+
+Además la implementación de spacy es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de NLP que sólo se utilizan con fines académicos.
+
+\hypertarget{el-pipeline}{%
+\subsection{El pipeline}\label{el-pipeline}}
+
+Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados, tienen como primer paso el de separar el los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el \enquote{pipeline de procesamiento}. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de NER.
+
+Cada componente del pipeline devuelve el Doc procesado, que luego se pasa al siguiente componente.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/spacy_pipeline.pdf} 
+
+}
+
+\caption{Pipeline standard para los algoritmos de NER}\label{fig:spacy-pipeline}
+\end{figure}
+
+En este capítulo esturiaremos la morfología de dicho pipeline.
+
+\hypertarget{algoritmo-de-tokenizaciuxf3n}{%
+\subsection{Algoritmo de tokenización}\label{algoritmo-de-tokenizaciuxf3n}}
+
+Para tokenizar un texto de manera correcta no basta con separar el mismo en espacios. Dependiendo el lenguaje que se esté estudiando, existen \enquote{excepciones} a esta regla y otros caracteres que representan separaciones entre tokens segun el contexto de los mismos.
+
+En particular, spaCy posee algoritmo de tokenización inteligente que puede ser resumido de la siguiente manera:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Iterar sobre subcadenas separadas por espacios en blanco.
+\item
+  Compruebar si existe una regla definida explícitamente para esta subcadena. Si existe, usarla.
+\item
+  De lo contrario, intentar consumir un prefijo. Si consumimos un prefijo, regrese al punto\#2, para que los casos especiales siempre tengan prioridad.
+\item
+  Si no se puede consumir un prefijo, intente consumir un sufijo y luego regrese al punto \#2.
+\item
+  Si no se puede consumir un prefijo ni un sufijo, buscar un caso especial.
+\item
+  Buscar una coincidencia de token
+\item
+  Buscar \enquote{infijos} - cosas como guiones, etc. y dividir la subcadena en tokens en todos los infijos.
+\item
+  Una vez que no se pueda consumir más de la cadena, tratarla como un token único.
+\end{enumerate}
+
+Ejemplo:
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/spacy_tokenization.pdf} 
+
+}
+
+\caption{Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.}\label{fig:spacy-tokenization}
+\end{figure}
+
+\hypertarget{reconocimiento-de-entidades-1}{%
+\subsection{Reconocimiento de entidades}\label{reconocimiento-de-entidades-1}}
+
+\hypertarget{modelos-basados-en-reglas}{%
+\subsubsection{Modelos basados en reglas}\label{modelos-basados-en-reglas}}
+
+Antes de entrar en detalles de cómo trabaja el modelo estadístico de spacy y entender sus fortalezas es importante esbozar brevemente el grupo de algorítmos más \enquote{naive} posible. El de los modelos basados en reglas fijas.
+
+En estos modelos se implementan reglas finitas o expresiones regulares para la detección de las entidades. Las principales limitaciones de este enfoque son:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mucho trabajo manua}l: el sistema RB exige un profundo conocimiento del dominio, así como mucho trabajo manual.
+\item
+  \textbf{Consumo de tiempo}: la generación de reglas para un sistema complejo es bastante difícil y requiere mucho tiempo.
+\item
+  \textbf{Menor capacidad de aprendizaje}: el sistema generará el resultado según las reglas, por lo que la capacidad de aprendizaje del sistema por sí mismo es baja.
+\item
+  \textbf{Dominios complejos}: si el corpus demasiado complejo, la creación del sistema RB puede llevar mucho tiempo y análisis. La identificación de patrones complejos es una tarea desafiante en el enfoque RB.
+\end{itemize}
+
+\hypertarget{el-enfoque-de-spacy}{%
+\subsubsection{El enfoque de spaCy}\label{el-enfoque-de-spacy}}
+
+Cuando se busca mejorar el aprendizaje automático, generalmente se piensa en la eficiencia y la precisión, pero la dimensión más importante es la generalidad.
+
+La mayoría de los problemas de \texttt{NLP} pueden reducirse a problemas de aprendizaje automático que toman uno o más textos como entrada. Si podemos transformar estos textos en vectores, podemos reutilizar soluciones de aprendizaje profundo (\emph{deep-learning}) de propósito general.
+
+\hypertarget{muxe1quina-de-estados}{%
+\paragraph{Máquina de estados}\label{muxe1quina-de-estados}}
+
+Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte utilizando un autómata finito determinístico de pila en conjunción con una red neuronal (Lample, Ballesteros, Subramanian, Kawakami, \& Dyer, \protect\hyperlink{ref-DBLP:journalsux2fcorrux2fLampleBSKD16}{2016})
+
+Este autómata de pila es el nexo entre la Red Neuronal Convolucional (CNN) que contiene el modelo estadístico para predecir entidades y el texto completo. No se envía el texto entero como input a dicha red, sino que se van enviando cada uno de los estados en los que el autómata de pila se mueve para ir generando entidades con una herística del tipo \emph{greedy}.
+
+Las posibles acciones de transición de este autómata son las siguientes:
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/lampe_1.pdf} 
+
+}
+
+\caption{Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.}\label{fig:lampe-1}
+\end{figure}
+
+\begin{itemize}
+\tightlist
+\item
+  SHIFT: consume una token del input y al mueve al stack para generar una nueva entidad.
+\item
+  REDUCE: mueve el stack actual al output tagueado como entity.
+\item
+  OUT: consume una token del input y la mueve sl output directamente.
+\end{itemize}
+
+Para saber que acción tomar se consulta el modelo estadístico.En la siguiente figura se puede ver un ejemplo de cómo se recorre una oración bajo el stack propuesto:
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/lampe_2.pdf} 
+
+}
+
+\caption{Secuencia de tranciciones para el ejemplo "Mark Watney visited Mars" en el modelo de Stack-LSTM.}\label{fig:lampe-2}
+\end{figure}
+
+\begin{itemize}
+\tightlist
+\item
+  Primero se empieza con un stack vacío.
+\item
+  Se consume \enquote{Mark} y la CNN predice que es una posible Persona. Lo envia al stack.
+\item
+  Se consume \enquote{Watney} y la CNN predice que es una posible continuación de Persona. Lo envia al stack.
+\item
+  Se consume \enquote{visited} y la CNN predice que esto no forma parte de una entidad. Por lo tanto antes se REDUCE la entidad \enquote{Mark Watney} del stack actual.
+\item
+  Análogamente se detecta la entidad \enquote{Mars}
+\end{itemize}
+
+\hypertarget{el-modelo-estaduxedstico-deep-learning}{%
+\subsection{\texorpdfstring{El modelo estadístico \enquote{deep-learning}}{El modelo estadístico ``deep-learning''}}\label{el-modelo-estaduxedstico-deep-learning}}
+
+El modelo de deep learning elegido para trabajar es el de spaCy. Consiste en una Red Neuronal convolucional que predice las entidades.
 
 Redes neuronales convolucionales
 \url{https://es.wikipedia.org/wiki/Redes_neuronales_convolucionales}
 
-\hypertarget{la-formula-para-deep-learning}{%
-\subsection{\texorpdfstring{La formula para \enquote{deep-learning}}{La formula para ``deep-learning''}}\label{la-formula-para-deep-learning}}
+Para entender cómo funciona dicha red neuronal, se puede definir el proceso en 4 etapas que transforman la información entre diferentes estados
 
-articulo spacy
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/deep-learning-formula-nlp_shapes.pdf} 
+
+}
+
+\caption{Estados posibles para las diferentes etapas de la CNN}\label{fig:formula-shapes}
+\end{figure}
 
 \hypertarget{embed}{%
 \subsubsection{embed}\label{embed}}
+
+\begin{quote}
+Problema: \enquote{todas las palabras sin iguales para la computadora}
+\end{quote}
+
+La idea de \emph{word embeddings} es la de \enquote{embeber} el conjunto de tokens que componen términos con información adicional.
 
 \begin{figure}[H]
 
@@ -271,6 +589,15 @@ articulo spacy
 
 Here is a review of existing methods.
 
+\hypertarget{subword-features}{%
+\subsection{Subword features}\label{subword-features}}
+
+Yes, spaCy's NER (and other models) uses subword features, although it doesn't use a character-based CNN to extract them. Instead, the word vectors are learned by concatenating embeddings of NORM, PREFIX, SUFFIX and SHAPE lexical attributes. A hidden layer is then used to allow a non-linear combination of the information in these concatenated vectors. The function for this can be found in spacy.\_ml.Tok2Vec.
+
+The best reference for this embedding strategy is currently the NER algorithm video: \url{https://www.youtube.com/watch?v=sqDHBH9IjRU}
+
+To add to ({\textbf{???}})'s comment above, there's also a section in the API docs that describes the neural network model architecture in more detail: \url{https://spacy.io/api/\#nn-model}
+
 \hypertarget{statistical-entity-recognition-model}{%
 \subsection{statistical entity recognition model}\label{statistical-entity-recognition-model}}
 
@@ -293,16 +620,9 @@ Here is a review of existing methods.
 \url{https://www.youtube.com/watch?v=sqDHBH9IjRU}
 SPACY'S ENTITY RECOGNITION MODEL: incremental parsing with Bloom embeddings \& residual CNNs
 
-\url{https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf}
 \url{https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf}
 
-\hypertarget{problem-definition}{%
-\section{Definición del problema}\label{problem-definition}}
-
-El bottleneck en AI es la data, no los algoritmos.
-quote de: \url{https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf}
-
-\url{https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf}
+\newpage
 
 \hypertarget{implementation}{%
 \section{NERd (Implementación)}\label{implementation}}
@@ -951,11 +1271,6 @@ La vista de desarrollo ilustra un sistema desde la perspectiva de un programador
 Esta vista también se conoce como la vista de implementación.
 \end{quote}
 
-Python es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial NLP (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019})
-
-Spacy es el framework mejor ranqueado para la tarea de NLP (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019}).
-Su implementación es robusta y orientada a la implementción de apliciones en producción, a diferencia de muchas otras librerías de NLP que sólo se utilizan con fines académicos.
-
 \hypertarget{vista-fuxedsica}{%
 \subsection{Vista física}\label{vista-fuxedsica}}
 
@@ -976,8 +1291,64 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.
 \end{quote}
 
+\newpage
+
 \hypertarget{results}{%
 \section{Resultados}\label{results}}
+
+Matriz de confusión -\textgreater{} dos indicadores!
+true possitive vs true negative
+Credibility: evaluation whats been leaerned.
+
+\hypertarget{muxe9trica-precisiuxf3n-y-exhaustividad}{%
+\subsection{Métrica: precisión y exhaustividad}\label{muxe9trica-precisiuxf3n-y-exhaustividad}}
+
+(``Precision and recall,'' \protect\hyperlink{ref-wiki_Precision_and_recall}{2019})
+
+\begin{quote}
+TODO: reescribir
+
+En conferencias académicas como CoNLL, se ha definido una variante del {[}{[}valor-F{]}{]} de la siguiente manera:
+
+\begin{itemize}
+\item
+  Precisión es el número de entidades nombradas que coinciden exactamente con conjunto de evaluación. I.e. cuando se predice {[}Persona Hans{]} {[}Persona Blick{]}, pero lo correcto era {[}Person Hans Blick{]}, la precisión es cero. La precisión es después promediada por cada una de la entidades nombradas.
+\item
+  El recobrado es el número de entidades del conjunto de evaluación que aparecen exactamente en la misma posición en las predicciones.
+\item
+  El Valor-F es la media armónica de estos dos valores. Se deriva de la anterior definición que cualquier predicción que reconozca erróneamente un token como parte de una entidad nombrada o que deje de detectar un token que sí es una entidad nombrada o lo clasifique erróneamente no contribuirá ni a la precisión ni al recobrado.
+\end{itemize}
+\end{quote}
+
+=== Evaluación formal ===
+Para evaluar la calidad de la salida de un sistema NER, se han definido varias medidas. Las medidas habituales se llaman
+{[}{[}Precision\_and\_recall \textbar{} Precisión, recuperación{]}{]} y {[}{[}Puntuación F1{]}{]}. Sin embargo, quedan varios problemas sobre cómo calcular esos valores.
+
+Estas medidas estadísticas funcionan razonablemente bien para los casos obvios de encontrar o faltar una entidad real exactamente; y para encontrar una no entidad. Sin embargo, NER puede fallar de muchas otras maneras, muchas de las cuales son posiblemente \enquote{parcialmente correctas}, y no deben considerarse como éxitos o fracasos competitivos. Por ejemplo, identificar una entidad real, pero:
+* con menos tokens de los deseados (por ejemplo, falta el último token de \enquote{John Smith, M.D.})
+* con más tokens de los deseados (por ejemplo, incluyendo la primera palabra de \enquote{The University of MD})
+* particionando entidades adyacentes de manera diferente (por ejemplo, tratando a \enquote{Smith, Jones Robinson} como entidades 2 vs.~3)
+* asignarle un tipo completamente incorrecto (por ejemplo, llamar a un nombre personal a una organización)
+* asignándole un tipo relacionado pero inexacto (por ejemplo, \enquote{sustancia} vs. \enquote{droga}, o \enquote{escuela} vs. \enquote{organización})
+* identificar correctamente una entidad, cuando lo que el usuario quería era una entidad de menor o mayor alcance (por ejemplo, identificar \enquote{James Madison} como un nombre personal, cuando forma parte de la \enquote{Universidad James Madison}. Algunos sistemas NER imponen la restricción que las entidades nunca se superpongan o aniden, lo que significa que en algunos casos uno debe tomar decisiones arbitrarias o específicas de la tarea.
+
+Un método demasiado simple para medir la precisión es simplemente contar qué fracción de todas las fichas en el texto se identificaron correcta o incorrectamente como parte de referencias de entidad (o como entidades del tipo correcto). Esto tiene al menos dos problemas: en primer lugar, la gran mayoría de los tokens en el texto del mundo real no forman parte de los nombres de las entidades, por lo que la precisión de la línea de base (siempre predice \enquote{no una entidad}) es extravagantemente alta, típicamente\textgreater{} 90\%; y segundo, predecir erróneamente el lapso completo del nombre de una entidad no se penaliza adecuadamente (encontrar solo el nombre de una persona cuando le sigue su apellido podría calificarse como ½ precisión).
+
+En conferencias académicas como CoNLL, una variante de la {[}{[}puntuación F1{]}{]} se ha definido de la siguiente manera: \{\{r \textbar{} conll03intro\}\}
+
+\begin{itemize}
+\tightlist
+\item
+  {[}{[}Precisión y recuperación \textbar{} Precisión{]}{]} es el número de intervalos de nombre de entidad pronosticados que se alinean '' exactamente '' con intervalos en los datos de evaluación {[}{[}Verdad fundamental \# Estadísticas y aprendizaje automático \textbar{} estándar de oro{]}{]}. Es decir. cuando se predice {[} Persona Hans{]} {[} Persona Blick{]} pero se requiere {[} Persona Hans Blick{]}, la precisión del nombre predicho es cero. La precisión se promedia sobre todos los nombres de entidad pronosticados.
+\item
+  Recordar es igualmente el número de nombres en el estándar de oro que aparecen exactamente en la misma ubicación en las predicciones.
+\item
+  La puntuación F1 es la {[}{[}media armónica{]}{]} de estos dos.
+\end{itemize}
+
+De la definición anterior se deduce que cualquier predicción que omita un solo token, incluye un token espurio o tiene clase incorrecta, es un error difícil y no contribuye positivamente ni a la precisión ni a la recuperación. Por lo tanto, se puede decir que esta medida es pesimista: puede darse el caso de que muchos \enquote{errores} estén cerca de ser correctos, y podrían ser adecuados para un propósito dado. Por ejemplo, un sistema siempre puede omitir títulos como \enquote{Sra.} o \enquote{Ph.D.}, pero se compara con un sistema o datos de verdad que esperan que se incluyan títulos. En esos casos, cada nombre se trata como un error. Debido a tales problemas, es importante examinar los tipos de errores y decidir qué tan importantes se les dan los objetivos y requisitos.
+
+\newpage
 
 \hypertarget{discussion}{%
 \section{Discusión}\label{discussion}}
@@ -1005,6 +1376,11 @@ Game -> Football, Basket (para "titulos" no tan relevante)
 
 en especial para los nuevos.
 
+\hypertarget{linkeo-de-entidades-con-knowledge-base}{%
+\subsection{Linkeo de entidades con Knowledge Base}\label{linkeo-de-entidades-con-knowledge-base}}
+
+La tarea de reconocer entidades nombradas en el texto es Reconocimiento de entidades nombradas, mientras que la tarea de determinar la identidad de las entidades nombradas mencionadas en el texto se llama Desambiguación de entidades nombradas. Ambas tareas requieren algoritmos y recursos dedicados para ser abordados. {[}3{]}
+
 \hypertarget{mejora-live-vs-offline}{%
 \subsection{Mejora live vs offline}\label{mejora-live-vs-offline}}
 
@@ -1025,6 +1401,8 @@ Participamos en conjunto con otro proyecto final en el que van a utilizar nuestr
 La experiencia fue muy satisfactoria, recibimos buenas críticas sobre la Usabilidad de nuestra aplicación y la gran utilidad que presta a la comunidad.
 
 Por tal motivo recibimos el primer premio de dicha hackaton (``Mención itba,'' \protect\hyperlink{ref-mediaparty2019_win}{2019})
+
+\newpage
 
 \hypertarget{conclusiones}{%
 \section{Conclusiones}\label{conclusiones}}
@@ -1100,6 +1478,8 @@ Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species\\
 
 You can write citations, too. For example, we are using the \textbf{bookdown} package (Xie, \protect\hyperlink{ref-R-bookdown}{2019}) in this sample book, which was built on top of R Markdown and \textbf{knitr} (Xie, \protect\hyperlink{ref-xie2015}{2015}).
 
+\newpage
+
 \hypertarget{refs}{}
 \leavevmode\hypertarget{ref-brunstein2002}{}%
 Brunstein, A. (2002). Annotation guidelines for answer types. Retrieved from \url{https://catalog.ldc.upenn.edu/docs/LDC2005T33/BBN-Types-Subtypes.html}
@@ -1113,11 +1493,32 @@ Ethayarajh, K., Duvenaud, D., \& Hirst, G. (2019). Towards understanding linear 
 \leavevmode\hypertarget{ref-hackaton2019}{}%
 Hackaton. (2019). Retrieved August 31, 2019, from \url{https://mediaparty.info/}
 
+\leavevmode\hypertarget{ref-honnibal_NER}{}%
+Honnibal, M. (2017). Practical and effective neural ner. Retrieved November 2, 2017, from \url{https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf}
+
+\leavevmode\hypertarget{ref-kripke1980naming}{}%
+Kripke, S. (1980). \emph{Naming and necessity}. Retrieved from \url{https://books.google.com.ar/books?id=9vvAlOBfq0kC}
+
 \leavevmode\hypertarget{ref-Kruchten:1995:VMA:624610.625529}{}%
 Kruchten, P. (1995). The 4+1 view model of architecture. \emph{IEEE Softw.}, \emph{12}(6), 42--50. \url{https://doi.org/10.1109/52.469759}
 
+\leavevmode\hypertarget{ref-DBLP:journalsux2fcorrux2fLampleBSKD16}{}%
+Lample, G., Ballesteros, M., Subramanian, S., Kawakami, K., \& Dyer, C. (2016). Neural architectures for named entity recognition. \emph{CoRR}, \emph{abs/1603.01360}. Retrieved from \url{http://arxiv.org/abs/1603.01360}
+
+\leavevmode\hypertarget{ref-marsh-perzanowski-1998-muc}{}%
+Marsh, E., \& Perzanowski, D. (1998). MUC-7 evaluation of IE technology: Overview of results. \emph{Seventh message understanding conference (MUC-7): Proceedings of a conference held in fairfax, virginia, April 29 - may 1, 1998}. Retrieved from \url{https://www.aclweb.org/anthology/M98-1002}
+
 \leavevmode\hypertarget{ref-mediaparty2019_win}{}%
 Mención itba. (2019). Retrieved October 3, 2019, from \url{https://www.instagram.com/p/B3Koum2peD-/}
+
+\leavevmode\hypertarget{ref-montani_AI}{}%
+Montani, I. (2016). Practical and effective neural ner. Retrieved November 28, 2016, from \url{https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf}
+
+\leavevmode\hypertarget{ref-Poibeau2000ProperNE}{}%
+Poibeau, T., \& Kosseim, L. (2000). Proper name extraction from non-journalistic texts. \emph{CLIN}.
+
+\leavevmode\hypertarget{ref-wiki_Precision_and_recall}{}%
+Precision and recall. (2019). Retrieved October 16, 2019, from \url{https://en.wikipedia.org/wiki/Precision_and_recall}
 
 \leavevmode\hypertarget{ref-github_machine_learning}{}%
 The state of the octoverse: Machine learning. (2019). Retrieved January 24, 2019, from \url{https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/}

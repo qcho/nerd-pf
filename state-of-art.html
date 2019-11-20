@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 2 Estado del arte | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas</title>
+  <title>Capítulo 3 Estado del arte | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 2 Estado del arte | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
+  <meta property="og:title" content="Capítulo 3 Estado del arte | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcho/nerd-pf" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 2 Estado del arte | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
+  <meta name="twitter:title" content="Capítulo 3 Estado del arte | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="intro.html"/>
-<link rel="next" href="problem-definition.html"/>
+<link rel="prev" href="problem-definition.html"/>
+<link rel="next" href="implementation.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -133,21 +133,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Named Entity Recognition Duh!</a></li>
 
 <li class="divider"></li>
-<li><a href="index.html#abstract"><em>Abstract</em></a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
-<li class="chapter" data-level="2" data-path="state-of-art.html"><a href="state-of-art.html"><i class="fa fa-check"></i><b>2</b> Estado del arte</a><ul>
-<li class="chapter" data-level="2.1" data-path="state-of-art.html"><a href="state-of-art.html#el-naive-approach"><i class="fa fa-check"></i><b>2.1</b> El “naive approach”</a></li>
-<li class="chapter" data-level="2.2" data-path="state-of-art.html"><a href="state-of-art.html#redes-neuronales-y-modelos-estadísticos"><i class="fa fa-check"></i><b>2.2</b> Redes neuronales y modelos estadísticos</a></li>
-<li class="chapter" data-level="2.3" data-path="state-of-art.html"><a href="state-of-art.html#la-formula-para-deep-learning"><i class="fa fa-check"></i><b>2.3</b> La formula para “deep-learning”</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="state-of-art.html"><a href="state-of-art.html#embed"><i class="fa fa-check"></i><b>2.3.1</b> embed</a></li>
-<li class="chapter" data-level="2.3.2" data-path="state-of-art.html"><a href="state-of-art.html#encode"><i class="fa fa-check"></i><b>2.3.2</b> encode</a></li>
-<li class="chapter" data-level="2.3.3" data-path="state-of-art.html"><a href="state-of-art.html#attend"><i class="fa fa-check"></i><b>2.3.3</b> attend</a></li>
-<li class="chapter" data-level="2.3.4" data-path="state-of-art.html"><a href="state-of-art.html#predict"><i class="fa fa-check"></i><b>2.3.4</b> predict</a></li>
+<li class="chapter" data-level="2" data-path="problem-definition.html"><a href="problem-definition.html"><i class="fa fa-check"></i><b>2</b> Definición del problema</a><ul>
+<li class="chapter" data-level="2.1" data-path="problem-definition.html"><a href="problem-definition.html#conceptos-básicos"><i class="fa fa-check"></i><b>2.1</b> Conceptos básicos</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="problem-definition.html"><a href="problem-definition.html#entidad-nombrada"><i class="fa fa-check"></i><b>2.1.1</b> Entidad nombrada</a></li>
+<li class="chapter" data-level="2.1.2" data-path="problem-definition.html"><a href="problem-definition.html#reconocimiento-de-entidades"><i class="fa fa-check"></i><b>2.1.2</b> Reconocimiento de entidades</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="state-of-art.html"><a href="state-of-art.html#statistical-entity-recognition-model"><i class="fa fa-check"></i><b>2.4</b> statistical entity recognition model</a></li>
-<li class="chapter" data-level="2.5" data-path="state-of-art.html"><a href="state-of-art.html#word-vectors"><i class="fa fa-check"></i><b>2.5</b> Word vectors</a></li>
+<li class="chapter" data-level="2.2" data-path="problem-definition.html"><a href="problem-definition.html#los-datos-son-el-problema"><i class="fa fa-check"></i><b>2.2</b> Los datos son el problema</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="problem-definition.html"><a href="problem-definition.html"><i class="fa fa-check"></i><b>3</b> Definición del problema</a></li>
+<li class="chapter" data-level="3" data-path="state-of-art.html"><a href="state-of-art.html"><i class="fa fa-check"></i><b>3</b> Estado del arte</a><ul>
+<li class="chapter" data-level="3.1" data-path="state-of-art.html"><a href="state-of-art.html#stack-de-software"><i class="fa fa-check"></i><b>3.1</b> Stack de software</a></li>
+<li class="chapter" data-level="3.2" data-path="state-of-art.html"><a href="state-of-art.html#el-pipeline"><i class="fa fa-check"></i><b>3.2</b> El pipeline</a></li>
+<li class="chapter" data-level="3.3" data-path="state-of-art.html"><a href="state-of-art.html#algoritmo-de-tokenización"><i class="fa fa-check"></i><b>3.3</b> Algoritmo de tokenización</a></li>
+<li class="chapter" data-level="3.4" data-path="state-of-art.html"><a href="state-of-art.html#reconocimiento-de-entidades-1"><i class="fa fa-check"></i><b>3.4</b> Reconocimiento de entidades</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="state-of-art.html"><a href="state-of-art.html#modelos-basados-en-reglas"><i class="fa fa-check"></i><b>3.4.1</b> Modelos basados en reglas</a></li>
+<li class="chapter" data-level="3.4.2" data-path="state-of-art.html"><a href="state-of-art.html#el-enfoque-de-spacy"><i class="fa fa-check"></i><b>3.4.2</b> El enfoque de spaCy</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="state-of-art.html"><a href="state-of-art.html#el-modelo-estadístico-deep-learning"><i class="fa fa-check"></i><b>3.5</b> El modelo estadístico “deep-learning”</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="state-of-art.html"><a href="state-of-art.html#embed"><i class="fa fa-check"></i><b>3.5.1</b> embed</a></li>
+<li class="chapter" data-level="3.5.2" data-path="state-of-art.html"><a href="state-of-art.html#encode"><i class="fa fa-check"></i><b>3.5.2</b> encode</a></li>
+<li class="chapter" data-level="3.5.3" data-path="state-of-art.html"><a href="state-of-art.html#attend"><i class="fa fa-check"></i><b>3.5.3</b> attend</a></li>
+<li class="chapter" data-level="3.5.4" data-path="state-of-art.html"><a href="state-of-art.html#predict"><i class="fa fa-check"></i><b>3.5.4</b> predict</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="state-of-art.html"><a href="state-of-art.html#subword-features"><i class="fa fa-check"></i><b>3.6</b> Subword features</a></li>
+<li class="chapter" data-level="3.7" data-path="state-of-art.html"><a href="state-of-art.html#statistical-entity-recognition-model"><i class="fa fa-check"></i><b>3.7</b> statistical entity recognition model</a></li>
+<li class="chapter" data-level="3.8" data-path="state-of-art.html"><a href="state-of-art.html#word-vectors"><i class="fa fa-check"></i><b>3.8</b> Word vectors</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="implementation.html"><a href="implementation.html"><i class="fa fa-check"></i><b>4</b> NERd (Implementación)</a><ul>
 <li class="chapter" data-level="4.1" data-path="implementation.html"><a href="implementation.html#vista-lógica"><i class="fa fa-check"></i><b>4.1</b> Vista lógica</a><ul>
 <li class="chapter" data-level="4.1.1" data-path="implementation.html"><a href="implementation.html#servicio"><i class="fa fa-check"></i><b>4.1.1</b> Servicio</a></li>
@@ -158,12 +169,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a></li>
 <li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Resultados</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Resultados</a><ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#métrica-precisión-y-exhaustividad"><i class="fa fa-check"></i><b>5.1</b> Métrica: precisión y exhaustividad</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Discusión</a><ul>
 <li class="chapter" data-level="6.1" data-path="discussion.html"><a href="discussion.html#tipos-de-entidades-relevantes"><i class="fa fa-check"></i><b>6.1</b> Tipos de entidades relevantes</a></li>
 <li class="chapter" data-level="6.2" data-path="discussion.html"><a href="discussion.html#seed-en-los-types"><i class="fa fa-check"></i><b>6.2</b> Seed en los types</a></li>
-<li class="chapter" data-level="6.3" data-path="discussion.html"><a href="discussion.html#mejora-live-vs-offline"><i class="fa fa-check"></i><b>6.3</b> Mejora live vs offline</a></li>
-<li class="chapter" data-level="6.4" data-path="discussion.html"><a href="discussion.html#utilidad-de-la-herramienta"><i class="fa fa-check"></i><b>6.4</b> Utilidad de la herramienta</a></li>
+<li class="chapter" data-level="6.3" data-path="discussion.html"><a href="discussion.html#linkeo-de-entidades-con-knowledge-base"><i class="fa fa-check"></i><b>6.3</b> Linkeo de entidades con Knowledge Base</a></li>
+<li class="chapter" data-level="6.4" data-path="discussion.html"><a href="discussion.html#mejora-live-vs-offline"><i class="fa fa-check"></i><b>6.4</b> Mejora live vs offline</a></li>
+<li class="chapter" data-level="6.5" data-path="discussion.html"><a href="discussion.html#utilidad-de-la-herramienta"><i class="fa fa-check"></i><b>6.5</b> Utilidad de la herramienta</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>7</b> Conclusiones</a><ul>
 <li class="chapter" data-level="7.1" data-path="conclusiones.html"><a href="conclusiones.html#examples"><i class="fa fa-check"></i><b>7.1</b> Examples</a></li>
@@ -190,62 +204,166 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="state-of-art" class="section level1">
-<h1><span class="header-section-number">Capítulo 2</span> Estado del arte</h1>
-<div id="el-naive-approach" class="section level2">
-<h2><span class="header-section-number">2.1</span> El “naive approach”</h2>
-<p>tagueo con expresiones regulares…</p>
+<h1><span class="header-section-number">Capítulo 3</span> Estado del arte</h1>
+<p>El análisis del estado del arte fue basado en la definición del problema.</p>
+<div id="stack-de-software" class="section level2">
+<h2><span class="header-section-number">3.1</span> Stack de software</h2>
+<p>Python es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial NLP <span class="citation">(“The state of the octoverse,” <a href="#ref-github_machine_learning">2019</a>)</span></p>
+<p>Spacy es el framework mejor ranqueado para la tarea de NLP <span class="citation">(“The state of the octoverse,” <a href="#ref-github_machine_learning">2019</a>)</span> y sabemos por la Figura @ref(<span class="citation">(<span class="citeproc-not-found" data-reference-id="fig:spacy-algos"><strong>???</strong></span>)</span>) que obtiene resultados a-la-par del estado del arte actual.</p>
+<p>Además la implementación de spacy es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de NLP que sólo se utilizan con fines académicos.</p>
 </div>
-<div id="redes-neuronales-y-modelos-estadísticos" class="section level2">
-<h2><span class="header-section-number">2.2</span> Redes neuronales y modelos estadísticos</h2>
+<div id="el-pipeline" class="section level2">
+<h2><span class="header-section-number">3.2</span> El pipeline</h2>
+<p>Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados, tienen como primer paso el de separar el los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el “pipeline de procesamiento”. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de NER.</p>
+<p>Cada componente del pipeline devuelve el Doc procesado, que luego se pasa al siguiente componente.</p>
+<div class="figure" style="text-align: center"><span id="fig:spacy-pipeline"></span>
+<img src="assets/spacy_pipeline.png" alt="Pipeline standard para los algoritmos de NER"  />
+<p class="caption">
+Figura 3.1: Pipeline standard para los algoritmos de NER
+</p>
+</div>
+<p>En este capítulo esturiaremos la morfología de dicho pipeline.</p>
+</div>
+<div id="algoritmo-de-tokenización" class="section level2">
+<h2><span class="header-section-number">3.3</span> Algoritmo de tokenización</h2>
+<p>Para tokenizar un texto de manera correcta no basta con separar el mismo en espacios. Dependiendo el lenguaje que se esté estudiando, existen “excepciones” a esta regla y otros caracteres que representan separaciones entre tokens segun el contexto de los mismos.</p>
+<p>En particular, spaCy posee algoritmo de tokenización inteligente que puede ser resumido de la siguiente manera:</p>
+<ol style="list-style-type: decimal">
+<li>Iterar sobre subcadenas separadas por espacios en blanco.</li>
+<li>Compruebar si existe una regla definida explícitamente para esta subcadena. Si existe, usarla.</li>
+<li>De lo contrario, intentar consumir un prefijo. Si consumimos un prefijo, regrese al punto#2, para que los casos especiales siempre tengan prioridad.</li>
+<li>Si no se puede consumir un prefijo, intente consumir un sufijo y luego regrese al punto #2.</li>
+<li>Si no se puede consumir un prefijo ni un sufijo, buscar un caso especial.</li>
+<li>Buscar una coincidencia de token</li>
+<li>Buscar “infijos” - cosas como guiones, etc. y dividir la subcadena en tokens en todos los infijos.</li>
+<li>Una vez que no se pueda consumir más de la cadena, tratarla como un token único.</li>
+</ol>
+<p>Ejemplo:</p>
+<div class="figure" style="text-align: center"><span id="fig:spacy-tokenization"></span>
+<img src="assets/spacy_tokenization.png" alt="Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante."  />
+<p class="caption">
+Figura 3.2: Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.
+</p>
+</div>
+</div>
+<div id="reconocimiento-de-entidades-1" class="section level2">
+<h2><span class="header-section-number">3.4</span> Reconocimiento de entidades</h2>
+<div id="modelos-basados-en-reglas" class="section level3">
+<h3><span class="header-section-number">3.4.1</span> Modelos basados en reglas</h3>
+<p>Antes de entrar en detalles de cómo trabaja el modelo estadístico de spacy y entender sus fortalezas es importante esbozar brevemente el grupo de algorítmos más “naive” posible. El de los modelos basados en reglas fijas.</p>
+<p>En estos modelos se implementan reglas finitas o expresiones regulares para la detección de las entidades. Las principales limitaciones de este enfoque son:</p>
+<ul>
+<li><strong>Mucho trabajo manua</strong>l: el sistema RB exige un profundo conocimiento del dominio, así como mucho trabajo manual.</li>
+<li><strong>Consumo de tiempo</strong>: la generación de reglas para un sistema complejo es bastante difícil y requiere mucho tiempo.</li>
+<li><strong>Menor capacidad de aprendizaje</strong>: el sistema generará el resultado según las reglas, por lo que la capacidad de aprendizaje del sistema por sí mismo es baja.</li>
+<li><strong>Dominios complejos</strong>: si el corpus demasiado complejo, la creación del sistema RB puede llevar mucho tiempo y análisis. La identificación de patrones complejos es una tarea desafiante en el enfoque RB.</li>
+</ul>
+</div>
+<div id="el-enfoque-de-spacy" class="section level3">
+<h3><span class="header-section-number">3.4.2</span> El enfoque de spaCy</h3>
+<!-- TODO
+2014 neural network CCN ~85%
+-->
+<p>Cuando se busca mejorar el aprendizaje automático, generalmente se piensa en la eficiencia y la precisión, pero la dimensión más importante es la generalidad.</p>
+<p>La mayoría de los problemas de <code>NLP</code> pueden reducirse a problemas de aprendizaje automático que toman uno o más textos como entrada. Si podemos transformar estos textos en vectores, podemos reutilizar soluciones de aprendizaje profundo (<em>deep-learning</em>) de propósito general.</p>
+<div id="máquina-de-estados" class="section level4">
+<h4><span class="header-section-number">3.4.2.1</span> Máquina de estados</h4>
+<p>Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte utilizando un autómata finito determinístico de pila en conjunción con una red neuronal <span class="citation">(Lample, Ballesteros, Subramanian, Kawakami, &amp; Dyer, <a href="#ref-DBLP:journals/corr/LampleBSKD16">2016</a>)</span></p>
+<p>Este autómata de pila es el nexo entre la Red Neuronal Convolucional (CNN) que contiene el modelo estadístico para predecir entidades y el texto completo. No se envía el texto entero como input a dicha red, sino que se van enviando cada uno de los estados en los que el autómata de pila se mueve para ir generando entidades con una herística del tipo <em>greedy</em>.</p>
+<p>Las posibles acciones de transición de este autómata son las siguientes:</p>
+<div class="figure" style="text-align: center"><span id="fig:lampe-1"></span>
+<img src="assets/lampe_1.png" alt="Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante."  />
+<p class="caption">
+Figura 3.3: Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.
+</p>
+</div>
+<ul>
+<li>SHIFT: consume una token del input y al mueve al stack para generar una nueva entidad.</li>
+<li>REDUCE: mueve el stack actual al output tagueado como entity.</li>
+<li>OUT: consume una token del input y la mueve sl output directamente.</li>
+</ul>
+<p>Para saber que acción tomar se consulta el modelo estadístico.En la siguiente figura se puede ver un ejemplo de cómo se recorre una oración bajo el stack propuesto:</p>
+<div class="figure" style="text-align: center"><span id="fig:lampe-2"></span>
+<img src="assets/lampe_2.png" alt="Secuencia de tranciciones para el ejemplo &quot;Mark Watney visited Mars&quot; en el modelo de Stack-LSTM."  />
+<p class="caption">
+Figura 3.4: Secuencia de tranciciones para el ejemplo “Mark Watney visited Mars” en el modelo de Stack-LSTM.
+</p>
+</div>
+<ul>
+<li>Primero se empieza con un stack vacío.</li>
+<li>Se consume “Mark” y la CNN predice que es una posible Persona. Lo envia al stack.</li>
+<li>Se consume “Watney” y la CNN predice que es una posible continuación de Persona. Lo envia al stack.</li>
+<li>Se consume “visited” y la CNN predice que esto no forma parte de una entidad. Por lo tanto antes se REDUCE la entidad “Mark Watney” del stack actual.</li>
+<li>Análogamente se detecta la entidad “Mars”</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="el-modelo-estadístico-deep-learning" class="section level2">
+<h2><span class="header-section-number">3.5</span> El modelo estadístico “deep-learning”</h2>
+<p>El modelo de deep learning elegido para trabajar es el de spaCy. Consiste en una Red Neuronal convolucional que predice las entidades.</p>
 <p>Redes neuronales convolucionales
 <a href="https://es.wikipedia.org/wiki/Redes_neuronales_convolucionales" class="uri">https://es.wikipedia.org/wiki/Redes_neuronales_convolucionales</a></p>
+<p>Para entender cómo funciona dicha red neuronal, se puede definir el proceso en 4 etapas que transforman la información entre diferentes estados</p>
+<div class="figure" style="text-align: center"><span id="fig:formula-shapes"></span>
+<img src="assets/deep-learning-formula-nlp_shapes.png" alt="Estados posibles para las diferentes etapas de la CNN"  />
+<p class="caption">
+Figura 3.5: Estados posibles para las diferentes etapas de la CNN
+</p>
 </div>
-<div id="la-formula-para-deep-learning" class="section level2">
-<h2><span class="header-section-number">2.3</span> La formula para “deep-learning”</h2>
-<p>articulo spacy</p>
 <div id="embed" class="section level3">
-<h3><span class="header-section-number">2.3.1</span> embed</h3>
+<h3><span class="header-section-number">3.5.1</span> embed</h3>
+<blockquote>
+<p>Problema: “todas las palabras sin iguales para la computadora”</p>
+</blockquote>
+<p>La idea de <em>word embeddings</em> es la de “embeber” el conjunto de tokens que componen términos con información adicional.</p>
 <div class="figure" style="text-align: center"><span id="fig:formula-embed"></span>
 <img src="assets/deep-learning-formula-nlp_embed.svg" alt="TODO: embed"  />
 <p class="caption">
-Figura 2.1: TODO: embed
+Figura 3.6: TODO: embed
 </p>
 </div>
 </div>
 <div id="encode" class="section level3">
-<h3><span class="header-section-number">2.3.2</span> encode</h3>
+<h3><span class="header-section-number">3.5.2</span> encode</h3>
 <div class="figure" style="text-align: center"><span id="fig:formula-encode"></span>
 <img src="assets/deep-learning-formula-nlp_encode.svg" alt="TODO: encode"  />
 <p class="caption">
-Figura 2.2: TODO: encode
+Figura 3.7: TODO: encode
 </p>
 </div>
 </div>
 <div id="attend" class="section level3">
-<h3><span class="header-section-number">2.3.3</span> attend</h3>
+<h3><span class="header-section-number">3.5.3</span> attend</h3>
 <div class="figure" style="text-align: center"><span id="fig:formula-attend"></span>
 <img src="assets/deep-learning-formula-nlp_attend.svg" alt="TODO: attend"  />
 <p class="caption">
-Figura 2.3: TODO: attend
+Figura 3.8: TODO: attend
 </p>
 </div>
 </div>
 <div id="predict" class="section level3">
-<h3><span class="header-section-number">2.3.4</span> predict</h3>
+<h3><span class="header-section-number">3.5.4</span> predict</h3>
 <div class="figure" style="text-align: center"><span id="fig:formula-predict"></span>
 <img src="assets/deep-learning-formula-nlp_predict.svg" alt="TODO: predict"  />
 <p class="caption">
-Figura 2.4: TODO: predict
+Figura 3.9: TODO: predict
 </p>
 </div>
 <p>Here is a review of existing methods.</p>
 </div>
 </div>
+<div id="subword-features" class="section level2">
+<h2><span class="header-section-number">3.6</span> Subword features</h2>
+<p>Yes, spaCy’s NER (and other models) uses subword features, although it doesn’t use a character-based CNN to extract them. Instead, the word vectors are learned by concatenating embeddings of NORM, PREFIX, SUFFIX and SHAPE lexical attributes. A hidden layer is then used to allow a non-linear combination of the information in these concatenated vectors. The function for this can be found in spacy._ml.Tok2Vec.</p>
+<p>The best reference for this embedding strategy is currently the NER algorithm video: <a href="https://www.youtube.com/watch?v=sqDHBH9IjRU" class="uri">https://www.youtube.com/watch?v=sqDHBH9IjRU</a></p>
+<p>To add to <span class="citation">(<span class="citeproc-not-found" data-reference-id="honnibal"><strong>???</strong></span>)</span>’s comment above, there’s also a section in the API docs that describes the neural network model architecture in more detail: <a href="https://spacy.io/api/#nn-model" class="uri">https://spacy.io/api/#nn-model</a></p>
+</div>
 <div id="statistical-entity-recognition-model" class="section level2">
-<h2><span class="header-section-number">2.4</span> statistical entity recognition model</h2>
+<h2><span class="header-section-number">3.7</span> statistical entity recognition model</h2>
 </div>
 <div id="word-vectors" class="section level2">
-<h2><span class="header-section-number">2.5</span> Word vectors</h2>
+<h2><span class="header-section-number">3.8</span> Word vectors</h2>
 <!-- TODO expo word vectors
 Los vectores de palabras son particularmente útiles para términos que no están bien representados en los datos de entrenamiento etiquetados.
 Por ejemplo, si está haciendo un reconocimiento de entidad con nombre, siempre habrá muchos nombres de los que no tendrá ejemplos.
@@ -258,14 +376,14 @@ Los vectores de palabras ponen ese hecho a disposición del modelo de reconocimi
 <div class="figure" style="text-align: center"><span id="fig:vec-parallelogram"></span>
 <img src="assets/parallelogram.png" alt="Parallelogram structure in the vector space (by definition)"  />
 <p class="caption">
-Figura 2.5: Parallelogram structure in the vector space (by definition)
+Figura 3.10: Parallelogram structure in the vector space (by definition)
 </p>
 </div>
 <p><a href="https://www.youtube.com/watch?v=sqDHBH9IjRU" class="uri">https://www.youtube.com/watch?v=sqDHBH9IjRU</a>
 SPACY’S ENTITY RECOGNITION MODEL: incremental parsing with Bloom embeddings &amp; residual CNNs</p>
-<p><a href="https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf" class="uri">https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf</a>
-<a href="https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf" class="uri">https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf</a></p>
+<p><a href="https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf" class="uri">https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf</a></p>
 
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 <h3>References</h3>
@@ -273,14 +391,20 @@ SPACY’S ENTITY RECOGNITION MODEL: incremental parsing with Bloom embeddings &a
 <div id="ref-ethayarajh-etal-2019-towards">
 <p>Ethayarajh, K., Duvenaud, D., &amp; Hirst, G. (2019). Towards understanding linear word analogies. <em>Proceedings of the 57th annual meeting of the association for computational linguistics</em>, 3253–3262. <a href="https://doi.org/10.18653/v1/P19-1315">https://doi.org/10.18653/v1/P19-1315</a></p>
 </div>
+<div id="ref-DBLP:journals/corr/LampleBSKD16">
+<p>Lample, G., Ballesteros, M., Subramanian, S., Kawakami, K., &amp; Dyer, C. (2016). Neural architectures for named entity recognition. <em>CoRR</em>, <em>abs/1603.01360</em>. Retrieved from <a href="http://arxiv.org/abs/1603.01360">http://arxiv.org/abs/1603.01360</a></p>
+</div>
+<div id="ref-github_machine_learning">
+<p>The state of the octoverse: Machine learning. (2019). Retrieved January 24, 2019, from <a href="https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/">https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/</a></p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="problem-definition.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="problem-definition.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="implementation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -311,7 +435,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/qcho/nerd-pf/edit/master/02-state-of-art.Rmd",
+"link": "https://github.com/qcho/nerd-pf/edit/master/03-state-of-art.Rmd",
 "text": "Editar"
 },
 "history": {

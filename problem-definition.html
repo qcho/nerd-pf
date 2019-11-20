@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 3 Definición del problema | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas</title>
+  <title>Capítulo 2 Definición del problema | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.15.1 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 3 Definición del problema | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
+  <meta property="og:title" content="Capítulo 2 Definición del problema | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcho/nerd-pf" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 3 Definición del problema | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
+  <meta name="twitter:title" content="Capítulo 2 Definición del problema | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="state-of-art.html"/>
-<link rel="next" href="implementation.html"/>
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="state-of-art.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -133,21 +133,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Named Entity Recognition Duh!</a></li>
 
 <li class="divider"></li>
-<li><a href="index.html#abstract"><em>Abstract</em></a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
-<li class="chapter" data-level="2" data-path="state-of-art.html"><a href="state-of-art.html"><i class="fa fa-check"></i><b>2</b> Estado del arte</a><ul>
-<li class="chapter" data-level="2.1" data-path="state-of-art.html"><a href="state-of-art.html#el-naive-approach"><i class="fa fa-check"></i><b>2.1</b> El “naive approach”</a></li>
-<li class="chapter" data-level="2.2" data-path="state-of-art.html"><a href="state-of-art.html#redes-neuronales-y-modelos-estadísticos"><i class="fa fa-check"></i><b>2.2</b> Redes neuronales y modelos estadísticos</a></li>
-<li class="chapter" data-level="2.3" data-path="state-of-art.html"><a href="state-of-art.html#la-formula-para-deep-learning"><i class="fa fa-check"></i><b>2.3</b> La formula para “deep-learning”</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="state-of-art.html"><a href="state-of-art.html#embed"><i class="fa fa-check"></i><b>2.3.1</b> embed</a></li>
-<li class="chapter" data-level="2.3.2" data-path="state-of-art.html"><a href="state-of-art.html#encode"><i class="fa fa-check"></i><b>2.3.2</b> encode</a></li>
-<li class="chapter" data-level="2.3.3" data-path="state-of-art.html"><a href="state-of-art.html#attend"><i class="fa fa-check"></i><b>2.3.3</b> attend</a></li>
-<li class="chapter" data-level="2.3.4" data-path="state-of-art.html"><a href="state-of-art.html#predict"><i class="fa fa-check"></i><b>2.3.4</b> predict</a></li>
+<li class="chapter" data-level="2" data-path="problem-definition.html"><a href="problem-definition.html"><i class="fa fa-check"></i><b>2</b> Definición del problema</a><ul>
+<li class="chapter" data-level="2.1" data-path="problem-definition.html"><a href="problem-definition.html#conceptos-básicos"><i class="fa fa-check"></i><b>2.1</b> Conceptos básicos</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="problem-definition.html"><a href="problem-definition.html#entidad-nombrada"><i class="fa fa-check"></i><b>2.1.1</b> Entidad nombrada</a></li>
+<li class="chapter" data-level="2.1.2" data-path="problem-definition.html"><a href="problem-definition.html#reconocimiento-de-entidades"><i class="fa fa-check"></i><b>2.1.2</b> Reconocimiento de entidades</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="state-of-art.html"><a href="state-of-art.html#statistical-entity-recognition-model"><i class="fa fa-check"></i><b>2.4</b> statistical entity recognition model</a></li>
-<li class="chapter" data-level="2.5" data-path="state-of-art.html"><a href="state-of-art.html#word-vectors"><i class="fa fa-check"></i><b>2.5</b> Word vectors</a></li>
+<li class="chapter" data-level="2.2" data-path="problem-definition.html"><a href="problem-definition.html#los-datos-son-el-problema"><i class="fa fa-check"></i><b>2.2</b> Los datos son el problema</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="problem-definition.html"><a href="problem-definition.html"><i class="fa fa-check"></i><b>3</b> Definición del problema</a></li>
+<li class="chapter" data-level="3" data-path="state-of-art.html"><a href="state-of-art.html"><i class="fa fa-check"></i><b>3</b> Estado del arte</a><ul>
+<li class="chapter" data-level="3.1" data-path="state-of-art.html"><a href="state-of-art.html#stack-de-software"><i class="fa fa-check"></i><b>3.1</b> Stack de software</a></li>
+<li class="chapter" data-level="3.2" data-path="state-of-art.html"><a href="state-of-art.html#el-pipeline"><i class="fa fa-check"></i><b>3.2</b> El pipeline</a></li>
+<li class="chapter" data-level="3.3" data-path="state-of-art.html"><a href="state-of-art.html#algoritmo-de-tokenización"><i class="fa fa-check"></i><b>3.3</b> Algoritmo de tokenización</a></li>
+<li class="chapter" data-level="3.4" data-path="state-of-art.html"><a href="state-of-art.html#reconocimiento-de-entidades-1"><i class="fa fa-check"></i><b>3.4</b> Reconocimiento de entidades</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="state-of-art.html"><a href="state-of-art.html#modelos-basados-en-reglas"><i class="fa fa-check"></i><b>3.4.1</b> Modelos basados en reglas</a></li>
+<li class="chapter" data-level="3.4.2" data-path="state-of-art.html"><a href="state-of-art.html#el-enfoque-de-spacy"><i class="fa fa-check"></i><b>3.4.2</b> El enfoque de spaCy</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="state-of-art.html"><a href="state-of-art.html#el-modelo-estadístico-deep-learning"><i class="fa fa-check"></i><b>3.5</b> El modelo estadístico “deep-learning”</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="state-of-art.html"><a href="state-of-art.html#embed"><i class="fa fa-check"></i><b>3.5.1</b> embed</a></li>
+<li class="chapter" data-level="3.5.2" data-path="state-of-art.html"><a href="state-of-art.html#encode"><i class="fa fa-check"></i><b>3.5.2</b> encode</a></li>
+<li class="chapter" data-level="3.5.3" data-path="state-of-art.html"><a href="state-of-art.html#attend"><i class="fa fa-check"></i><b>3.5.3</b> attend</a></li>
+<li class="chapter" data-level="3.5.4" data-path="state-of-art.html"><a href="state-of-art.html#predict"><i class="fa fa-check"></i><b>3.5.4</b> predict</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="state-of-art.html"><a href="state-of-art.html#subword-features"><i class="fa fa-check"></i><b>3.6</b> Subword features</a></li>
+<li class="chapter" data-level="3.7" data-path="state-of-art.html"><a href="state-of-art.html#statistical-entity-recognition-model"><i class="fa fa-check"></i><b>3.7</b> statistical entity recognition model</a></li>
+<li class="chapter" data-level="3.8" data-path="state-of-art.html"><a href="state-of-art.html#word-vectors"><i class="fa fa-check"></i><b>3.8</b> Word vectors</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="implementation.html"><a href="implementation.html"><i class="fa fa-check"></i><b>4</b> NERd (Implementación)</a><ul>
 <li class="chapter" data-level="4.1" data-path="implementation.html"><a href="implementation.html#vista-lógica"><i class="fa fa-check"></i><b>4.1</b> Vista lógica</a><ul>
 <li class="chapter" data-level="4.1.1" data-path="implementation.html"><a href="implementation.html#servicio"><i class="fa fa-check"></i><b>4.1.1</b> Servicio</a></li>
@@ -158,12 +169,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a></li>
 <li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Resultados</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Resultados</a><ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#métrica-precisión-y-exhaustividad"><i class="fa fa-check"></i><b>5.1</b> Métrica: precisión y exhaustividad</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Discusión</a><ul>
 <li class="chapter" data-level="6.1" data-path="discussion.html"><a href="discussion.html#tipos-de-entidades-relevantes"><i class="fa fa-check"></i><b>6.1</b> Tipos de entidades relevantes</a></li>
 <li class="chapter" data-level="6.2" data-path="discussion.html"><a href="discussion.html#seed-en-los-types"><i class="fa fa-check"></i><b>6.2</b> Seed en los types</a></li>
-<li class="chapter" data-level="6.3" data-path="discussion.html"><a href="discussion.html#mejora-live-vs-offline"><i class="fa fa-check"></i><b>6.3</b> Mejora live vs offline</a></li>
-<li class="chapter" data-level="6.4" data-path="discussion.html"><a href="discussion.html#utilidad-de-la-herramienta"><i class="fa fa-check"></i><b>6.4</b> Utilidad de la herramienta</a></li>
+<li class="chapter" data-level="6.3" data-path="discussion.html"><a href="discussion.html#linkeo-de-entidades-con-knowledge-base"><i class="fa fa-check"></i><b>6.3</b> Linkeo de entidades con Knowledge Base</a></li>
+<li class="chapter" data-level="6.4" data-path="discussion.html"><a href="discussion.html#mejora-live-vs-offline"><i class="fa fa-check"></i><b>6.4</b> Mejora live vs offline</a></li>
+<li class="chapter" data-level="6.5" data-path="discussion.html"><a href="discussion.html#utilidad-de-la-herramienta"><i class="fa fa-check"></i><b>6.5</b> Utilidad de la herramienta</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>7</b> Conclusiones</a><ul>
 <li class="chapter" data-level="7.1" data-path="conclusiones.html"><a href="conclusiones.html#examples"><i class="fa fa-check"></i><b>7.1</b> Examples</a></li>
@@ -190,19 +204,113 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="problem-definition" class="section level1">
-<h1><span class="header-section-number">Capítulo 3</span> Definición del problema</h1>
-<p>El bottleneck en AI es la data, no los algoritmos.
-quote de: <a href="https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf" class="uri">https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf</a></p>
-<p><a href="https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf" class="uri">https://github.com/explosion/talks/blob/master/2018-04-12_Embed-Encode-Attend-Predict.pdf</a></p>
+<h1><span class="header-section-number">Capítulo 2</span> Definición del problema</h1>
+<div id="conceptos-básicos" class="section level2">
+<h2><span class="header-section-number">2.1</span> Conceptos básicos</h2>
+<div id="entidad-nombrada" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Entidad nombrada</h3>
+<p>En <em>extracción de información</em>, una <em>entidad nombrada</em> es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son “Mauricio Macri”, “Ciudad Autónoma de Buenos Aires”, “Apple Macbook”.
+También se suele definir sencillamente como aquellas entidades que se pueden ver como instancias de entidad (por ejemplo, la Ciudad Autónoma de Buenos Aires es una instancia de una ciudad).</p>
+<div id="definición-formal" class="section level4">
+<h4><span class="header-section-number">2.1.1.1</span> Definición formal</h4>
+<p>Formalmente el concepto de “entidad nombrada” se deriva de la definición del filósofo estadounidense <strong>Saul Kripke</strong> de <strong>designador rígido</strong> <span class="citation">(Kripke, <a href="#ref-kripke1980naming">1980</a>)</span> que forma parte de la lógica modal y filosofía del lenguaje.</p>
+<blockquote>
+<p>Un designador rígido designa a una misma entidad en todos los mundos posibles en los que esa entidad existe, y no designa nada en aquellos mundos en los que no existe.</p>
+</blockquote>
+<p>Algunos ejemplos de designadores rígidos son:</p>
+<ul>
+<li>Nombres propios como “Saul Kripke”, “Júpiter”, “Londres”, “4” y “Hércules”.</li>
+<li>Descripciones definidas matemáticas como “la raíz cuadrada de 4” y “8 - 2”.</li>
+<li>Nombres de clases naturales como “agua” y “bronce”.</li>
+<li>Nombres de sensaciones como “dolor” y “alegría”.</li>
+</ul>
+<p>Por el contrario, los <strong>designadores flácidos</strong> pueden designar diferentes cosas en diferentes mundos posibles y <strong>no</strong> son <em>entidades nombradas</em>.</p>
+<p>Por ejemplo en la oración: “Mauricio Macri es el presidente de Argentina”:</p>
+<ul>
+<li>“Mauricio Macri” y “Argentina” son <em>entidades nombradas</em>, ya que se refieren a objetos específicos.</li>
+<li>“presidente” y “presidente de Argentina” no son <em>entidades nombradas</em>, ya que pueden usarse para referirse a muchos objetos diferentes en mundos diferentes:
+<ul>
+<li>“presidente” puede ser de diferentes países u organizaciones que se refieren a diferentes personas.</li>
+<li>“presidente de Argentina”, si bien hace referencia a un mismo pais, puede ser de diferentes períodos presidenciales que se refieren a diferentes personas.</li>
+</ul></li>
+</ul>
+</div>
+<div id="definición-no-estricta" class="section level4">
+<h4><span class="header-section-number">2.1.1.2</span> Definición no estricta</h4>
+<p>Existe un acuerdo general en la comunidad <em>NER</em> para considerar como entidades nombradas a otro tipos de entidades que violan el principio de designador rígido. Ejemplos de esto son:</p>
+<ul>
+<li>expresiones temporales como ‘3 de febrero’, ‘2019’.</li>
+<li>expresiones numéricas, como cantidades de dinero y otros tipos de unidades</li>
+<li>expresiones que según contexto denotan una entidad rígida pero no en sí mismas. Por ejemplo “Alfredo Fortabat, empresario argentino, fundador de la compañía cementera Loma Negra.” puede ser considerada una entidad nombrada, sin embargo, el término “Fortabat” por si sólo podría referirse a su viuda “María Amalia Lacroze de Fortabat”, al museo de arte “Museo Fortabat” o a la localidad Argentina “Villa Alfredo Fortabat”.</li>
+</ul>
+<p>En este trabajo hemos priorizado esta definición laxa para tener una mayor expresividad en los tipos de entidades que vamos a detectar. Por lo tanto, en adelante, la definición del término “entidad nombrada” será utilizada bajo una definición no estricta.</p>
+</div>
+</div>
+<div id="reconocimiento-de-entidades" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> Reconocimiento de entidades</h3>
+<p>El Reconocimiento de entidades nombradas a menudo se divide en dos problemas distintos:</p>
+<ol style="list-style-type: decimal">
+<li>Detección de nombres</li>
+<li>Clasificación de los nombres según el tipo de entidad al que hacen referencia a (persona, organización, ubicación y otro)</li>
+</ol>
+<p>En la primera fase los nombres se definen como tramos contiguos de tokens, sin anidamiento, de modo que “Instituto Tecnológico de Buenos Aires” es una entidad única, sin tener en cuenta el hecho de que dentro de esta, la subcadena “Buenos Aires” es en sí otra entidad.</p>
+<p>Esta forma de definir el problema, lo reduce a un problema de segmentación.</p>
+<p>La segunda fase requiere elegir una ontología para organizar categorías de cosas.</p>
+<div id="dificultades-para-encontrar-mejores-algoritmos" class="section level4">
+<h4><span class="header-section-number">2.1.2.1</span> Dificultades para encontrar mejores algoritmos</h4>
+<p>El estado del arte de <code>NER</code> desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta <span class="citation">(Honnibal, <a href="#ref-honnibal_NER">2017</a>)</span>. En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la siguiente figura:</p>
+<div class="figure" style="text-align: center"><span id="fig:spacy-algos"></span>
+<img src="assets/state-of-the-art_difficulties.png" alt="Principales avances del estado del arte para NER en los últimos años"  />
+<p class="caption">
+Figura 2.1: Principales avances del estado del arte para NER en los últimos años
+</p>
+</div>
+<p>Las razones por las cuales esto ocurre escapa el alcance de este trabajo pero se pueden resumir bajo la ley de los rendimientos decrecientes. Se necesita mucho esfuerzo académico para obtener una mejora marginal en el estado del arte actual.</p>
+<p>Es por esto que resulta interesante analizar que otro tipo de problemas podemos atacar en este trabajo.</p>
+</div>
+<div id="dominios-del-problema" class="section level4">
+<h4><span class="header-section-number">2.1.2.2</span> Dominios del problema</h4>
+<p>Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura @ref(<span class="citation">(<span class="citeproc-not-found" data-reference-id="fig:spacy-algos"><strong>???</strong></span>)</span>) coinciden; incluso los sistemas NER más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios <span class="citation">(Poibeau &amp; Kosseim, <a href="#ref-Poibeau2000ProperNE">2000</a>)</span>. La puesta a punto de un sistema NER para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.</p>
+<p>Se entiende por dominio a todos los textos que en su conjunto forman un corpus común. Ejemplos de estos son “Noticias periodísticas”, “Textos jurídicos”, “Reportes militares”, “Papers académicos”, etc.</p>
+</div>
+</div>
+</div>
+<div id="los-datos-son-el-problema" class="section level2">
+<h2><span class="header-section-number">2.2</span> Los datos son el problema</h2>
+<p>Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la IA es el la captura de datos, no los algoritmos <span class="citation">(Montani, <a href="#ref-montani_AI">2016</a>)</span>.</p>
+<p>En particular para el estado actual del arte de <code>NER</code> es necesario tener el cuerpo de textos a analizar (Corpus) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.</p>
+<p>Este aprendizaje se carga en lo que se reconoce como un “Modelo estadístico” y es a ese model al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas / librerias / frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.</p>
+<p>De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo)</p>
+<blockquote>
+<p>Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas</p>
+</blockquote>
+<p>Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier corpus de documentos que posea una cantidad necesaria de datos.</p>
 
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-honnibal_NER">
+<p>Honnibal, M. (2017). Practical and effective neural ner. Retrieved November 2, 2017, from <a href="https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf">https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf</a></p>
+</div>
+<div id="ref-kripke1980naming">
+<p>Kripke, S. (1980). <em>Naming and necessity</em>. Retrieved from <a href="https://books.google.com.ar/books?id=9vvAlOBfq0kC">https://books.google.com.ar/books?id=9vvAlOBfq0kC</a></p>
+</div>
+<div id="ref-montani_AI">
+<p>Montani, I. (2016). Practical and effective neural ner. Retrieved November 28, 2016, from <a href="https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf">https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf</a></p>
+</div>
+<div id="ref-Poibeau2000ProperNE">
+<p>Poibeau, T., &amp; Kosseim, L. (2000). Proper name extraction from non-journalistic texts. <em>CLIN</em>.</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="state-of-art.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="implementation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="state-of-art.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -233,7 +341,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/qcho/nerd-pf/edit/master/03-problem-definition.Rmd",
+"link": "https://github.com/qcho/nerd-pf/edit/master/02-problem-definition.Rmd",
 "text": "Editar"
 },
 "history": {
