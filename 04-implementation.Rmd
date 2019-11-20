@@ -341,7 +341,31 @@ Esta vista también se conoce como la vista de implementación.
 
 ### Web
 
-La página web que contiene la interfaz de administración así como también la de entrenamiento fue implementada utilizando el lenguaje _Typescript_
+La página web que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de _Single Page Application_ que nos permitió generar un _bundle_ que puede ser hosteado en _CDNs_ y nos permite tener ciclos de release independientes al los del servicio.
+
+Poder separar las releases de la web y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el _API REST_ y una baja por cambios a la interfaz de la web no afecta la disponibilidad del servicio.
+
+#### Tecnologías
+
+Para la implementación utilizamos el lenguaje de programación llamado **Typescript**, lenguaje desarrollado por _Microsoft_ que compila a _JavaScript_ con el agregado de _Tipos_ que permiten producir código de mayor calidad debido al agregado de la posibilidad del chequeo estático de código para validar su correctitud.
+
+Una vez definido el lenguaje, optamos por utilizar la librería llamada **ReactJS** [@react] desarrollada por _Facebook_ para implementar la interfaz.
+
+Sumado a **ReactJS**, incluímos diversas librerías para poder resolver varios problemas en el desarrollo de una _SPA_:
+
+##### Material UI
+Provee de una biblioteca de componentes estilados siguiendo el patrón de diseño propuesto por _Google_ llamado _Material Design_. 
+
+##### React Router
+Desarrollada por _React Training_, proveé de mecanimos para la navegación en _SPAs_.
+
+##### i18next
+Librería que proveé mecanismos de internacionalización. A su vez, nos permitió generar los archivos de traducción mediante su extracción del código fuente utilizando la herramienta `i18next-scanner`.
+
+##### OpenAPI Generator
+
+_OpenAPI Generator_ es una herramienta que permite generar código a partir de una definición de _OpenAPI_.
+Debido a que el servicio implementado expone una definiciión de _OpenAPI_, podemos utilizar ésta librería para auto-generar todo el código necesario para comunicarnos con el servicio usando el generador de _Typescript_.
 
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
 <!-- TODO: Hablar sobre Atributos de calidad de software -->
