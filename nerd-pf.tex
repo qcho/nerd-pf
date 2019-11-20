@@ -1261,6 +1261,54 @@ La vista de proceso trata los aspectos dinámicos del sistema, explica los proce
 La vista de proceso aborda concurrencia, distribución, integradores, rendimiento y escalabilidad, etc.
 \end{quote}
 
+Existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/process/process-overview-client.pdf} 
+
+}
+
+\caption{Componentes del sistema}\label{fig:process-overview-client}
+\end{figure}
+
+\hypertarget{api}{%
+\subsubsection{API}\label{api}}
+
+Servicio en el cual los clientes pueden pedir las \emph{Entidades Nombradas} de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
+El \emph{API} se comunica el servicio de \emph{Bases de Datos} para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos \emph{snapshots} y con el \emph{Task Scheduler} para realizar diversas tareas relacionadas con \emph{Spacy}.
+
+\hypertarget{task-scheduler}{%
+\subsubsection{Task Scheduler}\label{task-scheduler}}
+
+Recibe tareas desde el \emph{API} tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. Dado que su tarea es recibir tareas desde el \emph{API} y enviar y recibir mensajes de los \emph{Workers}, debería existir una única instancia del mismo.
+A su vez, notifica al \emph{API} la finalización de tareas asincrónicas
+
+\hypertarget{worker}{%
+\subsubsection{Worker}\label{worker}}
+
+Un \emph{Worker} se encarga de realizar el \emph{Reconocimiento de Entidades Nombradas} así como también de entrenar modelos de inferencia. Es un servicio que existe de manera independiente y necesita de dos otros servicios para funcionar:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Base de datos} para obtener los datos necesarios para entrenar un modelo.
+\item
+  \emph{Task scheduler} para poder recibir tareas.
+\end{itemize}
+
+Como el \emph{Worker} es una unidad de trabajo que recibe tareas desde el \emph{Task Scheduler}, es posible tener varios \emph{Workers} donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos snapshots).
+
+\hypertarget{database}{%
+\subsubsection{Database}\label{database}}
+
+Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de API funcione así como también los datos necesarios por los workers (entrenamientos).
+
+\hypertarget{cliente}{%
+\subsubsection{Cliente}\label{cliente}}
+
+Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-generado a partir de la definición de \emph{OpenAPI}. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades
+
 \hypertarget{vista-de-desarrollo}{%
 \subsection{Vista de desarrollo}\label{vista-de-desarrollo}}
 

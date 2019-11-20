@@ -52,6 +52,14 @@
 
 
 
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/d3-3.3.8/d3.min.js"></script>
+<script src="libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/chromatography-0.1/chromatography.js"></script>
+<script src="libs/DiagrammeR-binding-1.0.1/DiagrammeR.js"></script>
 
 
 <style type="text/css">
@@ -164,7 +172,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1.1" data-path="implementation.html"><a href="implementation.html#servicio"><i class="fa fa-check"></i><b>4.1.1</b> Servicio</a></li>
 <li class="chapter" data-level="4.1.2" data-path="implementation.html"><a href="implementation.html#web"><i class="fa fa-check"></i><b>4.1.2</b> Web</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="implementation.html"><a href="implementation.html#vista-de-proceso"><i class="fa fa-check"></i><b>4.2</b> Vista de proceso</a></li>
+<li class="chapter" data-level="4.2" data-path="implementation.html"><a href="implementation.html#vista-de-proceso"><i class="fa fa-check"></i><b>4.2</b> Vista de proceso</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="implementation.html"><a href="implementation.html#api"><i class="fa fa-check"></i><b>4.2.1</b> API</a></li>
+<li class="chapter" data-level="4.2.2" data-path="implementation.html"><a href="implementation.html#task-scheduler"><i class="fa fa-check"></i><b>4.2.2</b> Task Scheduler</a></li>
+<li class="chapter" data-level="4.2.3" data-path="implementation.html"><a href="implementation.html#worker"><i class="fa fa-check"></i><b>4.2.3</b> Worker</a></li>
+<li class="chapter" data-level="4.2.4" data-path="implementation.html"><a href="implementation.html#database"><i class="fa fa-check"></i><b>4.2.4</b> Database</a></li>
+<li class="chapter" data-level="4.2.5" data-path="implementation.html"><a href="implementation.html#cliente"><i class="fa fa-check"></i><b>4.2.5</b> Cliente</a></li>
+</ul></li>
 <li class="chapter" data-level="4.3" data-path="implementation.html"><a href="implementation.html#vista-de-desarrollo"><i class="fa fa-check"></i><b>4.3</b> Vista de desarrollo</a></li>
 <li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a></li>
 <li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a></li>
@@ -597,10 +611,45 @@ Figura 4.13: Comparativa de modelos
 <h2><span class="header-section-number">4.2</span> Vista de proceso</h2>
 <blockquote>
 <p>La vista de proceso trata los aspectos dinámicos del sistema, explica los procesos del sistema y cómo se comunican, y se centra en el comportamiento del sistema en tiempo de ejecución.
-La vista de proceso aborda concurrencia, distribución, integradores, rendimiento y escalabilidad, etc.
-<!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. --></p>
+La vista de proceso aborda concurrencia, distribución, integradores, rendimiento y escalabilidad, etc.</p>
 </blockquote>
+<p>Existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.</p>
+<div class="figure" style="text-align: center"><span id="fig:process-overview-client"></span>
+<img src="assets/process/process-overview-client.png" alt="Componentes del sistema"  />
+<p class="caption">
+Figura 4.14: Componentes del sistema
+</p>
+</div>
+<div id="api" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> API</h3>
+<p>Servicio en el cual los clientes pueden pedir las <em>Entidades Nombradas</em> de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
+El <em>API</em> se comunica el servicio de <em>Bases de Datos</em> para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos <em>snapshots</em> y con el <em>Task Scheduler</em> para realizar diversas tareas relacionadas con <em>Spacy</em>.</p>
+</div>
+<div id="task-scheduler" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Task Scheduler</h3>
+<p>Recibe tareas desde el <em>API</em> tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. Dado que su tarea es recibir tareas desde el <em>API</em> y enviar y recibir mensajes de los <em>Workers</em>, debería existir una única instancia del mismo.
+A su vez, notifica al <em>API</em> la finalización de tareas asincrónicas</p>
+</div>
+<div id="worker" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Worker</h3>
+<p>Un <em>Worker</em> se encarga de realizar el <em>Reconocimiento de Entidades Nombradas</em> así como también de entrenar modelos de inferencia. Es un servicio que existe de manera independiente y necesita de dos otros servicios para funcionar:</p>
+<ul>
+<li><em>Base de datos</em> para obtener los datos necesarios para entrenar un modelo.</li>
+<li><em>Task scheduler</em> para poder recibir tareas.</li>
+</ul>
+<p>Como el <em>Worker</em> es una unidad de trabajo que recibe tareas desde el <em>Task Scheduler</em>, es posible tener varios <em>Workers</em> donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos snapshots).</p>
+</div>
+<div id="database" class="section level3">
+<h3><span class="header-section-number">4.2.4</span> Database</h3>
+<p>Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de API funcione así como también los datos necesarios por los workers (entrenamientos).</p>
+</div>
+<div id="cliente" class="section level3">
+<h3><span class="header-section-number">4.2.5</span> Cliente</h3>
+<p>Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-generado a partir de la definición de <em>OpenAPI</em>. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades</p>
+<!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
 <!-- TODO: explicar ui vs backend vs mensajes amq vs workers (no detalles de implementación ver siguiente) -->
+<!-- TODO: Diagrama de actividad para contar procesos? O nah? -->
+</div>
 </div>
 <div id="vista-de-desarrollo" class="section level2">
 <h2><span class="header-section-number">4.3</span> Vista de desarrollo</h2>
@@ -611,6 +660,7 @@ Esta vista también se conoce como la vista de implementación.
 <!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. --></p>
 </blockquote>
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
+<!-- TODO: Hablar sobre Atributos de calidad de software -->
 </div>
 <div id="vista-física" class="section level2">
 <h2><span class="header-section-number">4.4</span> Vista física</h2>
