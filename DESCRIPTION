@@ -2,5 +2,5 @@ Package: placeholder
 Type: Book
 Title: Named Entiity Recognition Duh!
 Version: 0.0.1
-Imports: bookdown, tufte, DiagrammeR
+Imports: bookdown, tufte, DiagrammeR, webshot
 Remotes: rstudio/bookdown
