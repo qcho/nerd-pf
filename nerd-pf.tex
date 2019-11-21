@@ -326,7 +326,7 @@ El estado del arte de \emph{NER} desde 2014 con la introducción de Redes Neuron
 
 }
 
-\caption{Principales avances del estado del arte para NER en los últimos años}\label{fig:spacy-algos}
+\caption{Principales avances del estado del arte para NER en los últimos años.}\label{fig:spacy-algos}
 \end{figure}
 
 Las razones por las cuales esto ocurre escapa el alcance de este trabajo pero se pueden resumir bajo la ley de los rendimientos decrecientes (Case \& Fair, \protect\hyperlink{ref-lawOfDiminishingReturns}{1999}). Se necesita mucho esfuerzo académico para obtener una mejora marginal en el estado del arte actual.
@@ -386,7 +386,7 @@ Cada componente del pipeline mostrado en la figura \ref{fig:spacy-pipeline} devu
 
 }
 
-\caption{Pipeline standard para los algoritmos de NER}\label{fig:spacy-pipeline}
+\caption{Pipeline standard para los algoritmos de NER.}\label{fig:spacy-pipeline}
 \end{figure}
 
 En este capítulo estudiaremos la morfología de dicho pipeline.
@@ -472,7 +472,7 @@ De esta manera quedan definidas las piezas que describen al modelo de \emph{spaC
 
 }
 
-\caption{Estados posibles para las diferentes etapas de la CNN}\label{fig:formula-shapes}
+\caption{Estados posibles para las diferentes etapas de la CNN.}\label{fig:formula-shapes}
 \end{figure}
 
 Estos 4 procesos seran descriptos en detalle en las siguientes secciones.
@@ -492,7 +492,7 @@ La idea de \emph{word embeddings} es la de \enquote{embeber} el conjunto de toke
 
 }
 
-\caption{embed}\label{fig:formula-embed}
+\caption{Embed.}\label{fig:formula-embed}
 \end{figure}
 
 Es importante destacar que en la etapa de \emph{embed}, toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razón es facilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras están relacionadas entre sí de manera eficiente y no supervisada).
@@ -512,7 +512,7 @@ El objetivo de ésta etapa es la de encontrar las características intrínsecas 
 
 }
 
-\caption{características lingüísticas}\label{fig:formula-pos}
+\caption{Características lingüísticas.}\label{fig:formula-pos}
 \end{figure}
 
 \begin{itemize}
@@ -552,7 +552,7 @@ Otra forma interesante de analizar y entender los \emph{word-vectors} en su cont
 
 }
 
-\caption{Parallelogram structure in the vector space (by definition),}\label{fig:vec-parallelogram}
+\caption{Parallelogram structure in the vector space (by definition).}\label{fig:vec-parallelogram}
 \end{figure}
 
 Es facil de entender viendo la figura \ref{fig:vec-parallelogram} que al realizar algebra entre los diferentes vectores de significado se pueden inferir nuevos conceptos:
@@ -595,7 +595,7 @@ En esta etapa toda la información generada en las etapas anteriores es analizad
 
 }
 
-\caption{attend}\label{fig:formula-attend}
+\caption{Attend.}\label{fig:formula-attend}
 \end{figure}
 
 Al reducir la matriz a un vector, necesariamente se está perdiendo información. Es por eso que el \enquote{vector de contexto} es crucial: Indica que información descartar, de modo que el \enquote{vector resumen} se adapte a la red que lo consume.
@@ -690,7 +690,7 @@ Para organizar este capítulo vamos a realizar una descripción basada en el mod
 
 }
 
-\caption{Ilustración de arquitectura 4+1}\label{fig:arq41}
+\caption{Ilustración de arquitectura 4+1.}\label{fig:arq41}
 \end{figure}
 
 Este modelo nos permite describir la aplicación de una manera genérica y ordenada.
@@ -727,7 +727,7 @@ También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a
 
 }
 
-\caption{Pantalla de inicio con usuario logueado}\label{fig:logic-home}
+\caption{Pantalla de inicio con usuario logueado.}\label{fig:logic-home}
 \end{figure}
 
 Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso.
@@ -738,7 +738,7 @@ Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a
 
 }
 
-\caption{Pantalla de inicio sin rol de entrenador}\label{fig:logic-home-logged-nontrainer}
+\caption{Pantalla de inicio sin rol de entrenador.}\label{fig:logic-home-logged-nontrainer}
 \end{figure}
 
 Si la persona visitando la página no cuenta con una sesión activa, se le invita a ingresar con una cuenta pre-existente o a registrarse.
@@ -749,7 +749,7 @@ Si la persona visitando la página no cuenta con una sesión activa, se le invit
 
 }
 
-\caption{Pantalla de inicio sin sesión}\label{fig:logic-home-anonymous}
+\caption{Pantalla de inicio sin sesión.}\label{fig:logic-home-anonymous}
 \end{figure}
 
 \hypertarget{entrenamiento}{%
@@ -765,7 +765,7 @@ El usuario es presentado con un texto perteneciente al Corpus del servicio con l
 
 }
 
-\caption{Pantalla de entrenamiento}\label{fig:logic-train}
+\caption{Pantalla de entrenamiento.}\label{fig:logic-train}
 \end{figure}
 
 \hypertarget{usabilidad}{%
@@ -784,7 +784,7 @@ Como refuerzo de este llamado a acción, agregamos un botón que al ser clickead
 
 }
 
-\caption{Ayuda del entrenador}\label{fig:logic-train-help}
+\caption{Ayuda del entrenador.}\label{fig:logic-train-help}
 \end{figure}
 
 Creación y edición de entidades
@@ -806,7 +806,7 @@ La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de 
 
 }
 
-\caption{Edición de entidad}\label{fig:logic-train-popup}
+\caption{Edición de entidad.}\label{fig:logic-train-popup}
 \end{figure}
 
 Para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
@@ -827,7 +827,7 @@ La pantalla de \emph{Administración de usuarios} permite a los usuarios con el 
 
 }
 
-\caption{Administración de usuarios}\label{fig:logic-user-list}
+\caption{Administración de usuarios.}\label{fig:logic-user-list}
 \end{figure}
 
 \hypertarget{detalles-de-usuario}{%
@@ -843,7 +843,7 @@ Los usuarios con rol administrador pueden realizar las acciones mencionadas prev
 
 }
 
-\caption{Perfil de usuario}\label{fig:logic-user-profile}
+\caption{Perfil de usuario.}\label{fig:logic-user-profile}
 \end{figure}
 
 \hypertarget{corpus}{%
@@ -857,7 +857,7 @@ La pantalla de \emph{Corpus} permite a un usuario con el rol de administrador re
 
 }
 
-\caption{Administración de corpus}\label{fig:logic-corpus-management}
+\caption{Administración de corpus.}\label{fig:logic-corpus-management}
 \end{figure}
 
 Desde aquí es posible agregar textos al corpus utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión \emph{.txt} y cada línea del archivo será agregada al corpus como un texto individual.
@@ -875,7 +875,7 @@ La pantalla de \emph{Estado} permite a un usuario con el rol de administrador vi
 
 }
 
-\caption{Información de corpus y manejo de workers}\label{fig:logic-status}
+\caption{Información de corpus y manejo de workers.}\label{fig:logic-status}
 \end{figure}
 
 \hypertarget{secciones}{%
@@ -912,7 +912,7 @@ Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las en
 
 }
 
-\caption{Inferencia de entidades en sandbox}\label{fig:logic-sandbox}
+\caption{Inferencia de entidades en sandbox.}\label{fig:logic-sandbox}
 \end{figure}
 
 \hypertarget{comparar}{%
@@ -926,7 +926,7 @@ Sección accesible únicamente a administradores en la que es posible comparar l
 
 }
 
-\caption{Comparativa de modelos}\label{fig:logic-compare}
+\caption{Comparativa de modelos.}\label{fig:logic-compare}
 \end{figure}
 
 \hypertarget{registraciuxf3n}{%
@@ -940,7 +940,7 @@ Sección únicamente accesible cuando no hay una sesión activa. Aquí se regist
 
 }
 
-\caption{Registración}\label{fig:logic-registration}
+\caption{Registración.}\label{fig:logic-registration}
 \end{figure}
 
 \hypertarget{login}{%
@@ -954,7 +954,7 @@ Sección únicamente accesible cuando no hay una sesión activa. Aquí ingresan 
 
 }
 
-\caption{Inicio de sesión}\label{fig:logic-login}
+\caption{Inicio de sesión.}\label{fig:logic-login}
 \end{figure}
 
 \hypertarget{barra-de-navegaciuxf3n}{%
@@ -970,7 +970,7 @@ Cuando no hay una sesión activa, se muestran únicamente las opciones para acce
 
 }
 
-\caption{Usuario anónimo}\label{fig:logic-status-anonymous}
+\caption{Usuario anónimo.}\label{fig:logic-status-anonymous}
 \end{figure}
 
 Cuando hay una sesión activa el usuario cuenta con el rol de \emph{USER} y/o de \emph{TRAINER} pero \textbf{no} con el de \emph{ADMIN}, debería poder acceder únicamente a su perfil.
@@ -981,7 +981,7 @@ Cuando hay una sesión activa el usuario cuenta con el rol de \emph{USER} y/o de
 
 }
 
-\caption{Usuario regular}\label{fig:logic-status-user}
+\caption{Usuario regular.}\label{fig:logic-status-user}
 \end{figure}
 
 Finalmente, cuando el usuario logueado tiene el rol de \emph{ADMIN}, tiene acceso a todas las secciones de administración del sistema.
@@ -992,7 +992,7 @@ Finalmente, cuando el usuario logueado tiene el rol de \emph{ADMIN}, tiene acces
 
 }
 
-\caption{Usuario administrador}\label{fig:logic-status-admin}
+\caption{Usuario administrador.}\label{fig:logic-status-admin}
 \end{figure}
 
 \hypertarget{servicio}{%
@@ -1388,7 +1388,7 @@ Existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.
 
 }
 
-\caption{Componentes del sistema}\label{fig:process-overview-client}
+\caption{Componentes del sistema.}\label{fig:process-overview-client}
 \end{figure}
 
 \hypertarget{api}{%
@@ -1484,7 +1484,7 @@ El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como
 
 }
 
-\caption{Módulos de la página web}\label{fig:developer-web-modules}
+\caption{Módulos de la página web.}\label{fig:developer-web-modules}
 \end{figure}
 
 Los módulos marcados en azul son relacionados al contenido que se muestra cada ruta del sistema.

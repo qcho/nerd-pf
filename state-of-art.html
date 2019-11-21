@@ -228,9 +228,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados, tienen como primer paso el de separar el los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el “pipeline de procesamiento”. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de <em>NER</em>.</p>
 <p>Cada componente del pipeline mostrado en la figura <a href="state-of-art.html#fig:spacy-pipeline">3.1</a> devuelve el un documento <em>Doc</em> procesado, que luego se pasa al siguiente componente.</p>
 <div class="figure" style="text-align: center"><span id="fig:spacy-pipeline"></span>
-<img src="assets/spacy_pipeline.png" alt="Pipeline standard para los algoritmos de NER"  />
+<img src="assets/spacy_pipeline.png" alt="Pipeline standard para los algoritmos de NER."  />
 <p class="caption">
-Figura 3.1: Pipeline standard para los algoritmos de NER
+Figura 3.1: Pipeline standard para los algoritmos de NER.
 </p>
 </div>
 <p>En este capítulo estudiaremos la morfología de dicho pipeline.</p>
@@ -278,9 +278,9 @@ Figura 3.2: Transiciones del modelo Stack-LSTM indicando la acción aplicada y e
 <p>Finalmente, el mecanismo de <strong><em>attend</em></strong> le permite reducir la matriz de oración a un vector de oración, listo para la predicción (<strong><em>predict</em></strong>).</p>
 <p>De esta manera quedan definidas las piezas que describen al modelo de <em>spaCy</em>:</p>
 <div class="figure" style="text-align: center"><span id="fig:formula-shapes"></span>
-<img src="assets/deep-learning-formula-nlp_shapes.png" alt="Estados posibles para las diferentes etapas de la CNN"  />
+<img src="assets/deep-learning-formula-nlp_shapes.png" alt="Estados posibles para las diferentes etapas de la CNN."  />
 <p class="caption">
-Figura 3.3: Estados posibles para las diferentes etapas de la CNN
+Figura 3.3: Estados posibles para las diferentes etapas de la CNN.
 </p>
 </div>
 <p>Estos 4 procesos seran descriptos en detalle en las siguientes secciones.</p>
@@ -291,9 +291,9 @@ Figura 3.3: Estados posibles para las diferentes etapas de la CNN
 </blockquote>
 <p>La idea de <em>word embeddings</em> es la de “embeber” el conjunto de tokens que componen términos con información adicional. El resultado de esta operación es una estructura abstracta que puede ser descripta como un “vector de significado”.</p>
 <div class="figure" style="text-align: center"><span id="fig:formula-embed"></span>
-<img src="assets/deep-learning-formula-nlp_embed.svg" alt="embed"  />
+<img src="assets/deep-learning-formula-nlp_embed.svg" alt="Embed."  />
 <p class="caption">
-Figura 3.4: embed
+Figura 3.4: Embed.
 </p>
 </div>
 <p>Es importante destacar que en la etapa de <em>embed</em>, toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razón es facilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras están relacionadas entre sí de manera eficiente y no supervisada).</p>
@@ -303,9 +303,9 @@ Figura 3.4: embed
 <h4><span class="header-section-number">3.5.1.1</span> Información ligüística</h4>
 <p>El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas, están resumidas en el siguiente ejemplo (TODO: figura 6).</p>
 <div class="figure" style="text-align: center"><span id="fig:formula-pos"></span>
-<img src="assets/pos.png" alt="características lingüísticas"  />
+<img src="assets/pos.png" alt="Características lingüísticas."  />
 <p class="caption">
-Figura 3.5: características lingüísticas
+Figura 3.5: Características lingüísticas.
 </p>
 </div>
 <ul>
@@ -326,9 +326,9 @@ Es interesante pensar a las palabras como “vectores de significado”. Dentro 
 Los <em>word-vectors</em> ponen ese hecho a disposición del modelo de reconocimiento de entidades. Si bien no existen ejemplos de “Manaos” etiquetados como “Producto”; se verá que “Manaos” tiene un vector de palabras que generalmente corresponde a los términos de un producto, por lo que puede hacer la inferencia. Y si se quiere llegar incluso al detalle de que es una “Gaseosa”.</p>
 <p>Otra forma interesante de analizar y entender los <em>word-vectors</em> en su contexto de espacio vectorial multidimensional de significados es a través del algebra de vectores, como se muestra en el trabajo “<em>Towards Understanding Linear Word Analogies</em>” <span class="citation">(Ethayarajh, Duvenaud, &amp; Hirst, <a href="#ref-ethayarajh-etal-2019-towards">2019</a>)</span>:</p>
 <div class="figure" style="text-align: center"><span id="fig:vec-parallelogram"></span>
-<img src="assets/parallelogram.png" alt="Parallelogram structure in the vector space (by definition),"  />
+<img src="assets/parallelogram.png" alt="Parallelogram structure in the vector space (by definition)."  />
 <p class="caption">
-Figura 3.6: Parallelogram structure in the vector space (by definition),
+Figura 3.6: Parallelogram structure in the vector space (by definition).
 </p>
 </div>
 <p>Es facil de entender viendo la figura <a href="state-of-art.html#fig:vec-parallelogram">3.6</a> que al realizar algebra entre los diferentes vectores de significado se pueden inferir nuevos conceptos:</p>
@@ -358,9 +358,9 @@ Figura 3.7: Encode.
 </blockquote>
 <p>En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o tambien conocido como “vector de consulta” o “vector de contexto” representado en la figura <a href="state-of-art.html#fig:formula-attend">3.8</a> como un vector mas oscuro.</p>
 <div class="figure" style="text-align: center"><span id="fig:formula-attend"></span>
-<img src="assets/deep-learning-formula-nlp_attend.svg" alt="attend"  />
+<img src="assets/deep-learning-formula-nlp_attend.svg" alt="Attend."  />
 <p class="caption">
-Figura 3.8: attend
+Figura 3.8: Attend.
 </p>
 </div>
 <p>Al reducir la matriz a un vector, necesariamente se está perdiendo información. Es por eso que el “vector de contexto” es crucial: Indica que información descartar, de modo que el “vector resumen” se adapte a la red que lo consume.</p>
