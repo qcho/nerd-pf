@@ -269,31 +269,31 @@ También se suele definir sencillamente como aquellas entidades que se pueden ve
 <p>La segunda fase requiere elegir una ontología para organizar categorías de cosas.</p>
 <div id="dificultades-para-encontrar-mejores-algoritmos" class="section level4">
 <h4><span class="header-section-number">2.1.2.1</span> Dificultades para encontrar mejores algoritmos</h4>
-<p>El estado del arte de <code>NER</code> desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta <span class="citation">(Honnibal, <a href="#ref-honnibal_NER">2017</a>)</span>. En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la siguiente figura:</p>
+<p>El estado del arte de <em>NER</em> desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta <span class="citation">(Honnibal, <a href="#ref-honnibal_NER">2017</a>)</span>. En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la figura <a href="problem-definition.html#fig:spacy-algos">2.1</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:spacy-algos"></span>
 <img src="assets/state-of-the-art_difficulties.png" alt="Principales avances del estado del arte para NER en los últimos años"  />
 <p class="caption">
 Figura 2.1: Principales avances del estado del arte para NER en los últimos años
 </p>
 </div>
-<p>Las razones por las cuales esto ocurre escapa el alcance de este trabajo pero se pueden resumir bajo la ley de los rendimientos decrecientes. Se necesita mucho esfuerzo académico para obtener una mejora marginal en el estado del arte actual.</p>
-<p>Es por esto que resulta interesante analizar que otro tipo de problemas podemos atacar en este trabajo.</p>
+<p>Las razones por las cuales esto ocurre escapa el alcance de este trabajo pero se pueden resumir bajo la ley de los rendimientos decrecientes <span class="citation">(Case &amp; Fair, <a href="#ref-lawOfDiminishingReturns">1999</a>)</span>. Se necesita mucho esfuerzo académico para obtener una mejora marginal en el estado del arte actual.</p>
+<p>Es por esto que resulta interesante analizar que otro tipo de problemas podemos abordar en este trabajo.</p>
 </div>
 <div id="dominios-del-problema" class="section level4">
 <h4><span class="header-section-number">2.1.2.2</span> Dominios del problema</h4>
-<p>Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura <a href="problem-definition.html#fig:spacy-algos">2.1</a> coinciden; incluso los sistemas NER más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios <span class="citation">(Poibeau &amp; Kosseim, <a href="#ref-Poibeau2000ProperNE">2000</a>)</span>. La puesta a punto de un sistema NER para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.</p>
+<p>Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura <a href="problem-definition.html#fig:spacy-algos">2.1</a> coinciden; incluso los sistemas <em>NER</em> más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios <span class="citation">(Poibeau &amp; Kosseim, <a href="#ref-Poibeau2000ProperNE">2000</a>)</span>. La puesta a punto de un sistema <em>NER</em> para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.</p>
 <p>Se entiende por dominio a todos los textos que en su conjunto forman un corpus común. Ejemplos de estos son “Noticias periodísticas”, “Textos jurídicos”, “Reportes militares”, “Papers académicos”, etc.</p>
 </div>
 </div>
 </div>
 <div id="los-datos-son-el-problema" class="section level2">
 <h2><span class="header-section-number">2.2</span> Los datos son el problema</h2>
-<p>Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la IA es el la captura de datos, no los algoritmos <span class="citation">(Montani, <a href="#ref-montani_AI">2016</a>)</span>.</p>
-<p>En particular para el estado actual del arte de <code>NER</code> es necesario tener el cuerpo de textos a analizar (Corpus) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.</p>
+<p>Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la “Inteligencia Artificial” es el la captura de datos, no los algoritmos <span class="citation">(Montani, <a href="#ref-montani_AI">2016</a>)</span>.</p>
+<p>En particular para el estado actual del arte de <em>NER</em> es necesario tener el cuerpo de textos a analizar (<em>corpus</em>) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.</p>
 <p>Este aprendizaje se carga en lo que se reconoce como un “Modelo estadístico” y es a ese model al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas / librerias / frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.</p>
-<p>De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo)</p>
+<p>De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo).</p>
 <blockquote>
-<p>Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas</p>
+<p>Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas.</p>
 </blockquote>
 <p>Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier corpus de documentos que posea una cantidad necesaria de datos.</p>
 
@@ -302,6 +302,9 @@ Figura 2.1: Principales avances del estado del arte para NER en los últimos añ
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
+<div id="ref-lawOfDiminishingReturns">
+<p>Case, K. E., &amp; Fair, R. C. (1999). <em>Principles of economics</em>. Retrieved from <a href="https://books.google.com.ar/books?id=9vvAlOBfq0kC">https://books.google.com.ar/books?id=9vvAlOBfq0kC</a></p>
+</div>
 <div id="ref-honnibal_NER">
 <p>Honnibal, M. (2017). Practical and effective neural ner. Retrieved November 2, 2017, from <a href="https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf">https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf</a></p>
 </div>

@@ -226,7 +226,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="el-pipeline" class="section level2">
 <h2><span class="header-section-number">3.2</span> El pipeline</h2>
 <p>Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados, tienen como primer paso el de separar el los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el “pipeline de procesamiento”. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de <em>NER</em>.</p>
-<p>Cada componente del pipeline devuelve el <em>Doc</em> procesado, que luego se pasa al siguiente componente.</p>
+<p>Cada componente del pipeline mostrado en la figura <a href="state-of-art.html#fig:spacy-pipeline">3.1</a> devuelve el un documento <em>Doc</em> procesado, que luego se pasa al siguiente componente.</p>
 <div class="figure" style="text-align: center"><span id="fig:spacy-pipeline"></span>
 <img src="assets/spacy_pipeline.png" alt="Pipeline standard para los algoritmos de NER"  />
 <p class="caption">

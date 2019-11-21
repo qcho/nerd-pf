@@ -196,12 +196,12 @@
 \hypertarget{intro}{%
 \section{Introducción}\label{intro}}
 
-El \textbf{Reconocimiento de Entidades Nombradas} (\emph{NER}) es una subtarea de extracción de información que busca ubicar las menciones de \textbf{entidades nombradas} en textos no estructurados. Estas entidades son luego clasificadas en categorías predefinidas como los nombres de personas, organizaciones, ubicaciones, expresiones de tiempo, cantidades, valores monetarios, porcentajes, entre otras.
+El \textbf{Reconocimiento de Entidades Nombradas} (\emph{NER}) es una subtarea del área de \emph{Natural Language Processing} (\emph{NLP}) que busca extraer \textbf{entidades nombradas} en textos no estructurados. Estas entidades son luego clasificadas en categorías predefinidas como los nombres de personas, organizaciones, ubicaciones, expresiones de tiempo, cantidades, valores monetarios, porcentajes, entre otras.
 
 Por ejemplo en el siguiente texto:
 
 \begin{quote}
-Este es el proyecto final de carrera de los alumnos Gómez y Orsay para el Instituto Tecnológico de Buenos Aires.
+Este es el proyecto final de la carrera Ingeniería Informática de los alumnos Gómez y Orsay para el Instituto Tecnológico de Buenos Aires.
 \end{quote}
 
 Se pueden detectar 3 entidades:
@@ -318,7 +318,7 @@ La segunda fase requiere elegir una ontología para organizar categorías de cos
 \hypertarget{dificultades-para-encontrar-mejores-algoritmos}{%
 \paragraph{Dificultades para encontrar mejores algoritmos}\label{dificultades-para-encontrar-mejores-algoritmos}}
 
-El estado del arte de \texttt{NER} desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta (Honnibal, \protect\hyperlink{ref-honnibal_NER}{2017}). En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la siguiente figura:
+El estado del arte de \emph{NER} desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta (Honnibal, \protect\hyperlink{ref-honnibal_NER}{2017}). En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la figura \ref{fig:spacy-algos}.
 
 \begin{figure}[H]
 
@@ -329,30 +329,30 @@ El estado del arte de \texttt{NER} desde 2014 con la introducción de Redes Neur
 \caption{Principales avances del estado del arte para NER en los últimos años}\label{fig:spacy-algos}
 \end{figure}
 
-Las razones por las cuales esto ocurre escapa el alcance de este trabajo pero se pueden resumir bajo la ley de los rendimientos decrecientes. Se necesita mucho esfuerzo académico para obtener una mejora marginal en el estado del arte actual.
+Las razones por las cuales esto ocurre escapa el alcance de este trabajo pero se pueden resumir bajo la ley de los rendimientos decrecientes (Case \& Fair, \protect\hyperlink{ref-lawOfDiminishingReturns}{1999}). Se necesita mucho esfuerzo académico para obtener una mejora marginal en el estado del arte actual.
 
-Es por esto que resulta interesante analizar que otro tipo de problemas podemos atacar en este trabajo.
+Es por esto que resulta interesante analizar que otro tipo de problemas podemos abordar en este trabajo.
 
 \hypertarget{dominios-del-problema}{%
 \paragraph{Dominios del problema}\label{dominios-del-problema}}
 
-Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura \ref{fig:spacy-algos} coinciden; incluso los sistemas NER más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios (Poibeau \& Kosseim, \protect\hyperlink{ref-Poibeau2000ProperNE}{2000}). La puesta a punto de un sistema NER para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.
+Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura \ref{fig:spacy-algos} coinciden; incluso los sistemas \emph{NER} más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios (Poibeau \& Kosseim, \protect\hyperlink{ref-Poibeau2000ProperNE}{2000}). La puesta a punto de un sistema \emph{NER} para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.
 
 Se entiende por dominio a todos los textos que en su conjunto forman un corpus común. Ejemplos de estos son \enquote{Noticias periodísticas}, \enquote{Textos jurídicos}, \enquote{Reportes militares}, \enquote{Papers académicos}, etc.
 
 \hypertarget{los-datos-son-el-problema}{%
 \subsection{Los datos son el problema}\label{los-datos-son-el-problema}}
 
-Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la IA es el la captura de datos, no los algoritmos (Montani, \protect\hyperlink{ref-montani_AI}{2016}).
+Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la \enquote{Inteligencia Artificial} es el la captura de datos, no los algoritmos (Montani, \protect\hyperlink{ref-montani_AI}{2016}).
 
-En particular para el estado actual del arte de \texttt{NER} es necesario tener el cuerpo de textos a analizar (Corpus) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.
+En particular para el estado actual del arte de \emph{NER} es necesario tener el cuerpo de textos a analizar (\emph{corpus}) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.
 
 Este aprendizaje se carga en lo que se reconoce como un \enquote{Modelo estadístico} y es a ese model al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas / librerias / frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
 
-De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo)
+De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo).
 
 \begin{quote}
-Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas
+Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas.
 \end{quote}
 
 Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier corpus de documentos que posea una cantidad necesaria de datos.
@@ -378,7 +378,7 @@ Además la implementación de \emph{spaCy} es robusta y orientada a la creación
 
 Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados, tienen como primer paso el de separar el los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el \enquote{pipeline de procesamiento}. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de \emph{NER}.
 
-Cada componente del pipeline devuelve el \emph{Doc} procesado, que luego se pasa al siguiente componente.
+Cada componente del pipeline mostrado en la figura \ref{fig:spacy-pipeline} devuelve el un documento \emph{Doc} procesado, que luego se pasa al siguiente componente.
 
 \begin{figure}[H]
 
@@ -1719,6 +1719,9 @@ You can write citations, too. For example, we are using the \textbf{bookdown} pa
 \hypertarget{refs}{}
 \leavevmode\hypertarget{ref-brunstein2002}{}%
 Brunstein, A. (2002). Annotation guidelines for answer types. Retrieved from \url{https://catalog.ldc.upenn.edu/docs/LDC2005T33/BBN-Types-Subtypes.html}
+
+\leavevmode\hypertarget{ref-lawOfDiminishingReturns}{}%
+Case, K. E., \& Fair, R. C. (1999). \emph{Principles of economics}. Retrieved from \url{https://books.google.com.ar/books?id=9vvAlOBfq0kC}
 
 \leavevmode\hypertarget{ref-cambridge_duh}{}%
 Duh definition. (2019). Retrieved October 14, 2019, from \url{https://dictionary.cambridge.org/es/diccionario/ingles/duh}
