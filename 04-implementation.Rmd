@@ -189,7 +189,7 @@ La barra de navegación muestra distinta información dependiendo del contexto a
 
 Cuando no hay una sesión activa, se muestran únicamente las opciones para acceder al sistema, ya sea registrándose o ingresando utilizando credenciales.
 
-```{r logic-status-anonymous, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Usuario anónimo'.}
+```{r logic-status-anonymous, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Usuario anónimo.'}
 knitr::include_graphics('assets/logic/status-anonymous.png')
 ```
 
