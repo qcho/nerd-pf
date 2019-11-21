@@ -128,7 +128,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-11-20}
+    \date{2019-11-21}
 
 % Usefull information about documentclass
 % http://ctan.dcc.uchile.cl/macros/latex/contrib/koma-script/doc/scrguien.pdf
@@ -172,7 +172,7 @@
 \usepackage{lastpage} % to get the last page
 \usepackage{scrlayer-scrpage} % Control of page headers and footers with KOMA documentclass
 \cfoot{\thepage\ de \pageref{LastPage}}
-\ohead{Instituto Tecnológico de Buenos Aires \linebreak Proyecto Final - Gomez, Orsay}
+\ohead{Instituto Tecnológico de Buenos Aires \linebreak Proyecto Final - Gómez y Orsay}
 \pagestyle{scrheadings}
 
 \makeatletter
@@ -232,7 +232,7 @@ Es por ello que en este trabajo final hemos tomado la decisión de implementar u
 \hypertarget{entidad-nombrada}{%
 \subsubsection{Entidad nombrada}\label{entidad-nombrada}}
 
-En \emph{extracción de información}, una \emph{entidad nombrada} es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son \enquote{Mauricio Macri}, \enquote{Ciudad Autónoma de Buenos Aires}, \enquote{Apple Macbook}.
+En el contexto de \emph{extracción de información}, una \emph{entidad nombrada} es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son \enquote{Mauricio Macri}, \enquote{Ciudad Autónoma de Buenos Aires}, \enquote{Apple Macbook}.
 También se suele definir sencillamente como aquellas entidades que se pueden ver como instancias de entidad (por ejemplo, la Ciudad Autónoma de Buenos Aires es una instancia de una ciudad).
 
 \hypertarget{definiciuxf3n-formal}{%
@@ -367,18 +367,18 @@ El análisis del estado del arte fue basado en la definición del problema.
 \hypertarget{stack-de-software}{%
 \subsection{Stack de software}\label{stack-de-software}}
 
-Python es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial NLP (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019})
+\emph{Python} es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial \emph{NLP} (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019})
 
-Spacy es el framework mejor ranqueado para la tarea de NLP (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019}) y sabemos por la Figura \ref{fig:spacy-algos} que obtiene resultados a-la-par del estado del arte actual.
+Spacy es el \emph{framework} mejor ranqueado para la tarea de \emph{NLP} (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019}) y sabemos por la figura \ref{fig:spacy-algos} que obtiene resultados a-la-par del estado del arte actual.
 
-Además la implementación de spacy es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de NLP que sólo se utilizan con fines académicos.
+Además la implementación de \emph{spaCy} es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de \emph{NLP} que sólo se utilizan con fines académicos.
 
 \hypertarget{el-pipeline}{%
 \subsection{El pipeline}\label{el-pipeline}}
 
-Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados, tienen como primer paso el de separar el los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el \enquote{pipeline de procesamiento}. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de NER.
+Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados, tienen como primer paso el de separar el los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el \enquote{pipeline de procesamiento}. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de \emph{NER}.
 
-Cada componente del pipeline devuelve el Doc procesado, que luego se pasa al siguiente componente.
+Cada componente del pipeline devuelve el \emph{Doc} procesado, que luego se pasa al siguiente componente.
 
 \begin{figure}[H]
 
@@ -389,14 +389,14 @@ Cada componente del pipeline devuelve el Doc procesado, que luego se pasa al sig
 \caption{Pipeline standard para los algoritmos de NER}\label{fig:spacy-pipeline}
 \end{figure}
 
-En este capítulo esturiaremos la morfología de dicho pipeline.
+En este capítulo estudiaremos la morfología de dicho pipeline.
 
 \hypertarget{algoritmo-de-tokenizaciuxf3n}{%
 \subsection{Algoritmo de tokenización}\label{algoritmo-de-tokenizaciuxf3n}}
 
 Para tokenizar un texto de manera correcta no basta con separar el mismo en espacios. Dependiendo el lenguaje que se esté estudiando, existen \enquote{excepciones} a esta regla y otros caracteres que representan separaciones entre tokens segun el contexto de los mismos.
 
-En particular, spaCy posee algoritmo de tokenización inteligente que puede ser resumido de la siguiente manera:
+En particular, \emph{spaCy} posee algoritmo de tokenización inteligente que puede ser resumido de la siguiente manera:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -406,7 +406,7 @@ En particular, spaCy posee algoritmo de tokenización inteligente que puede ser 
 \item
   Compruebar si existe una regla definida explícitamente para esta subcadena. Si existe, usarla.
 \item
-  De lo contrario, intentar consumir un prefijo. Si consumimos un prefijo, regrese al punto\#2, para que los casos especiales siempre tengan prioridad.
+  De lo contrario, intentar consumir un prefijo. Si consumimos un prefijo, regrese al punto \#2, para que los casos especiales siempre tengan prioridad.
 \item
   Si no se puede consumir un prefijo, intente consumir un sufijo y luego regrese al punto \#2.
 \item
@@ -440,7 +440,7 @@ En estos modelos se implementan reglas finitas o expresiones regulares para la d
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Mucho trabajo manua}l: el sistema RB exige un profundo conocimiento del dominio, este analisis debe ser realizado por humanos expertos en el dominio.
+  \textbf{Mucho trabajo manua}l: el sistema \emph{Rule Based} exige un profundo conocimiento del dominio, este analisis debe ser realizado por humanos expertos en el dominio.
 \item
   \textbf{Consumo de tiempo}: la generación de reglas para un sistema complejo es bastante difícil y requiere mucho tiempo.
 \item
@@ -452,19 +452,19 @@ En estos modelos se implementan reglas finitas o expresiones regulares para la d
 \hypertarget{modelos-de-deep-learning}{%
 \subsection{\texorpdfstring{Modelos de \enquote{\emph{deep-learning}}}{Modelos de ``deep-learning''}}\label{modelos-de-deep-learning}}
 
-Cuando se busca mejorar el aprendizaje automático, generalmente se piensa en la eficiencia y la precisión, pero la dimensión más importante es la generalidad. Este es el modelo estadístico que usa spaCy.
+Cuando se busca mejorar el aprendizaje automático, generalmente se piensa en la eficiencia y la precisión, pero la dimensión más importante es la generalidad. Este es el modelo estadístico que usa \emph{spaCy}.
 
 La mayoría de los problemas de \texttt{NLP} pueden reducirse a problemas de aprendizaje automático que toman uno o más textos como entrada. Si podemos transformar estos textos en vectores, podemos reutilizar soluciones de aprendizaje profundo (\emph{deep-learning}) de propósito general.
 
-Las representaciones de palabras embebidas (\emph{embebed-words}), también conocidas como \enquote{vectores de palabras} (\emph{word-vectors}), son una de las tecnologías de procesamiento de lenguaje natural más utilizadas en el estado del arte actual. El modelo de deep learning utilizado por spaCy puede ser descripto en 4 pasos.
+Las representaciones de palabras embebidas (\emph{embebed-words}), también conocidas como \enquote{vectores de palabras} (\emph{word-vectors}), son una de las tecnologías de procesamiento de lenguaje natural más utilizadas en el estado del arte actual. El modelo de \emph{deep learning} utilizado por \emph{spaCy} puede ser descripto en cuatro pasos.
 
-Los \emph{word-embeddings} permiten tratar a las palabras individuales como \emph{unidades de significado}, en lugar de identificaciones completamente distintas. A este proceso se le conoce como \textbf{\emph{embed}.}
+Los \emph{word-embeddings} permiten tratar a las palabras individuales como \enquote{unidades de significado}, en lugar de identificaciones completamente distintas. A este proceso se le conoce como \textbf{\emph{embed}}.
 
-Sin embargo, la mayoría de los problemas de \emph{NLP} requieren la comprensión de tramos de texto más largos, no solo palabras individuales. Al juntar un conjunto de \emph{word-embeddings} en una secuencia de vectores, se usan RNN bidireccionales para codificar los vectores en una matriz de oración. Las filas de esta matriz pueden entenderse como \emph{vectores-de-tokens}: son sensibles al contexto del token dentro de la oración. Este paso se lo llama \textbf{\textbf{encode}}
+Sin embargo, la mayoría de los problemas de \emph{NLP} requieren la comprensión de tramos de texto más largos, no solo palabras individuales. Al juntar un conjunto de \emph{word-embeddings} en una secuencia de vectores, se usan RNN bidireccionales para codificar los vectores en una matriz de oración. Las filas de esta matriz pueden entenderse como \enquote{vectores-de-tokens}: son sensibles al contexto del token dentro de la oración. Este paso se lo llama \textbf{\emph{encode}}.
 
-Finalmente mecanismo de \textbf{\textbf{attend}} le permite reducir la matriz de oración a un vector de oración, listo para la predicción (\textbf{\textbf{predict}}).
+Finalmente, el mecanismo de \textbf{\emph{attend}} le permite reducir la matriz de oración a un vector de oración, listo para la predicción (\textbf{\emph{predict}}).
 
-De esta manera quedan definidas las piezas que describen al modelo de spacy:
+De esta manera quedan definidas las piezas que describen al modelo de \emph{spaCy}:
 
 \begin{figure}[H]
 
@@ -478,13 +478,13 @@ De esta manera quedan definidas las piezas que describen al modelo de spacy:
 Estos 4 procesos seran descriptos en detalle en las siguientes secciones.
 
 \hypertarget{embed}{%
-\subsubsection{embed}\label{embed}}
+\subsubsection{\texorpdfstring{\emph{Embed}}{Embed}}\label{embed}}
 
 \begin{quote}
 Resuelve el problema: \enquote{todas las palabras se ven iguales para la computadora}
 \end{quote}
 
-La idea de \emph{word embeddings} es la de \enquote{embeber} el conjunto de tokens que componen términos con información adicional. El resultado de esta operacion es una estructura abstracta que puede ser descripta como un \enquote{vector de significado}.
+La idea de \emph{word embeddings} es la de \enquote{embeber} el conjunto de tokens que componen términos con información adicional. El resultado de esta operación es una estructura abstracta que puede ser descripta como un \enquote{vector de significado}.
 
 \begin{figure}[H]
 
@@ -495,16 +495,16 @@ La idea de \emph{word embeddings} es la de \enquote{embeber} el conjunto de toke
 \caption{embed}\label{fig:formula-embed}
 \end{figure}
 
-Es importante destacar que en esta etapa de \emph{embed}; toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razon es facilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras estan relacionadas entre si de manera eficiente y no supervisada)
+Es importante destacar que en la etapa de \emph{embed}, toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razón es facilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras están relacionadas entre sí de manera eficiente y no supervisada).
 
-Esto permite al modelo poder inferir significado a partir de información no tagueada dentro del problema en particular a resolver (el de NER).
+Esto permite al modelo poder inferir significado a partir de la información no etiquetada dentro del problema en particular a resolver (el de \emph{NER}).
 
-Una tabla de \emph{word-embeddings} mapea vectores largos binarios y esparsos en vectores cortos densos y continus, llenos de significado relevante. Existen varias estrategias para \enquote{infusionar} tokens con información adicional. Las dos fuentes mas grandes de información embebida más importantes son las de \emph{información ligúistica} y los \emph{word-vectors}.
+Una tabla de \emph{word-embeddings} mapea vectores largos binarios y esparsos en vectores cortos densos y continuos, cargados de significado relevante. Existen varias estrategias para enriquecer los \emph{tokens} con información adicional. Las dos fuentes más grandes de información embebida son las de \textbf{información lingüística} y los \textbf{\emph{word-vectors}}.
 
-\hypertarget{informaciuxf3n-liguxfaistica}{%
-\paragraph{Información ligúistica}\label{informaciuxf3n-liguxfaistica}}
+\hypertarget{informaciuxf3n-liguxfcuxedstica}{%
+\paragraph{Información ligüística}\label{informaciuxf3n-liguxfcuxedstica}}
 
-El objetivo de esta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingúisticas detectadas estan resumidas en el siguiente ejemplo:
+El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas, están resumidas en el siguiente ejemplo (TODO: figura 6).
 
 \begin{figure}[H]
 
@@ -512,7 +512,7 @@ El objetivo de esta etapa es la de encontrar las características intrínsecas d
 
 }
 
-\caption{características lingúisticas}\label{fig:formula-pos}
+\caption{características lingüísticas}\label{fig:formula-pos}
 \end{figure}
 
 \begin{itemize}
@@ -528,7 +528,7 @@ El objetivo de esta etapa es la de encontrar las características intrínsecas d
 \item
   \textbf{Dep}: dependencia sintáctica, es decir, la relación entre tokens.
 \item
-  \textbf{Shape}: la forma de la palabra: mayúsculas, puntuación, dígitos. Muy util para detectar patrones como números telefónicos, documentos de identidad, CBUs, etc.
+  \textbf{Shape}: la forma de la palabra: mayúsculas, puntuación, dígitos. Muy útil para detectar patrones como números telefónicos, documentos de identidad, CBUs, etc.
 \item
   \textbf{is alpha}: ¿el token es una secuencia de caracteres alfabéticos?
 \item
@@ -536,15 +536,15 @@ El objetivo de esta etapa es la de encontrar las características intrínsecas d
 \end{itemize}
 
 \hypertarget{word-vectors}{%
-\subparagraph{Word Vectors}\label{word-vectors}}
+\subparagraph{\texorpdfstring{\emph{Word Vectors}}{Word Vectors}}\label{word-vectors}}
 
-A diferencia de la información lingúistica que es obtenida en el momento. Existen otro tipo de embeddings más poderosos que son producto de preentrenamientos. Tal es el caso de los \emph{word-vectors}. Los vectores de palabras se aprenden mediante la concatenación de incrustaciones de atributos léxicos NORM, PREFIX, SUFFIX y SHAPE. Luego se usa una capa oculta centro de una red neuronal convolucional (CNN) para permitir una combinación no lineal de la información en estos vectores concatenados.
+A diferencia de la información lingüística que es obtenida en el momento, existen otros tipos de \emph{embeddings} más poderosos que son los productos de pre-entrenamientos; como el caso de los \emph{word-vectors}. Los mismos se generan mediante la concatenación de atributos léxicos como \emph{NORM}, \emph{PREFIX}, \emph{SUFFIX} y \emph{SHAPE}. Luego se usa una capa oculta de una red neuronal convolucional (\emph{CNN}) para permitir una combinación no lineal de la información en estos vectores concatenados.
 
-Los vectores de palabras son particularmente útiles para términos que no están bien representados en los datos de entrenamiento etiquetados. En nuestro uso de reconocimiento de entidades, siempre habrá muchos nombres de los que no se tendrán ejemplos. Por ejemplo, en los datos de entrenamiento es posible que existan algunos ejemplos del término \enquote{Coca-Cola}, pero ninguno que contenga el término \enquote{Manaos}.
-Es interesante pensar a las palabras como \enquote{vectores de significado}. Dentro del espacio vectorial de significados el vector \enquote{perro} se encuentra cercano al de \enquote{cachorro}, \enquote{beagle}, \enquote{bulldog}, \enquote{poodle}. Esto permite al modelo poder inferir nuevas relaciones en base a una cantidad reducida de input.
-Los vectores de palabras ponen ese hecho a disposición del modelo de reconocimiento de entidades. Si bien no existen ejemplos de \enquote{Manaos} etiquetados como \enquote{Producto}; se verá que \enquote{Manaos} tiene un vector de palabras que generalmente corresponde a los términos de un producto, por lo que puede hacer la inferencia. Y si se quiere llegar incluso al detalle de que es una Gaseosa.
+Los \emph{word-vectors} son particularmente útiles para términos que no están bien representados en los datos de entrenamiento etiquetados. En nuestro uso de reconocimiento de entidades, no siempre habrá suficientes ocurrencias. Por ejemplo, en los datos de entrenamiento es posible que existan ocurrencias del término \enquote{Coca-Cola}, pero ninguna del término \enquote{Manaos}.
+Es interesante pensar a las palabras como \enquote{vectores de significado}. Dentro del espacio vectorial de significados el vector \enquote{perro} se encuentra cercano al de \enquote{cachorro}, \enquote{beagle}, \enquote{bulldog}, \enquote{poodle}. Esto permite al modelo poder inferir nuevas relaciones en base a una cantidad reducida de entradas.
+Los \emph{word-vectors} ponen ese hecho a disposición del modelo de reconocimiento de entidades. Si bien no existen ejemplos de \enquote{Manaos} etiquetados como \enquote{Producto}; se verá que \enquote{Manaos} tiene un vector de palabras que generalmente corresponde a los términos de un producto, por lo que puede hacer la inferencia. Y si se quiere llegar incluso al detalle de que es una \enquote{Gaseosa}.
 
-Otra forma interesante de analizar y entender los word-vectors en su contexto de espacio vectorial multidimensional de significados es a través del algebra de vectores, como se muestra en el Paper \enquote{Towards Understanding Linear Word Analogies} (Ethayarajh, Duvenaud, \& Hirst, \protect\hyperlink{ref-ethayarajh-etal-2019-towards}{2019}):
+Otra forma interesante de analizar y entender los \emph{word-vectors} en su contexto de espacio vectorial multidimensional de significados es a través del algebra de vectores, como se muestra en el trabajo \enquote{\emph{Towards Understanding Linear Word Analogies}} (Ethayarajh, Duvenaud, \& Hirst, \protect\hyperlink{ref-ethayarajh-etal-2019-towards}{2019}):
 
 \begin{figure}[H]
 
@@ -552,22 +552,22 @@ Otra forma interesante de analizar y entender los word-vectors en su contexto de
 
 }
 
-\caption{Parallelogram structure in the vector space (by definition)}\label{fig:vec-parallelogram}
+\caption{Parallelogram structure in the vector space (by definition),}\label{fig:vec-parallelogram}
 \end{figure}
 
-Es facil de entender viendo ese paralelogramo que al realizar algebra entre los diferentes vectores de significado se pueden inferir nuevos conceptos:
+Es facil de entender viendo la figura \ref{fig:vec-parallelogram} que al realizar algebra entre los diferentes vectores de significado se pueden inferir nuevos conceptos:
 
 \[\vec{Rey} - \vec{Hombre} \approx \vec{Realeza}\]
 \[\vec{Rey} - \vec{Hombre} + \vec{Mujer} \approx \vec{Reina}\]
 
 \hypertarget{encode}{%
-\subsubsection{encode}\label{encode}}
+\subsubsection{\texorpdfstring{\emph{Encode}}{Encode}}\label{encode}}
 
 \begin{quote}
-Resuelve el problema: el contexto de los significados es relevante y esta siendo descartado
+Resuelve el problema: el contexto de los significados es relevante y esta siendo descartado,
 \end{quote}
 
-El resultado de esta etapa es la de encodear vectores \textbf{independientes-de-contexto} en matrices de oración \textbf{sensibles-al-contexto}
+El resultado de esta etapa es la de codificar vectores \textbf{independientes-de-contexto} en matrices de oración \textbf{sensibles-al-contexto}.
 
 \begin{figure}[H]
 
@@ -575,19 +575,19 @@ El resultado de esta etapa es la de encodear vectores \textbf{independientes-de-
 
 }
 
-\caption{encode}\label{fig:formula-encode}
+\caption{Encode.}\label{fig:formula-encode}
 \end{figure}
 
-La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizando como una \emph{moving window} de 3 vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera. Por lo que se genera naturalmente un \emph{efecto de decaimiento} en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor.
+La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizando como una \emph{moving window} de tres vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera, por lo que se genera naturalmente un \enquote{efecto de decaimiento} en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor.
 
 \hypertarget{attend}{%
-\subsubsection{attend}\label{attend}}
+\subsubsection{\texorpdfstring{\emph{Attend}}{Attend}}\label{attend}}
 
 \begin{quote}
-Resuelve el problema: tenemos demasiada información para inferir un significado específico al problema a resolver
+Resuelve el problema: tenemos demasiada información para inferir un significado específico al problema a resolver.
 \end{quote}
 
-En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o tambien conocido como \emph{vector de consulta} o \emph{vector de contexto} representado en la siguiente figura como un vector mas oscuro.
+En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o tambien conocido como \enquote{vector de consulta} o \enquote{vector de contexto} representado en la figura \ref{fig:formula-attend} como un vector mas oscuro.
 
 \begin{figure}[H]
 
@@ -598,18 +598,18 @@ En esta etapa toda la información generada en las etapas anteriores es analizad
 \caption{attend}\label{fig:formula-attend}
 \end{figure}
 
-Al reducir la matriz a un vector, necesariamente se está perdiendo información. Es por eso que el \emph{vector de contexto} es crucial: le dice qué información descartar, de modo que el vector \enquote{resumen} se adapte a la red que lo consume.
+Al reducir la matriz a un vector, necesariamente se está perdiendo información. Es por eso que el \enquote{vector de contexto} es crucial: Indica que información descartar, de modo que el \enquote{vector resumen} se adapte a la red que lo consume.
 
-El análisis de estas estrategias de consulta escapa el alcance de este trabajo pero resulta un tema interesante de investigación en si mismo. Por ejemplo; investigaciones recientes han demostrado que el mecanismo de atención es una técnica flexible y que se pueden usar nuevas variaciones para crear soluciones elegantes y poderosas. Por ejemplo, en (Parikh, Täckström, Das, \& Uszkoreit, \protect\hyperlink{ref-parikh-etal-2016-decomposable}{2016}) presentan un mecanismo de atención que toma dos matrices de oraciones y genera un solo vector.
+El análisis de estas estrategias de consulta escapa el alcance de este trabajo pero resulta un tema interesante de investigación en sí mismo. Por ejemplo, investigaciones recientes han demostrado que el mecanismo de atención es una técnica flexible y que se pueden usar nuevas variaciones para crear soluciones elegantes y poderosas. Por ejemplo, en el estudio de Ankur Parikh et al (Parikh, Täckström, Das, \& Uszkoreit, \protect\hyperlink{ref-parikh-etal-2016-decomposable}{2016}) presentan un mecanismo de atención que toma dos matrices de oraciones y genera un solo vector.
 
 \hypertarget{predict}{%
-\subsubsection{predict}\label{predict}}
+\subsubsection{\texorpdfstring{\emph{Predict}}{Predict}}\label{predict}}
 
 \begin{quote}
-Resuelve el problema: necesito un valor específico y no una representación genérica abstracta
+Resuelve el problema: necesito un valor específico y no una representación genérica abstracta.
 \end{quote}
 
-Finalmente en esta etapa tenemos un nuevo \emph{vector de significado} que resulta de la query de al etapa anterior. Necesitamos ahora traducir este \emph{vector} a un token efectivo. En el caso de NER el token que nos interesa obtener es el de que etiqueta de entidad es la que corresponde a esta tarea.
+Finalmente en esta etapa tenemos un nuevo \enquote{vector de significado} que resulta de la consulta a la etapa anterior. Es necesario ahora traducir este vector a un \emph{token} efectivo. En el caso de \emph{NER}, el \emph{token} que interesa obtener es el de la etiqueta de entidad.
 
 \begin{figure}[H]
 
@@ -617,26 +617,17 @@ Finalmente en esta etapa tenemos un nuevo \emph{vector de significado} que resul
 
 }
 
-\caption{predict}\label{fig:formula-predict}
+\caption{Predict.}\label{fig:formula-predict}
 \end{figure}
 
-\hypertarget{usando-el-modelo-estaduxedstico}{%
-\subsection{Usando el modelo estadístico}\label{usando-el-modelo-estaduxedstico}}
+\hypertarget{uso-del-modelo-estaduxedstico}{%
+\subsection{Uso del modelo estadístico}\label{uso-del-modelo-estaduxedstico}}
 
-Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte utilizando un autómata finito determinístico de pila en conjunción con una red neuronal (Lample, Ballesteros, Subramanian, Kawakami, \& Dyer, \protect\hyperlink{ref-DBLP:journalsux2fcorrux2fLampleBSKD16}{2016}). En particular la red neuronal del modelo estadístico estudiado en la sección anterior.
+Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte mediante el uso de un \enquote{autómata finito determinístico de pila} en conjunto con una red neuronal (Lample, Ballesteros, Subramanian, Kawakami, \& Dyer, \protect\hyperlink{ref-DBLP:journalsux2fcorrux2fLampleBSKD16}{2016}).
 
-Este autómata de pila es el nexo entre la Red Neuronal Convolucional (CNN) que contiene el modelo estadístico para predecir entidades y el texto completo. No se envía el texto entero como input a dicha red, sino que se van enviando cada uno de los estados en los que el autómata de pila se mueve para ir generando entidades con una herística del tipo \emph{greedy}.
+Este autómata de pila es el nexo entre la Red Neuronal Convolucional (\emph{CNN}) que contiene el modelo estadístico para predecir entidades en el texto completo. En el mismo, se envían cada uno de los estados porl los que se mueve para ir generando entidades con una herística del tipo \emph{greedy}.
 
-Las posibles acciones de transición de este autómata son las siguientes:
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/lampe_1.pdf} 
-
-}
-
-\caption{Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.}\label{fig:lampe-1}
-\end{figure}
+La figura \ref{fig:lampe-1} muestra las posibles acciones de transición de este autómata.
 
 \begin{itemize}
 \tightlist
@@ -648,7 +639,16 @@ Las posibles acciones de transición de este autómata son las siguientes:
   OUT: consume una token del input y la mueve sl output directamente.
 \end{itemize}
 
-Para saber que acción tomar se consulta el modelo estadístico.En la siguiente figura se puede ver un ejemplo de cómo se recorre una oración bajo el stack propuesto:
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/lampe_1.pdf} 
+
+}
+
+\caption{Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.}\label{fig:lampe-1}
+\end{figure}
+
+Para saber que acción tomar se consulta el modelo estadístico. En la figura se puede ver un ejemplo de cómo se recorre una oración bajo el stack propuesto:
 
 \begin{figure}[H]
 
@@ -1306,7 +1306,7 @@ Conjunto de operaciones relacionadas al \emph{Reconocimiento de Entidades Nombra
   \begin{itemize}
   \tightlist
   \item
-    Retorna un documento Spacy para un texto dado utilizando el snapshot actual
+    Retorna un documento \emph{spaCy} para un texto dado utilizando el snapshot actual
   \end{itemize}
 \item
   \textbf{POST} \emph{/api/ner/\{snapshot\_id\}/parse}
@@ -1314,7 +1314,7 @@ Conjunto de operaciones relacionadas al \emph{Reconocimiento de Entidades Nombra
   \begin{itemize}
   \tightlist
   \item
-    Retorna un documento Spacy para un texto dado utilizando el snapshot especificado
+    Retorna un documento \emph{spaCy} para un texto dado utilizando el snapshot especificado
   \end{itemize}
 \item
   \textbf{POST} \emph{/api/ner/current/entities}
@@ -1395,7 +1395,7 @@ Existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.
 \subsubsection{API}\label{api}}
 
 Servicio en el cual los clientes pueden pedir las \emph{Entidades Nombradas} de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
-El \emph{API} se comunica el servicio de \emph{Bases de Datos} para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos \emph{snapshots} y con el \emph{Task Scheduler} para realizar diversas tareas relacionadas con \emph{Spacy}.
+El \emph{API} se comunica el servicio de \emph{Bases de Datos} para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos \emph{snapshots} y con el \emph{Task Scheduler} para realizar diversas tareas relacionadas con \emph{spaCy}.
 
 \hypertarget{task-scheduler}{%
 \subsubsection{Task Scheduler}\label{task-scheduler}}

@@ -26,7 +26,7 @@
 <meta name="author" content="Proyecto final de carrera" />
 
 
-<meta name="date" content="2019-11-20" />
+<meta name="date" content="2019-11-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -155,12 +155,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3" data-path="state-of-art.html"><a href="state-of-art.html#algoritmo-de-tokenización"><i class="fa fa-check"></i><b>3.3</b> Algoritmo de tokenización</a></li>
 <li class="chapter" data-level="3.4" data-path="state-of-art.html"><a href="state-of-art.html#modelos-basados-en-reglas"><i class="fa fa-check"></i><b>3.4</b> Modelos basados en reglas</a></li>
 <li class="chapter" data-level="3.5" data-path="state-of-art.html"><a href="state-of-art.html#modelos-de-deep-learning"><i class="fa fa-check"></i><b>3.5</b> Modelos de “<em>deep-learning</em>”</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="state-of-art.html"><a href="state-of-art.html#embed"><i class="fa fa-check"></i><b>3.5.1</b> embed</a></li>
-<li class="chapter" data-level="3.5.2" data-path="state-of-art.html"><a href="state-of-art.html#encode"><i class="fa fa-check"></i><b>3.5.2</b> encode</a></li>
-<li class="chapter" data-level="3.5.3" data-path="state-of-art.html"><a href="state-of-art.html#attend"><i class="fa fa-check"></i><b>3.5.3</b> attend</a></li>
-<li class="chapter" data-level="3.5.4" data-path="state-of-art.html"><a href="state-of-art.html#predict"><i class="fa fa-check"></i><b>3.5.4</b> predict</a></li>
+<li class="chapter" data-level="3.5.1" data-path="state-of-art.html"><a href="state-of-art.html#embed"><i class="fa fa-check"></i><b>3.5.1</b> <em>Embed</em></a></li>
+<li class="chapter" data-level="3.5.2" data-path="state-of-art.html"><a href="state-of-art.html#encode"><i class="fa fa-check"></i><b>3.5.2</b> <em>Encode</em></a></li>
+<li class="chapter" data-level="3.5.3" data-path="state-of-art.html"><a href="state-of-art.html#attend"><i class="fa fa-check"></i><b>3.5.3</b> <em>Attend</em></a></li>
+<li class="chapter" data-level="3.5.4" data-path="state-of-art.html"><a href="state-of-art.html#predict"><i class="fa fa-check"></i><b>3.5.4</b> <em>Predict</em></a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="state-of-art.html"><a href="state-of-art.html#usando-el-modelo-estadístico"><i class="fa fa-check"></i><b>3.6</b> Usando el modelo estadístico</a></li>
+<li class="chapter" data-level="3.6" data-path="state-of-art.html"><a href="state-of-art.html#uso-del-modelo-estadístico"><i class="fa fa-check"></i><b>3.6</b> Uso del modelo estadístico</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="implementation.html"><a href="implementation.html"><i class="fa fa-check"></i><b>4</b> NERd (Implementación)</a><ul>
 <li class="chapter" data-level="4.1" data-path="implementation.html"><a href="implementation.html#vista-lógica"><i class="fa fa-check"></i><b>4.1</b> Vista lógica</a><ul>
@@ -609,11 +609,11 @@ Figura 4.18: Usuario administrador
 </ul></li>
 <li><strong>POST</strong> <em>/api/ner/current/parse</em>
 <ul>
-<li>Retorna un documento Spacy para un texto dado utilizando el snapshot actual</li>
+<li>Retorna un documento <em>spaCy</em> para un texto dado utilizando el snapshot actual</li>
 </ul></li>
 <li><strong>POST</strong> <em>/api/ner/{snapshot_id}/parse</em>
 <ul>
-<li>Retorna un documento Spacy para un texto dado utilizando el snapshot especificado</li>
+<li>Retorna un documento <em>spaCy</em> para un texto dado utilizando el snapshot especificado</li>
 </ul></li>
 <li><strong>POST</strong> <em>/api/ner/current/entities</em>
 <ul>
@@ -665,7 +665,7 @@ Figura 4.19: Componentes del sistema
 <div id="api" class="section level3">
 <h3><span class="header-section-number">4.2.1</span> API</h3>
 <p>Servicio en el cual los clientes pueden pedir las <em>Entidades Nombradas</em> de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
-El <em>API</em> se comunica el servicio de <em>Bases de Datos</em> para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos <em>snapshots</em> y con el <em>Task Scheduler</em> para realizar diversas tareas relacionadas con <em>Spacy</em>.</p>
+El <em>API</em> se comunica el servicio de <em>Bases de Datos</em> para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos <em>snapshots</em> y con el <em>Task Scheduler</em> para realizar diversas tareas relacionadas con <em>spaCy</em>.</p>
 </div>
 <div id="task-scheduler" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Task Scheduler</h3>
@@ -774,8 +774,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-9dc7e3f49b7a76d50b46" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9dc7e3f49b7a76d50b46">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-607134d3da055786b0ce" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-607134d3da055786b0ce">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
