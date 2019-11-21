@@ -176,6 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="implementation.html"><a href="implementation.html#vista-de-desarrollo"><i class="fa fa-check"></i><b>4.3</b> Vista de desarrollo</a><ul>
 <li class="chapter" data-level="4.3.1" data-path="implementation.html"><a href="implementation.html#web-1"><i class="fa fa-check"></i><b>4.3.1</b> Web</a></li>
+<li class="chapter" data-level="4.3.2" data-path="implementation.html"><a href="implementation.html#servicio-1"><i class="fa fa-check"></i><b>4.3.2</b> Servicio</a></li>
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a></li>
 <li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a></li>
@@ -219,7 +220,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de tagueo de entidades.
 Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.
 El nombre de esta herramienta es <strong>NERd</strong>, sigla cuyo significado en inglés es <em><strong>N</strong>amed <strong>E</strong>ntity <strong>R</strong>ecognition <strong>D</strong>uh</em><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>!</p>
-<p>Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1.</p>
+<p>Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura <a href="implementation.html#fig:arq41">4.1</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:arq41"></span>
 <img src="assets/4+1_Architectural_View_Model.svg" alt="Ilustración de arquitectura 4+1."  />
 <p class="caption">
@@ -246,21 +247,21 @@ Figura 4.1: Ilustración de arquitectura 4+1.
 <div id="inicio" class="section level4">
 <h4><span class="header-section-number">4.1.1.1</span> Inicio</h4>
 <p>Pantalla de inicio donde se encuentran accesos rápidos para entrenar el modelo o para poder buscar entidades en textos.
-También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más.</p>
+También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más (Figura <a href="implementation.html#fig:logic-home">4.2</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-home"></span>
 <img src="assets/logic/home-logged-all.png" alt="Pantalla de inicio con usuario logueado."  />
 <p class="caption">
 Figura 4.2: Pantalla de inicio con usuario logueado.
 </p>
 </div>
-<p>Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso.</p>
+<p>Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso (Figura <a href="#fig:logic-home-logged-notrainer"><strong>??</strong></a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-home-logged-nontrainer"></span>
 <img src="assets/logic/home-logged-not_trainer.png" alt="Pantalla de inicio sin rol de entrenador."  />
 <p class="caption">
 Figura 4.3: Pantalla de inicio sin rol de entrenador.
 </p>
 </div>
-<p>Si la persona visitando la página no cuenta con una sesión activa, se le invita a ingresar con una cuenta pre-existente o a registrarse.</p>
+<p>Si la persona visitando la página no cuenta con una sesión activa, se le invita a ingresar con una cuenta pre-existente o a registrarse (Figura <a href="implementation.html#fig:logic-home-anonymous">4.4</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-home-anonymous"></span>
 <img src="assets/logic/home-anonymous.png" alt="Pantalla de inicio sin sesión."  />
 <p class="caption">
@@ -271,7 +272,7 @@ Figura 4.4: Pantalla de inicio sin sesión.
 <div id="entrenamiento" class="section level4">
 <h4><span class="header-section-number">4.1.1.2</span> Entrenamiento</h4>
 <p>La pantalla de <em>Entrenamiento</em> es el núcleo de la web en la cual es posible entrenar el modelo.</p>
-<p>El usuario es presentado con un texto perteneciente al Corpus del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual.</p>
+<p>El usuario es presentado con un texto perteneciente al Corpus del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura <a href="implementation.html#fig:logic-train">4.5</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-train"></span>
 <img src="assets/logic/train.png" alt="Pantalla de entrenamiento."  />
 <p class="caption">
@@ -284,7 +285,7 @@ Figura 4.5: Pantalla de entrenamiento.
 <div id="llamado-a-acción-y-ayuda" class="section level6">
 <h6><span class="header-section-number">4.1.1.2.1.1</span> Llamado a acción y ayuda</h6>
 <p>Dado que lo primero que ve el usuario es un texto con anotaciones, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el widget de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
-Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo.</p>
+Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo (Figura <a href="implementation.html#fig:logic-train-help">4.6</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-train-help"></span>
 <img src="assets/logic/train-help.png" alt="Ayuda del entrenador."  />
 <p class="caption">
@@ -306,7 +307,7 @@ La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de 
 Figura 4.7: Edición de entidad.
 </p>
 </div>
-<p>Para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
+<p>Como podemos ver en la figura <a href="implementation.html#fig:logic-train-popup">4.7</a>, para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
 Si el modelo infirió una entidad de manera incorrecta, ya sea por que sea una entidad inválida o agregó palabras de más a una entidad inválida, permitimos que el usuario remueva la entidad y que después vuelva a agregar la entidad correcta.</p>
 </div>
 <div id="optimización-en-tiempos-de-carga" class="section level6">
@@ -317,7 +318,7 @@ Si el modelo infirió una entidad de manera incorrecta, ya sea por que sea una e
 </div>
 <div id="administración-de-usuarios" class="section level4">
 <h4><span class="header-section-number">4.1.1.3</span> Administración de usuarios</h4>
-<p>La pantalla de <em>Administración de usuarios</em> permite a los usuarios con el rol de administrador poder modificar los roles de todos los usuarios del sistema, borrarlos o acceder a los detalles del usuario, tal como la lista de textos entrenados.</p>
+<p>La pantalla de <em>Administración de usuarios</em> permite a los usuarios con el rol de administrador poder modificar los roles de todos los usuarios del sistema, borrarlos o acceder a los detalles del usuario, tal como la lista de textos entrenados (Figura <a href="implementation.html#fig:logic-user-list">4.8</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-user-list"></span>
 <img src="assets/logic/user-list.png" alt="Administración de usuarios."  />
 <p class="caption">
@@ -328,7 +329,7 @@ Figura 4.8: Administración de usuarios.
 <div id="detalles-de-usuario" class="section level4">
 <h4><span class="header-section-number">4.1.1.4</span> Detalles de usuario</h4>
 <p>La pantalla de detalle de usuario permite al usuario con sesión activa ver sus entrenamientos y cambiar su contraseña.</p>
-<p>Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero a otros usuarios.</p>
+<p>Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero a otros usuarios (Figura <a href="implementation.html#fig:logic-user-profile">4.9</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-user-profile"></span>
 <img src="assets/logic/user-profile.png" alt="Perfil de usuario."  />
 <p class="caption">
@@ -338,7 +339,7 @@ Figura 4.9: Perfil de usuario.
 </div>
 <div id="corpus" class="section level4">
 <h4><span class="header-section-number">4.1.1.5</span> Corpus</h4>
-<p>La pantalla de <em>Corpus</em> permite a un usuario con el rol de administrador realizar tareas relacionadas con el corpus del sistema.</p>
+<p>La pantalla de <em>Corpus</em> permite a un usuario con el rol de administrador realizar tareas relacionadas con el corpus del sistema (Figura <a href="implementation.html#fig:logic-corpus-management">4.10</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-corpus-management"></span>
 <img src="assets/logic/corpus-management.png" alt="Administración de corpus."  />
 <p class="caption">
@@ -350,7 +351,7 @@ Figura 4.10: Administración de corpus.
 </div>
 <div id="estado" class="section level4">
 <h4><span class="header-section-number">4.1.1.6</span> Estado</h4>
-<p>La pantalla de <em>Estado</em> permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del corpus así como también realizar diversas acciones sobre los <em>workers</em>.</p>
+<p>La pantalla de <em>Estado</em> permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del corpus así como también realizar diversas acciones sobre los <em>workers</em> (Figura <a href="implementation.html#fig:logic-status">4.11</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-status"></span>
 <img src="assets/logic/status.png" alt="Información de corpus y manejo de workers."  />
 <p class="caption">
@@ -382,7 +383,7 @@ Para cada Snapshot, se muestra cuando fue la última vez que se entrenó así co
 <div id="sandbox" class="section level4">
 <h4><span class="header-section-number">4.1.1.7</span> Sandbox</h4>
 <p>La pantalla de <em>Sandbox</em> permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
-Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al corpus.</p>
+Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al corpus (Figura <a href="implementation.html#fig:logic-sandbox">4.12</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-sandbox"></span>
 <img src="assets/logic/sandbox.png" alt="Inferencia de entidades en sandbox."  />
 <p class="caption">
@@ -392,7 +393,7 @@ Figura 4.12: Inferencia de entidades en sandbox.
 </div>
 <div id="comparar" class="section level4">
 <h4><span class="header-section-number">4.1.1.8</span> Comparar</h4>
-<p>Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual.</p>
+<p>Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual (Figura <a href="implementation.html#fig:logic-compare">4.13</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-compare"></span>
 <img src="assets/logic/compare.png" alt="Comparativa de modelos."  />
 <p class="caption">
@@ -402,7 +403,7 @@ Figura 4.13: Comparativa de modelos.
 </div>
 <div id="registración" class="section level4">
 <h4><span class="header-section-number">4.1.1.9</span> Registración</h4>
-<p>Sección únicamente accesible cuando no hay una sesión activa. Aquí se registran los usuarios con la opción de que el inicio de sesión persista luego de que se cierre la pestaña del navegador.</p>
+<p>Sección únicamente accesible cuando no hay una sesión activa. Aquí se registran los usuarios con la opción de que el inicio de sesión persista luego de que se cierre la pestaña del navegador (Figura <a href="implementation.html#fig:logic-registration">4.14</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-registration"></span>
 <img src="assets/logic/register.png" alt="Registración."  />
 <p class="caption">
@@ -412,7 +413,7 @@ Figura 4.14: Registración.
 </div>
 <div id="login" class="section level4">
 <h4><span class="header-section-number">4.1.1.10</span> Login</h4>
-<p>Sección únicamente accesible cuando no hay una sesión activa. Aquí ingresan los usuarios al sistema con la opción de que el inicio de sesión persista luego de que se cierre la pestaña del navegador.</p>
+<p>Sección únicamente accesible cuando no hay una sesión activa. Aquí ingresan los usuarios al sistema con la opción de que el inicio de sesión persista luego de que se cierre la pestaña del navegador (Figura <a href="implementation.html#fig:logic-login">4.15</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-login"></span>
 <img src="assets/logic/login.png" alt="Inicio de sesión."  />
 <p class="caption">
@@ -423,21 +424,21 @@ Figura 4.15: Inicio de sesión.
 <div id="barra-de-navegación" class="section level4">
 <h4><span class="header-section-number">4.1.1.11</span> Barra de navegación</h4>
 <p>La barra de navegación muestra distinta información dependiendo del contexto actual del sistema.</p>
-<p>Cuando no hay una sesión activa, se muestran únicamente las opciones para acceder al sistema, ya sea registrándose o ingresando utilizando credenciales.</p>
+<p>Cuando no hay una sesión activa, se muestran únicamente las opciones para acceder al sistema, ya sea registrándose o ingresando utilizando credenciales (Figura <a href="implementation.html#fig:logic-status-anonymous">4.16</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-status-anonymous"></span>
 <img src="assets/logic/status-anonymous.png" alt="Usuario anónimo."  />
 <p class="caption">
 Figura 4.16: Usuario anónimo.
 </p>
 </div>
-<p>Cuando hay una sesión activa el usuario cuenta con el rol de <em>USER</em> y/o de <em>TRAINER</em> pero <strong>no</strong> con el de <em>ADMIN</em>, debería poder acceder únicamente a su perfil.</p>
+<p>Cuando hay una sesión activa el usuario cuenta con el rol de <em>USER</em> y/o de <em>TRAINER</em> pero <strong>no</strong> con el de <em>ADMIN</em>, debería poder acceder únicamente a su perfil (Figura <a href="implementation.html#fig:logic-status-user">4.17</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-status-user"></span>
 <img src="assets/logic/status-user.png" alt="Usuario regular."  />
 <p class="caption">
 Figura 4.17: Usuario regular.
 </p>
 </div>
-<p>Finalmente, cuando el usuario logueado tiene el rol de <em>ADMIN</em>, tiene acceso a todas las secciones de administración del sistema.</p>
+<p>Finalmente, cuando el usuario logueado tiene el rol de <em>ADMIN</em>, tiene acceso a todas las secciones de administración del sistema (Figura (fig:logic-status-admin)).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-status-admin"></span>
 <img src="assets/logic/status-admin.png" alt="Usuario administrador."  />
 <p class="caption">
@@ -655,7 +656,7 @@ Figura 4.18: Usuario administrador.
 <p>La vista de proceso trata los aspectos dinámicos del sistema, explica los procesos del sistema y cómo se comunican, y se centra en el comportamiento del sistema en tiempo de ejecución.
 La vista de proceso aborda concurrencia, distribución, integradores, rendimiento y escalabilidad, etc.</p>
 </blockquote>
-<p>Existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.</p>
+<p>Como podemos ver en la figura <a href="implementation.html#fig:process-overview-client">4.19</a>, existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.</p>
 <div class="figure" style="text-align: center"><span id="fig:process-overview-client"></span>
 <img src="assets/process/process-overview-client.png" alt="Componentes del sistema."  />
 <p class="caption">
@@ -732,7 +733,7 @@ Debido a que el servicio implementado expone una definiciión de <em>OpenAPI</em
 </div>
 <div id="arquitectura" class="section level4">
 <h4><span class="header-section-number">4.3.1.2</span> Arquitectura</h4>
-<p>El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio.</p>
+<p>El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura <a href="implementation.html#fig:developer-web-modules">4.20</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:developer-web-modules"></span>
 <img src="assets/developer/web-modules.png" alt="Módulos de la página web."  />
 <p class="caption">
@@ -752,6 +753,11 @@ Figura 4.20: Módulos de la página web.
 <h4><span class="header-section-number">4.3.1.4</span> Internacionalización</h4>
 <p>Así como las credenciales, las preferencias de internacionalización son guardadas en el <em>local storage</em> del cliente web, de manera tal que los usuarios del sistema no deban elegir el idioma de su preferencia cada vez que ingresan a la página.</p>
 </div>
+</div>
+<div id="servicio-1" class="section level3">
+<h3><span class="header-section-number">4.3.2</span> Servicio</h3>
+<p>El servicio que provee el <em>API REST</em> fue implementado utilizando el lenguaje de programación <em>Python</em>. El principal motivador de esta elección fue que las librerías que más cercan al estado del arte se encuentran implementadas en este lenguaje.</p>
+<p>Como base del proyecto, utilizamos un framework llamado <em>Flask</em>, que junto con una librería llamada <em>flask-smorest</em> nos permitió crear un <em>API REST</em></p>
 </div>
 </div>
 <div id="vista-física" class="section level2">
@@ -774,8 +780,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-0dd7deaca93c99694f5f" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0dd7deaca93c99694f5f">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-91bd756cc570480e8442" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-91bd756cc570480e8442">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
