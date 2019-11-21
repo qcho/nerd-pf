@@ -56,32 +56,32 @@ La segunda fase requiere elegir una ontología para organizar categorías de cos
 
 #### Dificultades para encontrar mejores algoritmos
 
-El estado del arte de `NER` desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta [@honnibal_NER]. En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la siguiente figura:
+El estado del arte de _NER_ desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta [@honnibal_NER]. En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la figura \@ref(fig:spacy-algos).
 
 ```{r spacy-algos, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Principales avances del estado del arte para NER en los últimos años'}
 knitr::include_graphics('assets/state-of-the-art_difficulties.png')
 ```
 
-Las razones por las cuales esto ocurre escapa el alcance de este trabajo pero se pueden resumir bajo la ley de los rendimientos decrecientes. Se necesita mucho esfuerzo académico para obtener una mejora marginal en el estado del arte actual.
+Las razones por las cuales esto ocurre escapa el alcance de este trabajo pero se pueden resumir bajo la ley de los rendimientos decrecientes [@lawOfDiminishingReturns]. Se necesita mucho esfuerzo académico para obtener una mejora marginal en el estado del arte actual.
 
-Es por esto que resulta interesante analizar que otro tipo de problemas podemos atacar en este trabajo.
+Es por esto que resulta interesante analizar que otro tipo de problemas podemos abordar en este trabajo.
 
 #### Dominios del problema
-Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura \@ref(fig:spacy-algos) coinciden; incluso los sistemas NER más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios [@Poibeau2000ProperNE]. La puesta a punto de un sistema NER para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.
+Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura \@ref(fig:spacy-algos) coinciden; incluso los sistemas _NER_ más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios [@Poibeau2000ProperNE]. La puesta a punto de un sistema _NER_ para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.
 
 Se entiende por dominio a todos los textos que en su conjunto forman un corpus común. Ejemplos de estos son "Noticias periodísticas", "Textos jurídicos", "Reportes militares", "Papers académicos", etc.
 
 ## Los datos son el problema
 
-Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la IA es el la captura de datos, no los algoritmos [@montani_AI].
+Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la "Inteligencia Artificial" es el la captura de datos, no los algoritmos [@montani_AI].
 
-En particular para el estado actual del arte de `NER` es necesario tener el cuerpo de textos a analizar (Corpus) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.
+En particular para el estado actual del arte de _NER_ es necesario tener el cuerpo de textos a analizar (_corpus_) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.
 
 Este aprendizaje se carga en lo que se reconoce como un "Modelo estadístico" y es a ese model al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas / librerias / frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
 
-De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo)
+De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo).
 
-> Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas
+> Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas.
 
 Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier corpus de documentos que posea una cantidad necesaria de datos.
 
