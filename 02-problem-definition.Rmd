@@ -58,6 +58,7 @@ La segunda fase requiere elegir una ontología para organizar categorías de cos
 
 El estado del arte de _NER_ desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta [@honnibal_NER]. En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la figura \@ref(fig:spacy-algos).
 
+<!-- TODO: Cambiar este gráfico por una tabla escrita en r citando correctamente las personas así como también la fuente de la tabla -->
 ```{r spacy-algos, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Principales avances del estado del arte para NER en los últimos años.'}
 knitr::include_graphics('assets/state-of-the-art_difficulties.png')
 ```
@@ -83,5 +84,5 @@ De esta manera queda bien definido el problema que queremos atacar (y el título
 
 > Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas.
 
-Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier corpus de documentos que posea una cantidad necesaria de datos.
+Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier corpus de documentos que posea una cantidad suficiente de datos.
 
