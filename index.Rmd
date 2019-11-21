@@ -26,6 +26,7 @@ description: "This is a minimal example of using the bookdown package to write a
 library(knitr)
 library(DiagrammeR)
 library(webshot)
+library(tidyverse)
 source('./initial_setup.R')
 ```
 

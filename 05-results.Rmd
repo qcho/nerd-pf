@@ -1,12 +1,6 @@
 \newpage
 # Resultados {#results}
 
-<!-- TODO: add info about how the trained model is better -->
-
-Matriz de confusión -> dos indicadores!
-true possitive vs true negative
-Credibility: evaluation whats been leaerned.
-
 ## Métrica: precisión y exhaustividad
 
 [@wiki_Precision_and_recall]
@@ -42,3 +36,23 @@ En conferencias académicas como CoNLL, una variante de la [[puntuación F1]] se
 * La puntuación F1 es la [[media armónica]] de estos dos.
 
 De la definición anterior se deduce que cualquier predicción que omita un solo token, incluye un token espurio o tiene clase incorrecta, es un error difícil y no contribuye positivamente ni a la precisión ni a la recuperación. Por lo tanto, se puede decir que esta medida es pesimista: puede darse el caso de que muchos "errores" estén cerca de ser correctos, y podrían ser adecuados para un propósito dado. Por ejemplo, un sistema siempre puede omitir títulos como "Sra." o "Ph.D.", pero se compara con un sistema o datos de verdad que esperan que se incluyan títulos. En esos casos, cada nombre se trata como un error. Debido a tales problemas, es importante examinar los tipos de errores y decidir qué tan importantes se les dan los objetivos y requisitos.
+
+## Resultados obtenidos
+
+{r fig-train, fig.cap='TODO figure', out.width='80%', fig.asp=.75, fig.align='center'}
+ar(mar = c(66.238, 4, .1, .1))
+plot(pressure, type = 'b', pch = 19)
+
+
+```{r fig-boxplot, echo = FALSE, fig.pos="H", fig.align = 'center', out.width='80%', fig.asp=.75, fig.cap='Boxplot del Valor-F vs vantidad de documentos de entrenamiento'}
+# Load dataset from github
+data <- read_delim("data/results.csv", delim = "|", trim_ws = TRUE)
+spacy_NER_F = 66.238
+p <- ggplot(data, aes(x=T_DOCS, group=T_DOCS, y=NER_F)) +
+  geom_boxplot(varwidth = TRUE) +
+  geom_hline(yintercept=spacy_NER_F) +
+  annotate(geom="text", label="Spacy baseline", x=2000, y=spacy_NER_F, vjust=-1) +
+  xlab("Cantidad de documentos de entrenamiento") +
+  ylab("Valor-F")
+p
+```
