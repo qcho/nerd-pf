@@ -355,7 +355,7 @@ De esta manera queda bien definido el problema que queremos atacar (y el título
 Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas.
 \end{quote}
 
-Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier corpus de documentos que posea una cantidad necesaria de datos.
+Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier corpus de documentos que posea una cantidad suficiente de datos.
 
 \newpage
 
@@ -1508,9 +1508,15 @@ Así como las credenciales, las preferencias de internacionalización son guarda
 \hypertarget{servicio-1}{%
 \subsubsection{Servicio}\label{servicio-1}}
 
-El servicio que provee el \emph{API REST} fue implementado utilizando el lenguaje de programación \emph{Python}. El principal motivador de esta elección fue que las librerías que más cercan al estado del arte se encuentran implementadas en este lenguaje.
+El servicio que provee el \emph{API REST} fue implementado utilizando el lenguaje de programación \emph{Python}. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en \emph{Machine Learning} se encuentran implementadas en este lenguaje.
 
-Como base del proyecto, utilizamos un framework llamado \emph{Flask}, que junto con una librería llamada \emph{flask-smorest} nos permitió crear un \emph{API REST}
+\hypertarget{tecnologuxedas-1}{%
+\paragraph{Tecnologías}\label{tecnologuxedas-1}}
+
+\hypertarget{flask}{%
+\subparagraph{\texorpdfstring{\emph{Flask}}{Flask}}\label{flask}}
+
+Como base del proyecto utilizamos un \emph{microframework} de aplicaciones web llamado \emph{Flask} (Pallets, \protect\hyperlink{ref-flask}{2019}) ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios ni una librería para poder tener vistas que utilicen \emph{templates}.
 
 \hypertarget{vista-fuxedsica}{%
 \subsection{Vista física}\label{vista-fuxedsica}}
@@ -1762,6 +1768,9 @@ Mención itba. (2019). Retrieved October 3, 2019, from \url{https://www.instagra
 
 \leavevmode\hypertarget{ref-montani_AI}{}%
 Montani, I. (2016). Practical and effective neural ner. Retrieved November 28, 2016, from \url{https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf}
+
+\leavevmode\hypertarget{ref-flask}{}%
+Pallets, T. (2019). Flask: Lightweight wsgi web application framework. Retrieved November 20, 2019, from \url{https://palletsprojects.com/p/flask/}
 
 \leavevmode\hypertarget{ref-parikh-etal-2016-decomposable}{}%
 Parikh, A., Täckström, O., Das, D., \& Uszkoreit, J. (2016). A decomposable attention model for natural language inference. \emph{Proceedings of the 2016 conference on empirical methods in natural language processing}, 2249--2255. \url{https://doi.org/10.18653/v1/D16-1244}

@@ -691,16 +691,13 @@ A su vez, notifica al <em>API</em> la finalización de tareas asincrónicas</p>
 <p>Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-generado a partir de la definición de <em>OpenAPI</em>. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades</p>
 <!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
 <!-- TODO: explicar ui vs backend vs mensajes amq vs workers (no detalles de implementación ver siguiente) -->
-<!-- TODO: Diagrama de actividad para contar procesos? O nah? -->
 </div>
 </div>
 <div id="vista-de-desarrollo" class="section level2">
 <h2><span class="header-section-number">4.3</span> Vista de desarrollo</h2>
 <blockquote>
 <p>La vista de desarrollo ilustra un sistema desde la perspectiva de un programador y se ocupa de la gestión de software.
-Esta vista también se conoce como la vista de implementación.
-<!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
-<!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. --></p>
+Esta vista también se conoce como la vista de implementación.</p>
 </blockquote>
 <div id="web-1" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Web</h3>
@@ -727,8 +724,6 @@ Esta vista también se conoce como la vista de implementación.
 <h5><span class="header-section-number">4.3.1.1.4</span> OpenAPI Generator</h5>
 <p><em>OpenAPI Generator</em> es una herramienta que permite generar código a partir de una definición de <em>OpenAPI</em>.
 Debido a que el servicio implementado expone una definiciión de <em>OpenAPI</em>, podemos utilizar ésta librería para auto-generar todo el código necesario para comunicarnos con el servicio usando el generador de <em>Typescript</em>.</p>
-<!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
-<!-- TODO: Hablar sobre Atributos de calidad de software -->
 </div>
 </div>
 <div id="arquitectura" class="section level4">
@@ -756,8 +751,18 @@ Figura 4.20: Módulos de la página web.
 </div>
 <div id="servicio-1" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Servicio</h3>
-<p>El servicio que provee el <em>API REST</em> fue implementado utilizando el lenguaje de programación <em>Python</em>. El principal motivador de esta elección fue que las librerías que más cercan al estado del arte se encuentran implementadas en este lenguaje.</p>
-<p>Como base del proyecto, utilizamos un framework llamado <em>Flask</em>, que junto con una librería llamada <em>flask-smorest</em> nos permitió crear un <em>API REST</em></p>
+<p>El servicio que provee el <em>API REST</em> fue implementado utilizando el lenguaje de programación <em>Python</em>. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en <em>Machine Learning</em> se encuentran implementadas en este lenguaje.</p>
+<div id="tecnologías-1" class="section level4">
+<h4><span class="header-section-number">4.3.2.1</span> Tecnologías</h4>
+<div id="flask" class="section level5">
+<h5><span class="header-section-number">4.3.2.1.1</span> <em>Flask</em></h5>
+<p>Como base del proyecto utilizamos un <em>microframework</em> de aplicaciones web llamado <em>Flask</em> <span class="citation">(Pallets, <a href="#ref-flask">2019</a>)</span> ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios ni una librería para poder tener vistas que utilicen <em>templates</em>.</p>
+<!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
+<!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
+<!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
+<!-- TODO: Hablar sobre Atributos de calidad de software -->
+</div>
+</div>
 </div>
 </div>
 <div id="vista-física" class="section level2">
@@ -780,8 +785,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-ee4b8b466884eb124403" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ee4b8b466884eb124403">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-38bed623eba79a30087b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-38bed623eba79a30087b">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -793,6 +798,9 @@ Esta vista también se conoce como vista de caso de uso.</p>
 </div>
 <div id="ref-Kruchten:1995:VMA:624610.625529">
 <p>Kruchten, P. (1995). The 4+1 view model of architecture. <em>IEEE Softw.</em>, <em>12</em>(6), 42–50. <a href="https://doi.org/10.1109/52.469759">https://doi.org/10.1109/52.469759</a></p>
+</div>
+<div id="ref-flask">
+<p>Pallets, T. (2019). Flask: Lightweight wsgi web application framework. Retrieved November 20, 2019, from <a href="https://palletsprojects.com/p/flask/">https://palletsprojects.com/p/flask/</a></p>
 </div>
 </div>
 <div class="footnotes">
