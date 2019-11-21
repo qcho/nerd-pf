@@ -368,13 +368,10 @@ Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-
 <!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
 
 <!-- TODO: explicar ui vs backend vs mensajes amq vs workers (no detalles de implementación ver siguiente) -->
-<!-- TODO: Diagrama de actividad para contar procesos? O nah? -->
 
 ## Vista de desarrollo
 > La vista de desarrollo ilustra un sistema desde la perspectiva de un programador y se ocupa de la gestión de software.
 Esta vista también se conoce como la vista de implementación.
-<!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
-<!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
 
 ### Web
 
@@ -404,9 +401,6 @@ Librería que proveé mecanismos de internacionalización. A su vez, nos permiti
 _OpenAPI Generator_ es una herramienta que permite generar código a partir de una definición de _OpenAPI_.
 Debido a que el servicio implementado expone una definiciión de _OpenAPI_, podemos utilizar ésta librería para auto-generar todo el código necesario para comunicarnos con el servicio usando el generador de _Typescript_.
 
-<!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
-<!-- TODO: Hablar sobre Atributos de calidad de software -->
-
 #### Arquitectura
 
 El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura \@ref(fig:developer-web-modules)).
@@ -433,9 +427,18 @@ Así como las credenciales, las preferencias de internacionalización son guarda
 
 ### Servicio
 
-El servicio que provee el _API REST_ fue implementado utilizando el lenguaje de programación _Python_. El principal motivador de esta elección fue que las librerías que más cercan al estado del arte se encuentran implementadas en este lenguaje.
+El servicio que provee el _API REST_ fue implementado utilizando el lenguaje de programación _Python_. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en _Machine Learning_ se encuentran implementadas en este lenguaje.
 
-Como base del proyecto, utilizamos un framework llamado _Flask_, que junto con una librería llamada _flask-smorest_ nos permitió crear un _API REST_ 
+#### Tecnologías
+
+##### _Flask_
+
+Como base del proyecto utilizamos un _microframework_ de aplicaciones web llamado _Flask_ [@flask] ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios ni una librería para poder tener vistas que utilicen _templates_.
+
+<!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
+<!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
+<!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
+<!-- TODO: Hablar sobre Atributos de calidad de software -->
 
 ## Vista física
 > La vista física representa el sistema desde el punto de vista de un ingeniero de sistemas.
