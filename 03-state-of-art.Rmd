@@ -17,7 +17,7 @@ Todas las operaciones de analisis de lenguaje natural sobre textos no estructura
 
 Cada componente del pipeline mostrado en la figura \@ref(fig:spacy-pipeline) devuelve el un documento _Doc_ procesado, que luego se pasa al siguiente componente.
 
-```{r spacy-pipeline, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pipeline standard para los algoritmos de NER'}
+```{r spacy-pipeline, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pipeline standard para los algoritmos de NER.'}
 knitr::include_graphics('assets/spacy_pipeline.png')
 ```
 
@@ -71,7 +71,7 @@ Finalmente, el mecanismo de **_attend_** le permite reducir la matriz de oració
 
 De esta manera quedan definidas las piezas que describen al modelo de _spaCy_:
 
-```{r formula-shapes, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Estados posibles para las diferentes etapas de la CNN'}
+```{r formula-shapes, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Estados posibles para las diferentes etapas de la CNN.'}
 knitr::include_graphics('assets/deep-learning-formula-nlp_shapes.png')
 ```
 
@@ -82,7 +82,7 @@ Estos 4 procesos seran descriptos en detalle en las siguientes secciones.
 
 La idea de _word embeddings_ es la de "embeber" el conjunto de  tokens que componen términos con información adicional. El resultado de esta operación es una estructura abstracta que puede ser descripta como un "vector de significado".
 
-```{r formula-embed, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='embed'}
+```{r formula-embed, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Embed.'}
 knitr::include_graphics('assets/deep-learning-formula-nlp_embed.svg')
 ```
 
@@ -96,7 +96,7 @@ Una tabla de _word-embeddings_ mapea vectores largos binarios y esparsos en vect
 
 El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas, están resumidas en el siguiente ejemplo (TODO: figura 6).
 
-```{r formula-pos, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='características lingüísticas'}
+```{r formula-pos, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Características lingüísticas.'}
 knitr::include_graphics('assets/pos.png')
 ```
 
@@ -119,7 +119,7 @@ Los _word-vectors_ ponen ese hecho a disposición del modelo de reconocimiento d
 
 Otra forma interesante de analizar y entender los _word-vectors_ en su contexto de espacio vectorial multidimensional de significados es a través del algebra de vectores, como se muestra en el trabajo "_Towards Understanding Linear Word Analogies_" [@ethayarajh-etal-2019-towards]:
 
-```{r vec-parallelogram, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Parallelogram structure in the vector space (by definition),'}
+```{r vec-parallelogram, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Parallelogram structure in the vector space (by definition).'}
 knitr::include_graphics('assets/parallelogram.png')
 ```
 
@@ -144,7 +144,7 @@ La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la
 
 En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o tambien conocido como "vector de consulta" o "vector de contexto" representado en la figura \@ref(fig:formula-attend) como un vector mas oscuro.
 
-```{r formula-attend, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='attend'}
+```{r formula-attend, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Attend.'}
 knitr::include_graphics('assets/deep-learning-formula-nlp_attend.svg')
 ```
 
