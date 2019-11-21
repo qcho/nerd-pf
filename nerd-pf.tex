@@ -367,9 +367,9 @@ El análisis del estado del arte fue basado en la definición del problema.
 \hypertarget{stack-de-software}{%
 \subsection{Stack de software}\label{stack-de-software}}
 
-\emph{Python} es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial \emph{NLP} (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019})
+\emph{Python} es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial \emph{NLP} (Elliott, \protect\hyperlink{ref-github_machine_learning}{2019})
 
-Spacy es el \emph{framework} mejor ranqueado para la tarea de \emph{NLP} (``The state of the octoverse,'' \protect\hyperlink{ref-github_machine_learning}{2019}) y sabemos por la figura \ref{fig:spacy-algos} que obtiene resultados a-la-par del estado del arte actual.
+Spacy es el \emph{framework} mejor ranqueado para la tarea de \emph{NLP} (Elliott, \protect\hyperlink{ref-github_machine_learning}{2019}) y sabemos por la figura \ref{fig:spacy-algos} que obtiene resultados a-la-par del estado del arte actual.
 
 Además la implementación de \emph{spaCy} es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de \emph{NLP} que sólo se utilizan con fines académicos.
 
@@ -1545,10 +1545,6 @@ Esta vista también se conoce como vista de caso de uso.
 \hypertarget{results}{%
 \section{Resultados}\label{results}}
 
-Matriz de confusión -\textgreater{} dos indicadores!
-true possitive vs true negative
-Credibility: evaluation whats been leaerned.
-
 \hypertarget{muxe9trica-precisiuxf3n-y-exhaustividad}{%
 \subsection{Métrica: precisión y exhaustividad}\label{muxe9trica-precisiuxf3n-y-exhaustividad}}
 
@@ -1596,6 +1592,38 @@ En conferencias académicas como CoNLL, una variante de la {[}{[}puntuación F1{
 \end{itemize}
 
 De la definición anterior se deduce que cualquier predicción que omita un solo token, incluye un token espurio o tiene clase incorrecta, es un error difícil y no contribuye positivamente ni a la precisión ni a la recuperación. Por lo tanto, se puede decir que esta medida es pesimista: puede darse el caso de que muchos \enquote{errores} estén cerca de ser correctos, y podrían ser adecuados para un propósito dado. Por ejemplo, un sistema siempre puede omitir títulos como \enquote{Sra.} o \enquote{Ph.D.}, pero se compara con un sistema o datos de verdad que esperan que se incluyan títulos. En esos casos, cada nombre se trata como un error. Debido a tales problemas, es importante examinar los tipos de errores y decidir qué tan importantes se les dan los objetivos y requisitos.
+
+\hypertarget{resultados-obtenidos}{%
+\subsection{Resultados obtenidos}\label{resultados-obtenidos}}
+
+\{r fig-train, fig.cap=\enquote{TODO figure}, out.width=\enquote{80\%}, fig.asp=.75, fig.align=\enquote{center}\}
+ar(mar = c(66.238, 4, .1, .1))
+plot(pressure, type = \enquote{b}, pch = 19)
+
+\begin{verbatim}
+## Parsed with column specification:
+## cols(
+##   Itn = col_double(),
+##   NER_Loss = col_double(),
+##   NER_P = col_double(),
+##   NER_R = col_double(),
+##   NER_F = col_double(),
+##   `Token_%` = col_double(),
+##   CPU_WPS = col_double(),
+##   GPU_WPS = col_double(),
+##   T_DOCS = col_double(),
+##   V_DOCS = col_double()
+## )
+\end{verbatim}
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.8\linewidth]{nerd-pf_files/figure-latex/fig-boxplot-1.pdf} 
+
+}
+
+\caption{Boxplot del Valor-F vs vantidad de documentos de entrenamiento}\label{fig:fig-boxplot}
+\end{figure}
 
 \newpage
 
@@ -1729,6 +1757,432 @@ You can write citations, too. For example, we are using the \textbf{bookdown} pa
 
 \newpage
 
+\hypertarget{appendix-anexo-datos-de-resultados}{%
+\appendix}
+
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{t:} porcentaje de documentos de entrenamiento
+\item
+  \textbf{v:} porcentaje de documentos de validación
+\end{itemize}
+
+\hypertarget{t-0---v-100.-baseline-spacy}{%
+\subsection{\texorpdfstring{t: 0\% - v: 100\%. \emph{Baseline spacy}}{t: 0\% - v: 100\%. Baseline spacy}}\label{t-0---v-100.-baseline-spacy}}
+
+\begin{verbatim}
+=============================== Training stats ===============================
+Training pipeline: ner
+Starting with base model 'es_core_news_md'
+0 training docs
+4000 evaluation docs
+✔ No overlap between training and evaluation data
+
+============================== Vocab & Vectors ==============================
+ℹ 0 total words in the data (0 unique)
+ℹ 20000 vectors (533736 unique keys, 50 dimensions)
+
+========================== Named Entity Recognition ==========================
+ℹ 0 new labels, 0 existing labels
+0 missing values (tokens with '-' label)
+✔ Good amount of examples for all labels
+✔ Examples without occurrences available for all labels
+✔ No entities consisting of or starting/ending with whitespace
+
+================================== Summary ==================================
+✔ 5 checks passed
+Training pipeline: ['ner']
+Starting with base model 'es_core_news_md'
+Counting training words (limit=0)
+\end{verbatim}
+
+\begin{longtable}[]{@{}llllllll@{}}
+\toprule
+Itn & NER Loss & NER P & NER R & NER F & Token \% & CPU WPS & GPU WPS\tabularnewline
+\midrule
+\endhead
+1 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 25983 & 26538\tabularnewline
+2 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 25436 & 25395\tabularnewline
+3 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 25752 & 24471\tabularnewline
+4 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 25558 & 29465\tabularnewline
+5 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 25058 & 24053\tabularnewline
+6 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 23921 & 25149\tabularnewline
+7 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 24582 & 25506\tabularnewline
+8 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 29069 & 28158\tabularnewline
+9 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 28226 & 28367\tabularnewline
+10 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 23585 & 23769\tabularnewline
+11 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 24765 & 23512\tabularnewline
+12 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 23319 & 25613\tabularnewline
+13 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 23118 & 24513\tabularnewline
+14 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 21962 & 28556\tabularnewline
+15 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 24425 & 24294\tabularnewline
+16 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 27551 & 23843\tabularnewline
+17 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 25224 & 24975\tabularnewline
+18 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 24002 & 25027\tabularnewline
+19 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 24367 & 28260\tabularnewline
+20 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 25888 & 28075\tabularnewline
+21 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 23356 & 25695\tabularnewline
+22 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 28023 & 27458\tabularnewline
+23 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 27412 & 25016\tabularnewline
+24 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 24053 & 25072\tabularnewline
+25 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 24194 & 24086\tabularnewline
+26 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 24531 & 24725\tabularnewline
+27 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 24375 & 27681\tabularnewline
+28 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 28897 & 28069\tabularnewline
+29 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 24530 & 23338\tabularnewline
+30 & 0.000 & 68.147 & 64.433 & 66.238 & 100.000 & 23058 & 27724\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{t-50---v-50}{%
+\subsection{t: 50\% - v: 50\%}\label{t-50---v-50}}
+
+\begin{verbatim}
+=============================== Training stats ===============================
+Training pipeline: ner
+Starting with base model 'es_core_news_md'
+2000 training docs
+2000 evaluation docs
+⚠ 1 training examples also in evaluation data
+
+============================== Vocab & Vectors ==============================
+ℹ 27595 total words in the data (6197 unique)
+ℹ 20000 vectors (533736 unique keys, 50 dimensions)
+
+========================== Named Entity Recognition ==========================
+ℹ 1 new label, 4 existing labels
+0 missing values (tokens with '-' label)
+✔ Good amount of examples for all labels
+✔ Examples without occurrences available for all labels
+✔ No entities consisting of or starting/ending with whitespace
+
+================================== Summary ==================================
+✔ 4 checks passed
+⚠ 1 warning
+Training pipeline: ['ner']
+Starting with blank model 'es'
+Loading vector from model 'es_core_news_md'
+Counting training words (limit=0)
+\end{verbatim}
+
+\begin{longtable}[]{@{}llllllll@{}}
+\toprule
+Itn & NER Loss & NER P & NER R & NER F & Token \% & CPU WPS & GPU WPS\tabularnewline
+\midrule
+\endhead
+1 & 4373.230 & 61.762 & 57.692 & 59.658 & 100.000 & 25083 & 28411\tabularnewline
+2 & 2650.090 & 72.869 & 70.618 & 71.726 & 100.000 & 21033 & 22844\tabularnewline
+3 & 1879.892 & 77.506 & 75.820 & 76.653 & 100.000 & 22846 & 24881\tabularnewline
+4 & 1550.256 & 77.877 & 77.018 & 77.445 & 100.000 & 26894 & 22926\tabularnewline
+5 & 1331.972 & 78.330 & 78.058 & 78.194 & 100.000 & 25107 & 27973\tabularnewline
+6 & 1172.236 & 78.367 & 78.689 & 78.528 & 100.000 & 24348 & 28943\tabularnewline
+7 & 1021.166 & 79.104 & 79.004 & 79.054 & 100.000 & 22633 & 24151\tabularnewline
+8 & 891.760 & 78.931 & 78.657 & 78.794 & 100.000 & 23971 & 23087\tabularnewline
+9 & 825.860 & 78.731 & 78.657 & 78.694 & 100.000 & 28811 & 27209\tabularnewline
+10 & 763.561 & 78.715 & 78.815 & 78.765 & 100.000 & 23736 & 21812\tabularnewline
+11 & 680.819 & 78.754 & 78.878 & 78.816 & 100.000 & 22841 & 20951\tabularnewline
+12 & 579.623 & 78.504 & 78.405 & 78.454 & 100.000 & 21688 & 28305\tabularnewline
+13 & 494.455 & 78.553 & 78.405 & 78.479 & 100.000 & 23598 & 22923\tabularnewline
+14 & 469.631 & 78.470 & 78.247 & 78.358 & 100.000 & 21825 & 25855\tabularnewline
+15 & 421.725 & 78.592 & 78.468 & 78.530 & 100.000 & 19715 & 22731\tabularnewline
+16 & 410.767 & 78.439 & 78.562 & 78.501 & 100.000 & 24155 & 22225\tabularnewline
+17 & 411.734 & 78.284 & 78.531 & 78.407 & 100.000 & 21843 & 21950\tabularnewline
+18 & 347.546 & 78.220 & 78.689 & 78.454 & 100.000 & 22409 & 21145\tabularnewline
+19 & 353.033 & 78.119 & 78.562 & 78.340 & 100.000 & 21173 & 24639\tabularnewline
+20 & 260.769 & 78.238 & 78.657 & 78.447 & 100.000 & 22068 & 22087\tabularnewline
+21 & 306.896 & 78.332 & 78.752 & 78.541 & 100.000 & 22042 & 20555\tabularnewline
+22 & 248.995 & 78.538 & 78.909 & 78.723 & 100.000 & 20849 & 23016\tabularnewline
+23 & 269.101 & 78.300 & 78.720 & 78.510 & 100.000 & 21036 & 21311\tabularnewline
+24 & 237.393 & 78.228 & 78.499 & 78.363 & 100.000 & 21676 & 21239\tabularnewline
+25 & 234.766 & 78.439 & 78.562 & 78.501 & 100.000 & 20906 & 22519\tabularnewline
+26 & 255.452 & 78.612 & 78.562 & 78.587 & 100.000 & 20253 & 23063\tabularnewline
+27 & 226.127 & 78.432 & 78.531 & 78.481 & 100.000 & 21402 & 21935\tabularnewline
+28 & 181.469 & 78.327 & 78.499 & 78.413 & 100.000 & 22511 & 19438\tabularnewline
+29 & 180.268 & 77.904 & 78.026 & 77.965 & 100.000 & 18335 & 22732\tabularnewline
+30 & 179.335 & 78.023 & 78.121 & 78.072 & 100.000 & 22433 & 21633\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{t-75---v-25}{%
+\subsection{t: 75\% - v: 25\%}\label{t-75---v-25}}
+
+\begin{verbatim}
+=============================== Training stats ===============================
+Training pipeline: ner
+Starting with base model 'es_core_news_md'
+3000 training docs
+1000 evaluation docs
+✔ No overlap between training and evaluation data
+
+============================== Vocab & Vectors ==============================
+ℹ 41847 total words in the data (7928 unique)
+ℹ 20000 vectors (533736 unique keys, 50 dimensions)
+
+========================== Named Entity Recognition ==========================
+ℹ 1 new label, 4 existing labels
+0 missing values (tokens with '-' label)
+✔ Good amount of examples for all labels
+✔ Examples without occurrences available for all labels
+✔ No entities consisting of or starting/ending with whitespace
+
+================================== Summary ==================================
+✔ 5 checks passed
+Training pipeline: ['ner']
+Starting with blank model 'es'
+Loading vector from model 'es_core_news_md'
+Counting training words (limit=0)
+\end{verbatim}
+
+\begin{longtable}[]{@{}llllllll@{}}
+\toprule
+Itn & NER Loss & NER P & NER R & NER F & Token \% & CPU WPS & GPU WPS\tabularnewline
+\midrule
+\endhead
+1 & 5543.695 & 71.399 & 66.988 & 69.124 & 100.000 & 28067 & 25575\tabularnewline
+2 & 3114.421 & 78.567 & 75.483 & 76.994 & 100.000 & 26176 & 26036\tabularnewline
+3 & 2519.526 & 78.806 & 77.284 & 78.038 & 100.000 & 25530 & 25766\tabularnewline
+4 & 2120.064 & 79.857 & 78.829 & 79.339 & 100.000 & 25734 & 25163\tabularnewline
+5 & 1922.659 & 79.624 & 78.958 & 79.289 & 100.000 & 23645 & 25299\tabularnewline
+6 & 1663.921 & 79.807 & 79.858 & 79.833 & 100.000 & 26526 & 25635\tabularnewline
+7 & 1532.299 & 79.448 & 79.601 & 79.524 & 100.000 & 26120 & 26210\tabularnewline
+8 & 1311.481 & 79.625 & 79.215 & 79.419 & 100.000 & 25331 & 26163\tabularnewline
+9 & 1233.004 & 79.588 & 79.537 & 79.562 & 100.000 & 25709 & 25557\tabularnewline
+10 & 1118.481 & 79.486 & 79.537 & 79.511 & 100.000 & 25726 & 25332\tabularnewline
+11 & 1031.523 & 78.968 & 78.764 & 78.866 & 100.000 & 25399 & 26109\tabularnewline
+12 & 930.418 & 79.317 & 79.215 & 79.266 & 100.000 & 23443 & 24004\tabularnewline
+13 & 874.136 & 79.253 & 79.151 & 79.202 & 100.000 & 22272 & 26035\tabularnewline
+14 & 828.361 & 79.199 & 78.893 & 79.046 & 100.000 & 23957 & 25490\tabularnewline
+15 & 708.060 & 79.199 & 78.893 & 79.046 & 100.000 & 25963 & 28166\tabularnewline
+16 & 663.398 & 78.917 & 78.764 & 78.841 & 100.000 & 29668 & 27887\tabularnewline
+17 & 659.681 & 78.737 & 78.636 & 78.686 & 100.000 & 24656 & 27843\tabularnewline
+18 & 575.416 & 78.852 & 78.700 & 78.776 & 100.000 & 24306 & 28002\tabularnewline
+19 & 587.828 & 78.512 & 78.764 & 78.638 & 100.000 & 24038 & 28674\tabularnewline
+20 & 527.561 & 78.498 & 78.700 & 78.599 & 100.000 & 24642 & 26366\tabularnewline
+21 & 477.470 & 79.035 & 79.086 & 79.061 & 100.000 & 24744 & 24873\tabularnewline
+22 & 479.368 & 78.985 & 79.086 & 79.035 & 100.000 & 24633 & 26975\tabularnewline
+23 & 440.360 & 78.829 & 78.829 & 78.829 & 100.000 & 26582 & 28826\tabularnewline
+24 & 451.145 & 79.315 & 78.958 & 79.136 & 100.000 & 26343 & 28304\tabularnewline
+25 & 409.140 & 79.250 & 78.893 & 79.071 & 100.000 & 28135 & 27367\tabularnewline
+26 & 434.599 & 79.226 & 79.022 & 79.124 & 100.000 & 23172 & 29557\tabularnewline
+27 & 368.677 & 79.097 & 78.893 & 78.995 & 100.000 & 29263 & 25145\tabularnewline
+28 & 410.056 & 79.097 & 78.893 & 78.995 & 100.000 & 27527 & 23153\tabularnewline
+29 & 329.823 & 78.792 & 78.893 & 78.842 & 100.000 & 25775 & 23087\tabularnewline
+30 & 336.049 & 78.930 & 78.829 & 78.880 & 100.000 & 25315 & 24963\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{t-80---v-20}{%
+\subsection{t: 80\% - v: 20\%}\label{t-80---v-20}}
+
+\begin{verbatim}
+=============================== Training stats ===============================
+Training pipeline: ner
+Starting with base model 'es_core_news_md'
+3200 training docs
+800 evaluation docs
+✔ No overlap between training and evaluation data
+
+============================== Vocab & Vectors ==============================
+ℹ 44669 total words in the data (8237 unique)
+ℹ 20000 vectors (533736 unique keys, 50 dimensions)
+
+========================== Named Entity Recognition ==========================
+ℹ 1 new label, 4 existing labels
+0 missing values (tokens with '-' label)
+✔ Good amount of examples for all labels
+✔ Examples without occurrences available for all labels
+✔ No entities consisting of or starting/ending with whitespace
+
+================================== Summary ==================================
+✔ 5 checks passed
+Training pipeline: ['ner']
+Starting with blank model 'es'
+Loading vector from model 'es_core_news_md'
+Counting training words (limit=0)
+\end{verbatim}
+
+\begin{longtable}[]{@{}llllllll@{}}
+\toprule
+Itn & NER Loss & NER P & NER R & NER F & Token \% & CPU WPS & GPU WPS\tabularnewline
+\midrule
+\endhead
+1 & 5883.516 & 72.743 & 67.964 & 70.273 & 100.000 & 26475 & 26383\tabularnewline
+2 & 3402.834 & 78.329 & 76.805 & 77.559 & 100.000 & 24611 & 22944\tabularnewline
+3 & 2753.233 & 78.595 & 78.021 & 78.307 & 100.000 & 24175 & 25389\tabularnewline
+4 & 2412.231 & 79.577 & 79.319 & 79.448 & 100.000 & 25896 & 23811\tabularnewline
+5 & 2068.848 & 80.130 & 79.805 & 79.967 & 100.000 & 24106 & 24838\tabularnewline
+6 & 1854.721 & 80.506 & 80.049 & 80.277 & 100.000 & 26573 & 28760\tabularnewline
+7 & 1602.726 & 80.246 & 79.400 & 79.821 & 100.000 & 25482 & 25610\tabularnewline
+8 & 1400.760 & 80.874 & 79.562 & 80.213 & 100.000 & 24446 & 25178\tabularnewline
+9 & 1278.537 & 80.542 & 79.562 & 80.049 & 100.000 & 24311 & 22168\tabularnewline
+10 & 1188.572 & 80.574 & 79.724 & 80.147 & 100.000 & 23460 & 23847\tabularnewline
+11 & 1057.995 & 80.921 & 79.805 & 80.359 & 100.000 & 25690 & 26429\tabularnewline
+12 & 982.713 & 79.935 & 79.481 & 79.707 & 100.000 & 24790 & 24607\tabularnewline
+13 & 911.306 & 79.935 & 79.481 & 79.707 & 100.000 & 23366 & 24298\tabularnewline
+14 & 872.340 & 79.805 & 79.481 & 79.642 & 100.000 & 25026 & 24863\tabularnewline
+15 & 744.991 & 79.397 & 79.075 & 79.236 & 100.000 & 23702 & 22732\tabularnewline
+16 & 724.587 & 79.918 & 79.400 & 79.658 & 100.000 & 25589 & 22711\tabularnewline
+17 & 703.524 & 79.577 & 79.319 & 79.448 & 100.000 & 24541 & 21817\tabularnewline
+18 & 666.757 & 80.016 & 79.238 & 79.625 & 100.000 & 24072 & 23769\tabularnewline
+19 & 617.329 & 80.230 & 79.319 & 79.772 & 100.000 & 23397 & 24896\tabularnewline
+20 & 538.848 & 80.180 & 79.400 & 79.788 & 100.000 & 28608 & 29527\tabularnewline
+21 & 545.278 & 79.951 & 79.238 & 79.593 & 100.000 & 27668 & 28125\tabularnewline
+22 & 542.003 & 79.657 & 79.075 & 79.365 & 100.000 & 24713 & 28483\tabularnewline
+23 & 515.150 & 79.085 & 78.508 & 78.795 & 100.000 & 24505 & 29683\tabularnewline
+24 & 510.062 & 78.694 & 78.183 & 78.438 & 100.000 & 28378 & 28694\tabularnewline
+25 & 490.366 & 78.694 & 78.183 & 78.438 & 100.000 & 29099 & 25309\tabularnewline
+26 & 489.131 & 79.003 & 78.427 & 78.714 & 100.000 & 28224 & 27445\tabularnewline
+27 & 481.775 & 79.038 & 78.589 & 78.813 & 100.000 & 27452 & 26523\tabularnewline
+28 & 434.892 & 79.055 & 78.670 & 78.862 & 100.000 & 29050 & 23274\tabularnewline
+29 & 418.859 & 79.218 & 78.832 & 79.024 & 100.000 & 22857 & 25335\tabularnewline
+30 & 384.182 & 78.763 & 78.508 & 78.635 & 100.000 & 27555 & 25168\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{t-85---v-15}{%
+\subsection{t: 85\% - v: 15\%}\label{t-85---v-15}}
+
+\begin{verbatim}
+=============================== Training stats ===============================
+Training pipeline: ner
+Starting with base model 'es_core_news_md'
+3400 training docs
+600 evaluation docs
+✔ No overlap between training and evaluation data
+
+============================== Vocab & Vectors ==============================
+ℹ 47412 total words in the data (8489 unique)
+ℹ 20000 vectors (533736 unique keys, 50 dimensions)
+
+========================== Named Entity Recognition ==========================
+ℹ 1 new label, 4 existing labels
+0 missing values (tokens with '-' label)
+✔ Good amount of examples for all labels
+✔ Examples without occurrences available for all labels
+✔ No entities consisting of or starting/ending with whitespace
+
+================================== Summary ==================================
+✔ 5 checks passed
+Training pipeline: ['ner']
+Starting with blank model 'es'
+Loading vector from model 'es_core_news_md'
+Counting training words (limit=0)
+\end{verbatim}
+
+\begin{longtable}[]{@{}llllllll@{}}
+\toprule
+Itn & NER Loss & NER P & NER R & NER F & Token \% & CPU WPS & GPU WPS\tabularnewline
+\midrule
+\endhead
+1 & 6149.150 & 72.957 & 69.824 & 71.356 & 100.000 & 25187 & 25398\tabularnewline
+2 & 3530.670 & 78.947 & 77.643 & 78.290 & 100.000 & 28946 & 30524\tabularnewline
+3 & 2782.778 & 80.537 & 79.295 & 79.911 & 100.000 & 28908 & 21788\tabularnewline
+4 & 2408.691 & 82.011 & 80.837 & 81.420 & 100.000 & 29169 & 24758\tabularnewline
+5 & 2083.651 & 81.748 & 81.388 & 81.567 & 100.000 & 28273 & 21302\tabularnewline
+6 & 1874.490 & 81.195 & 80.837 & 81.015 & 100.000 & 27418 & 24743\tabularnewline
+7 & 1733.739 & 80.154 & 80.066 & 80.110 & 100.000 & 25380 & 22917\tabularnewline
+8 & 1569.485 & 80.000 & 79.736 & 79.868 & 100.000 & 22546 & 23340\tabularnewline
+9 & 1404.922 & 80.132 & 79.956 & 80.044 & 100.000 & 25653 & 22216\tabularnewline
+10 & 1270.519 & 79.912 & 79.736 & 79.824 & 100.000 & 23418 & 23172\tabularnewline
+11 & 1213.184 & 79.868 & 79.956 & 79.912 & 100.000 & 24245 & 24331\tabularnewline
+12 & 1071.570 & 80.375 & 80.286 & 80.331 & 100.000 & 25123 & 24563\tabularnewline
+13 & 968.863 & 80.353 & 80.176 & 80.265 & 100.000 & 22790 & 23443\tabularnewline
+14 & 933.663 & 80.331 & 80.066 & 80.199 & 100.000 & 23651 & 24537\tabularnewline
+15 & 861.770 & 80.509 & 80.066 & 80.287 & 100.000 & 20112 & 22464\tabularnewline
+16 & 774.950 & 80.442 & 80.176 & 80.309 & 100.000 & 22588 & 24903\tabularnewline
+17 & 848.828 & 80.642 & 80.286 & 80.464 & 100.000 & 23963 & 25567\tabularnewline
+18 & 702.390 & 80.266 & 79.736 & 80.000 & 100.000 & 21939 & 24809\tabularnewline
+19 & 666.903 & 80.577 & 79.956 & 80.265 & 100.000 & 22971 & 24589\tabularnewline
+20 & 659.185 & 80.663 & 80.396 & 80.530 & 100.000 & 23862 & 23570\tabularnewline
+21 & 600.204 & 80.288 & 79.846 & 80.066 & 100.000 & 22904 & 25857\tabularnewline
+22 & 579.303 & 80.221 & 79.956 & 80.088 & 100.000 & 23899 & 23143\tabularnewline
+23 & 558.429 & 80.288 & 79.846 & 80.066 & 100.000 & 23462 & 24445\tabularnewline
+24 & 588.920 & 80.177 & 79.736 & 79.956 & 100.000 & 24245 & 24946\tabularnewline
+25 & 529.718 & 80.266 & 79.736 & 80.000 & 100.000 & 24724 & 22070\tabularnewline
+26 & 556.021 & 80.155 & 79.626 & 79.890 & 100.000 & 23382 & 23936\tabularnewline
+27 & 455.335 & 80.155 & 79.626 & 79.890 & 100.000 & 26675 & 21860\tabularnewline
+28 & 473.464 & 79.535 & 79.185 & 79.360 & 100.000 & 23786 & 27999\tabularnewline
+29 & 469.124 & 79.272 & 79.185 & 79.229 & 100.000 & 23863 & 22476\tabularnewline
+30 & 447.699 & 79.383 & 79.295 & 79.339 & 100.000 & 24570 & 22265\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{t-90---v-10}{%
+\subsection{t: 90\% - v: 10\%}\label{t-90---v-10}}
+
+\begin{verbatim}
+=============================== Training stats ===============================
+Training pipeline: ner
+Starting with base model 'es_core_news_md'
+3600 training docs
+400 evaluation docs
+✔ No overlap between training and evaluation data
+
+============================== Vocab & Vectors ==============================
+ℹ 50207 total words in the data (8769 unique)
+ℹ 20000 vectors (533736 unique keys, 50 dimensions)
+
+========================== Named Entity Recognition ==========================
+ℹ 1 new label, 4 existing labels
+0 missing values (tokens with '-' label)
+✔ Good amount of examples for all labels
+✔ Examples without occurrences available for all labels
+✔ No entities consisting of or starting/ending with whitespace
+
+================================== Summary ==================================
+✔ 5 checks passed
+Training pipeline: ['ner']
+Starting with blank model 'es'
+Loading vector from model 'es_core_news_md'
+Counting training words (limit=0)
+\end{verbatim}
+
+\begin{longtable}[]{@{}llllllll@{}}
+\toprule
+Itn & NER Loss & NER P & NER R & NER F & Token \% & CPU WPS & GPU WPS\tabularnewline
+\midrule
+\endhead
+1 & 6337.608 & 73.835 & 69.128 & 71.404 & 100.000 & 24730 & 26330\tabularnewline
+2 & 3733.858 & 80.364 & 74.161 & 77.138 & 100.000 & 26793 & 23166\tabularnewline
+3 & 3052.388 & 79.718 & 75.839 & 77.730 & 100.000 & 26983 & 23049\tabularnewline
+4 & 2530.293 & 79.897 & 78.020 & 78.947 & 100.000 & 28707 & 23476\tabularnewline
+5 & 2252.914 & 81.034 & 78.859 & 79.932 & 100.000 & 25129 & 27980\tabularnewline
+6 & 2018.009 & 81.424 & 78.691 & 80.034 & 100.000 & 27818 & 27073\tabularnewline
+7 & 1798.934 & 81.739 & 78.859 & 80.273 & 100.000 & 29947 & 27560\tabularnewline
+8 & 1650.571 & 80.763 & 78.188 & 79.454 & 100.000 & 29033 & 27491\tabularnewline
+9 & 1484.659 & 81.469 & 78.188 & 79.795 & 100.000 & 25644 & 29321\tabularnewline
+10 & 1423.551 & 81.076 & 78.356 & 79.693 & 100.000 & 29104 & 28378\tabularnewline
+11 & 1211.619 & 81.109 & 78.523 & 79.795 & 100.000 & 25347 & 30059\tabularnewline
+12 & 1115.638 & 80.345 & 78.188 & 79.252 & 100.000 & 24173 & 28090\tabularnewline
+13 & 1025.299 & 80.936 & 78.356 & 79.625 & 100.000 & 27853 & 20482\tabularnewline
+14 & 985.754 & 81.109 & 78.523 & 79.795 & 100.000 & 22511 & 27637\tabularnewline
+15 & 998.443 & 81.501 & 78.356 & 79.897 & 100.000 & 27517 & 27543\tabularnewline
+16 & 906.401 & 81.436 & 78.020 & 79.692 & 100.000 & 25237 & 29533\tabularnewline
+17 & 822.168 & 80.944 & 77.685 & 79.281 & 100.000 & 27192 & 28424\tabularnewline
+18 & 796.657 & 80.977 & 77.852 & 79.384 & 100.000 & 23619 & 23841\tabularnewline
+19 & 704.390 & 80.803 & 77.685 & 79.213 & 100.000 & 23415 & 24997\tabularnewline
+20 & 699.090 & 80.729 & 78.020 & 79.352 & 100.000 & 24897 & 20853\tabularnewline
+21 & 691.900 & 80.763 & 78.188 & 79.454 & 100.000 & 23200 & 24635\tabularnewline
+22 & 654.682 & 80.696 & 77.852 & 79.249 & 100.000 & 23883 & 23942\tabularnewline
+23 & 624.907 & 81.250 & 78.523 & 79.863 & 100.000 & 28663 & 28699\tabularnewline
+24 & 640.695 & 81.391 & 78.523 & 79.932 & 100.000 & 27891 & 27498\tabularnewline
+25 & 593.737 & 81.786 & 78.356 & 80.034 & 100.000 & 23063 & 22741\tabularnewline
+26 & 547.825 & 81.469 & 78.188 & 79.795 & 100.000 & 28517 & 22537\tabularnewline
+27 & 538.115 & 81.786 & 78.356 & 80.034 & 100.000 & 30210 & 23101\tabularnewline
+28 & 529.483 & 81.501 & 78.356 & 79.897 & 100.000 & 22598 & 21694\tabularnewline
+29 & 538.596 & 80.977 & 77.852 & 79.384 & 100.000 & 23760 & 23484\tabularnewline
+30 & 495.002 & 80.522 & 77.685 & 79.078 & 100.000 & 23161 & 22751\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
 \hypertarget{refs}{}
 \leavevmode\hypertarget{ref-brunstein2002}{}%
 Brunstein, A. (2002). Annotation guidelines for answer types. Retrieved from \url{https://catalog.ldc.upenn.edu/docs/LDC2005T33/BBN-Types-Subtypes.html}
@@ -1738,6 +2192,9 @@ Case, K. E., \& Fair, R. C. (1999). \emph{Principles of economics}. Retrieved fr
 
 \leavevmode\hypertarget{ref-cambridge_duh}{}%
 Duh definition. (2019). Retrieved October 14, 2019, from \url{https://dictionary.cambridge.org/es/diccionario/ingles/duh}
+
+\leavevmode\hypertarget{ref-github_machine_learning}{}%
+Elliott, T. (2019). The state of the octoverse: Machine learning. Retrieved January 24, 2019, from \url{https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/}
 
 \leavevmode\hypertarget{ref-ethayarajh-etal-2019-towards}{}%
 Ethayarajh, K., Duvenaud, D., \& Hirst, G. (2019). Towards understanding linear word analogies. \emph{Proceedings of the 57th annual meeting of the association for computational linguistics}, 3253--3262. \url{https://doi.org/10.18653/v1/P19-1315}
@@ -1780,9 +2237,6 @@ Poibeau, T., \& Kosseim, L. (2000). Proper name extraction from non-journalistic
 
 \leavevmode\hypertarget{ref-wiki_Precision_and_recall}{}%
 Precision and recall. (2019). Retrieved October 16, 2019, from \url{https://en.wikipedia.org/wiki/Precision_and_recall}
-
-\leavevmode\hypertarget{ref-github_machine_learning}{}%
-The state of the octoverse: Machine learning. (2019). Retrieved January 24, 2019, from \url{https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/}
 
 \leavevmode\hypertarget{ref-xie2015}{}%
 Xie, Y. (2015). \emph{Dynamic documents with R and knitr} (2nd ed.). Retrieved from \url{http://yihui.name/knitr/}

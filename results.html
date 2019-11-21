@@ -183,6 +183,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Resultados</a><ul>
 <li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#métrica-precisión-y-exhaustividad"><i class="fa fa-check"></i><b>5.1</b> Métrica: precisión y exhaustividad</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#resultados-obtenidos"><i class="fa fa-check"></i><b>5.2</b> Resultados obtenidos</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Discusión</a><ul>
 <li class="chapter" data-level="6.1" data-path="discussion.html"><a href="discussion.html#tipos-de-entidades-relevantes"><i class="fa fa-check"></i><b>6.1</b> Tipos de entidades relevantes</a></li>
@@ -193,6 +194,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>7</b> Conclusiones</a><ul>
 <li class="chapter" data-level="7.1" data-path="conclusiones.html"><a href="conclusiones.html#examples"><i class="fa fa-check"></i><b>7.1</b> Examples</a></li>
+</ul></li>
+<li class="appendix"><span><b>Anexo: Datos de resultados</b></span><ul>
+<li class="chapter" data-level="2" data-path="conclusiones.html"><a href="conclusiones.html#t-0---v-100.-baseline-spacy"><i class="fa fa-check"></i><b>2</b> t: 0% - v: 100%. <em>Baseline spacy</em></a></li>
+<li class="chapter" data-level="3" data-path="conclusiones.html"><a href="conclusiones.html#t-50---v-50"><i class="fa fa-check"></i><b>3</b> t: 50% - v: 50%</a></li>
+<li class="chapter" data-level="4" data-path="conclusiones.html"><a href="conclusiones.html#t-75---v-25"><i class="fa fa-check"></i><b>4</b> t: 75% - v: 25%</a></li>
+<li class="chapter" data-level="5" data-path="conclusiones.html"><a href="conclusiones.html#t-80---v-20"><i class="fa fa-check"></i><b>5</b> t: 80% - v: 20%</a></li>
+<li class="chapter" data-level="6" data-path="conclusiones.html"><a href="conclusiones.html#t-85---v-15"><i class="fa fa-check"></i><b>6</b> t: 85% - v: 15%</a></li>
+<li class="chapter" data-level="7" data-path="conclusiones.html"><a href="conclusiones.html#t-90---v-10"><i class="fa fa-check"></i><b>7</b> t: 90% - v: 10%</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -217,10 +226,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="results" class="section level1">
 <h1><span class="header-section-number">Capítulo 5</span> Resultados</h1>
-<!-- TODO: add info about how the trained model is better -->
-<p>Matriz de confusión -&gt; dos indicadores!
-true possitive vs true negative
-Credibility: evaluation whats been leaerned.</p>
 <div id="métrica-precisión-y-exhaustividad" class="section level2">
 <h2><span class="header-section-number">5.1</span> Métrica: precisión y exhaustividad</h2>
 <p><span class="citation">(“Precision and recall,” <a href="#ref-wiki_Precision_and_recall">2019</a>)</span></p>
@@ -251,6 +256,31 @@ Para evaluar la calidad de la salida de un sistema NER, se han definido varias m
 <li>La puntuación F1 es la [[media armónica]] de estos dos.</li>
 </ul>
 <p>De la definición anterior se deduce que cualquier predicción que omita un solo token, incluye un token espurio o tiene clase incorrecta, es un error difícil y no contribuye positivamente ni a la precisión ni a la recuperación. Por lo tanto, se puede decir que esta medida es pesimista: puede darse el caso de que muchos “errores” estén cerca de ser correctos, y podrían ser adecuados para un propósito dado. Por ejemplo, un sistema siempre puede omitir títulos como “Sra.” o “Ph.D.”, pero se compara con un sistema o datos de verdad que esperan que se incluyan títulos. En esos casos, cada nombre se trata como un error. Debido a tales problemas, es importante examinar los tipos de errores y decidir qué tan importantes se les dan los objetivos y requisitos.</p>
+</div>
+<div id="resultados-obtenidos" class="section level2">
+<h2><span class="header-section-number">5.2</span> Resultados obtenidos</h2>
+<p>{r fig-train, fig.cap=‘TODO figure’, out.width=‘80%’, fig.asp=.75, fig.align=‘center’}
+ar(mar = c(66.238, 4, .1, .1))
+plot(pressure, type = ‘b’, pch = 19)</p>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Itn = col_double(),
+##   NER_Loss = col_double(),
+##   NER_P = col_double(),
+##   NER_R = col_double(),
+##   NER_F = col_double(),
+##   `Token_%` = col_double(),
+##   CPU_WPS = col_double(),
+##   GPU_WPS = col_double(),
+##   T_DOCS = col_double(),
+##   V_DOCS = col_double()
+## )</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:fig-boxplot"></span>
+<img src="nerd-pf_files/figure-html/fig-boxplot-1.png" alt="Boxplot del Valor-F vs vantidad de documentos de entrenamiento" width="80%" />
+<p class="caption">
+Figura 5.1: Boxplot del Valor-F vs vantidad de documentos de entrenamiento
+</p>
+</div>
 
 <div style="page-break-after: always;"></div>
 </div>
