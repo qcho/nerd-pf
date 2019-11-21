@@ -5,7 +5,7 @@
 
 ### Entidad nombrada
 
-En _extracción de información_, una _entidad nombrada_ es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son "Mauricio Macri", "Ciudad Autónoma de Buenos Aires", "Apple Macbook".
+En el contexto de _extracción de información_, una _entidad nombrada_ es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son "Mauricio Macri", "Ciudad Autónoma de Buenos Aires", "Apple Macbook".
 También se suele definir sencillamente como aquellas entidades que se pueden ver como instancias de entidad (por ejemplo, la Ciudad Autónoma de Buenos Aires es una instancia de una ciudad).
 
 

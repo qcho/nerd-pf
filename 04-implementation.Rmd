@@ -305,9 +305,9 @@ Conjunto de operaciones relacionadas al _Reconocimiento de Entidades Nombradas_
 * **GET** _/api/ner/compare/\{first_snapshot\}/\{second_snapshot\}_
     * Compara el _Reconocimiento de Entidades Nombradas_ entre dos snapshots distintos
 * **POST** _/api/ner/current/parse_
-    * Retorna un documento Spacy para un texto dado utilizando el snapshot actual
+    * Retorna un documento _spaCy_ para un texto dado utilizando el snapshot actual
 * **POST** _/api/ner/\{snapshot_id\}/parse_
-    * Retorna un documento Spacy para un texto dado utilizando el snapshot especificado
+    * Retorna un documento _spaCy_ para un texto dado utilizando el snapshot especificado
 * **POST** _/api/ner/current/entities_
     * Retorna la lista de _Entidades Nombradas_ para un texto dado utilizando el modelo actual
 * **POST** _/api/ner/\{snapshot_id\}/entities_
@@ -338,7 +338,7 @@ knitr::include_graphics('assets/process/process-overview-client.png')
 ### API
 
 Servicio en el cual los clientes pueden pedir las _Entidades Nombradas_ de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
-El _API_ se comunica el servicio de _Bases de Datos_ para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos _snapshots_ y con el _Task Scheduler_ para realizar diversas tareas relacionadas con _Spacy_.
+El _API_ se comunica el servicio de _Bases de Datos_ para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos _snapshots_ y con el _Task Scheduler_ para realizar diversas tareas relacionadas con _spaCy_.
 
 ### Task Scheduler
 
