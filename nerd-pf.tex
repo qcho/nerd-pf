@@ -1543,78 +1543,79 @@ Esta vista también se conoce como vista de caso de uso.
 \newpage
 
 \hypertarget{results}{%
-\section{Resultados}\label{results}}
+\section{Resultados de entrenamiento}\label{results}}
 
-\hypertarget{muxe9trica-precisiuxf3n-y-exhaustividad}{%
-\subsection{Métrica: precisión y exhaustividad}\label{muxe9trica-precisiuxf3n-y-exhaustividad}}
+\hypertarget{muxe9trica-valor-f}{%
+\subsection{Métrica: Valor-F}\label{muxe9trica-valor-f}}
 
-(``Precision and recall,'' \protect\hyperlink{ref-wiki_Precision_and_recall}{2019})
+En análisis estadístico de clasificación binaria, el \(\text{valor-F}\) es una medida de la \textbf{exactitud} de una prueba.
+Considera tanto la \textbf{precisión} (del inglés \emph{precision}) como la \textbf{exhaustividad} (del ingles \emph{recall}). Su formula es la siguiente:
 
-\begin{quote}
-TODO: reescribir
+\[
+F_\beta = (1 + \beta^2) \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{(\beta^2 \cdot \mathrm{precision}) + \mathrm{recall}}
+\]
 
-En conferencias académicas como CoNLL, se ha definido una variante del {[}{[}valor-F{]}{]} de la siguiente manera:
+En particular cuando \(F_1\) (\(\beta = 1\)) es la media armónica de la precisión y la exhaustividad, donde un puntaje F1 alcanza su mejor valor en 1 (precisión y \emph{recall} perfecta) y el peor en 0.
 
-\begin{itemize}
-\item
-  Precisión es el número de entidades nombradas que coinciden exactamente con conjunto de evaluación. I.e. cuando se predice {[}Persona Hans{]} {[}Persona Blick{]}, pero lo correcto era {[}Person Hans Blick{]}, la precisión es cero. La precisión es después promediada por cada una de la entidades nombradas.
-\item
-  El recobrado es el número de entidades del conjunto de evaluación que aparecen exactamente en la misma posición en las predicciones.
-\item
-  El Valor-F es la media armónica de estos dos valores. Se deriva de la anterior definición que cualquier predicción que reconozca erróneamente un token como parte de una entidad nombrada o que deje de detectar un token que sí es una entidad nombrada o lo clasifique erróneamente no contribuirá ni a la precisión ni al recobrado.
-\end{itemize}
-\end{quote}
+\[
+F_1 = \left(\frac{2}{\mathrm{recall}^{-1} + \mathrm{precision}^{-1}}\right) = 2 \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{\mathrm{precision} + \mathrm{recall}}
+\]
 
-=== Evaluación formal ===
-Para evaluar la calidad de la salida de un sistema NER, se han definido varias medidas. Las medidas habituales se llaman
-{[}{[}Precision\_and\_recall \textbar{} Precisión, recuperación{]}{]} y {[}{[}Puntuación F1{]}{]}. Sin embargo, quedan varios problemas sobre cómo calcular esos valores.
-
-Estas medidas estadísticas funcionan razonablemente bien para los casos obvios de encontrar o faltar una entidad real exactamente; y para encontrar una no entidad. Sin embargo, NER puede fallar de muchas otras maneras, muchas de las cuales son posiblemente \enquote{parcialmente correctas}, y no deben considerarse como éxitos o fracasos competitivos. Por ejemplo, identificar una entidad real, pero:
-* con menos tokens de los deseados (por ejemplo, falta el último token de \enquote{John Smith, M.D.})
-* con más tokens de los deseados (por ejemplo, incluyendo la primera palabra de \enquote{The University of MD})
-* particionando entidades adyacentes de manera diferente (por ejemplo, tratando a \enquote{Smith, Jones Robinson} como entidades 2 vs.~3)
-* asignarle un tipo completamente incorrecto (por ejemplo, llamar a un nombre personal a una organización)
-* asignándole un tipo relacionado pero inexacto (por ejemplo, \enquote{sustancia} vs. \enquote{droga}, o \enquote{escuela} vs. \enquote{organización})
-* identificar correctamente una entidad, cuando lo que el usuario quería era una entidad de menor o mayor alcance (por ejemplo, identificar \enquote{James Madison} como un nombre personal, cuando forma parte de la \enquote{Universidad James Madison}. Algunos sistemas NER imponen la restricción que las entidades nunca se superpongan o aniden, lo que significa que en algunos casos uno debe tomar decisiones arbitrarias o específicas de la tarea.
-
-Un método demasiado simple para medir la precisión es simplemente contar qué fracción de todas las fichas en el texto se identificaron correcta o incorrectamente como parte de referencias de entidad (o como entidades del tipo correcto). Esto tiene al menos dos problemas: en primer lugar, la gran mayoría de los tokens en el texto del mundo real no forman parte de los nombres de las entidades, por lo que la precisión de la línea de base (siempre predice \enquote{no una entidad}) es extravagantemente alta, típicamente\textgreater{} 90\%; y segundo, predecir erróneamente el lapso completo del nombre de una entidad no se penaliza adecuadamente (encontrar solo el nombre de una persona cuando le sigue su apellido podría calificarse como ½ precisión).
-
-En conferencias académicas como CoNLL, una variante de la {[}{[}puntuación F1{]}{]} se ha definido de la siguiente manera: \{\{r \textbar{} conll03intro\}\}
+Donde
 
 \begin{itemize}
 \tightlist
 \item
-  {[}{[}Precisión y recuperación \textbar{} Precisión{]}{]} es el número de intervalos de nombre de entidad pronosticados que se alinean '' exactamente '' con intervalos en los datos de evaluación {[}{[}Verdad fundamental \# Estadísticas y aprendizaje automático \textbar{} estándar de oro{]}{]}. Es decir. cuando se predice {[} Persona Hans{]} {[} Persona Blick{]} pero se requiere {[} Persona Hans Blick{]}, la precisión del nombre predicho es cero. La precisión se promedia sobre todos los nombres de entidad pronosticados.
-\item
-  Recordar es igualmente el número de nombres en el estándar de oro que aparecen exactamente en la misma ubicación en las predicciones.
-\item
-  La puntuación F1 es la {[}{[}media armónica{]}{]} de estos dos.
+  \(\text{precision}\) es el número de resultados positivos correctos dividido por el número de todos los resultados positivos devueltos por el clasificador.
+  En particular para nuestro uso es el número de entidades nombradas que coinciden exactamente con el conjunto de evaluación.
+  Por ejemplo, cuando se predice \texttt{{[}Persona\ Horacio{]}\ {[}Persona\ Gómez{]}}, pero lo correcto era \texttt{{[}Persona\ Horacio\ Gómez{]}}, la precisión es cero. La precisión es después promediada por cada una de la entidades nombradas.
 \end{itemize}
 
-De la definición anterior se deduce que cualquier predicción que omita un solo token, incluye un token espurio o tiene clase incorrecta, es un error difícil y no contribuye positivamente ni a la precisión ni a la recuperación. Por lo tanto, se puede decir que esta medida es pesimista: puede darse el caso de que muchos \enquote{errores} estén cerca de ser correctos, y podrían ser adecuados para un propósito dado. Por ejemplo, un sistema siempre puede omitir títulos como \enquote{Sra.} o \enquote{Ph.D.}, pero se compara con un sistema o datos de verdad que esperan que se incluyan títulos. En esos casos, cada nombre se trata como un error. Debido a tales problemas, es importante examinar los tipos de errores y decidir qué tan importantes se les dan los objetivos y requisitos.
+\[
+\text{precision}=\frac{|\{\text{resultados positivos}\}\cap\{\text{resultados correctos}\}|}{|\{\text{resultados positivos}\}|}
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  \(\text{recall}\) es el número de resultados positivos correctos dividido por el número todas las muestras que deberían haberse identificado como positivas.
+  En nuestro uso es el número de entidades del conjunto de evaluación que aparecen exactamente en la misma posición en las predicciones.
+\end{itemize}
+
+\[
+\text{recall}=\frac{|\{\text{resultados positivos}\}\cap\{\text{resultados correctos}\}|}{|\{\text{resultados correctos}\}|}
+\]
+
+La métrica de \(\text{valor-F}\) es ampliamente utilizada en la literatura del procesamiento de lenguaje natural \emph{NLP} (Hand \& Christen, \protect\hyperlink{ref-pub_1084928040}{2018}); y en especial en el ámbito del reconocimiento de entidades nombradas \emph{NER}.
+
+Por esa razón hemos decidido utilizar la métrica \(F_1\) para poder comparar nuestra \textbf{exactitud} con los resultados obtenidos por los entrenamientos de otras publicaciones y sistemas.
 
 \hypertarget{resultados-obtenidos}{%
 \subsection{Resultados obtenidos}\label{resultados-obtenidos}}
 
-\{r fig-train, fig.cap=\enquote{TODO figure}, out.width=\enquote{80\%}, fig.asp=.75, fig.align=\enquote{center}\}
-ar(mar = c(66.238, 4, .1, .1))
-plot(pressure, type = \enquote{b}, pch = 19)
+La recomendación de \emph{spaCy} para entrenamientos de \emph{NER} es de al menos etiquetar 2000 textos. En este trabajo hemos etiquetado, de manera manual utilizando nuestra plataforma, muchos más y para los resultados obtuvimos una \textbf{muestra aleatoria de 4000 textos}.
 
-\begin{verbatim}
-## Parsed with column specification:
-## cols(
-##   Itn = col_double(),
-##   NER_Loss = col_double(),
-##   NER_P = col_double(),
-##   NER_R = col_double(),
-##   NER_F = col_double(),
-##   `Token_%` = col_double(),
-##   CPU_WPS = col_double(),
-##   GPU_WPS = col_double(),
-##   T_DOCS = col_double(),
-##   V_DOCS = col_double()
-## )
-\end{verbatim}
+En cualquier entrenamiento por refuerzo es necesario tomar la decisión de cuantos textos etiquetados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.
+
+Decidimos realizar diferentes pruebas y combinaciones de cantidad de coumentos de entrenamiento vs evaluación para analizar el \(\text{valor-F}\) del modelo resultante:
+
+\begin{itemize}
+\tightlist
+\item
+  Entrenamiento: 0\% (0 documentos) y evaluación: 0\% (4000). Correspondiente a la exactitud de \emph{spaCy} sin entrenar.
+\item
+  Entrenamiento: 50\% (2000 documentos) y evaluación: 50\% (2000).
+\item
+  Entrenamiento: 75\% (3000 documentos) y evaluación: 25\% (1000).
+\item
+  Entrenamiento: 80\% (3200 documentos) y evaluación: 20\% (800).
+\item
+  Entrenamiento: 85\% (3400 documentos) y evaluación: 15\% (600).
+\item
+  Entrenamiento: 90\% (3600 documentos) y evaluación: 10\% (400).
+\end{itemize}
+
+En la figura \ref{fig:fig-boxplot} se puede ver que nuestro sistema alcanza una exactitud en \(\text{valor-F}\) de aproximadamente 80 puntos con relativamente pocos documentos.
 
 \begin{figure}[H]
 
@@ -1624,6 +1625,8 @@ plot(pressure, type = \enquote{b}, pch = 19)
 
 \caption{Boxplot del Valor-F vs vantidad de documentos de entrenamiento}\label{fig:fig-boxplot}
 \end{figure}
+
+Sobre la cantidad de documentos necesarios para el entrenamiento vs evaluación podemos concluir que una relación 85\% / 15\% es la más acertada para un conjunto de \(4000\) documentos.
 
 \newpage
 
@@ -2205,6 +2208,9 @@ Facebook. (2019). React: A javascript library for building user interfaces. Retr
 \leavevmode\hypertarget{ref-hackaton2019}{}%
 Hackaton. (2019). Retrieved August 31, 2019, from \url{https://mediaparty.info/}
 
+\leavevmode\hypertarget{ref-pub_1084928040}{}%
+Hand, D., \& Christen, P. (2018). A note on using the f-measure for evaluating record linkage algorithms. \emph{Statistics and Computing}, \emph{28}(3), 539--547. \url{https://doi.org/10.1007/s11222-017-9746-6}
+
 \leavevmode\hypertarget{ref-honnibal_NER}{}%
 Honnibal, M. (2017). Practical and effective neural ner. Retrieved November 2, 2017, from \url{https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf}
 
@@ -2234,9 +2240,6 @@ Parikh, A., Täckström, O., Das, D., \& Uszkoreit, J. (2016). A decomposable at
 
 \leavevmode\hypertarget{ref-Poibeau2000ProperNE}{}%
 Poibeau, T., \& Kosseim, L. (2000). Proper name extraction from non-journalistic texts. \emph{CLIN}.
-
-\leavevmode\hypertarget{ref-wiki_Precision_and_recall}{}%
-Precision and recall. (2019). Retrieved October 16, 2019, from \url{https://en.wikipedia.org/wiki/Precision_and_recall}
 
 \leavevmode\hypertarget{ref-xie2015}{}%
 Xie, Y. (2015). \emph{Dynamic documents with R and knitr} (2nd ed.). Retrieved from \url{http://yihui.name/knitr/}
