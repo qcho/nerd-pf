@@ -253,10 +253,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="tipos-de-entidades" class="section level2">
 <h2><span class="header-section-number">6.2</span> Tipos de entidades</h2>
-<p>La detección de entidades por defecto en español de <em>spaCy</em>, incluye las entidades <code>Persona</code>, <code>Organización</code>, <code>Locación</code> y <code>Miscelaneo</code>. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de <code>Fecha</code>.</p>
-<p>El hecho de que exista una clasificación de entidad como <code>Miscelaneo</code> indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección <a href="problem-definition.html#ner-formal">2.1.1.1</a> se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.</p>
+<p>La detección de entidades por defecto en español de <em>spaCy</em>, incluye las entidades <code>Persona</code>, <code>Organización</code>, <code>Locación</code> y <code>Misceláneo</code>. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de <code>Fecha</code>.</p>
+<p>El hecho de que exista una clasificación de entidad como <code>Misceláneo</code> indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección <a href="problem-definition.html#ner-formal">2.1.1.1</a> se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.</p>
 <p>Existe literatura acerca de la posible taxonomía de las entidades. En <span class="citation">(Brunstein, <a href="#ref-brunstein2002">2002</a>)</span> se proponen 29 tipos y 64 subtipos.</p>
-<p>Esta discusión es producto de la necesidad de agregar nuevos tipos que experimentamos al finalizar el entrenamiento de las 4000 noticias. Sin embargo lo propuesto en <span class="citation">(Brunstein, <a href="#ref-brunstein2002">2002</a>)</span> no cubrió nuestras expectativas. Finalmente encontramos una taxonomía lo suficientemente completa para cubrir nuestras necesidades<span class="citation">(Sekine, <a href="#ref-Sekine-NER">2007</a>)</span> que puede ser resumida en la figura <a href="discussion.html#fig:fig-sekine">6.1</a></p>
+<p>Esta discusión es producto de la necesidad de agregar nuevos tipos que experimentamos al finalizar el entrenamiento de las 4000 noticias. Sin embargo lo propuesto en <span class="citation">(Brunstein, <a href="#ref-brunstein2002">2002</a>)</span> no cubrió nuestras expectativas. Finalmente encontramos una taxonomía lo suficientemente completa para cubrir nuestras necesidades <span class="citation">(Sekine, <a href="#ref-Sekine-NER">2007</a>)</span> que puede ser resumida en la figura <a href="discussion.html#fig:fig-sekine">6.1</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:fig-sekine"></span>
 <img src="assets/sekine.png" alt="Taxonomía extendida de Sekine."  />
 <p class="caption">
@@ -312,19 +312,19 @@ Figura 6.1: Taxonomía extendida de Sekine.
 <p>Existe otra tarea en el universo de <em>NLP</em> que está muy relacionada a la tarea de <em>NER</em>: es la tarea de <em>Named Entity Linking</em> <span class="citation">(“Entity linking,” <a href="#ref-wiki_nel">2019</a>)</span>.</p>
 <p>Un corolario de la definición de <strong>designador rígido</strong> en la sección <a href="problem-definition.html#ner-formal">2.1.1.1</a> es que una misma entidad puede tener varios designadores. Por ejemplo “Lionel Messi” también puede ser referido como “Leo Messi”, “Leo”, “La Pulga”, “Lionel Andrés ‘Leo’ Messi”, etc. Todos ellos son designadores rígidos de una misma entidad, del concepto de Messi. A este concepto abstracto de entidad se le puede asignar un identificador único dentro de una base de datos de conocimiento (<em>knowledge base</em> en inglés) para luego ser utilizado en la normalización de entidades.</p>
 <p>Ya existen <em>knowledge bases</em> universales en internet. Una de las más importante y completas es <strong><em>wikidata</em></strong>. El identificador de Messi es el <code>Q615</code> <span class="citation">(“Wikidata - lionel messi,” <a href="#ref-wikidata_messi">2019</a>)</span>.</p>
-<p>Si al etiquetar una entidad además de decirle a nuestro sistema de qué tipo es sumamos la funcionalidad de decirle a que identificador de entidad corresponde. Se podría luego entrenar un nuevo modelo de <em>NEL</em>, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.</p>
-<p>El sistema puede beneficiarse porque tiene disponible ahora de <em>Wikidata</em> mucha información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura <a href="discussion.html#fig:fig-messi">6.2</a></p>
+<p>Si al etiquetar una entidad, además de decirle a nuestro sistema de qué tipo es, sumamos la funcionalidad de indicar a que identificador de entidad corresponde, se podría luego entrenar un nuevo modelo de <em>NEL</em>, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.</p>
+<p>El sistema puede beneficiarse ya que tendría disponible, mediante <em>Wikidata</em>, de una gran cantidad información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura <a href="discussion.html#fig:fig-messi">6.2</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:fig-messi"></span>
 <img src="assets/wikidata_messi.png" alt="Wikidata - Lionel Messi."  />
 <p class="caption">
 Figura 6.2: Wikidata - Lionel Messi.
 </p>
 </div>
-<p>Desde el punto de vista del usuario; puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de “nubes de palabras” a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de “Mauricio” y en otros se hable de “Macri”; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada por nuestro sistema en la figura <a href="discussion.html#fig:fig-cloud">6.3</a>.</p>
+<p>Desde el punto de vista del usuario, puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de “nubes de palabras” a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de “Mauricio” y en otros se hable de “Macri”; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada utilizando entidades encontradas por nuestro sistema en la figura <a href="discussion.html#fig:fig-cloud">6.3</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:fig-cloud"></span>
-<img src="assets/LosPersonajesDelDia.png" alt="Con NEL se sumarían &quot;Messi&quot; con &quot;Lionel&quot; y &quot;Mauricio&quot; con &quot;Macri&quot;."  />
+<img src="assets/LosPersonajesDelDia.png" alt="Con NEL se sumarían Messi con Lionel y Mauricio con Macri."  />
 <p class="caption">
-Figura 6.3: Con NEL se sumarían “Messi” con “Lionel” y “Mauricio” con “Macri”.
+Figura 6.3: Con NEL se sumarían Messi con Lionel y Mauricio con Macri.
 </p>
 </div>
 <p>Para finalizar, un dato curioso es que a esta tarea de reconocimiento de entidades más desambiguación de las mismas se lo suele llamar <em>NERD</em> (<em>named-entity recognition and disambiguation</em>) al igual que nuestro proyecto <em>NERd</em>; una coincidencia accidental pero que evidencia la necesidad a futuro de implementar esta mejora.</p>
@@ -337,7 +337,7 @@ Figura 6.3: Con NEL se sumarían “Messi” con “Lionel” y “Mauricio” c
 Nacido de Hacks/Hackers Buenos Aires, el evento fusiona a grandes empresas como New York Times, The Guardian, Vox, ProPublica, Watchup, Neo4J o DocumentCloud y comunidades regionales de la mayor red de periodistas y desarrolladores del mundo.</p>
 </blockquote>
 <p>Participamos en conjunto con otro proyecto final en el que van a utilizar nuestra API para hacer detección de entidades en documentos PDF.</p>
-<p>La experiencia fue muy satisfactoria, recibimos buenas críticas sobre la Usabilidad de nuestra aplicación y la gran utilidad que presta a la comunidad.</p>
+<p>La experiencia fue muy satisfactoria, recibimos buenas críticas sobre la usabilidad de nuestra aplicación y la gran utilidad que presta a la comunidad.</p>
 <p>Por tal motivo recibimos el primer premio de dicha hackaton <span class="citation">(“Mención itba,” <a href="#ref-mediaparty2019_win">2019</a>)</span></p>
 
 <div style="page-break-after: always;"></div>

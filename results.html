@@ -243,11 +243,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="métrica-valor-f" class="section level2">
 <h2><span class="header-section-number">5.1</span> Métrica: Valor-F</h2>
 <p>En análisis estadístico de clasificación binaria, el <span class="math inline">\(\text{valor-F}\)</span> es una medida de la <strong>exactitud</strong> de una prueba.
-Considera tanto la <strong>precisión</strong> (del inglés <em>precision</em>) como la <strong>exhaustividad</strong> (del ingles <em>recall</em>). Su formula es la siguiente:</p>
+Considera tanto la <strong>precisión</strong> (del inglés <em>precision</em>) como la <strong>exhaustividad</strong> (del ingles <em>recall</em>). Su fórmula es la siguiente:</p>
 <p><span class="math display">\[
 F_\beta = (1 + \beta^2) \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{(\beta^2 \cdot \mathrm{precision}) + \mathrm{recall}}
 \]</span></p>
-<p>En particular cuando <span class="math inline">\(F_1\)</span> (<span class="math inline">\(\beta = 1\)</span>) es la media armónica de la precisión y la exhaustividad, donde un puntaje F1 alcanza su mejor valor en 1 (precisión y <em>recall</em> perfecta) y el peor en 0.</p>
+<p>En particular cuando <span class="math inline">\(F_1\)</span> (<span class="math inline">\(\beta = 1\)</span>) es la media armónica de la precisión y la exhaustividad, donde un puntaje <span class="math inline">\(F_1\)</span> alcanza su mejor valor en 1 (precisión y <em>recall</em> perfecta) y el peor en 0.</p>
 <p><span class="math display">\[
 F_1 = \left(\frac{2}{\mathrm{recall}^{-1} + \mathrm{precision}^{-1}}\right) = 2 \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{\mathrm{precision} + \mathrm{recall}}
 \]</span></p>
@@ -272,11 +272,11 @@ En nuestro uso es el número de entidades del conjunto de evaluación que aparec
 </div>
 <div id="result-data" class="section level2">
 <h2><span class="header-section-number">5.2</span> Resultados obtenidos</h2>
-<p>La recomendación de <em>spaCy</em> para entrenamientos de <em>NER</em> es de al menos etiquetar 2000 textos. En este trabajo hemos etiquetado, de manera manual utilizando nuestra plataforma, muchos más y para los resultados obtuvimos una <strong>muestra aleatoria de 4000 textos</strong>.</p>
-<p>En cualquier entrenamiento por refuerzo es necesario tomar la decisión de cuantos textos etiquetados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.</p>
-<p>Decidimos realizar diferentes pruebas y combinaciones de cantidad de coumentos de entrenamiento vs evaluación para analizar el <span class="math inline">\(\text{valor-F}\)</span> del modelo resultante:</p>
+<p>La recomendación de <em>spaCy</em> para entrenamientos de <em>NER</em> es de al menos etiquetar 2000 textos, por lo que en este trabajo hemos etiquetado utilizando nuestra plataforma un número suficiente como para poder utilizar en el cálculo de resultados una <strong>muestra aleatoria</strong> de 4000 valores.</p>
+<p>En los entrenamientos por refuerzo es necesario tomar la decisión de cuantos textos etiquetados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.</p>
+<p>Decidimos realizar diferentes pruebas y combinaciones de cantidad de documentos de entrenamiento y evaluación para analizar el <span class="math inline">\(\text{valor-F}\)</span> del modelo resultante:</p>
 <ul>
-<li>Entrenamiento: 0% (0 documentos) y evaluación: 0% (4000). Correspondiente a la exactitud de <em>spaCy</em> sin entrenar.</li>
+<li>Entrenamiento: 0% (0 documentos) y evaluación: 0% (4000). Este escenario equivale a utilizar el modelo base de spaCy.</li>
 <li>Entrenamiento: 50% (2000 documentos) y evaluación: 50% (2000).</li>
 <li>Entrenamiento: 75% (3000 documentos) y evaluación: 25% (1000).</li>
 <li>Entrenamiento: 80% (3200 documentos) y evaluación: 20% (800).</li>

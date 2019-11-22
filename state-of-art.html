@@ -249,7 +249,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="el-pipeline" class="section level2">
 <h2><span class="header-section-number">3.2</span> El pipeline</h2>
-<p>Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados, tienen como primer paso el de separar el los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el “pipeline de procesamiento”. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de <em>NER</em>.</p>
+<p>Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados tienen como primer paso el de separar los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el “pipeline de procesamiento”. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de <em>NER</em>.</p>
 <p>Cada componente del pipeline mostrado en la figura <a href="state-of-art.html#fig:spacy-pipeline">3.1</a> devuelve el un documento <em>Doc</em> procesado, que luego se pasa al siguiente componente.</p>
 <div class="figure" style="text-align: center"><span id="fig:spacy-pipeline"></span>
 <img src="assets/spacy_pipeline.png" alt="Pipeline standard para los algoritmos de NER."  />
@@ -261,11 +261,11 @@ Figura 3.1: Pipeline standard para los algoritmos de NER.
 </div>
 <div id="algoritmo-de-tokenización" class="section level2">
 <h2><span class="header-section-number">3.3</span> Algoritmo de tokenización</h2>
-<p>Para tokenizar un texto de manera correcta no basta con separar el mismo en espacios. Dependiendo el lenguaje que se esté estudiando, existen “excepciones” a esta regla y otros caracteres que representan separaciones entre tokens segun el contexto de los mismos.</p>
-<p>En particular, <em>spaCy</em> posee algoritmo de tokenización inteligente que puede ser resumido de la siguiente manera:</p>
+<p>Para tokenizar un texto de manera correcta no basta con separar el mismo en espacios. Dependiendo del lenguaje que se esté estudiando, existen excepciones a esta regla y otros caracteres que representan separaciones entre tokens segun el contexto de los mismos.</p>
+<p>En particular, <em>spaCy</em> posee un algoritmo de tokenización inteligente que puede ser resumido de la siguiente manera:</p>
 <ol style="list-style-type: decimal">
 <li>Iterar sobre subcadenas separadas por espacios en blanco.</li>
-<li>Compruebar si existe una regla definida explícitamente para esta subcadena. Si existe, usarla.</li>
+<li>Comprobar si existe una regla definida explícitamente para esta subcadena. Si existe, usarla.</li>
 <li>De lo contrario, intentar consumir un prefijo. Si consumimos un prefijo, regrese al punto #2, para que los casos especiales siempre tengan prioridad.</li>
 <li>Si no se puede consumir un prefijo, intente consumir un sufijo y luego regrese al punto #2.</li>
 <li>Si no se puede consumir un prefijo ni un sufijo, buscar un caso especial.</li>
@@ -287,7 +287,7 @@ Figura 3.2: Transiciones del modelo Stack-LSTM indicando la acción aplicada y e
 <p>En estos modelos se implementan reglas finitas o expresiones regulares para la detección de las entidades. Las principales limitaciones de este enfoque son:</p>
 <ul>
 <li><strong>Mucho trabajo manua</strong>l: el sistema <em>Rule Based</em> exige un profundo conocimiento del dominio, este analisis debe ser realizado por humanos expertos en el dominio.</li>
-<li><strong>Consumo de tiempo</strong>: la generación de reglas para un sistema complejo es bastante difícil y requiere mucho tiempo.</li>
+<li><strong>Consumo de tiempo</strong>: la generación de reglas para un sistema complejo es difícil y requiere mucho tiempo.</li>
 <li><strong>Menor capacidad de aprendizaje</strong>: el sistema generará el resultado según las reglas, por lo que la capacidad de aprendizaje del sistema por sí mismo es baja.</li>
 <li><strong>Dominios complejos</strong>: si el corpus demasiado complejo, la creación del sistema RB puede llevar mucho tiempo y análisis. La identificación de patrones complejos es una tarea desafiante en el enfoque RB.</li>
 </ul>
@@ -325,7 +325,7 @@ Figura 3.4: Embed.
 <p>Una tabla de <em>word-embeddings</em> mapea vectores largos binarios y esparsos en vectores cortos densos y continuos, cargados de significado relevante. Existen varias estrategias para enriquecer los <em>tokens</em> con información adicional. Las dos fuentes más grandes de información embebida son las de <strong>información lingüística</strong> y los <strong><em>word-vectors</em></strong>.</p>
 <div id="información-ligüística" class="section level4">
 <h4><span class="header-section-number">3.5.1.1</span> Información ligüística</h4>
-<p>El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas, están resumidas en el siguiente ejemplo.</p>
+<p>El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas están resumidas en el siguiente ejemplo.</p>
 <div class="figure" style="text-align: center"><span id="fig:formula-pos"></span>
 <img src="assets/pos.png" alt="Características lingüísticas."  />
 <p class="caption">
@@ -340,17 +340,17 @@ Figura 3.5: Características lingüísticas.
 <li><strong>Dep</strong>: dependencia sintáctica, es decir, la relación entre tokens.</li>
 <li><strong>Shape</strong>: la forma de la palabra: mayúsculas, puntuación, dígitos. Muy útil para detectar patrones como números telefónicos, documentos de identidad, CBUs, etc.</li>
 <li><strong>is alpha</strong>: ¿el token es una secuencia de caracteres alfabéticos?</li>
-<li><strong>is stop</strong> : ¿es el token parte de una lista de palabras-de-stop, es decir, las palabras más comunes del idioma?</li>
+<li><strong>is stop</strong> : ¿es el token parte de una lista de “palabras de <em>stop</em>”, es decir, las palabras más comunes del idioma?</li>
 </ul>
 <div id="word-vectors" class="section level5">
 <h5><span class="header-section-number">3.5.1.1.1</span> <em>Word Vectors</em></h5>
 <p>A diferencia de la información lingüística que es obtenida en el momento, existen otros tipos de <em>embeddings</em> más poderosos que son los productos de pre-entrenamientos; como el caso de los <em>word-vectors</em>. Los mismos se generan mediante la concatenación de atributos léxicos como <em>NORM</em>, <em>PREFIX</em>, <em>SUFFIX</em> y <em>SHAPE</em>. Luego se usa una capa oculta de una red neuronal convolucional (<em>CNN</em>) para permitir una combinación no lineal de la información en estos vectores concatenados.</p>
 <p>Los <em>word-vectors</em> son particularmente útiles para términos que no están bien representados en los datos de entrenamiento etiquetados. En nuestro uso de reconocimiento de entidades, no siempre habrá suficientes ocurrencias. Por ejemplo, en los datos de entrenamiento es posible que existan ocurrencias del término “Coca-Cola”, pero ninguna del término “Manaos”.
 Es interesante pensar a las palabras como “vectores de significado”. Dentro del espacio vectorial de significados el vector “perro” se encuentra cercano al de “cachorro”, “beagle”, “bulldog”, “poodle”. Esto permite al modelo poder inferir nuevas relaciones en base a una cantidad reducida de entradas.
-Los <em>word-vectors</em> ponen ese hecho a disposición del modelo de reconocimiento de entidades. Si bien no existen ejemplos de “Manaos” etiquetados como “Producto”; se verá que “Manaos” tiene un vector de palabras que generalmente corresponde a los términos de un producto, por lo que puede hacer la inferencia. Y si se quiere llegar incluso al detalle de que es una “Gaseosa”.</p>
+Los <em>word-vectors</em> ponen ese hecho a disposición del modelo de reconocimiento de entidades. Si bien no existen ejemplos de “Manaos” etiquetados como “Producto”; se verá que “Manaos” tiene un vector de palabras que generalmente corresponde a los términos de un producto, por lo que puede hacer la inferencia. Y si se quiere, se puede llegar incluso al detalle de que es una “Gaseosa”.</p>
 <p>Otra forma interesante de analizar y entender los <em>word-vectors</em> en su contexto de espacio vectorial multidimensional de significados es a través del algebra de vectores, como se muestra en el trabajo “<em>Towards Understanding Linear Word Analogies</em>” <span class="citation">(Ethayarajh, Duvenaud, &amp; Hirst, <a href="#ref-ethayarajh-etal-2019-towards">2019</a>)</span>:</p>
 <div class="figure" style="text-align: center"><span id="fig:vec-parallelogram"></span>
-<img src="assets/parallelogram.png" alt="Parallelogram structure in the vector space (by definition)."  />
+<img src="assets/parallelogram.png" alt="Parallelogram structure in the vector space (by definition)." width="60%" />
 <p class="caption">
 Figura 3.6: Parallelogram structure in the vector space (by definition).
 </p>
@@ -373,7 +373,7 @@ Figura 3.6: Parallelogram structure in the vector space (by definition).
 Figura 3.7: Encode.
 </p>
 </div>
-<p>La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizando como una <em>moving window</em> de tres vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera, por lo que se genera naturalmente un “efecto de decaimiento” en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor.</p>
+<p>La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizada como una <em>moving window</em> de tres vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir, cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera, por lo que se genera naturalmente un “efecto de decaimiento” en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor.</p>
 </div>
 <div id="attend" class="section level3">
 <h3><span class="header-section-number">3.5.3</span> <em>Attend</em></h3>
@@ -420,7 +420,7 @@ Figura 3.9: Predict.
 Figura 3.10: Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.
 </p>
 </div>
-<p>Para saber que acción tomar se consulta el modelo estadístico. En la figura se puede ver un ejemplo de cómo se recorre una oración bajo el stack propuesto:</p>
+<p>Para saber que acción tomar se consulta el modelo estadístico. En la figura <a href="state-of-art.html#fig:lampe-2">3.11</a> se puede ver un ejemplo de como se recorre una oración bajo el stack propuesto:</p>
 <div class="figure" style="text-align: center"><span id="fig:lampe-2"></span>
 <img src="assets/lampe_2.png" alt="Secuencia de tranciciones para el ejemplo &quot;Mark Watney visited Mars&quot; en el modelo de Stack-LSTM."  />
 <p class="caption">

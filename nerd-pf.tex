@@ -388,7 +388,7 @@ Por todo lo mencionado, es evidente que el cuello de botella para el avance de e
 
 En particular para el estado actual del arte de \emph{NER} es necesario tener el cuerpo de textos a analizar (\emph{corpus}) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.
 
-Este aprendizaje se carga en lo que se reconoce como un \enquote{Modelo estadístico} y es a ese model al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas / librerias / frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
+Este aprendizaje se carga en lo que se reconoce como un \enquote{Modelo estadístico} y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas / librerias / frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
 
 De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo).
 
@@ -417,7 +417,7 @@ Además la implementación de \emph{spaCy} es robusta y orientada a la creación
 \hypertarget{el-pipeline}{%
 \subsection{El pipeline}\label{el-pipeline}}
 
-Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados, tienen como primer paso el de separar el los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el \enquote{pipeline de procesamiento}. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de \emph{NER}.
+Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados tienen como primer paso el de separar los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el \enquote{pipeline de procesamiento}. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de \emph{NER}.
 
 Cada componente del pipeline mostrado en la figura \ref{fig:spacy-pipeline} devuelve el un documento \emph{Doc} procesado, que luego se pasa al siguiente componente.
 
@@ -435,9 +435,9 @@ En este capítulo estudiaremos la morfología de dicho pipeline.
 \hypertarget{algoritmo-de-tokenizaciuxf3n}{%
 \subsection{Algoritmo de tokenización}\label{algoritmo-de-tokenizaciuxf3n}}
 
-Para tokenizar un texto de manera correcta no basta con separar el mismo en espacios. Dependiendo el lenguaje que se esté estudiando, existen \enquote{excepciones} a esta regla y otros caracteres que representan separaciones entre tokens segun el contexto de los mismos.
+Para tokenizar un texto de manera correcta no basta con separar el mismo en espacios. Dependiendo del lenguaje que se esté estudiando, existen excepciones a esta regla y otros caracteres que representan separaciones entre tokens segun el contexto de los mismos.
 
-En particular, \emph{spaCy} posee algoritmo de tokenización inteligente que puede ser resumido de la siguiente manera:
+En particular, \emph{spaCy} posee un algoritmo de tokenización inteligente que puede ser resumido de la siguiente manera:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -445,7 +445,7 @@ En particular, \emph{spaCy} posee algoritmo de tokenización inteligente que pue
 \item
   Iterar sobre subcadenas separadas por espacios en blanco.
 \item
-  Compruebar si existe una regla definida explícitamente para esta subcadena. Si existe, usarla.
+  Comprobar si existe una regla definida explícitamente para esta subcadena. Si existe, usarla.
 \item
   De lo contrario, intentar consumir un prefijo. Si consumimos un prefijo, regrese al punto \#2, para que los casos especiales siempre tengan prioridad.
 \item
@@ -483,7 +483,7 @@ En estos modelos se implementan reglas finitas o expresiones regulares para la d
 \item
   \textbf{Mucho trabajo manua}l: el sistema \emph{Rule Based} exige un profundo conocimiento del dominio, este analisis debe ser realizado por humanos expertos en el dominio.
 \item
-  \textbf{Consumo de tiempo}: la generación de reglas para un sistema complejo es bastante difícil y requiere mucho tiempo.
+  \textbf{Consumo de tiempo}: la generación de reglas para un sistema complejo es difícil y requiere mucho tiempo.
 \item
   \textbf{Menor capacidad de aprendizaje}: el sistema generará el resultado según las reglas, por lo que la capacidad de aprendizaje del sistema por sí mismo es baja.
 \item
@@ -545,7 +545,7 @@ Una tabla de \emph{word-embeddings} mapea vectores largos binarios y esparsos en
 \hypertarget{informaciuxf3n-liguxfcuxedstica}{%
 \paragraph{Información ligüística}\label{informaciuxf3n-liguxfcuxedstica}}
 
-El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas, están resumidas en el siguiente ejemplo.
+El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas están resumidas en el siguiente ejemplo.
 
 \begin{figure}[H]
 
@@ -573,7 +573,7 @@ El objetivo de ésta etapa es la de encontrar las características intrínsecas 
 \item
   \textbf{is alpha}: ¿el token es una secuencia de caracteres alfabéticos?
 \item
-  \textbf{is stop} : ¿es el token parte de una lista de palabras-de-stop, es decir, las palabras más comunes del idioma?
+  \textbf{is stop} : ¿es el token parte de una lista de \enquote{palabras de \emph{stop}}, es decir, las palabras más comunes del idioma?
 \end{itemize}
 
 \hypertarget{word-vectors}{%
@@ -583,13 +583,13 @@ A diferencia de la información lingüística que es obtenida en el momento, exi
 
 Los \emph{word-vectors} son particularmente útiles para términos que no están bien representados en los datos de entrenamiento etiquetados. En nuestro uso de reconocimiento de entidades, no siempre habrá suficientes ocurrencias. Por ejemplo, en los datos de entrenamiento es posible que existan ocurrencias del término \enquote{Coca-Cola}, pero ninguna del término \enquote{Manaos}.
 Es interesante pensar a las palabras como \enquote{vectores de significado}. Dentro del espacio vectorial de significados el vector \enquote{perro} se encuentra cercano al de \enquote{cachorro}, \enquote{beagle}, \enquote{bulldog}, \enquote{poodle}. Esto permite al modelo poder inferir nuevas relaciones en base a una cantidad reducida de entradas.
-Los \emph{word-vectors} ponen ese hecho a disposición del modelo de reconocimiento de entidades. Si bien no existen ejemplos de \enquote{Manaos} etiquetados como \enquote{Producto}; se verá que \enquote{Manaos} tiene un vector de palabras que generalmente corresponde a los términos de un producto, por lo que puede hacer la inferencia. Y si se quiere llegar incluso al detalle de que es una \enquote{Gaseosa}.
+Los \emph{word-vectors} ponen ese hecho a disposición del modelo de reconocimiento de entidades. Si bien no existen ejemplos de \enquote{Manaos} etiquetados como \enquote{Producto}; se verá que \enquote{Manaos} tiene un vector de palabras que generalmente corresponde a los términos de un producto, por lo que puede hacer la inferencia. Y si se quiere, se puede llegar incluso al detalle de que es una \enquote{Gaseosa}.
 
 Otra forma interesante de analizar y entender los \emph{word-vectors} en su contexto de espacio vectorial multidimensional de significados es a través del algebra de vectores, como se muestra en el trabajo \enquote{\emph{Towards Understanding Linear Word Analogies}} (Ethayarajh, Duvenaud, \& Hirst, \protect\hyperlink{ref-ethayarajh-etal-2019-towards}{2019}):
 
 \begin{figure}[H]
 
-{\centering \includegraphics{assets/parallelogram.pdf} 
+{\centering \includegraphics[width=0.6\linewidth]{assets/parallelogram.pdf} 
 
 }
 
@@ -619,7 +619,7 @@ El resultado de esta etapa es la de codificar vectores \textbf{independientes-de
 \caption{Encode.}\label{fig:formula-encode}
 \end{figure}
 
-La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizando como una \emph{moving window} de tres vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera, por lo que se genera naturalmente un \enquote{efecto de decaimiento} en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor.
+La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizada como una \emph{moving window} de tres vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir, cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera, por lo que se genera naturalmente un \enquote{efecto de decaimiento} en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor.
 
 \hypertarget{attend}{%
 \subsubsection{\texorpdfstring{\emph{Attend}}{Attend}}\label{attend}}
@@ -689,7 +689,7 @@ La figura \ref{fig:lampe-1} muestra las posibles acciones de transición de este
 \caption{Transiciones del modelo Stack-LSTM indicando la acción aplicada y el estado resultante.}\label{fig:lampe-1}
 \end{figure}
 
-Para saber que acción tomar se consulta el modelo estadístico. En la figura se puede ver un ejemplo de cómo se recorre una oración bajo el stack propuesto:
+Para saber que acción tomar se consulta el modelo estadístico. En la figura \ref{fig:lampe-2} se puede ver un ejemplo de como se recorre una oración bajo el stack propuesto:
 
 \begin{figure}[H]
 
@@ -1843,7 +1843,7 @@ Para realizar un \emph{deployment} de nuevas versiones de cada contenedor de doc
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{make}\NormalTok{ build }\CommentTok{# Construye nuevas imágenes para cada uno de los servicios}
-\FunctionTok{make}\NormalTok{ prod-publish-new-version }\CommentTok{# Publica las nuevas imágenes a github}
+\FunctionTok{make}\NormalTok{ release-push }\CommentTok{# Publica las nuevas imágenes a github}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2034,13 +2034,13 @@ Como podemos ver en la figura \ref{fig:scenarios-worker-snapshot-change}, ante u
 \subsection{Métrica: Valor-F}\label{muxe9trica-valor-f}}
 
 En análisis estadístico de clasificación binaria, el \(\text{valor-F}\) es una medida de la \textbf{exactitud} de una prueba.
-Considera tanto la \textbf{precisión} (del inglés \emph{precision}) como la \textbf{exhaustividad} (del ingles \emph{recall}). Su formula es la siguiente:
+Considera tanto la \textbf{precisión} (del inglés \emph{precision}) como la \textbf{exhaustividad} (del ingles \emph{recall}). Su fórmula es la siguiente:
 
 \[
 F_\beta = (1 + \beta^2) \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{(\beta^2 \cdot \mathrm{precision}) + \mathrm{recall}}
 \]
 
-En particular cuando \(F_1\) (\(\beta = 1\)) es la media armónica de la precisión y la exhaustividad, donde un puntaje F1 alcanza su mejor valor en 1 (precisión y \emph{recall} perfecta) y el peor en 0.
+En particular cuando \(F_1\) (\(\beta = 1\)) es la media armónica de la precisión y la exhaustividad, donde un puntaje \(F_1\) alcanza su mejor valor en 1 (precisión y \emph{recall} perfecta) y el peor en 0.
 
 \[
 F_1 = \left(\frac{2}{\mathrm{recall}^{-1} + \mathrm{precision}^{-1}}\right) = 2 \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{\mathrm{precision} + \mathrm{recall}}
@@ -2078,16 +2078,16 @@ Por esa razón hemos decidido utilizar la métrica \(F_1\) para poder comparar n
 \hypertarget{result-data}{%
 \subsection{Resultados obtenidos}\label{result-data}}
 
-La recomendación de \emph{spaCy} para entrenamientos de \emph{NER} es de al menos etiquetar 2000 textos. En este trabajo hemos etiquetado, de manera manual utilizando nuestra plataforma, muchos más y para los resultados obtuvimos una \textbf{muestra aleatoria de 4000 textos}.
+La recomendación de \emph{spaCy} para entrenamientos de \emph{NER} es de al menos etiquetar 2000 textos, por lo que en este trabajo hemos etiquetado utilizando nuestra plataforma un número suficiente como para poder utilizar en el cálculo de resultados una \textbf{muestra aleatoria} de 4000 valores.
 
-En cualquier entrenamiento por refuerzo es necesario tomar la decisión de cuantos textos etiquetados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.
+En los entrenamientos por refuerzo es necesario tomar la decisión de cuantos textos etiquetados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.
 
-Decidimos realizar diferentes pruebas y combinaciones de cantidad de coumentos de entrenamiento vs evaluación para analizar el \(\text{valor-F}\) del modelo resultante:
+Decidimos realizar diferentes pruebas y combinaciones de cantidad de documentos de entrenamiento y evaluación para analizar el \(\text{valor-F}\) del modelo resultante:
 
 \begin{itemize}
 \tightlist
 \item
-  Entrenamiento: 0\% (0 documentos) y evaluación: 0\% (4000). Correspondiente a la exactitud de \emph{spaCy} sin entrenar.
+  Entrenamiento: 0\% (0 documentos) y evaluación: 0\% (4000). Este escenario equivale a utilizar el modelo base de spaCy.
 \item
   Entrenamiento: 50\% (2000 documentos) y evaluación: 50\% (2000).
 \item
@@ -2140,13 +2140,13 @@ En este trabajo entrenando sobre el modelo de \emph{spaCy} con 3600 documentos h
 \hypertarget{tipos-de-entidades}{%
 \subsection{Tipos de entidades}\label{tipos-de-entidades}}
 
-La detección de entidades por defecto en español de \emph{spaCy}, incluye las entidades \texttt{Persona}, \texttt{Organización}, \texttt{Locación} y \texttt{Miscelaneo}. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de \texttt{Fecha}.
+La detección de entidades por defecto en español de \emph{spaCy}, incluye las entidades \texttt{Persona}, \texttt{Organización}, \texttt{Locación} y \texttt{Misceláneo}. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de \texttt{Fecha}.
 
-El hecho de que exista una clasificación de entidad como \texttt{Miscelaneo} indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección \ref{ner-formal} se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.
+El hecho de que exista una clasificación de entidad como \texttt{Misceláneo} indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección \ref{ner-formal} se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.
 
 Existe literatura acerca de la posible taxonomía de las entidades. En (Brunstein, \protect\hyperlink{ref-brunstein2002}{2002}) se proponen 29 tipos y 64 subtipos.
 
-Esta discusión es producto de la necesidad de agregar nuevos tipos que experimentamos al finalizar el entrenamiento de las 4000 noticias. Sin embargo lo propuesto en (Brunstein, \protect\hyperlink{ref-brunstein2002}{2002}) no cubrió nuestras expectativas. Finalmente encontramos una taxonomía lo suficientemente completa para cubrir nuestras necesidades(Sekine, \protect\hyperlink{ref-Sekine-NER}{2007}) que puede ser resumida en la figura \ref{fig:fig-sekine}
+Esta discusión es producto de la necesidad de agregar nuevos tipos que experimentamos al finalizar el entrenamiento de las 4000 noticias. Sin embargo lo propuesto en (Brunstein, \protect\hyperlink{ref-brunstein2002}{2002}) no cubrió nuestras expectativas. Finalmente encontramos una taxonomía lo suficientemente completa para cubrir nuestras necesidades (Sekine, \protect\hyperlink{ref-Sekine-NER}{2007}) que puede ser resumida en la figura \ref{fig:fig-sekine}.
 
 \begin{figure}[H]
 
@@ -2244,9 +2244,9 @@ Un corolario de la definición de \textbf{designador rígido} en la sección \re
 
 Ya existen \emph{knowledge bases} universales en internet. Una de las más importante y completas es \textbf{\emph{wikidata}}. El identificador de Messi es el \texttt{Q615} (``Wikidata - lionel messi,'' \protect\hyperlink{ref-wikidata_messi}{2019}).
 
-Si al etiquetar una entidad además de decirle a nuestro sistema de qué tipo es sumamos la funcionalidad de decirle a que identificador de entidad corresponde. Se podría luego entrenar un nuevo modelo de \emph{NEL}, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.
+Si al etiquetar una entidad, además de decirle a nuestro sistema de qué tipo es, sumamos la funcionalidad de indicar a que identificador de entidad corresponde, se podría luego entrenar un nuevo modelo de \emph{NEL}, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.
 
-El sistema puede beneficiarse porque tiene disponible ahora de \emph{Wikidata} mucha información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura \ref{fig:fig-messi}
+El sistema puede beneficiarse ya que tendría disponible, mediante \emph{Wikidata}, de una gran cantidad información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura \ref{fig:fig-messi}.
 
 \begin{figure}[H]
 
@@ -2257,7 +2257,7 @@ El sistema puede beneficiarse porque tiene disponible ahora de \emph{Wikidata} m
 \caption{Wikidata - Lionel Messi.}\label{fig:fig-messi}
 \end{figure}
 
-Desde el punto de vista del usuario; puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de \enquote{nubes de palabras} a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de \enquote{Mauricio} y en otros se hable de \enquote{Macri}; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada por nuestro sistema en la figura \ref{fig:fig-cloud}.
+Desde el punto de vista del usuario, puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de \enquote{nubes de palabras} a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de \enquote{Mauricio} y en otros se hable de \enquote{Macri}; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada utilizando entidades encontradas por nuestro sistema en la figura \ref{fig:fig-cloud}.
 
 \begin{figure}[H]
 
@@ -2265,7 +2265,7 @@ Desde el punto de vista del usuario; puede beneficiarse porque obtener una repre
 
 }
 
-\caption{Con NEL se sumarían "Messi" con "Lionel" y "Mauricio" con "Macri".}\label{fig:fig-cloud}
+\caption{Con NEL se sumarían Messi con Lionel y Mauricio con Macri.}\label{fig:fig-cloud}
 \end{figure}
 
 Para finalizar, un dato curioso es que a esta tarea de reconocimiento de entidades más desambiguación de las mismas se lo suele llamar \emph{NERD} (\emph{named-entity recognition and disambiguation}) al igual que nuestro proyecto \emph{NERd}; una coincidencia accidental pero que evidencia la necesidad a futuro de implementar esta mejora.
@@ -2282,7 +2282,7 @@ Nacido de Hacks/Hackers Buenos Aires, el evento fusiona a grandes empresas como 
 
 Participamos en conjunto con otro proyecto final en el que van a utilizar nuestra API para hacer detección de entidades en documentos PDF.
 
-La experiencia fue muy satisfactoria, recibimos buenas críticas sobre la Usabilidad de nuestra aplicación y la gran utilidad que presta a la comunidad.
+La experiencia fue muy satisfactoria, recibimos buenas críticas sobre la usabilidad de nuestra aplicación y la gran utilidad que presta a la comunidad.
 
 Por tal motivo recibimos el primer premio de dicha hackaton (``Mención itba,'' \protect\hyperlink{ref-mediaparty2019_win}{2019})
 
@@ -2739,7 +2739,9 @@ NEL & Named Entity Linking\\
 NER & Named Entity Recognition\\
 NLP & Natural Language Processing\\
 POS & Part of speech\\
+RB & Rule Based\\
 REST & Representational state transfer\\
+\addlinespace
 RNN & Recurrent Neural Network\\
 \bottomrule
 \end{tabular}
