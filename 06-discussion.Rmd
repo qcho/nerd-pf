@@ -24,7 +24,7 @@ Existe literatura acerca de la posible taxonomía de las entidades. En [@brunste
 
 Esta discusión es producto de la necesidad de agregar nuevos tipos que experimentamos al finalizar el entrenamiento de las 4000 noticias. Sin embargo lo propuesto en [@brunstein2002] no cubrió nuestras expectativas. Finalmente encontramos una taxonomía lo suficientemente completa para cubrir nuestras necesidades[@Sekine-NER] que puede ser resumida en la figura \@ref(fig:fig-sekine)
 
-```{r fig-sekine, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Taxonomía extendida de Sekine'}
+```{r fig-sekine, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Taxonomía extendida de Sekine.'}
 knitr::include_graphics('assets/sekine.png')
 ```
 
@@ -75,13 +75,13 @@ Si al etiquetar una entidad además de decirle a nuestro sistema de qué tipo es
 
 El sistema puede beneficiarse porque tiene disponible ahora de _Wikidata_ mucha información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura \@ref(fig:fig-messi)
 
-```{r fig-messi, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Wikidata - Lionel Messi'}
+```{r fig-messi, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Wikidata - Lionel Messi.'}
 knitr::include_graphics('assets/wikidata_messi.png')
 ```
 
 Desde el punto de vista del usuario; puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de "nubes de palabras" a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de "Mauricio" y en otros se hable de "Macri"; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada por nuestro sistema en la figura \@ref(fig:fig-cloud).
 
-```{r fig-cloud, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Con NEL se sumarían "Messi" con "Lionel" y "Mauricio" con "Macri"'}
+```{r fig-cloud, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Con NEL se sumarían "Messi" con "Lionel" y "Mauricio" con "Macri".'}
 knitr::include_graphics('assets/LosPersonajesDelDia.png')
 ```
 

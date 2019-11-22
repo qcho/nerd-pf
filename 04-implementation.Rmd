@@ -161,7 +161,7 @@ knitr::include_graphics('assets/logic/sandbox.png')
 
 #### Comparar
 
-Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual (Figura \@ref(fig:logic-compare)).
+Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos, con la opción de marcar visualmente aquellos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual (Figura \@ref(fig:logic-compare)).
 
 ```{r logic-compare, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Comparativa de modelos.'}
 knitr::include_graphics('assets/logic/compare.png')

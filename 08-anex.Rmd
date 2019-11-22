@@ -1,10 +1,10 @@
 \newpage
 # (APPENDIX) Anexo: Datos de resultados {-}
 
-* **t:** porcentaje de documentos de entrenamiento
-* **v:** porcentaje de documentos de validación
+* **t:** porcentaje de documentos de entrenamiento.
+* **v:** porcentaje de documentos de validación.
 
-## t: 0% - v: 100%. _Baseline spacy_
+## t: 0% - v: 100%. _Baseline spaCy_
 
 ```
 =============================== Training stats ===============================
