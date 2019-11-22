@@ -128,7 +128,7 @@ Es facil de entender viendo la figura \@ref(fig:vec-parallelogram) que al realiz
 $$\vec{Rey} - \vec{Hombre} \approx \vec{Realeza}$$
 $$\vec{Rey} - \vec{Hombre} + \vec{Mujer} \approx \vec{Reina}$$
 
-### _Encode_
+### _Encode_ {#encode}
 > Resuelve el problema: el contexto de los significados es relevante y esta siendo descartado,
 
 El resultado de esta etapa es la de codificar vectores **independientes-de-contexto** en matrices de oración **sensibles-al-contexto**.
@@ -152,7 +152,7 @@ Al reducir la matriz a un vector, necesariamente se está perdiendo información
 
 El análisis de estas estrategias de consulta escapa el alcance de este trabajo pero resulta un tema interesante de investigación en sí mismo. Por ejemplo, investigaciones recientes han demostrado que el mecanismo de atención es una técnica flexible y que se pueden usar nuevas variaciones para crear soluciones elegantes y poderosas. Por ejemplo, en el estudio de Ankur Parikh  et al [@parikh-etal-2016-decomposable] presentan un mecanismo de atención que toma dos matrices de oraciones y genera un solo vector.
 
-### _Predict_
+### _Predict_ {#predict}
 > Resuelve el problema: necesito un valor específico y no una representación genérica abstracta.
 
 Finalmente en esta etapa tenemos un nuevo "vector de significado" que resulta de la consulta a la etapa anterior. Es necesario ahora traducir este vector a un _token_ efectivo. En el caso de _NER_, el _token_ que interesa obtener es el de la etiqueta de entidad.
@@ -161,7 +161,7 @@ Finalmente en esta etapa tenemos un nuevo "vector de significado" que resulta de
 knitr::include_graphics('assets/deep-learning-formula-nlp_predict.svg')
 ```
 
-## Uso del modelo estadístico
+## Uso del modelo estadístico {#use-of-cnn}
 
 Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte mediante el uso de un "autómata finito determinístico de pila" en conjunto con una red neuronal [@DBLP:journals/corr/LampleBSKD16].
 
@@ -185,7 +185,11 @@ knitr::include_graphics('assets/lampe_2.png')
 
 <!-- TODO: Corregir esto -->
 * Primero se empieza con un stack vacío.
-* Se consume "Mark" y la CNN predice que es una posible Persona. Lo envia al stack.
-* Se consume "Watney" y la CNN predice que es una posible continuación de Persona. Lo envia al stack.
-* Se consume "visited" y la CNN predice que esto no forma parte de una entidad. Por lo tanto antes se REDUCE la entidad "Mark Watney" del stack actual.
-* Análogamente se detecta la entidad "Mars"
+* Se consume _"Mark"_ y la _CNN_ predice que es una posible Persona. Lo envia al stack.
+* Se consume _"Watney"_ y la _CNN_ predice que es una posible continuación de Persona. Lo envia al stack.
+* Se consume _"visited"_ y la _CNN_ predice que esto no forma parte de una entidad. Por lo tanto antes se _REDUCE_ la entidad _"Mark Watney"_ del stack actual.
+* Análogamente se detecta la entidad _"Mars"_
+
+La predicción que realiza la _CNN_ tiene un puntaje de 0 a 1; un porcentaje de certeza de que la token sea de un tipo específico. A veces las tokens pueden tener más de una etiqueta candidata a ser utilizada y éste es el método para desempatar este conflicto. Cuanto más cercano a $0.5$ es ese punaje mayor es la incerteza.
+
+

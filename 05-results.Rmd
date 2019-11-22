@@ -37,7 +37,7 @@ La métrica de $\text{valor-F}$ es ampliamente utilizada en la literatura del pr
 
 Por esa razón hemos decidido utilizar la métrica $F_1$ para poder comparar nuestra **exactitud** con los resultados obtenidos por los entrenamientos de otras publicaciones y sistemas.
 
-## Resultados obtenidos
+## Resultados obtenidos {#result-data}
 
 La recomendación de _spaCy_ para entrenamientos de _NER_ es de al menos etiquetar 2000 textos. En este trabajo hemos etiquetado, de manera manual utilizando nuestra plataforma, muchos más y para los resultados obtuvimos una **muestra aleatoria de 4000 textos**.
 

@@ -52,7 +52,7 @@ knitr::include_graphics('assets/logic/home-anonymous.png')
 
 La pantalla de _Entrenamiento_ es el núcleo de la web en la cual es posible entrenar el modelo.
 
-El usuario es presentado con un texto perteneciente al Corpus del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura \@ref(fig:logic-train)).
+El usuario es presentado con un texto perteneciente al _corpus_ del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura \@ref(fig:logic-train)).
 
 ```{r logic-train, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pantalla de entrenamiento.'}
 knitr::include_graphics('assets/logic/train.png')
@@ -108,23 +108,23 @@ Los usuarios con rol administrador pueden realizar las acciones mencionadas prev
 knitr::include_graphics('assets/logic/user-profile.png')
 ```
 
-#### Corpus
+#### _Corpus_
 
-La pantalla de _Corpus_ permite a un usuario con el rol de administrador realizar tareas relacionadas con el corpus del sistema (Figura \@ref(fig:logic-corpus-management)).
+La pantalla de _Corpus_ permite a un usuario con el rol de administrador realizar tareas relacionadas con el _corpus_ del sistema (Figura \@ref(fig:logic-corpus-management)).
 
 ```{r logic-corpus-management, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Administración de corpus.'}
 knitr::include_graphics('assets/logic/corpus-management.png')
 ```
 
-Desde aquí es posible agregar textos al corpus utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión _.txt_ y cada línea del archivo será agregada al corpus como un texto individual.
+Desde aquí es posible agregar textos al _corpus_ utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión _.txt_ y cada línea del archivo será agregada al _corpus_ como un texto individual.
 
-También es posible desde aquí ver todos los textos que forman parte del corpus así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del corpus así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.
+También es posible desde aquí ver todos los textos que forman parte del _corpus_ así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del _corpus_ así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.
 
 #### Estado
 
-La pantalla de _Estado_ permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del corpus así como también realizar diversas acciones sobre los _workers_ (Figura \@ref(fig:logic-status)).
+La pantalla de _Estado_ permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del _corpus_ así como también realizar diversas acciones sobre los _workers_ (Figura \@ref(fig:logic-status)).
 
-```{r logic-status, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Información de corpus y manejo de workers.'}
+```{r logic-status, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Información de _corpus_ y manejo de workers.'}
 knitr::include_graphics('assets/logic/status.png')
 ```
 
@@ -132,7 +132,7 @@ knitr::include_graphics('assets/logic/status.png')
 
 ###### Corpus
 
-Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el corpus contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de _Corpus_.
+Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el _corpus_ contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de _Corpus_.
 
 ###### Crear snapshot
 
@@ -153,7 +153,7 @@ Sección que permite reasignar trabajadores para que sirvan un snapshot distinto
 #### Sandbox
 
 La pantalla de _Sandbox_ permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
-Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al corpus (Figura \@ref(fig:logic-sandbox)).
+Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al _corpus_ (Figura \@ref(fig:logic-sandbox)).
 
 ```{r logic-sandbox, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Inferencia de entidades en sandbox.'}
 knitr::include_graphics('assets/logic/sandbox.png')
@@ -288,7 +288,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
 
 ##### Corpus
 
-Rutas dedicadas a operaciones con el corpus del sistema.
+Rutas dedicadas a operaciones con el _corpus_ del sistema.
 
 * **GET** _/api/corpus/\{text\_id\}_
     * Retorna los detalles del texto especificado por _text\_id_
@@ -371,7 +371,7 @@ knitr::include_graphics('assets/process/process-overview-client.png')
 ### API
 
 Servicio en el cual los clientes pueden pedir las _Entidades Nombradas_ de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
-El _API_ se comunica el servicio de _Bases de Datos_ para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos _snapshots_ y con el _Task Scheduler_ para realizar diversas tareas relacionadas con _spaCy_.
+El _API_ se comunica el servicio de _Bases de Datos_ para obtener o modificar información sobre los usuarios, los textos pertenecientes al _corpus_ o información de los distintos _snapshots_ y con el _Task Scheduler_ para realizar diversas tareas relacionadas con _spaCy_.
 
 ### Task Scheduler
 

@@ -1,34 +1,94 @@
 \newpage
 # Discusión {#discussion}
 
-## Tipos de entidades relevantes
+## Analisis de resultados
 
-tener en cuenta [@brunstein2002]
+Los resultados indicados en la sección \@ref(result-data) muestran que el $\text{valor-F}$ inicial de _spaCy_ para nuestro _corpus_ de noticias tiene una _score_ de 66 puntos. Esta puntuación dista mucho del valor 89 que indica la librería en su documentación [@spacy-spanish-model] para este idioma.
 
+La razón de esta discrepancia ha sido mencionada en varias oportunidades a lo largo de este trabajo; el modelo de _spaCy_ ha sido entrenado con un _corpus_ de documentos diferente del que nosotros como usuarios de la librería tenemos interés. En particular el modelo inicial de _spaCy_ ha sido entrenado con la siguiente información:
+
+* **_Spanish UD AnCora Corpus_**. Contiene más de 14mil documentos de entrenamiento provenientes de noticias españolas [@ancora-es].
+* **_WikiNER_**. Proveniente de más de 50,000 documentos de wikipedia en español [@Nothman2017].
+
+Este es un claro ejemplo de la fragilidad que poseen los modelos estadísticos en cuanto al corpus de interés. El modelo de _spaCy_ ha sido entrenado con noticias de España, sin embargo, esas noticias no alcanzan para que el modelo pueda generalizar a las noticias de Argentina y mantener el alto grado de exactitud del modelo anterior.
+
+En este trabajo entrenando sobre el modelo de _spaCy_ con 3600 documentos hemos alcanzado subir ese $\text{valor-F}$ de 66 a 80 puntos. Con una fracción de los documentos que _spaCy_ utilizó en su entrenamiento base podemos ajustar cualquier corpus de documentos.
+
+## Tipos de entidades
+
+La detección de entidades por defecto en español de _spaCy_, incluye las entidades `Persona`, `Organización`, `Locación` y `Miscelaneo`. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de `Fecha`.
+
+El hecho de que exista una clasificación de entidad como `Miscelaneo` indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección \@ref(ner-formal) se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.
+
+Existe literatura acerca de la posible taxonomía de las entidades. En [@brunstein2002] se proponen 29 tipos y 64 subtipos.
+
+Esta discusión es producto de la necesidad de agregar nuevos tipos que experimentamos al finalizar el entrenamiento de las 4000 noticias. Sin embargo lo propuesto en [@brunstein2002] no cubrió nuestras expectativas. Finalmente encontramos una taxonomía lo suficientemente completa para cubrir nuestras necesidades[@Sekine-NER] que puede ser resumida en la figura \@ref(fig:fig-sekine)
+
+```{r fig-sekine, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Taxonomía extendida de Sekine'}
+knitr::include_graphics('assets/sekine.png')
 ```
-# Notas sobre mejora en tipos de entidades
-Presidente -> Person Descriptor
-NORP -> (Polical) Peronistas, Kirchneristas
-Facility Name -> usually location. "Wall Street", "Muralla China"
 
-Organization Name -> Government vs Corporation.
-Product Name -> autos "Fiat Toro", celulares "Galaxy S10"
-Events -> Superclásico. Superliga. Copa argentina. Elecciones 2019. Las Paso.
-Disease -> 
-Game -> Football, Basket (para "titulos" no tan relevante)
+Haciendo un análisis de dicha taxonomía encontramos que nuestro _corpus_ puede beneficiarse de los siguientes nuevos tipos de entidad:
+
+* **_Political_Party_**: diferentes actores políticos.
+  * ej: peronistas, kirchneristas, macristas.
+* **_Offence_**: ofensas.
+  * ej: asesinato, abducción, fraude, aborto, robo.
+* **_Facility_Name_**: lugares específicos.
+  * ej: Ecoparque, Disneyland, Canal de Suez, Aeropuerto de Ezeiza.
+* **_Product_Name_**: nombres de productos.
+  * ej: Galaxy S10, Fiat Toro, Manaos.
+* **_Game_**: nombres de juegos.
+  * ej: futbol, football, basket, fortnite, ajedrez.
+
+## Semilla inicial
+
+Nuestro sistema ofrece al usuario una forma sencilla y ágil de entrenar modelos estadísticos y sumar nuevos tipos de entidad. Sin embargo, entrenar un nuevo tipo de entidad suele ser una tarea inicialmente lenta y difícil dado que se necesita un número mínimo de etiquetas para que la nueva entidad empiece a tener relevancia dentro del modelo y sea inferida.
+
+Por ejemplo, suponga se quiere agregar el nuevo tipo de entidad "Droga" al modelo. Podemos estar horas etiquetando entidades hasta cruzarnos con la primera instancia de "marihuana" y luego varias etiquetas más hasta cruzarnos con "cocaína". Además, como el sistema no conoce previamente el significado abstracto de "Droga" dichas _keywords_ no van a ser identificadas previamente por el etiquetador.
+
+Una posible solución para evitar esta "curva de aprendizaje" es la de permitir al usuario definir una "semilla" de palabras clave (o _keywords_) a la hora de definir un tipo nuevo:
+
+> Droga: Heroína, Cocaína, Barbitúricos, Metadona, Alcohol, Ketamina, Benzodiazopines, Anfetaminas, Tabaco, Cannabis, etc.
+
+De esta manera y gracias al proceso de _word-embeddings_ visto en la sección \@ref(encode) el modelo puede pre-entrenarse para identificar las palabras definidas y todas aquellas que tengan un significado similar en el espacio vectorial de significados.
+
+## Entrenamiento _live_ vs _offline_
+
+Existen dos maneras de entrenar un modelo de predicción NLP:
+
+* _Online_ o _Live_: cada nueva etiqueta que entrenamos es inmediatamente inyectada al modelo de predicciones.
+* _Offline_: cada nueva etiqueta que entrenamos es guardada para ser entrenada en otro momento.
+
+En nuestro sistemas hemos elegido la segunda opción porque al poseer la capacidad de escalar horizontalmente la cantidad de _workers_; el modelo se carga en varios servicios y de ser entrenado de manera _live_ el entrenamiento iría a workers diferentes resultando en inconsistencias entre ellos. Existen maneras de migrar nuestro sistema a un modelo _online_ y mantener la capacidad de escalar horizontalmente, pero escapa al alcance que decidimos darle a este trabajo por lo cual lo consideramos una propuesta de mejora a futuro.
+
+Uno de los mayores beneficios de tener un modelo online, ademas del trivial de que esta constantemente actualizado con las ultimas mejoras; es el de la capacidad de apuntar a los _tokens_ que poseen una mayor incertidumbre. En la sección \@ref(use-of-cnn) hemos mencionado que puede ocurrir que algunas palabras tengan una incerteza acerca de qué etiqueta debe ser predecida. En particular este tipo de técnicas están dentro de la literatura conocida como _"Uncertainty sampling"_ que se puede resumir en buscar entidades que tengan un _score_ $~ 0.5$ y dirigir el entrenamiento a esos _tokens_ primero.
+
+## _Linkeo_ de entidades con _Knowledge Base_
+Existe otra tarea en el universo de _NLP_ que está muy relacionada a la tarea de _NER_: es la tarea de _Named Entity Linking_ [@wiki_nel].
+
+Un corolario de la definición de **designador rígido** en la sección \@ref(ner-formal) es que una misma entidad puede tener varios designadores. Por ejemplo "Lionel Messi" también puede ser referido como "Leo Messi", "Leo", "La Pulga", "Lionel Andrés 'Leo' Messi", etc. Todos ellos son designadores rígidos de una misma entidad, del concepto de Messi. A este concepto abstracto de entidad se le puede asignar un identificador único dentro de una base de datos de conocimiento (_knowledge base_ en inglés) para luego ser utilizado en la normalización de entidades.
+
+Ya existen _knowledge bases_ universales en internet. Una de las más importante y completas es **_wikidata_**. El identificador de Messi es el `Q615` [@wikidata_messi].
+
+Si al etiquetar una entidad además de decirle a nuestro sistema de qué tipo es sumamos la funcionalidad de decirle a que identificador de entidad corresponde. Se podría luego entrenar un nuevo modelo de _NEL_, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.
+
+El sistema puede beneficiarse porque tiene disponible ahora de _Wikidata_ mucha información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura \@ref(fig:fig-messi)
+
+```{r fig-messi, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Wikidata - Lionel Messi'}
+knitr::include_graphics('assets/wikidata_messi.png')
 ```
 
-## Seed en los types
-en especial para los nuevos.
+Desde el punto de vista del usuario; puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de "nubes de palabras" a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de "Mauricio" y en otros se hable de "Macri"; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada por nuestro sistema en la figura \@ref(fig:fig-cloud).
 
-## Linkeo de entidades con Knowledge Base
-La tarea de reconocer entidades nombradas en el texto es Reconocimiento de entidades nombradas, mientras que la tarea de determinar la identidad de las entidades nombradas mencionadas en el texto se llama Desambiguación de entidades nombradas. Ambas tareas requieren algoritmos y recursos dedicados para ser abordados. [3]
+```{r fig-cloud, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Con _NEL_ se sumarían "Messi" con "Lionel" y "Mauricio" con "Macri"'}
+knitr::include_graphics('assets/LosPersonajesDelDia.png')
+```
 
-## Mejora live vs offline
-Mejora "Uncertainty sampling" -> buscar entidades que tengan un score ~ 0.5
+Para finalizar, un dato curioso es que a esta tarea de reconocimiento de entidades más desambiguación de las mismas se lo suele llamar _NERD_ (_named-entity recognition and disambiguation_) al igual que nuestro proyecto _NERd_; una coincidencia accidental pero que evidencia la necesidad a futuro de implementar esta mejora.
 
 ## Utilidad de la herramienta
-Para poder poner a prueba nuestra herramienta **NERd** en un entorno real participamos de la hackaton en MediaParty 2019.
+Para poner a prueba nuestra herramienta **NERd** en un entorno real participamos de la hackatón en MediaParty 2019.
 
 > **[@hackaton2019]** es un evento de tres días en Argentina, que reúne a 2500 emprendedores, periodistas, programadores de software y diseñadores de cinco continentes para trabajar juntos para el futuro de los medios de comunicación.
 > Nacido de Hacks/Hackers Buenos Aires, el evento fusiona a grandes empresas como New York Times, The Guardian, Vox, ProPublica, Watchup, Neo4J o DocumentCloud y comunidades regionales de la mayor red de periodistas y desarrolladores del mundo.
