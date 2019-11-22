@@ -29,6 +29,46 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
 \usepackage{graphicx}
 % grffile has become a legacy package: https://ctan.org/pkg/grffile
@@ -1563,8 +1603,8 @@ A su vez, provee facilidades de serialización y de-serialización de objetos en
 
 Librería que nos permite integrar la librería de serialización \emph{Marshmallow} con \emph{Mongoengine} simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del \emph{API}. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto \emph{User} ya nunca deberíamos devolver en una respuesta el campo \emph{password} de la base de datos.
 
-\hypertarget{base-de-datos}{%
-\subsubsection{Base de Datos}\label{base-de-datos}}
+\hypertarget{base-de-datos-mongodb-dev}{%
+\subsubsection{Base de Datos \{MongoDB-Dev\}}\label{base-de-datos-mongodb-dev}}
 
 Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: \emph{MongoDB} (``MongoDB,'' \protect\hyperlink{ref-mongodb}{2019}).
 
@@ -1737,12 +1777,44 @@ Para la implementación de cada una de las partes de \emph{NERd}, tuvimos como p
 
 Por ésta razón decidimos utilizar \emph{Docker} como la herramienta para empaquetar los servicios principales de \emph{NERd}.
 
-La implementación completa de \emph{NERd} está formada por 6 contenedores:
+La implementación completa de \emph{NERd} está formada por 5 contenedores requeridos y uno opcional:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{app}: Contiene el servicio de \emph{API}.
+\item
+  \textbf{mongodb}: Contiene la base de datos.
+\item
+  \textbf{rabbitmq}: Contiene la cola de mensajes.
+\item
+  \textbf{ui}: Contiene la página web de administración y entrenamiento.
+\item
+  \textbf{worker}: Contiene a uno o más \emph{workers}.
+\item
+  \textbf{flower}: Contiene el servicio de monitoreo de \emph{Flower} (Opcional).
+\end{itemize}
+
+\hypertarget{deployment}{%
+\subsubsection{Deployment}\label{deployment}}
+
+Para poder crear un entorno completo de \emph{NERd}, utilizamos una herramienta incluída en \emph{Docker} llamada \emph{Docker Compose} (``Docker compose,'' \protect\hyperlink{ref-dockercompose}{2019}), con la cual definimos cada uno de los servicios y las conexiones de red y disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \ref{fig:physical-overview} funcionen correctamente.
+
+A su vez, dentro de un archivo \emph{Makefile} del proyecto definimos un conjunto de comandos que sirven para levantar \emph{NERd}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{make}\NormalTok{ setup }\CommentTok{# Inicializa todos los contenedores de NERd, creando 2 workers}
+\FunctionTok{make}\NormalTok{ down }\CommentTok{# Destruye todos los contenedores de NERd}
+\FunctionTok{make}\NormalTok{ stop }\CommentTok{# Apaga los contenedores de NERd (sirve liberar recursos en una máquina)}
+\FunctionTok{make}\NormalTok{ start }\CommentTok{# Enciende los contenedores parados de NERd}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{escalamiento-horizontal}{%
 \subsubsection{Escalamiento horizontal}\label{escalamiento-horizontal}}
 
-Como podemos ver en la figura \ref{fig:physical-overview},
+En la figura \ref{fig:physical-overview} podemos ver a los 5 contenedores principales de \emph{NERd}. Cada uno de ellos fue pensado para que con cambios tanto a sus configuraciones puedan existir varias instancias de cada uno.
 
 \begin{figure}[H]
 
@@ -1752,6 +1824,33 @@ Como podemos ver en la figura \ref{fig:physical-overview},
 
 \caption{Interacción de servicios.}\label{fig:physical-overview}
 \end{figure}
+
+\hypertarget{nerd-cluster}{%
+\paragraph{\texorpdfstring{\emph{NERd cluster}}{NERd cluster}}\label{nerd-cluster}}
+
+Debido a que el \emph{API} consume sus datos de \emph{MongoDB} así como también requiere de una conexión mediante \emph{Celery} a \emph{RabbitMQ} para poder realizar las tareas de \emph{NER}, es posible tener varias instancias del mismo de manera tal que cada una se conecte al cluster de los dos servicios. Es posible mediante el uso de un \emph{Load Balancer} generar un cluster de servicios de \emph{API}.
+
+\hypertarget{rabbitmq-cluster}{%
+\paragraph{\texorpdfstring{\emph{RabbitMQ cluster}}{RabbitMQ cluster}}\label{rabbitmq-cluster}}
+
+\emph{RabbitMQ} está pensado desde su concepción para poder escalar horizontalmente\footnote{\url{https://www.rabbitmq.com/clustering.html}}, por lo que para tener varias instancias de cola de mensajes será necesario corregir la configuración del servicio.
+
+\hypertarget{mongodb-cluster}{%
+\paragraph{\texorpdfstring{\emph{MongoDB cluster}}{MongoDB cluster}}\label{mongodb-cluster}}
+
+Al igual que \emph{RabbitMQ}, \emph{MongoDB} fue diseñado para escalar horizontalmente (ver \protect\hyperlink{MongoDB-Dev}{Base de datos}), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.
+
+\hypertarget{worker-cluster}{%
+\paragraph{\texorpdfstring{\emph{Worker cluster}}{Worker cluster}}\label{worker-cluster}}
+
+Dado que cada \emph{worker} está implementado como un \emph{Celery worker}, mientras la configuración del mismo sea correcta, al levantar nuevos containers será posible escalarlo horizontalmente. Incluído en el repositorio de \emph{NERd} está un comando de \emph{Makefile} que permite escalar el servicio worker:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{make}\NormalTok{ scale-up }\CommentTok{# Crea un nuevo worker localmente}
+\FunctionTok{make}\NormalTok{ scale-down }\CommentTok{# Destruye un worker localmente}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{escenarios}{%
 \subsection{Escenarios}\label{escenarios}}
@@ -2479,6 +2578,9 @@ Celery: Distributed task queue. (2019). Retrieved November 20, 2019, from \url{h
 
 \leavevmode\hypertarget{ref-docker}{}%
 Docker. (2019). Retrieved November 20, 2019, from \url{https://www.docker.com/}
+
+\leavevmode\hypertarget{ref-dockercompose}{}%
+Docker compose. (2019). Retrieved November 20, 2019, from \url{https://docs.docker.com/compose/}
 
 \leavevmode\hypertarget{ref-cambridge_duh}{}%
 Duh definition. (2019). Retrieved October 14, 2019, from \url{https://dictionary.cambridge.org/es/diccionario/ingles/duh}

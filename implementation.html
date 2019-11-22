@@ -62,6 +62,68 @@
 <script src="libs/DiagrammeR-binding-1.0.1/DiagrammeR.js"></script>
 
 
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -115,13 +177,14 @@
 <li class="chapter" data-level="4.3" data-path="implementation.html"><a href="implementation.html#vista-de-desarrollo"><i class="fa fa-check"></i><b>4.3</b> Vista de desarrollo</a><ul>
 <li class="chapter" data-level="4.3.1" data-path="implementation.html"><a href="implementation.html#web-1"><i class="fa fa-check"></i><b>4.3.1</b> Web</a></li>
 <li class="chapter" data-level="4.3.2" data-path="implementation.html"><a href="implementation.html#api-2"><i class="fa fa-check"></i><b>4.3.2</b> <em>API</em></a></li>
-<li class="chapter" data-level="4.3.3" data-path="implementation.html"><a href="implementation.html#base-de-datos"><i class="fa fa-check"></i><b>4.3.3</b> Base de Datos</a></li>
+<li class="chapter" data-level="4.3.3" data-path="implementation.html"><a href="implementation.html#base-de-datos-mongodb-dev"><i class="fa fa-check"></i><b>4.3.3</b> Base de Datos {MongoDB-Dev}</a></li>
 <li class="chapter" data-level="4.3.4" data-path="implementation.html"><a href="implementation.html#task-scheduler-1"><i class="fa fa-check"></i><b>4.3.4</b> <em>Task Scheduler</em></a></li>
 <li class="chapter" data-level="4.3.5" data-path="implementation.html"><a href="implementation.html#worker-1"><i class="fa fa-check"></i><b>4.3.5</b> Worker</a></li>
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a><ul>
 <li class="chapter" data-level="4.4.1" data-path="implementation.html"><a href="implementation.html#docker"><i class="fa fa-check"></i><b>4.4.1</b> <em>Docker</em></a></li>
-<li class="chapter" data-level="4.4.2" data-path="implementation.html"><a href="implementation.html#escalamiento-horizontal"><i class="fa fa-check"></i><b>4.4.2</b> Escalamiento horizontal</a></li>
+<li class="chapter" data-level="4.4.2" data-path="implementation.html"><a href="implementation.html#deployment"><i class="fa fa-check"></i><b>4.4.2</b> Deployment</a></li>
+<li class="chapter" data-level="4.4.3" data-path="implementation.html"><a href="implementation.html#escalamiento-horizontal"><i class="fa fa-check"></i><b>4.4.3</b> Escalamiento horizontal</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a></li>
 </ul></li>
@@ -771,8 +834,8 @@ Figura 4.24: Módulos de la página web.
 </div>
 </div>
 </div>
-<div id="base-de-datos" class="section level3">
-<h3><span class="header-section-number">4.3.3</span> Base de Datos</h3>
+<div id="base-de-datos-mongodb-dev" class="section level3">
+<h3><span class="header-section-number">4.3.3</span> Base de Datos {MongoDB-Dev}</h3>
 <p>Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: <em>MongoDB</em> <span class="citation">(“MongoDB,” <a href="#ref-mongodb">2019</a>)</span>.</p>
 <p><em>MongoDB</em> nos permite tener un lugar en donde guardar todos los documentos que puede escalar tanto como sea necesario debido a su posibilidad de fragmentar<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> o replicar<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> información entre distintas instancias que pueden estar ubicadas en distintos servidores.</p>
 <div id="modelado" class="section level4">
@@ -893,19 +956,54 @@ Esta vista también se conoce como la vista de <em>deployment</em>.</p>
 <h3><span class="header-section-number">4.4.1</span> <em>Docker</em></h3>
 <p><em>Docker</em> <span class="citation">(“Docker,” <a href="#ref-docker">2019</a>)</span> es un conjunto de productos que permiten empaquetar aplicaciones en contenedores. Cada contenedor contiene todo lo necesario para que la aplicación funcione (código, dependencias, configuraciones, herramientas del sistema, etc.)<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. Mediante el uso de virtualización, es posible distribuir y ejecutar un contenedor en más de un sistema, lo que lleva a la posibilidad de tener varias réplicas de un mismo servicio ejecutando al mismo tiempo.</p>
 <p>Por ésta razón decidimos utilizar <em>Docker</em> como la herramienta para empaquetar los servicios principales de <em>NERd</em>.</p>
-<p>La implementación completa de <em>NERd</em> está formada por 6 contenedores:</p>
+<p>La implementación completa de <em>NERd</em> está formada por 5 contenedores requeridos y uno opcional:</p>
+<ul>
+<li><strong>app</strong>: Contiene el servicio de <em>API</em>.</li>
+<li><strong>mongodb</strong>: Contiene la base de datos.</li>
+<li><strong>rabbitmq</strong>: Contiene la cola de mensajes.</li>
+<li><strong>ui</strong>: Contiene la página web de administración y entrenamiento.</li>
+<li><strong>worker</strong>: Contiene a uno o más <em>workers</em>.</li>
+<li><strong>flower</strong>: Contiene el servicio de monitoreo de <em>Flower</em> (Opcional).</li>
+</ul>
+</div>
+<div id="deployment" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> Deployment</h3>
+<p>Para poder crear un entorno completo de <em>NERd</em>, utilizamos una herramienta incluída en <em>Docker</em> llamada <em>Docker Compose</em> <span class="citation">(“Docker compose,” <a href="#ref-dockercompose">2019</a>)</span>, con la cual definimos cada uno de los servicios y las conexiones de red y disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura <a href="implementation.html#fig:physical-overview">4.35</a> funcionen correctamente.</p>
+<p>A su vez, dentro de un archivo <em>Makefile</em> del proyecto definimos un conjunto de comandos que sirven para levantar <em>NERd</em>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu">make</span> setup <span class="co"># Inicializa todos los contenedores de NERd, creando 2 workers</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">make</span> down <span class="co"># Destruye todos los contenedores de NERd</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="fu">make</span> stop <span class="co"># Apaga los contenedores de NERd (sirve liberar recursos en una máquina)</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="fu">make</span> start <span class="co"># Enciende los contenedores parados de NERd</span></a></code></pre></div>
 </div>
 <div id="escalamiento-horizontal" class="section level3">
-<h3><span class="header-section-number">4.4.2</span> Escalamiento horizontal</h3>
-<p>Como podemos ver en la figura <a href="implementation.html#fig:physical-overview">4.35</a>,</p>
+<h3><span class="header-section-number">4.4.3</span> Escalamiento horizontal</h3>
+<p>En la figura <a href="implementation.html#fig:physical-overview">4.35</a> podemos ver a los 5 contenedores principales de <em>NERd</em>. Cada uno de ellos fue pensado para que con cambios tanto a sus configuraciones puedan existir varias instancias de cada uno.</p>
 <div class="figure" style="text-align: center"><span id="fig:physical-overview"></span>
 <img src="assets/physical/overview.png" alt="Interacción de servicios."  />
 <p class="caption">
 Figura 4.35: Interacción de servicios.
 </p>
 </div>
+<div id="nerd-cluster" class="section level4">
+<h4><span class="header-section-number">4.4.3.1</span> <em>NERd cluster</em></h4>
+<p>Debido a que el <em>API</em> consume sus datos de <em>MongoDB</em> así como también requiere de una conexión mediante <em>Celery</em> a <em>RabbitMQ</em> para poder realizar las tareas de <em>NER</em>, es posible tener varias instancias del mismo de manera tal que cada una se conecte al cluster de los dos servicios. Es posible mediante el uso de un <em>Load Balancer</em> generar un cluster de servicios de <em>API</em>.</p>
+</div>
+<div id="rabbitmq-cluster" class="section level4">
+<h4><span class="header-section-number">4.4.3.2</span> <em>RabbitMQ cluster</em></h4>
+<p><em>RabbitMQ</em> está pensado desde su concepción para poder escalar horizontalmente<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>, por lo que para tener varias instancias de cola de mensajes será necesario corregir la configuración del servicio.</p>
+</div>
+<div id="mongodb-cluster" class="section level4">
+<h4><span class="header-section-number">4.4.3.3</span> <em>MongoDB cluster</em></h4>
+<p>Al igual que <em>RabbitMQ</em>, <em>MongoDB</em> fue diseñado para escalar horizontalmente (ver <a href="#MongoDB-Dev">Base de datos</a>), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.</p>
+</div>
+<div id="worker-cluster" class="section level4">
+<h4><span class="header-section-number">4.4.3.4</span> <em>Worker cluster</em></h4>
+<p>Dado que cada <em>worker</em> está implementado como un <em>Celery worker</em>, mientras la configuración del mismo sea correcta, al levantar nuevos containers será posible escalarlo horizontalmente. Incluído en el repositorio de <em>NERd</em> está un comando de <em>Makefile</em> que permite escalar el servicio worker:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">make</span> scale-up <span class="co"># Crea un nuevo worker localmente</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="fu">make</span> scale-down <span class="co"># Destruye un worker localmente</span></a></code></pre></div>
 <!-- Los diagramas UML utilizados para representar la vista física incluyen el diagrama de deployment. -->
 <!-- TODO: explicar docker. docker-package. red. nginx. etc -->
+</div>
 </div>
 </div>
 <div id="escenarios" class="section level2">
@@ -918,8 +1016,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-22c17325bff1b5c3a634" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-22c17325bff1b5c3a634">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-25f1bf394d87049a2d50" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-25f1bf394d87049a2d50">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -931,6 +1029,9 @@ Esta vista también se conoce como vista de caso de uso.</p>
 </div>
 <div id="ref-docker">
 <p>Docker. (2019). Retrieved November 20, 2019, from <a href="https://www.docker.com/">https://www.docker.com/</a></p>
+</div>
+<div id="ref-dockercompose">
+<p>Docker compose. (2019). Retrieved November 20, 2019, from <a href="https://docs.docker.com/compose/">https://docs.docker.com/compose/</a></p>
 </div>
 <div id="ref-react">
 <p>Facebook. (2019). React: A javascript library for building user interfaces. Retrieved November 20, 2019, from <a href="https://reactjs.org/">https://reactjs.org/</a></p>
@@ -961,6 +1062,7 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <li id="fn2"><p><a href="https://docs.mongodb.com/manual/sharding/" class="uri">https://docs.mongodb.com/manual/sharding/</a><a href="implementation.html#fnref2" class="footnote-back">↩</a></p></li>
 <li id="fn3"><p><a href="https://docs.mongodb.com/manual/replication/" class="uri">https://docs.mongodb.com/manual/replication/</a><a href="implementation.html#fnref3" class="footnote-back">↩</a></p></li>
 <li id="fn4"><p><a href="https://www.docker.com/resources/what-container" class="uri">https://www.docker.com/resources/what-container</a><a href="implementation.html#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p><a href="https://www.rabbitmq.com/clustering.html" class="uri">https://www.rabbitmq.com/clustering.html</a><a href="implementation.html#fnref5" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
