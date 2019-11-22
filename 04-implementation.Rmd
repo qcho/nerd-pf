@@ -777,6 +777,7 @@ DiagrammeR::DiagrammeR("
    participant m as MongoDB
    participant r as RabbitMQ
    participant w as Worker
+   loop Entrenar
    c->>+a: Pedir texto a entrenar;
    a->>+m: Buscar texto no entrenado;
    m-->>-a: Texto no entrenado;
@@ -788,6 +789,12 @@ DiagrammeR::DiagrammeR("
    w->>-r: Entidades inferidas;
    r-->>-a: Entidades inferidas;
    a-->>-c: Entidades inferidas;
+   c->>c: Corrección de entidades;
+   c->>+a: Texto con entidades corregidas;
+   a->>+m: Guardar corrección;
+   m-->>-a: Guardado;
+   a-->>-c: Corregido;
+   end
 ")
 ```
 
