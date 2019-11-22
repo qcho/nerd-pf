@@ -52,7 +52,7 @@ knitr::include_graphics('assets/logic/home-anonymous.png')
 
 La pantalla de entrenamiento es el núcleo de la _web_ donde se entrena el modelo.
 
-El usuario es presentado con un texto perteneciente al _corpus_ del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura \@ref(fig:logic-train)).
+El usuario es presentado con un texto perteneciente al _corpus_ del servicio con las entidades inferidas por el modelo actual. Con un editor especial que recibe un documento generado por _spaCy_ que incluye _tokens_ de palabras y entidades, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura \@ref(fig:logic-train)).
 
 ```{r logic-train, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pantalla de entrenamiento.'}
 knitr::include_graphics('assets/logic/train.png')
@@ -742,7 +742,7 @@ DiagrammeR::DiagrammeR("
 
 Como podemos ver en la figura \@ref(fig:scenarios-ner), para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.
 
-Cuando un _cliente_ realiza un pedido al _API_, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el _request_ en  _RabbitMQ_. Luego, un único _worker_ que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, _RabbitMQ_ notifica al _API_ de la tarea y este puede devolver finalmente el resultado al _Cliente_.
+Cuando un _cliente_ realiza un pedido al _API_, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el _request_ en  _RabbitMQ_. Luego, un único _worker_ que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, _RabbitMQ_ notifica al _API_ de la tarea y este puede devolver finalmente el resultado al _cliente_.
 
 ```{r scenarios-ner, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Flujo de NER.'}
 DiagrammeR::DiagrammeR("
