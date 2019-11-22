@@ -519,10 +519,18 @@ knitr::include_graphics('assets/developer/db-user.png')
 
 ##### _Text_
 
-La colección _text_ contiene todos los textos que forman parte del corpus que son cargados para ser mostrados en la interfaz de entrenamiento (Figura \@ref(fig:developer-db-text)).
+La colección _text_ contiene todos los textos que forman parte del corpus que son cargados para ser mostrados en la interfaz de entrenamiento (Figura \@ref(fig:developer-db-text)). Así como _user_, cada documento de _text_ contiene una lista de referencias a los entrenamientos para ese texto.
 
 ```{r developer-db-text, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colección de textos.'}
 knitr::include_graphics('assets/developer/db-text.png')
+```
+
+##### _Snapshot_
+
+La coleción _snapshot_ contiene información sobre los distintos _snapshots_ creados en el sistema (Figura \@ref(fig:developer-db-snapshot)). De particular interés es el atributo _types_, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo _semaphore_, que sirve como un campo de control para poder organizar a los _workers_ que están utilizando ese _snapshot_ en particular.
+
+```{r developer-db-snapshot, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colección de snapshots.'}
+knitr::include_graphics('assets/developer/db-snapshot.png')
 ```
 
 <!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
