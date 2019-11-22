@@ -114,8 +114,10 @@
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="implementation.html"><a href="implementation.html#vista-de-desarrollo"><i class="fa fa-check"></i><b>4.3</b> Vista de desarrollo</a><ul>
 <li class="chapter" data-level="4.3.1" data-path="implementation.html"><a href="implementation.html#web-1"><i class="fa fa-check"></i><b>4.3.1</b> Web</a></li>
-<li class="chapter" data-level="4.3.2" data-path="implementation.html"><a href="implementation.html#servicio-1"><i class="fa fa-check"></i><b>4.3.2</b> Servicio</a></li>
+<li class="chapter" data-level="4.3.2" data-path="implementation.html"><a href="implementation.html#api-1"><i class="fa fa-check"></i><b>4.3.2</b> <em>API</em></a></li>
 <li class="chapter" data-level="4.3.3" data-path="implementation.html"><a href="implementation.html#base-de-datos"><i class="fa fa-check"></i><b>4.3.3</b> Base de Datos</a></li>
+<li class="chapter" data-level="4.3.4" data-path="implementation.html"><a href="implementation.html#task-scheduler-1"><i class="fa fa-check"></i><b>4.3.4</b> <em>Task Scheduler</em></a></li>
+<li class="chapter" data-level="4.3.5" data-path="implementation.html"><a href="implementation.html#worker-1"><i class="fa fa-check"></i><b>4.3.5</b> Worker</a></li>
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a></li>
 <li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a></li>
@@ -738,14 +740,14 @@ Figura 4.24: Módulos de la página web.
 <p>Así como las credenciales, las preferencias de internacionalización son guardadas en el <em>local storage</em> del cliente web, de manera tal que los usuarios del sistema no deban elegir el idioma de su preferencia cada vez que ingresan a la página.</p>
 </div>
 </div>
-<div id="servicio-1" class="section level3">
-<h3><span class="header-section-number">4.3.2</span> Servicio</h3>
-<p>El servicio que provee el <em>API REST</em> fue implementado utilizando el lenguaje de programación <em>Python</em>. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en <em>Machine Learning</em> se encuentran implementadas en este lenguaje.</p>
+<div id="api-1" class="section level3">
+<h3><span class="header-section-number">4.3.2</span> <em>API</em></h3>
+<p>Implementada utilizando el lenguaje de programación <em>Python</em>. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en <em>Machine Learning</em> se encuentran implementadas en este lenguaje. Provee del servicio al cual acceden los usuarios, tales como la plataforma web de entrenamiento mediante la implementación de un <em>API</em> <em>REST</em>.</p>
 <div id="tecnologías-1" class="section level4">
 <h4><span class="header-section-number">4.3.2.1</span> Tecnologías</h4>
 <div id="flask" class="section level5">
 <h5><span class="header-section-number">4.3.2.1.1</span> <em>Flask</em></h5>
-<p>Como base del proyecto utilizamos un <em>microframework</em> de aplicaciones web llamado <em>Flask</em> <span class="citation">(Pallets, <a href="#ref-flask">2019</a>)</span> ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.</p>
+<p>Como base del proyecto utilizamos un <em>microframework</em> de aplicaciones web llamado <em>Flask</em> <span class="citation">(“Flask,” <a href="#ref-flask">2019</a>)</span> ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.</p>
 </div>
 <div id="flask-smorest" class="section level5">
 <h5><span class="header-section-number">4.3.2.1.2</span> <em>flask-smorest</em></h5>
@@ -765,14 +767,10 @@ Figura 4.24: Módulos de la página web.
 <p>Librería que nos permite integrar la librería de serialización <em>Marshmallow</em> con <em>Mongoengine</em> simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del <em>API</em>. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto <em>User</em> ya nunca deberíamos devolver en una respuesta el campo <em>password</em> de la base de datos.</p>
 </div>
 </div>
-<div id="arquitectura-1" class="section level4">
-<h4><span class="header-section-number">4.3.2.2</span> Arquitectura</h4>
-<p>[TODO]</p>
-</div>
 </div>
 <div id="base-de-datos" class="section level3">
 <h3><span class="header-section-number">4.3.3</span> Base de Datos</h3>
-<p>Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: <em>MongoDB</em> <span class="citation">(Ryan, Horowitz, &amp; Merriman, <a href="#ref-mongodb">2019</a>)</span>.</p>
+<p>Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: <em>MongoDB</em> <span class="citation">(“MongoDB,” <a href="#ref-mongodb">2019</a>)</span>.</p>
 <p><em>MongoDB</em> nos permite tener un lugar en donde guardar todos los documentos que puede escalar tanto como sea necesario debido a su posibilidad de fragmentar<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> o replicar<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> información entre distintas instancias que pueden estar ubicadas en distintos servidores.</p>
 <div id="modelado" class="section level4">
 <h4><span class="header-section-number">4.3.3.1</span> Modelado</h4>
@@ -830,6 +828,24 @@ Figura 4.29: Colección de entrenamientos.
 </div>
 </div>
 </div>
+<div id="task-scheduler-1" class="section level3">
+<h3><span class="header-section-number">4.3.4</span> <em>Task Scheduler</em></h3>
+<p>El <em>task scheduler</em> que utilizamos en el <em>API</em> para poder orquestrar todas las tareas relacionadas con <em>NER</em> así como también la de la administración de los <em>workers</em> es <em>Celery</em> <span class="citation">(“Celery,” <a href="#ref-celery">2019</a>)</span>. <em>Celery</em> es una cola de tareas asincrónica especializada en el procesamiento distribuido de las mismas. Si bien soporta distintos <em>backends</em> para la funcionalidad de cola de mensajes, decidimos utilizar <em>RabbitMQ</em> <span class="citation">(“RabbitMQ,” <a href="#ref-rabbitmq">2019</a>)</span> debido a su buena integración con <em>Celery</em> así como también por su robustez y posibilidad de escalar horizontalmente.</p>
+</div>
+<div id="worker-1" class="section level3">
+<h3><span class="header-section-number">4.3.5</span> Worker</h3>
+<p>El proceso de <em>worker</em> fue implementado en <em>Python</em> utilizando la librería <em>Celery</em>.</p>
+<p>Deben tener por diseño siempre un modelo de inferencia de <em>spaCy</em> cargado en memoria, por lo que cuando se crea uno nuevo, se le asigna por defecto el <em>snapshot</em> actual (<code>snapshot_id = 0</code>) para poder ayudar a distribuir la carga de los pedidos al <em>API</em>.</p>
+<p>Debido a que requieren de un <em>snapshot</em> para poder realizar la tarea de <em>NER</em> así como también requieren del <em>corpus</em> anotado para poder entrenar el modelo, cada <em>worker</em> debe tener acceso a la base de datos principal de <em>NERd</em> (Figura <a href="implementation.html#fig:process-overview-client">4.23</a>).</p>
+<p>Cada <em>worker</em> puede realizar las siguientes tareas:</p>
+<ul>
+<li><strong>train</strong>: Entrenar el modelo de inferencia de <em>spaCy</em> utilizando el snapshot para el cual fue configurado.</li>
+<li><strong>un_train</strong>: Borra el modelo guardado en el disco, efectivamente “des-entrenandose”. Principalmente utilizado para liberar recursos.</li>
+<li><strong>reload</strong>: Recarga el modelo de inferencia desde el disco. Utilizado cuando algún worker entrenó el modelo y el actual quedó desactualizado.</li>
+<li><strong>nlp</strong>: Realiza la tarea de <em>NER</em> utilizando el modelo cargado.</li>
+<li><strong>change_snapshot</strong>: Cambia el <em>snapshot</em> utilizado en el worker.</li>
+</ul>
+</div>
 </div>
 <div id="vista-física" class="section level2">
 <h2><span class="header-section-number">4.4</span> Vista física</h2>
@@ -851,16 +867,22 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-2a0ac4c961dee62be1d9" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2a0ac4c961dee62be1d9">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-82c48b5e093fe4765c50" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-82c48b5e093fe4765c50">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <h3>Referencias</h3>
 <div id="refs" class="references">
+<div id="ref-celery">
+<p>Celery: Distributed task queue. (2019). Retrieved November 20, 2019, from <a href="http://www.celeryproject.org/">http://www.celeryproject.org/</a></p>
+</div>
 <div id="ref-react">
 <p>Facebook. (2019). React: A javascript library for building user interfaces. Retrieved November 20, 2019, from <a href="https://reactjs.org/">https://reactjs.org/</a></p>
+</div>
+<div id="ref-flask">
+<p>Flask: Lightweight wsgi web application framework. (2019). Retrieved November 20, 2019, from <a href="https://palletsprojects.com/p/flask/">https://palletsprojects.com/p/flask/</a></p>
 </div>
 <div id="ref-JWT">
 <p>Jones, M., Bradley, J., Sakimura, N, NRI, &amp; Microsoft. (2015). JSON web token. Retrieved November 20, 2019, from <a href="https://tools.ietf.org/html/rfc7519">https://tools.ietf.org/html/rfc7519</a></p>
@@ -868,11 +890,11 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <div id="ref-Kruchten:1995:VMA:624610.625529">
 <p>Kruchten, P. (1995). The 4+1 view model of architecture. <em>IEEE Softw.</em>, <em>12</em>(6), 42–50. <a href="https://doi.org/10.1109/52.469759">https://doi.org/10.1109/52.469759</a></p>
 </div>
-<div id="ref-flask">
-<p>Pallets, T. (2019). Flask: Lightweight wsgi web application framework. Retrieved November 20, 2019, from <a href="https://palletsprojects.com/p/flask/">https://palletsprojects.com/p/flask/</a></p>
-</div>
 <div id="ref-mongodb">
-<p>Ryan, K. P., Horowitz, E., &amp; Merriman, D. (2019). MongoDB: The database for modern applications. Retrieved November 20, 2019, from <a href="https://www.mongodb.com">https://www.mongodb.com</a></p>
+<p>MongoDB: The database for modern applications. (2019). Retrieved November 20, 2019, from <a href="https://www.mongodb.com">https://www.mongodb.com</a></p>
+</div>
+<div id="ref-rabbitmq">
+<p>RabbitMQ. (2019). Retrieved November 20, 2019, from <a href="https://www.rabbitmq.com/">https://www.rabbitmq.com/</a></p>
 </div>
 </div>
 <div class="footnotes">

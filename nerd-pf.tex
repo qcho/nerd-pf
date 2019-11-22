@@ -1528,10 +1528,10 @@ Ofrecemos también la posibilidad de no guardar la sesión, lo cual hará que un
 
 Así como las credenciales, las preferencias de internacionalización son guardadas en el \emph{local storage} del cliente web, de manera tal que los usuarios del sistema no deban elegir el idioma de su preferencia cada vez que ingresan a la página.
 
-\hypertarget{servicio-1}{%
-\subsubsection{Servicio}\label{servicio-1}}
+\hypertarget{api-1}{%
+\subsubsection{\texorpdfstring{\emph{API}}{API}}\label{api-1}}
 
-El servicio que provee el \emph{API REST} fue implementado utilizando el lenguaje de programación \emph{Python}. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en \emph{Machine Learning} se encuentran implementadas en este lenguaje.
+Implementada utilizando el lenguaje de programación \emph{Python}. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en \emph{Machine Learning} se encuentran implementadas en este lenguaje. Provee del servicio al cual acceden los usuarios, tales como la plataforma web de entrenamiento mediante la implementación de un \emph{API} \emph{REST}.
 
 \hypertarget{tecnologuxedas-1}{%
 \paragraph{Tecnologías}\label{tecnologuxedas-1}}
@@ -1539,7 +1539,7 @@ El servicio que provee el \emph{API REST} fue implementado utilizando el lenguaj
 \hypertarget{flask}{%
 \subparagraph{\texorpdfstring{\emph{Flask}}{Flask}}\label{flask}}
 
-Como base del proyecto utilizamos un \emph{microframework} de aplicaciones web llamado \emph{Flask} (Pallets, \protect\hyperlink{ref-flask}{2019}) ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.
+Como base del proyecto utilizamos un \emph{microframework} de aplicaciones web llamado \emph{Flask} (``Flask,'' \protect\hyperlink{ref-flask}{2019}) ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.
 
 \hypertarget{flask-smorest}{%
 \subparagraph{\texorpdfstring{\emph{flask-smorest}}{flask-smorest}}\label{flask-smorest}}
@@ -1563,15 +1563,10 @@ A su vez, provee facilidades de serialización y de-serialización de objetos en
 
 Librería que nos permite integrar la librería de serialización \emph{Marshmallow} con \emph{Mongoengine} simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del \emph{API}. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto \emph{User} ya nunca deberíamos devolver en una respuesta el campo \emph{password} de la base de datos.
 
-\hypertarget{arquitectura-1}{%
-\paragraph{Arquitectura}\label{arquitectura-1}}
-
-{[}TODO{]}
-
 \hypertarget{base-de-datos}{%
 \subsubsection{Base de Datos}\label{base-de-datos}}
 
-Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: \emph{MongoDB} (Ryan, Horowitz, \& Merriman, \protect\hyperlink{ref-mongodb}{2019}).
+Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: \emph{MongoDB} (``MongoDB,'' \protect\hyperlink{ref-mongodb}{2019}).
 
 \emph{MongoDB} nos permite tener un lugar en donde guardar todos los documentos que puede escalar tanto como sea necesario debido a su posibilidad de fragmentar\footnote{\url{https://docs.mongodb.com/manual/sharding/}} o replicar\footnote{\url{https://docs.mongodb.com/manual/replication/}} información entre distintas instancias que pueden estar ubicadas en distintos servidores.
 
@@ -1646,6 +1641,36 @@ Dentro de un documento training, se encuentra el atributo \emph{document}, que e
 
 \caption{Colección de entrenamientos.}\label{fig:developer-db-training}
 \end{figure}
+
+\hypertarget{task-scheduler-1}{%
+\subsubsection{\texorpdfstring{\emph{Task Scheduler}}{Task Scheduler}}\label{task-scheduler-1}}
+
+El \emph{task scheduler} que utilizamos en el \emph{API} para poder orquestrar todas las tareas relacionadas con \emph{NER} así como también la de la administración de los \emph{workers} es \emph{Celery} (``Celery,'' \protect\hyperlink{ref-celery}{2019}). \emph{Celery} es una cola de tareas asincrónica especializada en el procesamiento distribuido de las mismas. Si bien soporta distintos \emph{backends} para la funcionalidad de cola de mensajes, decidimos utilizar \emph{RabbitMQ} (``RabbitMQ,'' \protect\hyperlink{ref-rabbitmq}{2019}) debido a su buena integración con \emph{Celery} así como también por su robustez y posibilidad de escalar horizontalmente.
+
+\hypertarget{worker-1}{%
+\subsubsection{Worker}\label{worker-1}}
+
+El proceso de \emph{worker} fue implementado en \emph{Python} utilizando la librería \emph{Celery}.
+
+Deben tener por diseño siempre un modelo de inferencia de \emph{spaCy} cargado en memoria, por lo que cuando se crea uno nuevo, se le asigna por defecto el \emph{snapshot} actual (\texttt{snapshot\_id\ =\ 0}) para poder ayudar a distribuir la carga de los pedidos al \emph{API}.
+
+Debido a que requieren de un \emph{snapshot} para poder realizar la tarea de \emph{NER} así como también requieren del \emph{corpus} anotado para poder entrenar el modelo, cada \emph{worker} debe tener acceso a la base de datos principal de \emph{NERd} (Figura \ref{fig:process-overview-client}).
+
+Cada \emph{worker} puede realizar las siguientes tareas:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{train}: Entrenar el modelo de inferencia de \emph{spaCy} utilizando el snapshot para el cual fue configurado.
+\item
+  \textbf{un\_train}: Borra el modelo guardado en el disco, efectivamente \enquote{des-entrenandose}. Principalmente utilizado para liberar recursos.
+\item
+  \textbf{reload}: Recarga el modelo de inferencia desde el disco. Utilizado cuando algún worker entrenó el modelo y el actual quedó desactualizado.
+\item
+  \textbf{nlp}: Realiza la tarea de \emph{NER} utilizando el modelo cargado.
+\item
+  \textbf{change\_snapshot}: Cambia el \emph{snapshot} utilizado en el worker.
+\end{itemize}
 
 \hypertarget{vista-fuxedsica}{%
 \subsection{Vista física}\label{vista-fuxedsica}}
@@ -2377,6 +2402,9 @@ Brunstein, A. (2002). Annotation guidelines for answer types. Retrieved from \ur
 \leavevmode\hypertarget{ref-lawOfDiminishingReturns}{}%
 Case, K. E., \& Fair, R. C. (1999). \emph{Principles of economics}. Retrieved from \url{https://books.google.com.ar/books?id=9vvAlOBfq0kC}
 
+\leavevmode\hypertarget{ref-celery}{}%
+Celery: Distributed task queue. (2019). Retrieved November 20, 2019, from \url{http://www.celeryproject.org/}
+
 \leavevmode\hypertarget{ref-cambridge_duh}{}%
 Duh definition. (2019). Retrieved October 14, 2019, from \url{https://dictionary.cambridge.org/es/diccionario/ingles/duh}
 
@@ -2391,6 +2419,9 @@ Ethayarajh, K., Duvenaud, D., \& Hirst, G. (2019). Towards understanding linear 
 
 \leavevmode\hypertarget{ref-react}{}%
 Facebook. (2019). React: A javascript library for building user interfaces. Retrieved November 20, 2019, from \url{https://reactjs.org/}
+
+\leavevmode\hypertarget{ref-flask}{}%
+Flask: Lightweight wsgi web application framework. (2019). Retrieved November 20, 2019, from \url{https://palletsprojects.com/p/flask/}
 
 \leavevmode\hypertarget{ref-hackaton2019}{}%
 Hackaton. (2019). Retrieved August 31, 2019, from \url{https://mediaparty.info/}
@@ -2425,11 +2456,11 @@ Marsh, E., \& Perzanowski, D. (1998). MUC-7 evaluation of IE technology: Overvie
 \leavevmode\hypertarget{ref-mediaparty2019_win}{}%
 Mención itba. (2019). Retrieved October 3, 2019, from \url{https://www.instagram.com/p/B3Koum2peD-/}
 
+\leavevmode\hypertarget{ref-mongodb}{}%
+MongoDB: The database for modern applications. (2019). Retrieved November 20, 2019, from \url{https://www.mongodb.com}
+
 \leavevmode\hypertarget{ref-Nothman2017}{}%
 Nothman, J., Ringland, N., Radford, W., Murphy, T., \& Curran, J. R. (2017). \emph{Learning multilingual named entity recognition from Wikipedia}. \url{https://doi.org/10.6084/m9.figshare.5462500.v1}
-
-\leavevmode\hypertarget{ref-flask}{}%
-Pallets, T. (2019). Flask: Lightweight wsgi web application framework. Retrieved November 20, 2019, from \url{https://palletsprojects.com/p/flask/}
 
 \leavevmode\hypertarget{ref-parikh-etal-2016-decomposable}{}%
 Parikh, A., Täckström, O., Das, D., \& Uszkoreit, J. (2016). A decomposable attention model for natural language inference. \emph{Proceedings of the 2016 conference on empirical methods in natural language processing}, 2249--2255. \url{https://doi.org/10.18653/v1/D16-1244}
@@ -2437,8 +2468,8 @@ Parikh, A., Täckström, O., Das, D., \& Uszkoreit, J. (2016). A decomposable at
 \leavevmode\hypertarget{ref-Poibeau2000ProperNE}{}%
 Poibeau, T., \& Kosseim, L. (2000). Proper name extraction from non-journalistic texts. \emph{CLIN}.
 
-\leavevmode\hypertarget{ref-mongodb}{}%
-Ryan, K. P., Horowitz, E., \& Merriman, D. (2019). MongoDB: The database for modern applications. Retrieved November 20, 2019, from \url{https://www.mongodb.com}
+\leavevmode\hypertarget{ref-rabbitmq}{}%
+RabbitMQ. (2019). Retrieved November 20, 2019, from \url{https://www.rabbitmq.com/}
 
 \leavevmode\hypertarget{ref-Sekine-NER}{}%
 Sekine, S. (2007). \emph{The definition of sekine's extended named entities}. Retrieved from \url{https://nlp.cs.nyu.edu/ene/version7_1_0Beng.html}
