@@ -457,9 +457,9 @@ Ofrecemos también la posibilidad de no guardar la sesión, lo cual hará que un
 
 Así como las credenciales, las preferencias de internacionalización son guardadas en el _local storage_ del cliente web, de manera tal que los usuarios del sistema no deban elegir el idioma de su preferencia cada vez que ingresan a la página.
 
-### Servicio
+### _API_
 
-El servicio que provee el _API REST_ fue implementado utilizando el lenguaje de programación _Python_. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en _Machine Learning_ se encuentran implementadas en este lenguaje.
+Implementada utilizando el lenguaje de programación _Python_. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en _Machine Learning_ se encuentran implementadas en este lenguaje. Provee del servicio al cual acceden los usuarios, tales como la plataforma web de entrenamiento mediante la implementación de un _API_ _REST_.
 
 #### Tecnologías
 
@@ -485,10 +485,6 @@ _Mongoengine_ es una librería pensada para trabajar con _MongoDB_ en _Python_. 
 ##### _marshmallow-mongoengine_
 
 Librería que nos permite integrar la librería de serialización _Marshmallow_ con _Mongoengine_ simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del _API_. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto _User_ ya nunca deberíamos devolver en una respuesta el campo _password_ de la base de datos.
-
-#### Arquitectura
-
-[TODO]
 
 ### Base de Datos
 
@@ -542,6 +538,27 @@ knitr::include_graphics('assets/developer/db-training.png')
 <!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
 <!-- TODO: Hablar sobre Atributos de calidad de software -->
+
+
+### _Task Scheduler_
+
+El _task scheduler_ que utilizamos en el _API_ para poder orquestrar todas las tareas relacionadas con _NER_ así como también la de la administración de los _workers_ es _Celery_ [@celery]. _Celery_ es una cola de tareas asincrónica especializada en el procesamiento distribuido de las mismas. Si bien soporta distintos _backends_ para la funcionalidad de cola de mensajes, decidimos utilizar _RabbitMQ_ [@rabbitmq] debido a su buena integración con _Celery_ así como también por su robustez y posibilidad de escalar horizontalmente.
+
+### Worker
+
+El proceso de _worker_ fue implementado en _Python_ utilizando la librería _Celery_.
+
+Deben tener por diseño siempre un modelo de inferencia de _spaCy_ cargado en memoria, por lo que cuando se crea uno nuevo, se le asigna por defecto el _snapshot_ actual (`snapshot_id = 0`) para poder ayudar a distribuir la carga de los pedidos al _API_.
+
+Debido a que requieren de un _snapshot_ para poder realizar la tarea de _NER_ así como también requieren del _corpus_ anotado para poder entrenar el modelo, cada _worker_ debe tener acceso a la base de datos principal de _NERd_ (Figura \@ref(fig:process-overview-client)).
+
+Cada _worker_ puede realizar las siguientes tareas:
+
+* **train**: Entrenar el modelo de inferencia de _spaCy_ utilizando el snapshot para el cual fue configurado.
+* **un_train**: Borra el modelo guardado en el disco, efectivamente "des-entrenandose". Principalmente utilizado para liberar recursos.
+* **reload**: Recarga el modelo de inferencia desde el disco. Utilizado cuando algún worker entrenó el modelo y el actual quedó desactualizado.
+* **nlp**: Realiza la tarea de _NER_ utilizando el modelo cargado.
+* **change_snapshot**: Cambia el _snapshot_ utilizado en el worker.
 
 ## Vista física
 > La vista física representa el sistema desde el punto de vista de un ingeniero de sistemas.
