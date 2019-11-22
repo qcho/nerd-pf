@@ -252,101 +252,101 @@ knitr::include_graphics('assets/logic/redoc-main.png')
 
 Rutas del API dedicadas a la autenticación de usuarios.
 
-* **POST** _/api/auth/register_
+* **POST** `/api/auth/register`
     * Registrar un usuario nuevo.
 
-* **POST** _/api/auth/token_
-    * Genera un nuevo token de acceso y refresco con credenciales.
-    * Utilizado para la funcionalidad de _login_
-* **POST** _/api/auth/refresh_
-    * Refresca el token de acceso.
+* **POST** `/api/auth/token`
+    * Genera un nuevo _token_ de acceso y refresco con credenciales.
+    * Utilizado para la funcionalidad de _login_.
+* **POST** `/api/auth/refresh`
+    * Refresca el _token_ de acceso.
     * Utilizado cuando un _token_ de acceso caducó.
 
 ##### Usuarios
 
 Conjunto de operaciones relacionadas con los usuarios del sistema.
 
-* **GET** _/api/users_
+* **GET** `/api/users`
     * Lista de usuarios existentes.
     * Separa los resultados en páginas.
-* **GET** _/api/users/top5_
-    * Lista de los cinco usuarios con más entrenamientos.
-* **GET** _/api/users/me_
+* **GET** `/api/users/top5`
+    * Lista de los 5 usuarios con más entrenamientos.
+* **GET** `/api/users/me`
     * Retorna la información del usuario logueado.
-* **PATCH** _/api/users/me_
+* **PATCH** `/api/users/me`
     * Actualiza la información del usuario logueado.
-* **GET** _/api/users/me/trainings_
+* **GET** `/api/users/me/trainings`
     * Retorna los entrenamientos del usuario logueado.
     * Separa los resultados en páginas.
 * **GET** `/api/users/{user_id}`
-    * Retorna la información del usuario especificado por `user_id`
-* **PATCH** _/api/users/\{user\_id\}_
-    * Actualiza la información del usuario especificado por _user\_id_.
-* **DELETE** _/api/users/\{user\_id\}_
-    * Borra al usuario especificado por _user\_id_.
-* **GET** _/api/users/\{user\_id\}/trainings
+    * Retorna la información del usuario especificado por `user_id`.
+* **PATCH** `/api/users/{user_id}`
+    * Actualiza la información del usuario especificado por `user_id`.
+* **DELETE** `/api/users/{user_id}`
+    * Borra al usuario especificado por `user_id`.
+* **GET** `/api/users/{user_id}/trainings`
     * Retorna los entrenamientos del usuario especificado.
 
 ##### Roles
 
-* **GET** _/api/roles_
+* **GET** `/api/roles`
     * Retorna la lista de todos los roles asignables a usuarios del sistema.
 
 ##### Corpus
 
 Rutas dedicadas a operaciones con el _corpus_ del sistema.
 
-* **GET** _/api/corpus/\{text\_id\}_
-    * Retorna los detalles del texto especificado por _text\_id_.
-* **DELETE** _/api/corpus/\{text\_id\}_
-    * Borra un texto especificado por _text\_id_ del _corpus_.
-* **GET** _/api/corpus/\{text\_id\}/trainings_
+* **GET** `/api/corpus/{text_id}`
+    * Retorna los detalles del texto especificado por `text_id`.
+* **DELETE** `/api/corpus/{text_id}`
+    * Borra un texto especificado por `text_id` del corpus.
+* **GET** `/api/corpus/{text_id}/trainings`
     * Retorna la lista de entrenamientos proporcionados por los usuarios sobre las entidades en el texto.
-* **PUT** _/api/corpus/\{text\_id\}/trainings_
+* **PUT** `/api/corpus/{text_id}/trainings`
     * Agrega un entrenamiento para el texto con id _text_id_.
-* **POST** _/api/corpus/upload_
+* **POST** `/api/corpus/upload`
     * Permite agregar textos de manera masiva al sistema.
     * Acepta una lista de archivos `.txt` donde cada línea es un texto a agregar.
     * Los archivos deben ser `UTF-8`.
-* **GET** _/api/corpus_
+* **GET** `/api/corpus`
     * Lista de textos cargados en el sistema para entrenamiento.
     * Separa los resultados en páginas.
-* **POST** _/api/corpus_
+* **POST** `/api/corpus`
     * Agrega un texto al sistema para entrenamiento.
 
 ##### Snapshots
 
 Conjunto de operaciones relacionadas con los snapshots y workers.
 
-* **GET** _/api/snapshots_
+* **GET** `/api/snapshots`
     * Listado de los snapshots disponibles.
     * Separa los resultados en páginas.
-* **GET** _/api/snapshots/\{snapshot_id}_
-    * Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico.
-* **DELETE** _/api/snapshots/\{snapshot_id}_
-    * Borra un snapshot con el id especificado.
-* **POST** _/api/snapshots/\{snapshot_id}/force-train_
-    * Envía la tarea de entrenamiento a los workers que tienen el _snapshot_ _snapshot_id_ cargado.
-* **POST** _/api/snapshots/\{snapshot_id}/force-untrain_
-    * Envía la tarea de desentrenar a los _workers_ que tienen el _snapshot_ _snapshot_id_ cargado.
-* **GET** _/api/snapshots/current_
+* **GET** `/api/snapshots/{snapshot_id}`
+    * Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un _snapshot_ específico.
+* **DELETE** `/api/snapshots/{snapshot_id}`
+    * Borra un _snapshot_ con el id especificado.
+* **POST** `/api/snapshots/{snapshot_id}/force-train`
+    * Envía la tarea de entrenamiento a los workers que tienen el _snapshot_ `snapshot_id` cargado.
+* **POST** `/api/snapshots/{snapshot_id}/force-untrain`
+    * Envía la tarea de desentrenar a los _workers_ que tienen el _snapshot_. _snapshot_id_ cargado.
+* **GET** `/api/snapshots/current`
     * Retorna información sobre el _snapshot_ actual.
-* **PUT** _/api/snapshots/current_
-    * Crea un nuevo snapshot con la información provista
+* **PUT** `/api/snapshots/current`
+    * Crea un nuevo _snapshot_ con la información provista.
 
 ##### Reconocimiento de Entidades Nombradas
 
 Conjunto de operaciones relacionadas al _Reconocimiento de Entidades Nombradas_
 
-* **GET** _/api/ner/train_
-    * Retorna un texto para que un usuario del sistema revise si está correctamente inferido
+* **GET** `/api/ner/train`
+    * Retorna un texto para que un usuario del sistema revise si está correctamente inferido.
     * Únicamente retorna textos que el usuario logueado no haya corregido ya
-* **GET** _/api/ner/compare/\{first_snapshot\}/\{second_snapshot\}_
-    * Compara el _Reconocimiento de Entidades Nombradas_ entre dos snapshots distintos
-* **POST** _/api/ner/current/parse_
-    * Retorna un documento _spaCy_ para un texto dado utilizando el snapshot actual
-* **POST** _/api/ner/\{snapshot_id\}/parse_
-    * Retorna un documento _spaCy_ para un texto dado utilizando el snapshot especificado
+* **GET** `/api/ner/compare/{first_snapshot}/{second_snapshot}`
+    * Compara el _NER_ entre dos _snapshots_ distintos.
+* **POST** `/api/ner/current/parse`
+    * Retorna un documento _spaCy_ para un texto dado utilizando el _snapshot_ actual.
+* **POST** `/api/ner/{snapshot_id}/parse`
+    * Retorna un documento _spaCy_ para un texto dado utilizando el _snapshot_ especificado.
 * **POST** _/api/ner/current/entities_
     * Retorna la lista de _Entidades Nombradas_ para un texto dado utilizando el modelo actual
 * **POST** _/api/ner/\{snapshot_id\}/entities_
