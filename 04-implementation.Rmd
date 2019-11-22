@@ -652,29 +652,86 @@ make scale-down # Destruye un worker localmente
 <!-- TODO: explicar docker. docker-package. red. nginx. etc -->
 
 ## Escenarios
+
 > La descripción de una arquitectura se ilustra utilizando un pequeño conjunto de casos de uso, o escenarios, que se convierten en una quinta vista.
 > Los escenarios describen secuencias de interacciones entre objetos y entre procesos.
 > Se utilizan para identificar elementos arquitectónicos y para ilustrar y validar el diseño de la arquitectura.
 > También sirven como punto de partida para las pruebas de un prototipo de arquitectura.
 > Esta vista también se conoce como vista de caso de uso. 
 
-<!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
+### _Web_: _relogin_
 
-```{r results = 'asis', echo = FALSE}
+Debido a como está diseñado _JWT_, se espera que los tokens de acceso sean válidos por un tiempo acotado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el _token_ de acceso utilizando el _token_ de _refresh_.
+
+Si el cliente tiene un _token_ de _refresh_, en la figura \@ref(fig:scenarios-relogin) podemos ver el flujo que realiza la implementación _web_ del entrenador para realizar el refresco de la sesión.
+
+```{r scenarios-relogin, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Flujo de relogin'}
 DiagrammeR::DiagrammeR("
   sequenceDiagram;
-   customer->>ticket seller: ask for a ticket;
-   ticket seller->>database: seats;
-   alt tickets available
-     database->>ticket seller: ok;
-     ticket seller->>customer: confirm;
-     customer->>ticket seller: ok;
-     ticket seller->>database: book a seat;
-     ticket seller->>printer: print a ticket;
-   else sold out
-     database->>ticket seller: none left;
-     ticket seller->>customer: sorry;
+   participant cliente as Web
+   participant web as SDK
+   participant API
+   cliente->>web: Login;
+   web->>API: Login con credenciales;
+   API-->>web: Access/Refresh Tokens;
+   cliente->>web: Ver mis entrenamientos;
+   web->>API: Pedido;
+   alt Sesión válida
+     API-->>web: Respuesta (200);
+     web-->>cliente: Mostrar resultados;
+   else Sesión caducada
+     API-->>web: Respuesta (401);
+     web->>API: Session refresh;
+     API-->>web: Access Token;
+     web->>API: Pedido;
+     alt Refresh token válido
+      API-->>web: Respuesta (200);
+      web-->>cliente: Mostrar resultados;
+     else Refresh token caducado
+      API-->>web: Respuesta (401);
+      web-->>cliente: Mostrar mensaje de error;
+     end
    end
 ")
 ```
+
+### _NER_
+
+Para realizar el reconocimiento de entidades nombradas, deben intervenir 4 actores.
+
+```{r scenarios-ner2, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Flujo de relogin'}
+DiagrammeR::DiagrammeR("
+sequenceDiagram;
+activate b;
+  a->>b: Whatever;
+  b-->>a: Woo;
+deactivate b;
+")
+```
+
+```{r scenarios-ner, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Flujo de relogin'}
+DiagrammeR::DiagrammeR("
+  sequenceDiagram;
+   participant c as Cliente
+   participant a as API
+   participant r as RabbitMQ
+   participant w as Worker
+   c->>a: Login con credenciales;
+   a-->>c: Access/Refresh Tokens;
+   c->>a: Consulta NER;
+   a->>r: Crear tarea de NER;
+   w->>+r: Pedir tarea;
+   r-->>w: Tarea de NER;
+   w->>w: Inferir entidades;
+   w-->>-r: Entidades inferidas;
+")
+```
+
+### _Worker_: Entrenamiento del modelo
+
+### _Worker_: cambio de modelo
+
+### _Worker_: Semáforo
+
+<!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
 
