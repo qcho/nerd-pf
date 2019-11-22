@@ -7,8 +7,8 @@ library(tidyverse)
 library(knitr)
 
 data_frame(
-  Abreviación = c("JWT", "CNN", "NER", "NEL", "API", "REST", "NLP", "RNN", "POS", "CBU"),
-  Término =  c("JSON Web Token", "Convolutional Neural Network", "Named Entity Recognition", "Named Entity Linking", "Application Programming Interface", "Representational state transfer", "Natural Language Processing", "Recurrent Neural Network", "Part of speech", "Clave Bancaria Única")) %>%
+  Abreviación = c("JWT", "CNN", "NER", "NEL", "API", "REST", "NLP", "RNN", "POS", "CBU", "RB"),
+  Término =  c("JSON Web Token", "Convolutional Neural Network", "Named Entity Recognition", "Named Entity Linking", "Application Programming Interface", "Representational state transfer", "Natural Language Processing", "Recurrent Neural Network", "Part of speech", "Clave Bancaria Única", "Rule Based")) %>%
   arrange(Abreviación) %>% # i.e. alphabetical order by Term
   kable(booktab = T) # booktab = T gives us a pretty APA-ish table
 ```

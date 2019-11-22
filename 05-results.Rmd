@@ -4,13 +4,13 @@
 ## Métrica: Valor-F
 
 En análisis estadístico de clasificación binaria, el $\text{valor-F}$ es una medida de la **exactitud** de una prueba.
-Considera tanto la **precisión** (del inglés _precision_) como la **exhaustividad** (del ingles _recall_). Su formula es la siguiente:
+Considera tanto la **precisión** (del inglés _precision_) como la **exhaustividad** (del ingles _recall_). Su fórmula es la siguiente:
 
 $$
 F_\beta = (1 + \beta^2) \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{(\beta^2 \cdot \mathrm{precision}) + \mathrm{recall}}
 $$
 
-En particular cuando $F_1$ ($\beta = 1$) es la media armónica de la precisión y la exhaustividad, donde un puntaje F1 alcanza su mejor valor en 1 (precisión y _recall_ perfecta) y el peor en 0.
+En particular cuando $F_1$ ($\beta = 1$) es la media armónica de la precisión y la exhaustividad, donde un puntaje $F_1$ alcanza su mejor valor en 1 (precisión y _recall_ perfecta) y el peor en 0.
 
 $$
 F_1 = \left(\frac{2}{\mathrm{recall}^{-1} + \mathrm{precision}^{-1}}\right) = 2 \cdot \frac{\mathrm{precision} \cdot \mathrm{recall}}{\mathrm{precision} + \mathrm{recall}}
@@ -39,13 +39,13 @@ Por esa razón hemos decidido utilizar la métrica $F_1$ para poder comparar nue
 
 ## Resultados obtenidos {#result-data}
 
-La recomendación de _spaCy_ para entrenamientos de _NER_ es de al menos etiquetar 2000 textos. En este trabajo hemos etiquetado, de manera manual utilizando nuestra plataforma, muchos más y para los resultados obtuvimos una **muestra aleatoria de 4000 textos**.
+La recomendación de _spaCy_ para entrenamientos de _NER_ es de al menos etiquetar 2000 textos, por lo que en este trabajo hemos etiquetado utilizando nuestra plataforma un número suficiente como para poder utilizar en el cálculo de resultados una **muestra aleatoria** de 4000 valores.
 
-En cualquier entrenamiento por refuerzo es necesario tomar la decisión de cuantos textos etiquetados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.
+En los entrenamientos por refuerzo es necesario tomar la decisión de cuantos textos etiquetados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.
 
-Decidimos realizar diferentes pruebas y combinaciones de cantidad de coumentos de entrenamiento vs evaluación para analizar el $\text{valor-F}$ del modelo resultante:
+Decidimos realizar diferentes pruebas y combinaciones de cantidad de documentos de entrenamiento y evaluación para analizar el $\text{valor-F}$ del modelo resultante:
 
-* Entrenamiento:  0% (0 documentos) y evaluación: 0% (4000). Correspondiente a la exactitud de _spaCy_ sin entrenar.
+* Entrenamiento:  0% (0 documentos) y evaluación: 0% (4000). Este escenario equivale a utilizar el modelo base de spaCy.
 * Entrenamiento: 50% (2000 documentos) y evaluación: 50% (2000).
 * Entrenamiento: 75% (3000 documentos) y evaluación: 25% (1000).
 * Entrenamiento: 80% (3200 documentos) y evaluación: 20% (800).

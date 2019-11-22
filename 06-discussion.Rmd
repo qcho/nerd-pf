@@ -16,13 +16,13 @@ En este trabajo entrenando sobre el modelo de _spaCy_ con 3600 documentos hemos 
 
 ## Tipos de entidades
 
-La detección de entidades por defecto en español de _spaCy_, incluye las entidades `Persona`, `Organización`, `Locación` y `Miscelaneo`. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de `Fecha`.
+La detección de entidades por defecto en español de _spaCy_, incluye las entidades `Persona`, `Organización`, `Locación` y `Misceláneo`. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de `Fecha`.
 
-El hecho de que exista una clasificación de entidad como `Miscelaneo` indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección \@ref(ner-formal) se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.
+El hecho de que exista una clasificación de entidad como `Misceláneo` indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección \@ref(ner-formal) se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.
 
 Existe literatura acerca de la posible taxonomía de las entidades. En [@brunstein2002] se proponen 29 tipos y 64 subtipos.
 
-Esta discusión es producto de la necesidad de agregar nuevos tipos que experimentamos al finalizar el entrenamiento de las 4000 noticias. Sin embargo lo propuesto en [@brunstein2002] no cubrió nuestras expectativas. Finalmente encontramos una taxonomía lo suficientemente completa para cubrir nuestras necesidades[@Sekine-NER] que puede ser resumida en la figura \@ref(fig:fig-sekine)
+Esta discusión es producto de la necesidad de agregar nuevos tipos que experimentamos al finalizar el entrenamiento de las 4000 noticias. Sin embargo lo propuesto en [@brunstein2002] no cubrió nuestras expectativas. Finalmente encontramos una taxonomía lo suficientemente completa para cubrir nuestras necesidades [@Sekine-NER] que puede ser resumida en la figura \@ref(fig:fig-sekine).
 
 ```{r fig-sekine, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Taxonomía extendida de Sekine.'}
 knitr::include_graphics('assets/sekine.png')
@@ -71,17 +71,17 @@ Un corolario de la definición de **designador rígido** en la sección \@ref(ne
 
 Ya existen _knowledge bases_ universales en internet. Una de las más importante y completas es **_wikidata_**. El identificador de Messi es el `Q615` [@wikidata_messi].
 
-Si al etiquetar una entidad además de decirle a nuestro sistema de qué tipo es sumamos la funcionalidad de decirle a que identificador de entidad corresponde. Se podría luego entrenar un nuevo modelo de _NEL_, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.
+Si al etiquetar una entidad, además de decirle a nuestro sistema de qué tipo es, sumamos la funcionalidad de indicar a que identificador de entidad corresponde, se podría luego entrenar un nuevo modelo de _NEL_, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.
 
-El sistema puede beneficiarse porque tiene disponible ahora de _Wikidata_ mucha información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura \@ref(fig:fig-messi)
+El sistema puede beneficiarse ya que tendría disponible, mediante _Wikidata_, de una gran cantidad información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura \@ref(fig:fig-messi).
 
 ```{r fig-messi, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Wikidata - Lionel Messi.'}
 knitr::include_graphics('assets/wikidata_messi.png')
 ```
 
-Desde el punto de vista del usuario; puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de "nubes de palabras" a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de "Mauricio" y en otros se hable de "Macri"; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada por nuestro sistema en la figura \@ref(fig:fig-cloud).
+Desde el punto de vista del usuario, puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de "nubes de palabras" a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de "Mauricio" y en otros se hable de "Macri"; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada utilizando entidades encontradas por nuestro sistema en la figura \@ref(fig:fig-cloud).
 
-```{r fig-cloud, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Con NEL se sumarían "Messi" con "Lionel" y "Mauricio" con "Macri".'}
+```{r fig-cloud, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Con NEL se sumarían Messi con Lionel y Mauricio con Macri.'}
 knitr::include_graphics('assets/LosPersonajesDelDia.png')
 ```
 
@@ -95,7 +95,7 @@ Para poner a prueba nuestra herramienta **NERd** en un entorno real participamos
 
 Participamos en conjunto con otro proyecto final en el que van a utilizar nuestra API para hacer detección de entidades en documentos PDF.
 
-La experiencia fue muy satisfactoria, recibimos buenas críticas sobre la Usabilidad de nuestra aplicación y la gran utilidad que presta a la comunidad.
+La experiencia fue muy satisfactoria, recibimos buenas críticas sobre la usabilidad de nuestra aplicación y la gran utilidad que presta a la comunidad.
 
 
 Por tal motivo recibimos el primer premio de dicha hackaton [@mediaparty2019_win]

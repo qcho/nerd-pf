@@ -611,7 +611,7 @@ Para realizar un _deployment_ de nuevas versiones de cada contenedor de docker, 
 
 ```bash
 make build # Construye nuevas imágenes para cada uno de los servicios
-make prod-publish-new-version # Publica las nuevas imágenes a github
+make release-push # Publica las nuevas imágenes a github
 ```
 
 ### Deployment: Service
