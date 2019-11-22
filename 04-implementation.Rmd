@@ -738,7 +738,7 @@ DiagrammeR::DiagrammeR("
 ")
 ```
 
-### _NER_
+### Inferencia de entidades utilizando el API
 
 Como podemos ver en la figura \@ref(fig:scenarios-ner), para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.
 
@@ -763,7 +763,7 @@ DiagrammeR::DiagrammeR("
 ")
 ```
 
-### _Web_: Entrenador web
+### Corrección de entidades utilizando el entrenador
 
 Como podemos ver en la figura \@ref(fig:scenarios-web-train), para poder mostrar un texto a entrenar son necesarios cinco servicios.
 
