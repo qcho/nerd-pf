@@ -1609,7 +1609,7 @@ La colección \emph{user} contiene la información de todos los usuarios del sis
 \hypertarget{text}{%
 \subparagraph{\texorpdfstring{\emph{Text}}{Text}}\label{text}}
 
-La colección \emph{text} contiene todos los textos que forman parte del corpus que son cargados para ser mostrados en la interfaz de entrenamiento (Figura \ref{fig:developer-db-text}).
+La colección \emph{text} contiene todos los textos que forman parte del corpus que son cargados para ser mostrados en la interfaz de entrenamiento (Figura \ref{fig:developer-db-text}). Así como \emph{user}, cada documento de \emph{text} contiene una lista de referencias a los entrenamientos para ese texto.
 
 \begin{figure}[H]
 
@@ -1618,6 +1618,20 @@ La colección \emph{text} contiene todos los textos que forman parte del corpus 
 }
 
 \caption{Colección de textos.}\label{fig:developer-db-text}
+\end{figure}
+
+\hypertarget{snapshot}{%
+\subparagraph{\texorpdfstring{\emph{Snapshot}}{Snapshot}}\label{snapshot}}
+
+La coleción \emph{snapshot} contiene información sobre los distintos \emph{snapshots} creados en el sistema (Figura \ref{fig:developer-db-snapshot}). De particular interés es el atributo \emph{types}, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo \emph{semaphore}, que sirve como un campo de control para poder organizar a los \emph{workers} que están utilizando ese \emph{snapshot} en particular.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/db-snapshot.pdf} 
+
+}
+
+\caption{Colección de snapshots.}\label{fig:developer-db-snapshot}
 \end{figure}
 
 \hypertarget{vista-fuxedsica}{%

@@ -798,11 +798,21 @@ Figura 4.26: Colección de usuarios.
 </div>
 <div id="text" class="section level5">
 <h5><span class="header-section-number">4.3.3.1.2</span> <em>Text</em></h5>
-<p>La colección <em>text</em> contiene todos los textos que forman parte del corpus que son cargados para ser mostrados en la interfaz de entrenamiento (Figura <a href="implementation.html#fig:developer-db-text">4.27</a>).</p>
+<p>La colección <em>text</em> contiene todos los textos que forman parte del corpus que son cargados para ser mostrados en la interfaz de entrenamiento (Figura <a href="implementation.html#fig:developer-db-text">4.27</a>). Así como <em>user</em>, cada documento de <em>text</em> contiene una lista de referencias a los entrenamientos para ese texto.</p>
 <div class="figure" style="text-align: center"><span id="fig:developer-db-text"></span>
 <img src="assets/developer/db-text.png" alt="Colección de textos."  />
 <p class="caption">
 Figura 4.27: Colección de textos.
+</p>
+</div>
+</div>
+<div id="snapshot" class="section level5">
+<h5><span class="header-section-number">4.3.3.1.3</span> <em>Snapshot</em></h5>
+<p>La coleción <em>snapshot</em> contiene información sobre los distintos <em>snapshots</em> creados en el sistema (Figura <a href="implementation.html#fig:developer-db-snapshot">4.28</a>). De particular interés es el atributo <em>types</em>, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo <em>semaphore</em>, que sirve como un campo de control para poder organizar a los <em>workers</em> que están utilizando ese <em>snapshot</em> en particular.</p>
+<div class="figure" style="text-align: center"><span id="fig:developer-db-snapshot"></span>
+<img src="assets/developer/db-snapshot.png" alt="Colección de snapshots."  />
+<p class="caption">
+Figura 4.28: Colección de snapshots.
 </p>
 </div>
 <!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
@@ -833,8 +843,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-5e396b32189a5b57d0a9" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5e396b32189a5b57d0a9">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-cc3192f3c2da4f754a7e" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cc3192f3c2da4f754a7e">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
