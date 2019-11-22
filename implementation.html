@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Capítulo 4 NERd (Implementación) | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.15.2 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15.4 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Capítulo 4 NERd (Implementación) | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@
 <meta name="author" content="Proyecto final de carrera" />
 
 
-<meta name="date" content="2019-11-21" />
+<meta name="date" content="2019-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -458,9 +458,49 @@ Figura 4.18: Usuario administrador.
 </div>
 <div id="servicio" class="section level3">
 <h3><span class="header-section-number">4.1.2</span> Servicio</h3>
-<p>El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI. A continuación detallamos los endpoints.</p>
-<div id="autenticación" class="section level4">
-<h4><span class="header-section-number">4.1.2.1</span> Autenticación</h4>
+<p>El acceso al servicio se realiza mediante un API REST que se auto-documenta utilizando la especificación de OpenAPI.</p>
+<div id="documentación" class="section level4">
+<h4><span class="header-section-number">4.1.2.1</span> Documentación</h4>
+<p>Para visualizar la documentación de todos los <em>endpoints</em> del <em>API</em>, es posible utilizar dos medios: <em>Swagger UI</em> y <em>ReDoc</em>.</p>
+<div id="swagger-ui" class="section level5">
+<h5><span class="header-section-number">4.1.2.1.1</span> <em>Swagger UI</em></h5>
+<p>La documentación provista por <em>Swagger UI</em> permite ver el detalle de cada uno de los <em>endpoints</em> del servicio así como también permite realizar consultas de prueba contra el servidor real, prestándose así como una especie de <em>sandbox</em> (Figura <a href="implementation.html#fig:logic-swagger-main">4.19</a>).</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-swagger-main"></span>
+<img src="assets/logic/swagger-main.png" alt="_Swagger UI_."  />
+<p class="caption">
+Figura 4.19: <em>Swagger UI</em>.
+</p>
+</div>
+<p>Para cada <em>endpoint</em>, la interfaz muestra que parámetros son requeridos (Figura <a href="implementation.html#fig:logic-swagger-request">4.20</a>). Así como también permite, mediante el uso del botón <em>Try it out</em>, completar esos parámetros y ejecutar el pedido al servidor, mostrando los resultados dentro de la interfaz.</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-swagger-request"></span>
+<img src="assets/logic/swagger-request.png" alt="Ejemplo de documentación con _Swagger_ para _request_."  />
+<p class="caption">
+Figura 4.20: Ejemplo de documentación con <em>Swagger</em> para <em>request</em>.
+</p>
+</div>
+<p>Para las respuesta, <em>Swagger</em> muestra la forma del <em>JSON</em> de respuesta para cada <em>HTTP code</em> distinto (Figura <a href="implementation.html#fig:logic-swagger-request">4.20</a>)</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-swagger-responses"></span>
+<img src="assets/logic/swagger-responses.png" alt="Ejemplo de documentación con _Swagger_ para respuestas."  />
+<p class="caption">
+Figura 4.21: Ejemplo de documentación con <em>Swagger</em> para respuestas.
+</p>
+</div>
+</div>
+<div id="redoc" class="section level5">
+<h5><span class="header-section-number">4.1.2.1.2</span> <em>ReDoc</em></h5>
+<p><em>ReDoc</em> es una alternativa a <em>Swagger</em> para visualizar la documentación de una especificación de <em>OpenAPI</em> que presenta un diseño más moderno así como también se enfoca más en mostrar la información de manera más clara. A diferencia de <em>Swagger UI</em>, <em>ReDoc</em> no permite realizar pruebas contra el servidor para el cual se está mostrando la documentación (Figura .</p>
+<div class="figure" style="text-align: center"><span id="fig:logic-redoc-main"></span>
+<img src="assets/logic/redoc-main.png" alt="Ejemplo de documentación con _ReDoc_."  />
+<p class="caption">
+Figura 4.22: Ejemplo de documentación con <em>ReDoc</em>.
+</p>
+</div>
+</div>
+</div>
+<div id="endpoints" class="section level4">
+<h4><span class="header-section-number">4.1.2.2</span> <em>Endpoints</em></h4>
+<div id="autenticación" class="section level5">
+<h5><span class="header-section-number">4.1.2.2.1</span> Autenticación</h5>
 <p>Rutas del API dedicadas a la autenticación de usuarios.</p>
 <ul>
 <li><strong>POST</strong> <em>/api/auth/register</em>
@@ -479,8 +519,8 @@ Figura 4.18: Usuario administrador.
 </ul></li>
 </ul>
 </div>
-<div id="usuarios" class="section level4">
-<h4><span class="header-section-number">4.1.2.2</span> Usuarios</h4>
+<div id="usuarios" class="section level5">
+<h5><span class="header-section-number">4.1.2.2.2</span> Usuarios</h5>
 <p>Conjunto de operaciones relacionadas con los usuarios del sistema.</p>
 <ul>
 <li><strong>GET</strong> <em>/api/users</em>
@@ -523,8 +563,8 @@ Figura 4.18: Usuario administrador.
 </ul></li>
 </ul>
 </div>
-<div id="roles" class="section level4">
-<h4><span class="header-section-number">4.1.2.3</span> Roles</h4>
+<div id="roles" class="section level5">
+<h5><span class="header-section-number">4.1.2.2.3</span> Roles</h5>
 <ul>
 <li><strong>GET</strong> <em>/api/roles</em>
 <ul>
@@ -532,8 +572,8 @@ Figura 4.18: Usuario administrador.
 </ul></li>
 </ul>
 </div>
-<div id="corpus-2" class="section level4">
-<h4><span class="header-section-number">4.1.2.4</span> Corpus</h4>
+<div id="corpus-2" class="section level5">
+<h5><span class="header-section-number">4.1.2.2.4</span> Corpus</h5>
 <p>Rutas dedicadas a operaciones con el corpus del sistema.</p>
 <ul>
 <li><strong>GET</strong> <em>/api/corpus/{text_id}</em>
@@ -569,8 +609,8 @@ Figura 4.18: Usuario administrador.
 </ul></li>
 </ul>
 </div>
-<div id="snapshots-1" class="section level4">
-<h4><span class="header-section-number">4.1.2.5</span> Snapshots</h4>
+<div id="snapshots-1" class="section level5">
+<h5><span class="header-section-number">4.1.2.2.5</span> Snapshots</h5>
 <p>Conjunto de operaciones relacionadas con los snapshots y workers.</p>
 <ul>
 <li><strong>GET</strong> <em>/api/snapshots</em>
@@ -604,8 +644,8 @@ Figura 4.18: Usuario administrador.
 </ul></li>
 </ul>
 </div>
-<div id="reconocimiento-de-entidades-nombradas" class="section level4">
-<h4><span class="header-section-number">4.1.2.6</span> Reconocimiento de Entidades Nombradas</h4>
+<div id="reconocimiento-de-entidades-nombradas" class="section level5">
+<h5><span class="header-section-number">4.1.2.2.6</span> Reconocimiento de Entidades Nombradas</h5>
 <p>Conjunto de operaciones relacionadas al <em>Reconocimiento de Entidades Nombradas</em></p>
 <ul>
 <li><strong>GET</strong> <em>/api/ner/train</em>
@@ -635,8 +675,8 @@ Figura 4.18: Usuario administrador.
 </ul></li>
 </ul>
 </div>
-<div id="entrenamientos" class="section level4">
-<h4><span class="header-section-number">4.1.2.7</span> Entrenamientos</h4>
+<div id="entrenamientos" class="section level5">
+<h5><span class="header-section-number">4.1.2.2.7</span> Entrenamientos</h5>
 <ul>
 <li><strong>DELETE</strong> <em>/api/trainings/{training_id}</em>
 <ul>
@@ -644,8 +684,8 @@ Figura 4.18: Usuario administrador.
 </ul></li>
 </ul>
 </div>
-<div id="workers" class="section level4">
-<h4><span class="header-section-number">4.1.2.8</span> Workers</h4>
+<div id="workers" class="section level5">
+<h5><span class="header-section-number">4.1.2.2.8</span> Workers</h5>
 <ul>
 <li><strong>GET</strong> <em>/api/workers/</em>
 <ul>
@@ -659,17 +699,18 @@ Figura 4.18: Usuario administrador.
 </div>
 </div>
 </div>
+</div>
 <div id="vista-de-proceso" class="section level2">
 <h2><span class="header-section-number">4.2</span> Vista de proceso</h2>
 <blockquote>
 <p>La vista de proceso trata los aspectos dinámicos del sistema, explica los procesos del sistema y cómo se comunican, y se centra en el comportamiento del sistema en tiempo de ejecución.
 La vista de proceso aborda concurrencia, distribución, integradores, rendimiento y escalabilidad, etc.</p>
 </blockquote>
-<p>Como podemos ver en la figura <a href="implementation.html#fig:process-overview-client">4.19</a>, existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.</p>
+<p>Como podemos ver en la figura <a href="implementation.html#fig:process-overview-client">4.23</a>, existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.</p>
 <div class="figure" style="text-align: center"><span id="fig:process-overview-client"></span>
 <img src="assets/process/process-overview-client.png" alt="Componentes del sistema."  />
 <p class="caption">
-Figura 4.19: Componentes del sistema.
+Figura 4.23: Componentes del sistema.
 </p>
 </div>
 <div id="api" class="section level3">
@@ -737,11 +778,11 @@ Debido a que el servicio implementado expone una definiciión de <em>OpenAPI</em
 </div>
 <div id="arquitectura" class="section level4">
 <h4><span class="header-section-number">4.3.1.2</span> Arquitectura</h4>
-<p>El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura <a href="implementation.html#fig:developer-web-modules">4.20</a>).</p>
+<p>El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura <a href="implementation.html#fig:developer-web-modules">4.24</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:developer-web-modules"></span>
 <img src="assets/developer/web-modules.png" alt="Módulos de la página web."  />
 <p class="caption">
-Figura 4.20: Módulos de la página web.
+Figura 4.24: Módulos de la página web.
 </p>
 </div>
 <p>Los módulos marcados en azul son relacionados al contenido que se muestra cada ruta del sistema.</p>
@@ -765,7 +806,24 @@ Figura 4.20: Módulos de la página web.
 <h4><span class="header-section-number">4.3.2.1</span> Tecnologías</h4>
 <div id="flask" class="section level5">
 <h5><span class="header-section-number">4.3.2.1.1</span> <em>Flask</em></h5>
-<p>Como base del proyecto utilizamos un <em>microframework</em> de aplicaciones web llamado <em>Flask</em> <span class="citation">(Pallets, <a href="#ref-flask">2019</a>)</span> ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios ni una librería para poder tener vistas que utilicen <em>templates</em>.</p>
+<p>Como base del proyecto utilizamos un <em>microframework</em> de aplicaciones web llamado <em>Flask</em> <span class="citation">(Pallets, <a href="#ref-flask">2019</a>)</span> ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.</p>
+</div>
+<div id="flask-smorest" class="section level5">
+<h5><span class="header-section-number">4.3.2.1.2</span> <em>flask-smorest</em></h5>
+<p><em>Framework</em> que enriquece a <em>Flask</em> agregando la posibilidad de poder crear <em>APIs REST</em> que se auto-documentan generando una especificación de <em>OpenAPI</em> que es expuesta a los usuarios del servicio en dos variantes: <em>ReDoc</em> y <em>Swagger UI</em>. Tener un <em>API</em> que se auto-documenta nos permite ofrecerle a los clientes un lugar en el cual puedan consultar el funcionamiento completo de el servicio requiriendo poco trabajo extra a la hora de desarrollar el servicio.</p>
+<p>A su vez, provee facilidades de serialización y de-serialización de objetos en respuestas <em>JSON</em> utilizando la librería de <em>marshmallow</em> así como también utilizades para simplificar la creación de <em>endpoints</em> que permitan paginar sus resultados (particularmente útil para listar entidades como entrenamientos, usuarios o textos).</p>
+</div>
+<div id="flask-jwt-extended" class="section level5">
+<h5><span class="header-section-number">4.3.2.1.3</span> <em>flask-jwt-extended</em></h5>
+<p><em>Flask JWT extended</em> es una librería que agrega a <em>Flask</em> la funcionalidad de poder restringir el acceso a ciertos <em>endpoints</em> requiriendo que el usuario tenga un <em>JSON Web Token</em> <span class="citation">(Jones, Bradley, Sakimura, NRI, &amp; Microsoft, <a href="#ref-JWT">2015</a>)</span> que acredite su identidad. A su vez, dado que cada <em>token</em> se asocia a una identidad (usuario) y es capaz de contener información, podemos utilizar el mismo sistema para guardar los roles del usuario y requerir que cuente con los permisos necesarios.</p>
+</div>
+<div id="mongoengine" class="section level5">
+<h5><span class="header-section-number">4.3.2.1.4</span> <em>Mongoengine</em></h5>
+<p><em>Mongoengine</em> es una librería pensada para trabajar con <em>MongoDB</em> en <em>Python</em>. En su esencia es un <em>Document-Object Mapper</em> que permite convertir resultados de consultas de la base de datos en objetos de <em>Python</em> así como también permite guardar esos objetos en la base de datos.</p>
+</div>
+<div id="marshmallow-mongoengine" class="section level5">
+<h5><span class="header-section-number">4.3.2.1.5</span> <em>marshmallow-mongoengine</em></h5>
+<p>Librería que nos permite integrar la librería de serialización <em>Marshmallow</em> con <em>Mongoengine</em> simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del <em>API</em>. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto <em>User</em> ya nunca deberíamos devolver en una respuesta el campo <em>password</em> de la base de datos.</p>
 <!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
 <!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
@@ -794,8 +852,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-9c359b76312dadd59294" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9c359b76312dadd59294">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-0e26db1df9d96aab5a88" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0e26db1df9d96aab5a88">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -804,6 +862,9 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <div id="refs" class="references">
 <div id="ref-react">
 <p>Facebook. (2019). React: A javascript library for building user interfaces. Retrieved November 20, 2019, from <a href="https://reactjs.org/">https://reactjs.org/</a></p>
+</div>
+<div id="ref-JWT">
+<p>Jones, M., Bradley, J., Sakimura, N, NRI, &amp; Microsoft. (2015). JSON web token. Retrieved November 20, 2019, from <a href="https://tools.ietf.org/html/rfc7519">https://tools.ietf.org/html/rfc7519</a></p>
 </div>
 <div id="ref-Kruchten:1995:VMA:624610.625529">
 <p>Kruchten, P. (1995). The 4+1 view model of architecture. <em>IEEE Softw.</em>, <em>12</em>(6), 42–50. <a href="https://doi.org/10.1109/52.469759">https://doi.org/10.1109/52.469759</a></p>

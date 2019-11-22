@@ -128,7 +128,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-11-21}
+    \date{2019-11-22}
 
 % Usefull information about documentclass
 % http://ctan.dcc.uchile.cl/macros/latex/contrib/koma-script/doc/scrguien.pdf
@@ -998,10 +998,68 @@ Finalmente, cuando el usuario logueado tiene el rol de \emph{ADMIN}, tiene acces
 \hypertarget{servicio}{%
 \subsubsection{Servicio}\label{servicio}}
 
-El acceso al servicio se realiza mediante un API REST que se auto-documenta debido a implementar la especificación de OpenAPI. A continuación detallamos los endpoints.
+El acceso al servicio se realiza mediante un API REST que se auto-documenta utilizando la especificación de OpenAPI.
+
+\hypertarget{documentaciuxf3n}{%
+\paragraph{Documentación}\label{documentaciuxf3n}}
+
+Para visualizar la documentación de todos los \emph{endpoints} del \emph{API}, es posible utilizar dos medios: \emph{Swagger UI} y \emph{ReDoc}.
+
+\hypertarget{swagger-ui}{%
+\subparagraph{\texorpdfstring{\emph{Swagger UI}}{Swagger UI}}\label{swagger-ui}}
+
+La documentación provista por \emph{Swagger UI} permite ver el detalle de cada uno de los \emph{endpoints} del servicio así como también permite realizar consultas de prueba contra el servidor real, prestándose así como una especie de \emph{sandbox} (Figura \ref{fig:logic-swagger-main}).
+
+\textbackslash{}begin\{figure\}{[}H{]}
+
+\{\centering \includegraphics{assets/logic/swagger-main.pdf}
+
+\}
+
+\textbackslash{}caption\{\emph{Swagger UI}.\}\label{fig:logic-swagger-main}
+\textbackslash{}end\{figure\}
+
+Para cada \emph{endpoint}, la interfaz muestra que parámetros son requeridos (Figura \ref{fig:logic-swagger-request}). Así como también permite, mediante el uso del botón \emph{Try it out}, completar esos parámetros y ejecutar el pedido al servidor, mostrando los resultados dentro de la interfaz.
+
+\textbackslash{}begin\{figure\}{[}H{]}
+
+\{\centering \includegraphics{assets/logic/swagger-request.pdf}
+
+\}
+
+\textbackslash{}caption\{Ejemplo de documentación con \emph{Swagger} para \emph{request}.\}\label{fig:logic-swagger-request}
+\textbackslash{}end\{figure\}
+
+Para las respuesta, \emph{Swagger} muestra la forma del \emph{JSON} de respuesta para cada \emph{HTTP code} distinto (Figura \ref{fig:logic-swagger-request})
+
+\textbackslash{}begin\{figure\}{[}H{]}
+
+\{\centering \includegraphics{assets/logic/swagger-responses.pdf}
+
+\}
+
+\textbackslash{}caption\{Ejemplo de documentación con \emph{Swagger} para respuestas.\}\label{fig:logic-swagger-responses}
+\textbackslash{}end\{figure\}
+
+\hypertarget{redoc}{%
+\subparagraph{\texorpdfstring{\emph{ReDoc}}{ReDoc}}\label{redoc}}
+
+\emph{ReDoc} es una alternativa a \emph{Swagger} para visualizar la documentación de una especificación de \emph{OpenAPI} que presenta un diseño más moderno así como también se enfoca más en mostrar la información de manera más clara. A diferencia de \emph{Swagger UI}, \emph{ReDoc} no permite realizar pruebas contra el servidor para el cual se está mostrando la documentación (Figura .
+
+\textbackslash{}begin\{figure\}{[}H{]}
+
+\{\centering \includegraphics{assets/logic/redoc-main.pdf}
+
+\}
+
+\textbackslash{}caption\{Ejemplo de documentación con \emph{ReDoc}.\}\label{fig:logic-redoc-main}
+\textbackslash{}end\{figure\}
+
+\hypertarget{endpoints}{%
+\paragraph{\texorpdfstring{\emph{Endpoints}}{Endpoints}}\label{endpoints}}
 
 \hypertarget{autenticaciuxf3n}{%
-\paragraph{Autenticación}\label{autenticaciuxf3n}}
+\subparagraph{Autenticación}\label{autenticaciuxf3n}}
 
 Rutas del API dedicadas a la autenticación de usuarios.
 
@@ -1038,7 +1096,7 @@ Rutas del API dedicadas a la autenticación de usuarios.
 \end{itemize}
 
 \hypertarget{usuarios}{%
-\paragraph{Usuarios}\label{usuarios}}
+\subparagraph{Usuarios}\label{usuarios}}
 
 Conjunto de operaciones relacionadas con los usuarios del sistema.
 
@@ -1123,7 +1181,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
 \end{itemize}
 
 \hypertarget{roles}{%
-\paragraph{Roles}\label{roles}}
+\subparagraph{Roles}\label{roles}}
 
 \begin{itemize}
 \tightlist
@@ -1138,7 +1196,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
 \end{itemize}
 
 \hypertarget{corpus-2}{%
-\paragraph{Corpus}\label{corpus-2}}
+\subparagraph{Corpus}\label{corpus-2}}
 
 Rutas dedicadas a operaciones con el corpus del sistema.
 
@@ -1209,7 +1267,7 @@ Rutas dedicadas a operaciones con el corpus del sistema.
 \end{itemize}
 
 \hypertarget{snapshots-1}{%
-\paragraph{Snapshots}\label{snapshots-1}}
+\subparagraph{Snapshots}\label{snapshots-1}}
 
 Conjunto de operaciones relacionadas con los snapshots y workers.
 
@@ -1276,7 +1334,7 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
 \end{itemize}
 
 \hypertarget{reconocimiento-de-entidades-nombradas}{%
-\paragraph{Reconocimiento de Entidades Nombradas}\label{reconocimiento-de-entidades-nombradas}}
+\subparagraph{Reconocimiento de Entidades Nombradas}\label{reconocimiento-de-entidades-nombradas}}
 
 Conjunto de operaciones relacionadas al \emph{Reconocimiento de Entidades Nombradas}
 
@@ -1335,7 +1393,7 @@ Conjunto de operaciones relacionadas al \emph{Reconocimiento de Entidades Nombra
 \end{itemize}
 
 \hypertarget{entrenamientos}{%
-\paragraph{Entrenamientos}\label{entrenamientos}}
+\subparagraph{Entrenamientos}\label{entrenamientos}}
 
 \begin{itemize}
 \tightlist
@@ -1350,7 +1408,7 @@ Conjunto de operaciones relacionadas al \emph{Reconocimiento de Entidades Nombra
 \end{itemize}
 
 \hypertarget{workers}{%
-\paragraph{Workers}\label{workers}}
+\subparagraph{Workers}\label{workers}}
 
 \begin{itemize}
 \tightlist
@@ -1516,7 +1574,29 @@ El servicio que provee el \emph{API REST} fue implementado utilizando el lenguaj
 \hypertarget{flask}{%
 \subparagraph{\texorpdfstring{\emph{Flask}}{Flask}}\label{flask}}
 
-Como base del proyecto utilizamos un \emph{microframework} de aplicaciones web llamado \emph{Flask} (Pallets, \protect\hyperlink{ref-flask}{2019}) ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios ni una librería para poder tener vistas que utilicen \emph{templates}.
+Como base del proyecto utilizamos un \emph{microframework} de aplicaciones web llamado \emph{Flask} (Pallets, \protect\hyperlink{ref-flask}{2019}) ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.
+
+\hypertarget{flask-smorest}{%
+\subparagraph{\texorpdfstring{\emph{flask-smorest}}{flask-smorest}}\label{flask-smorest}}
+
+\emph{Framework} que enriquece a \emph{Flask} agregando la posibilidad de poder crear \emph{APIs REST} que se auto-documentan generando una especificación de \emph{OpenAPI} que es expuesta a los usuarios del servicio en dos variantes: \emph{ReDoc} y \emph{Swagger UI}. Tener un \emph{API} que se auto-documenta nos permite ofrecerle a los clientes un lugar en el cual puedan consultar el funcionamiento completo de el servicio requiriendo poco trabajo extra a la hora de desarrollar el servicio.
+
+A su vez, provee facilidades de serialización y de-serialización de objetos en respuestas \emph{JSON} utilizando la librería de \emph{marshmallow} así como también utilizades para simplificar la creación de \emph{endpoints} que permitan paginar sus resultados (particularmente útil para listar entidades como entrenamientos, usuarios o textos).
+
+\hypertarget{flask-jwt-extended}{%
+\subparagraph{\texorpdfstring{\emph{flask-jwt-extended}}{flask-jwt-extended}}\label{flask-jwt-extended}}
+
+\emph{Flask JWT extended} es una librería que agrega a \emph{Flask} la funcionalidad de poder restringir el acceso a ciertos \emph{endpoints} requiriendo que el usuario tenga un \emph{JSON Web Token} (Jones, Bradley, Sakimura, NRI, \& Microsoft, \protect\hyperlink{ref-JWT}{2015}) que acredite su identidad. A su vez, dado que cada \emph{token} se asocia a una identidad (usuario) y es capaz de contener información, podemos utilizar el mismo sistema para guardar los roles del usuario y requerir que cuente con los permisos necesarios.
+
+\hypertarget{mongoengine}{%
+\subparagraph{\texorpdfstring{\emph{Mongoengine}}{Mongoengine}}\label{mongoengine}}
+
+\emph{Mongoengine} es una librería pensada para trabajar con \emph{MongoDB} en \emph{Python}. En su esencia es un \emph{Document-Object Mapper} que permite convertir resultados de consultas de la base de datos en objetos de \emph{Python} así como también permite guardar esos objetos en la base de datos.
+
+\hypertarget{marshmallow-mongoengine}{%
+\subparagraph{\texorpdfstring{\emph{marshmallow-mongoengine}}{marshmallow-mongoengine}}\label{marshmallow-mongoengine}}
+
+Librería que nos permite integrar la librería de serialización \emph{Marshmallow} con \emph{Mongoengine} simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del \emph{API}. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto \emph{User} ya nunca deberíamos devolver en una respuesta el campo \emph{password} de la base de datos.
 
 \hypertarget{vista-fuxedsica}{%
 \subsection{Vista física}\label{vista-fuxedsica}}
@@ -2213,6 +2293,9 @@ Hand, D., \& Christen, P. (2018). A note on using the f-measure for evaluating r
 
 \leavevmode\hypertarget{ref-honnibal_NER}{}%
 Honnibal, M. (2017). Practical and effective neural ner. Retrieved November 2, 2017, from \url{https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf}
+
+\leavevmode\hypertarget{ref-JWT}{}%
+Jones, M., Bradley, J., Sakimura, N, NRI, \& Microsoft. (2015). JSON web token. Retrieved November 20, 2019, from \url{https://tools.ietf.org/html/rfc7519}
 
 \leavevmode\hypertarget{ref-kripke1980naming}{}%
 Kripke, S. (1980). \emph{Naming and necessity}. Retrieved from \url{https://books.google.com.ar/books?id=9vvAlOBfq0kC}
