@@ -1,5 +1,7 @@
 \documentclass[12pt,a4paper,]{scrartcl}
 \usepackage{lmodern}
+\usepackage{setspace}
+\setstretch{1.25}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \usepackage{fixltx2e} % provides \textsubscript
@@ -183,10 +185,48 @@
 }
 \makeatother
 
+\let\oldmaketitle\maketitle
+\AtBeginDocument{\let\maketitle\relax}
+
 % \setlength{\parindent}{48pt} % Left margin on paragraphs
 
 \begin{document}
 \maketitle
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+
+        \Huge
+        \textbf{Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas}
+
+        \vspace{0.5cm}
+        \LARGE
+        Instituto Tecnológico de Buenos Aires
+
+        \vspace{1.5cm}
+
+        \textbf{Juan Pablo Orsay} $L : 49373$\\
+        \textbf{Horacio Miguel Gómez} $L : 50825$
+
+        \vfill
+
+        Proyecto final para la carrera de\\
+        Ingeniería Informática
+
+        \vspace{0.8cm}
+
+        %\includegraphics[width=0.4\textwidth]{university}
+
+        \Large
+        Buenos Aires, Argentina\\
+        2019-11-22
+
+    \end{center}
+\end{titlepage}
+
+\let\maketitle\oldmaketitle
+%\maketitle
 
 {
 \setcounter{tocdepth}{2}
@@ -921,7 +961,7 @@ Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las en
 \hypertarget{comparar}{%
 \paragraph{Comparar}\label{comparar}}
 
-Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual (Figura \ref{fig:logic-compare}).
+Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos, con la opción de marcar visualmente aquellos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual (Figura \ref{fig:logic-compare}).
 
 \begin{figure}[H]
 
@@ -1863,7 +1903,53 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.
 \end{quote}
 
-\includegraphics{nerd-pf_files/figure-latex/unnamed-chunk-2-1.pdf}
+\hypertarget{web-relogin}{%
+\subsubsection{\texorpdfstring{\emph{Web}: \emph{relogin}}{Web: relogin}}\label{web-relogin}}
+
+Debido a como está diseñado \emph{JWT}, se espera que los tokens de acceso sean válidos por un tiempo acotado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el \emph{token} de acceso utilizando el \emph{token} de \emph{refresh}.
+
+Si el cliente tiene un \emph{token} de \emph{refresh}, en la figura \ref{fig:scenarios-relogin} podemos ver el flujo que realiza la implementación \emph{web} del entrenador para realizar el refresco de la sesión.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-relogin-1.pdf} 
+
+}
+
+\caption{Flujo de relogin}\label{fig:scenarios-relogin}
+\end{figure}
+
+\hypertarget{ner}{%
+\subsubsection{\texorpdfstring{\emph{NER}}{NER}}\label{ner}}
+
+Para realizar el reconocimiento de entidades nombradas, deben intervenir 4 actores.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-ner2-1.pdf} 
+
+}
+
+\caption{Flujo de relogin}\label{fig:scenarios-ner2}
+\end{figure}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-ner-1.pdf} 
+
+}
+
+\caption{Flujo de relogin}\label{fig:scenarios-ner}
+\end{figure}
+
+\hypertarget{worker-entrenamiento-del-modelo}{%
+\subsubsection{\texorpdfstring{\emph{Worker}: Entrenamiento del modelo}{Worker: Entrenamiento del modelo}}\label{worker-entrenamiento-del-modelo}}
+
+\hypertarget{worker-cambio-de-modelo}{%
+\subsubsection{\texorpdfstring{\emph{Worker}: cambio de modelo}{Worker: cambio de modelo}}\label{worker-cambio-de-modelo}}
+
+\hypertarget{worker-semuxe1foro}{%
+\subsubsection{\texorpdfstring{\emph{Worker}: Semáforo}{Worker: Semáforo}}\label{worker-semuxe1foro}}
 
 \newpage
 
@@ -1994,7 +2080,7 @@ Esta discusión es producto de la necesidad de agregar nuevos tipos que experime
 
 }
 
-\caption{Taxonomía extendida de Sekine}\label{fig:fig-sekine}
+\caption{Taxonomía extendida de Sekine.}\label{fig:fig-sekine}
 \end{figure}
 
 Haciendo un análisis de dicha taxonomía encontramos que nuestro \emph{corpus} puede beneficiarse de los siguientes nuevos tipos de entidad:
@@ -2094,7 +2180,7 @@ El sistema puede beneficiarse porque tiene disponible ahora de \emph{Wikidata} m
 
 }
 
-\caption{Wikidata - Lionel Messi}\label{fig:fig-messi}
+\caption{Wikidata - Lionel Messi.}\label{fig:fig-messi}
 \end{figure}
 
 Desde el punto de vista del usuario; puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de \enquote{nubes de palabras} a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de \enquote{Mauricio} y en otros se hable de \enquote{Macri}; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada por nuestro sistema en la figura \ref{fig:fig-cloud}.
@@ -2105,7 +2191,7 @@ Desde el punto de vista del usuario; puede beneficiarse porque obtener una repre
 
 }
 
-\caption{Con NEL se sumarían "Messi" con "Lionel" y "Mauricio" con "Macri"}\label{fig:fig-cloud}
+\caption{Con NEL se sumarían "Messi" con "Lionel" y "Mauricio" con "Macri".}\label{fig:fig-cloud}
 \end{figure}
 
 Para finalizar, un dato curioso es que a esta tarea de reconocimiento de entidades más desambiguación de las mismas se lo suele llamar \emph{NERD} (\emph{named-entity recognition and disambiguation}) al igual que nuestro proyecto \emph{NERd}; una coincidencia accidental pero que evidencia la necesidad a futuro de implementar esta mejora.
@@ -2147,13 +2233,13 @@ Por tal motivo recibimos el primer premio de dicha hackaton (``Mención itba,'' 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{t:} porcentaje de documentos de entrenamiento
+  \textbf{t:} porcentaje de documentos de entrenamiento.
 \item
-  \textbf{v:} porcentaje de documentos de validación
+  \textbf{v:} porcentaje de documentos de validación.
 \end{itemize}
 
 \hypertarget{t-0---v-100.-baseline-spacy}{%
-\subsection{\texorpdfstring{t: 0\% - v: 100\%. \emph{Baseline spacy}}{t: 0\% - v: 100\%. Baseline spacy}}\label{t-0---v-100.-baseline-spacy}}
+\subsection{\texorpdfstring{t: 0\% - v: 100\%. \emph{Baseline spaCy}}{t: 0\% - v: 100\%. Baseline spaCy}}\label{t-0---v-100.-baseline-spacy}}
 
 \begin{verbatim}
 =============================== Training stats ===============================
@@ -2561,6 +2647,21 @@ Itn & NER Loss & NER P & NER R & NER F & Token \% & CPU WPS & GPU WPS\tabularnew
 \end{longtable}
 
 \newpage
+
+\hypertarget{glosario}{%
+\section*{Glosario}\label{glosario}}
+\addcontentsline{toc}{section}{Glosario}
+
+\begin{tabular}{ll}
+\toprule
+Abreviación & Término\\
+\midrule
+CNN & Convolutional Neural Network\\
+JWT & JSON Web Token\\
+NEL & Named Entity Linking\\
+NER & Named Entity Recognition\\
+\bottomrule
+\end{tabular}
 
 \hypertarget{referencias}{%
 \section*{Referencias}\label{referencias}}
