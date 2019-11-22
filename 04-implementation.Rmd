@@ -375,8 +375,8 @@ El _API_ se comunica el servicio de _Bases de Datos_ para obtener o modificar in
 
 ### Task Scheduler
 
-Recibe tareas desde el _API_ tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. Dado que su tarea es recibir tareas desde el _API_ y enviar y recibir mensajes de los _Workers_, debería existir una única instancia del mismo.
-A su vez, notifica al _API_ la finalización de tareas asincrónicas
+Recibe tareas desde el _API_ tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. A el task scheduler se suscriben todos los _workers_ del sistema de manera tal de poder recibir mensajes y realizar acciones.
+Su funcionamiento es crítico para poder manejar grandes volúmenes de consultas al motor de inferencia ya que permite generar una estructura que escale horizontalmente debido a la posibilidad de contar con la suscripción de un número arbitrario de _workers_.
 
 ### Worker
 
@@ -387,20 +387,15 @@ Un _Worker_ se encarga de realizar el _Reconocimiento de Entidades Nombradas_ as
 
 Como el _Worker_ es una unidad de trabajo que recibe tareas desde el _Task Scheduler_, es posible tener varios _Workers_ donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos snapshots).
 
-
+Cuando un _Worker_ es creado, automáticamente carga el modelo actual (_current snapshot_) y se suscribe a la cola de mensajes para esa versión en particular.
 
 ### Database
 
-Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de API funcione así como también los datos necesarios por los workers (entrenamientos).
+Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de _API_ funcione así como también los datos necesarios por los workers (entrenamientos).
 
 ### Cliente
 
-Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-generado a partir de la definición de _OpenAPI_. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades
-
-[TODO]
-
-#### Mecanismo de reautenticación
-
+Es la interfaz del entrenador que se comunica con el API utilizando un _SDK_ auto-generado a partir de la definición de _OpenAPI_. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
 
 <!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
 
@@ -527,7 +522,17 @@ knitr::include_graphics('assets/developer/db-text.png')
 
 ##### _Snapshot_
 
-La coleción _snapshot_ contiene información sobre los distintos _snapshots_ creados en el sistema (Figura \@ref(fig:developer-db-snapshot)). De particular interés es el atributo _types_, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo _semaphore_, que sirve como un campo de control para poder organizar a los _workers_ que están utilizando ese _snapshot_ en particular.
+La colección _snapshot_ contiene información sobre los distintos _snapshots_ creados en el sistema (Figura \@ref(fig:developer-db-snapshot)). De particular interés es el atributo _types_, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo _semaphore_, que sirve como un campo de control para poder organizar a los _workers_ que están utilizando ese _snapshot_ en particular.
+
+```{r developer-db-snapshot, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colección de snapshots.'}
+knitr::include_graphics('assets/developer/db-snapshot.png')
+```
+
+##### _Training_
+
+La colección _training_ contiene información sobre todos los entrenamientos cargados en el sistema (Figura \@ref(fig:developer-db-training)). Cada entrenamiento contiene referencia al texto al que pertenece así como también al usuario que lo creó. De manera tal de poder obtener la información de los documentos relacionados sin necesidad de duplicar información.
+
+Dentro de un documento training, se encuentra el atributo _document_, que es el que internamente contiene la representación de un documento de entrenamiento que es entendido por _spaCy_ y que luego será utilizado para entrenar el modelo de inferencia.
 
 ```{r developer-db-snapshot, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colección de snapshots.'}
 knitr::include_graphics('assets/developer/db-snapshot.png')
