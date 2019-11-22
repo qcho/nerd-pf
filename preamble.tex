@@ -51,4 +51,7 @@
 }
 \makeatother
 
+\let\oldmaketitle\maketitle
+\AtBeginDocument{\let\maketitle\relax}
+
 % \setlength{\parindent}{48pt} % Left margin on paragraphs
