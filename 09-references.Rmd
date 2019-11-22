@@ -1,2 +1,16 @@
 \newpage
+
+# Glosario {-}
+
+```{r results = 'asis', echo = FALSE, warning = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Interacción de servicios.'}
+library(tidyverse)
+library(knitr)
+
+data_frame(
+  Abreviación = c("JWT", "CNN", "NER", "NEL"),
+  Término =  c("JSON Web Token", "Convolutional Neural Network", "Named Entity Recognition", "Named Entity Linking")) %>%
+  arrange(Abreviación) %>% # i.e. alphabetical order by Term
+  kable(booktab = T) # booktab = T gives us a pretty APA-ish table
+```
+
 # Referencias {-}
