@@ -466,23 +466,23 @@ Figura 4.18: Usuario administrador.
 <h5><span class="header-section-number">4.1.2.1.1</span> <em>Swagger UI</em></h5>
 <p>La documentación provista por <em>Swagger UI</em> permite ver el detalle de cada uno de los <em>endpoints</em> del servicio así como también permite realizar consultas de prueba contra el servidor real, prestándose así como una especie de <em>sandbox</em> (Figura <a href="implementation.html#fig:logic-swagger-main">4.19</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-swagger-main"></span>
-<img src="assets/logic/swagger-main.png" alt="_Swagger UI_."  />
+<img src="assets/logic/swagger-main.png" alt="Swagger UI."  />
 <p class="caption">
-Figura 4.19: <em>Swagger UI</em>.
+Figura 4.19: Swagger UI.
 </p>
 </div>
 <p>Para cada <em>endpoint</em>, la interfaz muestra que parámetros son requeridos (Figura <a href="implementation.html#fig:logic-swagger-request">4.20</a>). Así como también permite, mediante el uso del botón <em>Try it out</em>, completar esos parámetros y ejecutar el pedido al servidor, mostrando los resultados dentro de la interfaz.</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-swagger-request"></span>
-<img src="assets/logic/swagger-request.png" alt="Ejemplo de documentación con _Swagger_ para _request_."  />
+<img src="assets/logic/swagger-request.png" alt="Ejemplo de documentación con Swagger para request."  />
 <p class="caption">
-Figura 4.20: Ejemplo de documentación con <em>Swagger</em> para <em>request</em>.
+Figura 4.20: Ejemplo de documentación con Swagger para request.
 </p>
 </div>
 <p>Para las respuesta, <em>Swagger</em> muestra la forma del <em>JSON</em> de respuesta para cada <em>HTTP code</em> distinto (Figura <a href="implementation.html#fig:logic-swagger-request">4.20</a>)</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-swagger-responses"></span>
-<img src="assets/logic/swagger-responses.png" alt="Ejemplo de documentación con _Swagger_ para respuestas."  />
+<img src="assets/logic/swagger-responses.png" alt="Ejemplo de documentación con Swagger para respuestas."  />
 <p class="caption">
-Figura 4.21: Ejemplo de documentación con <em>Swagger</em> para respuestas.
+Figura 4.21: Ejemplo de documentación con Swagger para respuestas.
 </p>
 </div>
 </div>
@@ -490,9 +490,9 @@ Figura 4.21: Ejemplo de documentación con <em>Swagger</em> para respuestas.
 <h5><span class="header-section-number">4.1.2.1.2</span> <em>ReDoc</em></h5>
 <p><em>ReDoc</em> es una alternativa a <em>Swagger</em> para visualizar la documentación de una especificación de <em>OpenAPI</em> que presenta un diseño más moderno así como también se enfoca más en mostrar la información de manera más clara. A diferencia de <em>Swagger UI</em>, <em>ReDoc</em> no permite realizar pruebas contra el servidor para el cual se está mostrando la documentación (Figura .</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-redoc-main"></span>
-<img src="assets/logic/redoc-main.png" alt="Ejemplo de documentación con _ReDoc_."  />
+<img src="assets/logic/redoc-main.png" alt="Ejemplo de documentación con ReDoc."  />
 <p class="caption">
-Figura 4.22: Ejemplo de documentación con <em>ReDoc</em>.
+Figura 4.22: Ejemplo de documentación con ReDoc.
 </p>
 </div>
 </div>
@@ -852,8 +852,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-848479ed51ef0eb6e271" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-848479ed51ef0eb6e271">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-50260112ea2e9c17c3e8" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-50260112ea2e9c17c3e8">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
