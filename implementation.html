@@ -1027,8 +1027,8 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <p>Debido a como está diseñado <em>JWT</em>, se espera que los tokens de acceso sean válidos por un tiempo acotado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el <em>token</em> de acceso utilizando el <em>token</em> de <em>refresh</em>.</p>
 <p>Si el cliente tiene un <em>token</em> de <em>refresh</em>, en la figura <a href="implementation.html#fig:scenarios-relogin">4.36</a> podemos ver el flujo que realiza la implementación <em>web</em> del entrenador para realizar el refresco de la sesión.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-relogin"></span>
-<div id="htmlwidget-e16448f9834a61f39fe8" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e16448f9834a61f39fe8">{"x":{"diagram":"\n  sequenceDiagram;\n   participant cliente as Web\n   participant web as SDK\n   participant API\n   cliente->>web: Login;\n   web->>API: Login con credenciales;\n   API-->>web: Access/Refresh Tokens;\n   cliente->>web: Ver mis entrenamientos;\n   web->>API: Pedido;\n   alt Sesión válida\n     API-->>web: Respuesta (200);\n     web-->>cliente: Mostrar resultados;\n   else Sesión caducada\n     API-->>web: Respuesta (401);\n     web->>API: Session refresh;\n     API-->>web: Access Token;\n     web->>API: Pedido;\n     alt Refresh token válido\n      API-->>web: Respuesta (200);\n      web-->>cliente: Mostrar resultados;\n     else Refresh token caducado\n      API-->>web: Respuesta (401);\n      web-->>cliente: Mostrar mensaje de error;\n     end\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f1167636c6f897958842" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f1167636c6f897958842">{"x":{"diagram":"\n  sequenceDiagram;\n   participant cliente as Web\n   participant web as SDK\n   participant API\n   cliente->>web: Login;\n   web->>API: Login con credenciales;\n   API-->>web: Access/Refresh Tokens;\n   cliente->>web: Ver mis entrenamientos;\n   web->>API: Pedido;\n   alt Sesión válida\n     API-->>web: Respuesta (200);\n     web-->>cliente: Mostrar resultados;\n   else Sesión caducada\n     API-->>web: Respuesta (401);\n     web->>API: Session refresh;\n     API-->>web: Access Token;\n     web->>API: Pedido;\n     alt Refresh token válido\n      API-->>web: Respuesta (200);\n      web-->>cliente: Mostrar resultados;\n     else Refresh token caducado\n      API-->>web: Respuesta (401);\n      web-->>cliente: Mostrar mensaje de error;\n     end\n   end\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.36: Flujo de relogin
 </p>
@@ -1038,15 +1038,15 @@ Figura 4.36: Flujo de relogin
 <h3><span class="header-section-number">4.5.2</span> <em>NER</em></h3>
 <p>Para realizar el reconocimiento de entidades nombradas, deben intervenir 4 actores.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-ner2"></span>
-<div id="htmlwidget-00e3f39265acf2cadea2" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-00e3f39265acf2cadea2">{"x":{"diagram":"\nsequenceDiagram;\nactivate b;\n  a->>b: Whatever;\n  b-->>a: Woo;\ndeactivate b;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a15176a85a4da9e83d7f" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a15176a85a4da9e83d7f">{"x":{"diagram":"\nsequenceDiagram;\nactivate b;\n  a->>b: Whatever;\n  b-->>a: Woo;\ndeactivate b;\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.37: Flujo de relogin
 </p>
 </div>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-ner"></span>
-<div id="htmlwidget-f8419ef141a05589e3d5" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f8419ef141a05589e3d5">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Cliente\n   participant a as API\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>a: Login con credenciales;\n   a-->>c: Access/Refresh Tokens;\n   c->>a: Consulta NER;\n   a->>r: Crear tarea de NER;\n   w->>+r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w-->>-r: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-dfd74255e5eb801f825e" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dfd74255e5eb801f825e">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Cliente\n   participant a as API\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>a: Login con credenciales;\n   a-->>c: Access/Refresh Tokens;\n   c->>a: Consulta NER;\n   a->>r: Crear tarea de NER;\n   w->>+r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w-->>-r: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.38: Flujo de relogin
 </p>
