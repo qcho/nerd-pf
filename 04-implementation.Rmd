@@ -397,6 +397,10 @@ Servicio que contiene la base de datos con la información necesaria (usuarios, 
 
 Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-generado a partir de la definición de _OpenAPI_. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades
 
+[TODO]
+
+#### Mecanismo de reautenticación
+
 
 <!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
 
@@ -486,6 +490,40 @@ _Mongoengine_ es una librería pensada para trabajar con _MongoDB_ en _Python_. 
 ##### _marshmallow-mongoengine_
 
 Librería que nos permite integrar la librería de serialización _Marshmallow_ con _Mongoengine_ simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del _API_. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto _User_ ya nunca deberíamos devolver en una respuesta el campo _password_ de la base de datos.
+
+#### Arquitectura
+
+[TODO]
+
+### Base de Datos
+
+Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: _MongoDB_ [@mongodb].
+
+_MongoDB_ nos permite tener un lugar en donde guardar todos los documentos que puede escalar tanto como sea necesario debido a su posibilidad de fragmentar ^[https://docs.mongodb.com/manual/sharding/] o replicar ^[https://docs.mongodb.com/manual/replication/] información entre distintas instancias que pueden estar ubicadas en distintos servidores.
+
+#### Modelado
+
+Para el modelado de los datos utilizamos cuatro colecciones mostradas en la figura \@ref(fig:developer-db-overview).
+
+```{r developer-db-overview, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colecciones de la base de datos.'}
+knitr::include_graphics('assets/developer/db-overview.png')
+```
+
+##### _User_
+
+La colección _user_ contiene la información de todos los usuarios del sistema (Figura \@ref(fig:developer-db-user)). Entre los datos del usuario está el campo _trainings_, que guarda internamente una lista de _ObjectId_ pertenecientes a los entrenamientos del usuario. A su vez está la lista de roles a los cuales tiene acceso el usuario.
+
+```{r developer-db-user, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colección de usuarios.'}
+knitr::include_graphics('assets/developer/db-user.png')
+```
+
+##### _Text_
+
+La colección _text_ contiene todos los textos que forman parte del corpus que son cargados para ser mostrados en la interfaz de entrenamiento (Figura \@ref(fig:developer-db-text)).
+
+```{r developer-db-text, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colección de textos.'}
+knitr::include_graphics('assets/developer/db-text.png')
+```
 
 <!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
 <!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
