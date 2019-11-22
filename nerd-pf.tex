@@ -1835,12 +1835,24 @@ La implementación completa de \emph{NERd} está formada por 5 contenedores requ
   \textbf{flower}: Contiene el servicio de monitoreo de \emph{Flower} (Opcional).
 \end{itemize}
 
-\hypertarget{deployment}{%
-\subsubsection{Deployment}\label{deployment}}
+\hypertarget{deployment-docker-images}{%
+\subsubsection{\texorpdfstring{Deployment: \emph{Docker images}}{Deployment: Docker images}}\label{deployment-docker-images}}
+
+Para realizar un \emph{deployment} de nuevas versiones de cada contenedor de docker, existen comandos dentro del archivo \texttt{Makefile}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{make}\NormalTok{ build }\CommentTok{# Construye nuevas imágenes para cada uno de los servicios}
+\FunctionTok{make}\NormalTok{ prod-publish-new-version }\CommentTok{# Publica las nuevas imágenes a github}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{deployment-service}{%
+\subsubsection{Deployment: Service}\label{deployment-service}}
 
 Para poder crear un entorno completo de \emph{NERd}, utilizamos una herramienta incluída en \emph{Docker} llamada \emph{Docker Compose} (``Docker compose,'' \protect\hyperlink{ref-dockercompose}{2019}), con la cual definimos cada uno de los servicios y las conexiones de red y disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \ref{fig:physical-overview} funcionen correctamente.
 
-A su vez, dentro de un archivo \emph{Makefile} del proyecto definimos un conjunto de comandos que sirven para levantar \emph{NERd}.
+A su vez, dentro de un archivo \emph{Makefile} del proyecto definimos un conjunto de comandos que sirven para levantar un entorno de desarrollo de \emph{NERd}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1850,6 +1862,35 @@ A su vez, dentro de un archivo \emph{Makefile} del proyecto definimos un conjunt
 \FunctionTok{make}\NormalTok{ start }\CommentTok{# Enciende los contenedores parados de NERd}
 \end{Highlighting}
 \end{Shaded}
+
+Para realizar un deploy de la aplicación en un entorno productivo utilizaremos de ejemplo utilizando el servidor provisto por el \emph{ITBA}.
+
+Primero es necesario contar con una configuración de SSH la cual defina el \emph{host} \emph{pf-nerd}:
+
+\begin{verbatim}
+Host pampero
+    Hostname pampero.itba.edu.ar
+    User <ITBA_USER>
+
+Host pf-nerd
+    Hostname <MACHINE_IP>
+    User <MACHINE_USER>
+     # Requerimos un proxy para acceder a pampero
+    ProxyCommand ssh pampero nc %h %p
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h-%p
+    ControlPersist 600
+\end{verbatim}
+
+Con esa configuración en el archivo \texttt{\textasciitilde{}/.ssh/config} podemos ejecutar el comando para realizar el setup de una instancia con las configuraciones de producción.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{make}\NormalTok{ prod-setup}
+\end{Highlighting}
+\end{Shaded}
+
+Ese comando puede ser utilizado también para
 
 \hypertarget{escalamiento-horizontal}{%
 \subsubsection{Escalamiento horizontal}\label{escalamiento-horizontal}}
@@ -1908,7 +1949,7 @@ Esta vista también se conoce como vista de caso de uso.
 
 Debido a como está diseñado \emph{JWT}, se espera que los tokens de acceso sean válidos por un tiempo acotado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el \emph{token} de acceso utilizando el \emph{token} de \emph{refresh}.
 
-Si el cliente tiene un \emph{token} de \emph{refresh}, en la figura \ref{fig:scenarios-relogin} podemos ver el flujo que realiza la implementación \emph{web} del entrenador para realizar el refresco de la sesión.
+Si el cliente tiene un \emph{token} de \emph{refresh}, en la figura \ref{fig:scenarios-relogin} podemos ver el flujo que realiza la implementación \emph{web} del entrenador para realizar el refresco de la sesión. Al recibir un \(401\) por parte del servidor, el SDK realiza un
 
 \begin{figure}[H]
 
@@ -1922,16 +1963,9 @@ Si el cliente tiene un \emph{token} de \emph{refresh}, en la figura \ref{fig:sce
 \hypertarget{ner}{%
 \subsubsection{\texorpdfstring{\emph{NER}}{NER}}\label{ner}}
 
-Para realizar el reconocimiento de entidades nombradas, deben intervenir 4 actores.
+Como podemos ver en la figura \ref{fig:scenarios-ner}, para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.
 
-\begin{figure}[H]
-
-{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-ner2-1.pdf} 
-
-}
-
-\caption{Flujo de relogin}\label{fig:scenarios-ner2}
-\end{figure}
+Cuando un \emph{cliente} realiza un pedido al \emph{API}, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el \emph{request} en \emph{RabbitMQ}. Luego, un único \emph{worker} que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, \emph{RabbitMQ} notifica al \emph{API} de la tarea y este puede devolver finalmente el resultado al \emph{Cliente}.
 
 \begin{figure}[H]
 
@@ -1939,17 +1973,57 @@ Para realizar el reconocimiento de entidades nombradas, deben intervenir 4 actor
 
 }
 
-\caption{Flujo de relogin}\label{fig:scenarios-ner}
+\caption{Flujo de NER.}\label{fig:scenarios-ner}
 \end{figure}
 
-\hypertarget{worker-entrenamiento-del-modelo}{%
-\subsubsection{\texorpdfstring{\emph{Worker}: Entrenamiento del modelo}{Worker: Entrenamiento del modelo}}\label{worker-entrenamiento-del-modelo}}
+\hypertarget{web-entrenador-web}{%
+\subsubsection{\texorpdfstring{\emph{Web}: Entrenador web}{Web: Entrenador web}}\label{web-entrenador-web}}
 
-\hypertarget{worker-cambio-de-modelo}{%
-\subsubsection{\texorpdfstring{\emph{Worker}: cambio de modelo}{Worker: cambio de modelo}}\label{worker-cambio-de-modelo}}
+Como podemos ver en la figura \ref{fig:scenarios-web-train}, para poder mostrar un texto a entrenar son necesarios cinco servicios.
 
-\hypertarget{worker-semuxe1foro}{%
-\subsubsection{\texorpdfstring{\emph{Worker}: Semáforo}{Worker: Semáforo}}\label{worker-semuxe1foro}}
+El proceso de la inferencia es el mismo que el mostrado en la figura \ref{fig:scenarios-ner}, agregándose la consulta a \emph{MongoDB} al principio para poder obtener un texto que aún no haya sido entrenado por el usuario logueado.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-web-train-1.pdf} 
+
+}
+
+\caption{Pedido de texto para entrenamiento.}\label{fig:scenarios-web-train}
+\end{figure}
+
+\hypertarget{worker-entrenamiento-y-carga-del-modelo-de-spacy}{%
+\subsubsection{\texorpdfstring{\emph{Worker}: Entrenamiento y carga del modelo de spaCy}{Worker: Entrenamiento y carga del modelo de spaCy}}\label{worker-entrenamiento-y-carga-del-modelo-de-spacy}}
+
+Dado que pueden haber varios \emph{workers} utilizando el mismo modelo de \emph{spaCy}, es de vital importancia que si existe al menos un \emph{worker} leyendo un modelo desde el disco y otro worker quiere entrenar ese modelo, que no pueda hasta que el resto haya terminado de leerlo.
+Ésto se debe a que si el \emph{worker} que está entrenando el modelo sobreescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del \emph{worker} de lectura. Como no hay ninguna limitación en la lectura, más de un \emph{worker} puede leer en simultáneo.
+
+Para realizar ese control de concurrencia utilizamos el campo \texttt{semaphore} del modelo de \emph{snapshot} guardado en la base de datos (Figura \ref{fig:developer-db-snapshot}) el cual usualmente se encuentra en \(0\). El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.
+
+En la figura \ref{fig:scenarios-worker-train} podemos ver un escenario en el que tanto \emph{Worker 2} y \emph{Worker 3} pueden leer en simultáneo el modelo pero \emph{Worker 1} debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-worker-train-1.pdf} 
+
+}
+
+\caption{Bloqueo de entrenamiento por lectura.}\label{fig:scenarios-worker-train}
+\end{figure}
+
+\hypertarget{worker-cambio-de-snapshot}{%
+\subsubsection{\texorpdfstring{\emph{Worker}: cambio de snapshot}{Worker: cambio de snapshot}}\label{worker-cambio-de-snapshot}}
+
+Como podemos ver en la figura \ref{fig:scenarios-worker-snapshot-change}, ante una tarea de reasignación de snapshot, el \emph{worker} se desuscribe de la cola de mensajes del \emph{snapshot} que está escuchando actualmente y se suscribe a la cola de mensajes del \emph{snapshot} al que se lo quiere cambiar. Luego, se recarga el modelo.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-worker-snapshot-change-1.pdf} 
+
+}
+
+\caption{Cambio de modelo.}\label{fig:scenarios-worker-snapshot-change}
+\end{figure}
 
 \newpage
 

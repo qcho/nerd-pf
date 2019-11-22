@@ -183,15 +183,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a><ul>
 <li class="chapter" data-level="4.4.1" data-path="implementation.html"><a href="implementation.html#docker"><i class="fa fa-check"></i><b>4.4.1</b> <em>Docker</em></a></li>
-<li class="chapter" data-level="4.4.2" data-path="implementation.html"><a href="implementation.html#deployment"><i class="fa fa-check"></i><b>4.4.2</b> Deployment</a></li>
-<li class="chapter" data-level="4.4.3" data-path="implementation.html"><a href="implementation.html#escalamiento-horizontal"><i class="fa fa-check"></i><b>4.4.3</b> Escalamiento horizontal</a></li>
+<li class="chapter" data-level="4.4.2" data-path="implementation.html"><a href="implementation.html#deployment-docker-images"><i class="fa fa-check"></i><b>4.4.2</b> Deployment: <em>Docker images</em></a></li>
+<li class="chapter" data-level="4.4.3" data-path="implementation.html"><a href="implementation.html#deployment-service"><i class="fa fa-check"></i><b>4.4.3</b> Deployment: Service</a></li>
+<li class="chapter" data-level="4.4.4" data-path="implementation.html"><a href="implementation.html#escalamiento-horizontal"><i class="fa fa-check"></i><b>4.4.4</b> Escalamiento horizontal</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a><ul>
 <li class="chapter" data-level="4.5.1" data-path="implementation.html"><a href="implementation.html#web-relogin"><i class="fa fa-check"></i><b>4.5.1</b> <em>Web</em>: <em>relogin</em></a></li>
 <li class="chapter" data-level="4.5.2" data-path="implementation.html"><a href="implementation.html#ner"><i class="fa fa-check"></i><b>4.5.2</b> <em>NER</em></a></li>
-<li class="chapter" data-level="4.5.3" data-path="implementation.html"><a href="implementation.html#worker-entrenamiento-del-modelo"><i class="fa fa-check"></i><b>4.5.3</b> <em>Worker</em>: Entrenamiento del modelo</a></li>
-<li class="chapter" data-level="4.5.4" data-path="implementation.html"><a href="implementation.html#worker-cambio-de-modelo"><i class="fa fa-check"></i><b>4.5.4</b> <em>Worker</em>: cambio de modelo</a></li>
-<li class="chapter" data-level="4.5.5" data-path="implementation.html"><a href="implementation.html#worker-semáforo"><i class="fa fa-check"></i><b>4.5.5</b> <em>Worker</em>: Semáforo</a></li>
+<li class="chapter" data-level="4.5.3" data-path="implementation.html"><a href="implementation.html#web-entrenador-web"><i class="fa fa-check"></i><b>4.5.3</b> <em>Web</em>: Entrenador web</a></li>
+<li class="chapter" data-level="4.5.4" data-path="implementation.html"><a href="implementation.html#worker-entrenamiento-y-carga-del-modelo-de-spacy"><i class="fa fa-check"></i><b>4.5.4</b> <em>Worker</em>: Entrenamiento y carga del modelo de spaCy</a></li>
+<li class="chapter" data-level="4.5.5" data-path="implementation.html"><a href="implementation.html#worker-cambio-de-snapshot"><i class="fa fa-check"></i><b>4.5.5</b> <em>Worker</em>: cambio de snapshot</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Resultados de entrenamiento</a><ul>
@@ -973,17 +974,40 @@ Esta vista también se conoce como la vista de <em>deployment</em>.</p>
 <li><strong>flower</strong>: Contiene el servicio de monitoreo de <em>Flower</em> (Opcional).</li>
 </ul>
 </div>
-<div id="deployment" class="section level3">
-<h3><span class="header-section-number">4.4.2</span> Deployment</h3>
+<div id="deployment-docker-images" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> Deployment: <em>Docker images</em></h3>
+<p>Para realizar un <em>deployment</em> de nuevas versiones de cada contenedor de docker, existen comandos dentro del archivo <code>Makefile</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu">make</span> build <span class="co"># Construye nuevas imágenes para cada uno de los servicios</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">make</span> prod-publish-new-version <span class="co"># Publica las nuevas imágenes a github</span></a></code></pre></div>
+</div>
+<div id="deployment-service" class="section level3">
+<h3><span class="header-section-number">4.4.3</span> Deployment: Service</h3>
 <p>Para poder crear un entorno completo de <em>NERd</em>, utilizamos una herramienta incluída en <em>Docker</em> llamada <em>Docker Compose</em> <span class="citation">(“Docker compose,” <a href="#ref-dockercompose">2019</a>)</span>, con la cual definimos cada uno de los servicios y las conexiones de red y disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura <a href="implementation.html#fig:physical-overview">4.35</a> funcionen correctamente.</p>
-<p>A su vez, dentro de un archivo <em>Makefile</em> del proyecto definimos un conjunto de comandos que sirven para levantar <em>NERd</em>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu">make</span> setup <span class="co"># Inicializa todos los contenedores de NERd, creando 2 workers</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">make</span> down <span class="co"># Destruye todos los contenedores de NERd</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="fu">make</span> stop <span class="co"># Apaga los contenedores de NERd (sirve liberar recursos en una máquina)</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="fu">make</span> start <span class="co"># Enciende los contenedores parados de NERd</span></a></code></pre></div>
+<p>A su vez, dentro de un archivo <em>Makefile</em> del proyecto definimos un conjunto de comandos que sirven para levantar un entorno de desarrollo de <em>NERd</em>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">make</span> setup <span class="co"># Inicializa todos los contenedores de NERd, creando 2 workers</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="fu">make</span> down <span class="co"># Destruye todos los contenedores de NERd</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="fu">make</span> stop <span class="co"># Apaga los contenedores de NERd (sirve liberar recursos en una máquina)</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="fu">make</span> start <span class="co"># Enciende los contenedores parados de NERd</span></a></code></pre></div>
+<p>Para realizar un deploy de la aplicación en un entorno productivo utilizaremos de ejemplo utilizando el servidor provisto por el <em>ITBA</em>.</p>
+<p>Primero es necesario contar con una configuración de SSH la cual defina el <em>host</em> <em>pf-nerd</em>:</p>
+<pre class="sshconfig"><code>Host pampero
+    Hostname pampero.itba.edu.ar
+    User &lt;ITBA_USER&gt;
+
+Host pf-nerd
+    Hostname &lt;MACHINE_IP&gt;
+    User &lt;MACHINE_USER&gt;
+     # Requerimos un proxy para acceder a pampero
+    ProxyCommand ssh pampero nc %h %p
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h-%p
+    ControlPersist 600</code></pre>
+<p>Con esa configuración en el archivo <code>~/.ssh/config</code> podemos ejecutar el comando para realizar el setup de una instancia con las configuraciones de producción.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="fu">make</span> prod-setup</a></code></pre></div>
+<p>Ese comando puede ser utilizado también para</p>
 </div>
 <div id="escalamiento-horizontal" class="section level3">
-<h3><span class="header-section-number">4.4.3</span> Escalamiento horizontal</h3>
+<h3><span class="header-section-number">4.4.4</span> Escalamiento horizontal</h3>
 <p>En la figura <a href="implementation.html#fig:physical-overview">4.35</a> podemos ver a los 5 contenedores principales de <em>NERd</em>. Cada uno de ellos fue pensado para que con cambios tanto a sus configuraciones puedan existir varias instancias de cada uno.</p>
 <div class="figure" style="text-align: center"><span id="fig:physical-overview"></span>
 <img src="assets/physical/overview.png" alt="Interacción de servicios."  />
@@ -992,22 +1016,22 @@ Figura 4.35: Interacción de servicios.
 </p>
 </div>
 <div id="nerd-cluster" class="section level4">
-<h4><span class="header-section-number">4.4.3.1</span> <em>NERd cluster</em></h4>
+<h4><span class="header-section-number">4.4.4.1</span> <em>NERd cluster</em></h4>
 <p>Debido a que el <em>API</em> consume sus datos de <em>MongoDB</em> así como también requiere de una conexión mediante <em>Celery</em> a <em>RabbitMQ</em> para poder realizar las tareas de <em>NER</em>, es posible tener varias instancias del mismo de manera tal que cada una se conecte al cluster de los dos servicios. Es posible mediante el uso de un <em>Load Balancer</em> generar un cluster de servicios de <em>API</em>.</p>
 </div>
 <div id="rabbitmq-cluster" class="section level4">
-<h4><span class="header-section-number">4.4.3.2</span> <em>RabbitMQ cluster</em></h4>
+<h4><span class="header-section-number">4.4.4.2</span> <em>RabbitMQ cluster</em></h4>
 <p><em>RabbitMQ</em> está pensado desde su concepción para poder escalar horizontalmente<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>, por lo que para tener varias instancias de cola de mensajes será necesario corregir la configuración del servicio.</p>
 </div>
 <div id="mongodb-cluster" class="section level4">
-<h4><span class="header-section-number">4.4.3.3</span> <em>MongoDB cluster</em></h4>
+<h4><span class="header-section-number">4.4.4.3</span> <em>MongoDB cluster</em></h4>
 <p>Al igual que <em>RabbitMQ</em>, <em>MongoDB</em> fue diseñado para escalar horizontalmente (ver <a href="#MongoDB-Dev">Base de datos</a>), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.</p>
 </div>
 <div id="worker-cluster" class="section level4">
-<h4><span class="header-section-number">4.4.3.4</span> <em>Worker cluster</em></h4>
+<h4><span class="header-section-number">4.4.4.4</span> <em>Worker cluster</em></h4>
 <p>Dado que cada <em>worker</em> está implementado como un <em>Celery worker</em>, mientras la configuración del mismo sea correcta, al levantar nuevos containers será posible escalarlo horizontalmente. Incluído en el repositorio de <em>NERd</em> está un comando de <em>Makefile</em> que permite escalar el servicio worker:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">make</span> scale-up <span class="co"># Crea un nuevo worker localmente</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="fu">make</span> scale-down <span class="co"># Destruye un worker localmente</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="fu">make</span> scale-up <span class="co"># Crea un nuevo worker localmente</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="fu">make</span> scale-down <span class="co"># Destruye un worker localmente</span></a></code></pre></div>
 <!-- Los diagramas UML utilizados para representar la vista física incluyen el diagrama de deployment. -->
 <!-- TODO: explicar docker. docker-package. red. nginx. etc -->
 </div>
@@ -1025,10 +1049,10 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <div id="web-relogin" class="section level3">
 <h3><span class="header-section-number">4.5.1</span> <em>Web</em>: <em>relogin</em></h3>
 <p>Debido a como está diseñado <em>JWT</em>, se espera que los tokens de acceso sean válidos por un tiempo acotado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el <em>token</em> de acceso utilizando el <em>token</em> de <em>refresh</em>.</p>
-<p>Si el cliente tiene un <em>token</em> de <em>refresh</em>, en la figura <a href="implementation.html#fig:scenarios-relogin">4.36</a> podemos ver el flujo que realiza la implementación <em>web</em> del entrenador para realizar el refresco de la sesión.</p>
+<p>Si el cliente tiene un <em>token</em> de <em>refresh</em>, en la figura <a href="implementation.html#fig:scenarios-relogin">4.36</a> podemos ver el flujo que realiza la implementación <em>web</em> del entrenador para realizar el refresco de la sesión. Al recibir un <span class="math inline">\(401\)</span> por parte del servidor, el SDK realiza un</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-relogin"></span>
-<div id="htmlwidget-47ceaaaf58cf19dca87b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-47ceaaaf58cf19dca87b">{"x":{"diagram":"\n  sequenceDiagram;\n   participant cliente as Web\n   participant web as SDK\n   participant API\n   cliente->>web: Login;\n   web->>API: Login con credenciales;\n   API-->>web: Access/Refresh Tokens;\n   cliente->>web: Ver mis entrenamientos;\n   web->>API: Pedido;\n   alt Sesión válida\n     API-->>web: Respuesta (200);\n     web-->>cliente: Mostrar resultados;\n   else Sesión caducada\n     API-->>web: Respuesta (401);\n     web->>API: Session refresh;\n     API-->>web: Access Token;\n     web->>API: Pedido;\n     alt Refresh token válido\n      API-->>web: Respuesta (200);\n      web-->>cliente: Mostrar resultados;\n     else Refresh token caducado\n      API-->>web: Respuesta (401);\n      web-->>cliente: Mostrar mensaje de error;\n     end\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-fd5f0801d5fb4e51c76e" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fd5f0801d5fb4e51c76e">{"x":{"diagram":"\n  sequenceDiagram;\n   participant cliente as Usuario\n   participant web as Web\n   participant API\n   cliente->>+web: Login;\n   web->>+API: Login con credenciales;\n   API-->>-web: Access/Refresh Tokens;\n   web-->>-cliente: Mostrar login OK;\n   cliente->>+web: Ver mis entrenamientos;\n   web->>+API: Pedido;\n   alt Sesión válida\n     API-->>web: Respuesta (200);\n     web-->>cliente: Mostrar resultados;\n   else Sesión caducada\n     API-->>-web: Respuesta (401);\n     web->>+API: Session refresh;\n     API-->>-web: Access Token;\n     web->>+API: Pedido;\n     alt Refresh token válido\n      API-->>web: Respuesta (200);\n      web-->>cliente: Mostrar resultados;\n     else Refresh token caducado\n      API-->>-web: Respuesta (401);\n      web-->>-cliente: Mostrar mensaje de error;\n     end\n   end\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.36: Flujo de relogin
 </p>
@@ -1036,30 +1060,52 @@ Figura 4.36: Flujo de relogin
 </div>
 <div id="ner" class="section level3">
 <h3><span class="header-section-number">4.5.2</span> <em>NER</em></h3>
-<p>Para realizar el reconocimiento de entidades nombradas, deben intervenir 4 actores.</p>
-<div class="figure" style="text-align: center"><span id="fig:scenarios-ner2"></span>
-<div id="htmlwidget-6a36754e400653367540" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6a36754e400653367540">{"x":{"diagram":"\nsequenceDiagram;\nactivate b;\n  a->>b: Whatever;\n  b-->>a: Woo;\ndeactivate b;\n"},"evals":[],"jsHooks":[]}</script>
-<p class="caption">
-Figura 4.37: Flujo de relogin
-</p>
-</div>
+<p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-ner">4.37</a>, para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.</p>
+<p>Cuando un <em>cliente</em> realiza un pedido al <em>API</em>, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el <em>request</em> en <em>RabbitMQ</em>. Luego, un único <em>worker</em> que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, <em>RabbitMQ</em> notifica al <em>API</em> de la tarea y este puede devolver finalmente el resultado al <em>Cliente</em>.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-ner"></span>
-<div id="htmlwidget-0a846061604fbc55fa14" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0a846061604fbc55fa14">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Cliente\n   participant a as API\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>a: Login con credenciales;\n   a-->>c: Access/Refresh Tokens;\n   c->>a: Consulta NER;\n   a->>r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w-->>r: Entidades inferidas;\n   deactivate w;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-78f9d7fccdadadc3c1ce" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-78f9d7fccdadadc3c1ce">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Consulta NER (vXX);\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
-Figura 4.38: Flujo de relogin
+Figura 4.37: Flujo de NER.
 </p>
 </div>
 </div>
-<div id="worker-entrenamiento-del-modelo" class="section level3">
-<h3><span class="header-section-number">4.5.3</span> <em>Worker</em>: Entrenamiento del modelo</h3>
+<div id="web-entrenador-web" class="section level3">
+<h3><span class="header-section-number">4.5.3</span> <em>Web</em>: Entrenador web</h3>
+<p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-web-train">4.38</a>, para poder mostrar un texto a entrenar son necesarios cinco servicios.</p>
+<p>El proceso de la inferencia es el mismo que el mostrado en la figura <a href="implementation.html#fig:scenarios-ner">4.37</a>, agregándose la consulta a <em>MongoDB</em> al principio para poder obtener un texto que aún no haya sido entrenado por el usuario logueado.</p>
+<div class="figure" style="text-align: center"><span id="fig:scenarios-web-train"></span>
+<div id="htmlwidget-3b47f13585701f70ad9d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3b47f13585701f70ad9d">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant m as MongoDB\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Pedir texto a entrenar;\n   a->>+m: Buscar texto no entrenado;\n   m-->>-a: Texto no entrenado;\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figura 4.38: Pedido de texto para entrenamiento.
+</p>
 </div>
-<div id="worker-cambio-de-modelo" class="section level3">
-<h3><span class="header-section-number">4.5.4</span> <em>Worker</em>: cambio de modelo</h3>
 </div>
-<div id="worker-semáforo" class="section level3">
-<h3><span class="header-section-number">4.5.5</span> <em>Worker</em>: Semáforo</h3>
+<div id="worker-entrenamiento-y-carga-del-modelo-de-spacy" class="section level3">
+<h3><span class="header-section-number">4.5.4</span> <em>Worker</em>: Entrenamiento y carga del modelo de spaCy</h3>
+<p>Dado que pueden haber varios <em>workers</em> utilizando el mismo modelo de <em>spaCy</em>, es de vital importancia que si existe al menos un <em>worker</em> leyendo un modelo desde el disco y otro worker quiere entrenar ese modelo, que no pueda hasta que el resto haya terminado de leerlo.
+Ésto se debe a que si el <em>worker</em> que está entrenando el modelo sobreescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del <em>worker</em> de lectura. Como no hay ninguna limitación en la lectura, más de un <em>worker</em> puede leer en simultáneo.</p>
+<p>Para realizar ese control de concurrencia utilizamos el campo <code>semaphore</code> del modelo de <em>snapshot</em> guardado en la base de datos (Figura <a href="implementation.html#fig:developer-db-snapshot">4.28</a>) el cual usualmente se encuentra en <span class="math inline">\(0\)</span>. El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.</p>
+<p>En la figura <a href="implementation.html#fig:scenarios-worker-train">4.39</a> podemos ver un escenario en el que tanto <em>Worker 2</em> y <em>Worker 3</em> pueden leer en simultáneo el modelo pero <em>Worker 1</em> debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.</p>
+<div class="figure" style="text-align: center"><span id="fig:scenarios-worker-train"></span>
+<div id="htmlwidget-47f88b322eeedec7e55b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-47f88b322eeedec7e55b">{"x":{"diagram":"\n  sequenceDiagram;\n   participant a as API\n   participant r as RabbitMQ\n   participant m as MongoDB\n   participant w as Worker 1\n   participant ww as Worker 2\nparticipant www as Worker 3\nparticipant mo as Model\nww->>m: Incrementar semáforo para vXX;\nww->>+mo: Read;\n   a->>r: Crear tarea de entrenar vXX;\n   w->>+r: Pedir tarea;\n   r-->>-w: Tarea de entrenar;\nactivate w;\nloop Worker 1 bloqueado\nw->>w: Semáforo en 0?\nwww->>m: Incrementar semáforo para vXX;\nwww->>+mo: Read;\nmo-->>-ww: Modelo\nww->>+m: Decrementar semáforo para vXX\nm-->>-ww:Exito\nmo-->>-www: Modelo\n  www->>+m: Decrementar semáforo para vXX;\nm-->>-www:Exito\nw->>w: Semáforo en 0?\nend\n   w->>+m: Decrementar semáforo para vXX;\n   m-->>-w: Éxito;\n   w->>+m: Pedir textos anotados para vXX;\n   m-->>-w: Textos anotados;\n   w->>w: Entrenar;\n   w->>+m: Actualizar fecha de entrenamiento;\n   m-->>-w: Éxito;\n   w->>+m: Incrementar semáforo\nm-->>-w:Éxito\n   w->>r: Entrenamiento exitoso;\ndeactivate w\n"},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figura 4.39: Bloqueo de entrenamiento por lectura.
+</p>
+</div>
+</div>
+<div id="worker-cambio-de-snapshot" class="section level3">
+<h3><span class="header-section-number">4.5.5</span> <em>Worker</em>: cambio de snapshot</h3>
+<p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-worker-snapshot-change">4.40</a>, ante una tarea de reasignación de snapshot, el <em>worker</em> se desuscribe de la cola de mensajes del <em>snapshot</em> que está escuchando actualmente y se suscribe a la cola de mensajes del <em>snapshot</em> al que se lo quiere cambiar. Luego, se recarga el modelo.</p>
+<div class="figure" style="text-align: center"><span id="fig:scenarios-worker-snapshot-change"></span>
+<div id="htmlwidget-cf744f9359841605c5f5" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cf744f9359841605c5f5">{"x":{"diagram":"\nsequenceDiagram;\n  participant a as API;\n  participant r as RabbitMQ;\n  participant w as Worker;\n  participant m as Model;\n  a->>r: Reasignar worker;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de cambiar snapshot;\n  w->>+r: Borrar suscripción a snapshot actual;\n  r-->>-w: Suscripción borrada;\n  w->>+r: Suscribir a snapshot nuevo;\n  r-->>-w: Suscripción exitosa;\n  a->>+r: Tarea de NER;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de NER;\n  alt Snapshot desactualizado\n  w->>+m: Cargar modelo;\n  m-->>-w: Modelo;\n  w->>w: NER;\n  else Snapshot actualizado\n  w->>w: NER;\n  end;\n  w-->>r: Entidades inferidas;\n  r-->>a: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figura 4.40: Cambio de modelo.
+</p>
+</div>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
 
 <div style="page-break-after: always;"></div>
