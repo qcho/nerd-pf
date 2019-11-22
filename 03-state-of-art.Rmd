@@ -94,7 +94,7 @@ Una tabla de _word-embeddings_ mapea vectores largos binarios y esparsos en vect
 
 #### Información ligüística
 
-El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas, están resumidas en el siguiente ejemplo (TODO: figura 6).
+El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas, están resumidas en el siguiente ejemplo.
 
 ```{r formula-pos, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Características lingüísticas.'}
 knitr::include_graphics('assets/pos.png')
