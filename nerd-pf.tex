@@ -1116,7 +1116,7 @@ Rutas del API dedicadas a la autenticación de usuarios.
 \begin{itemize}
 \tightlist
 \item
-  \textbf{POST} \emph{/api/auth/register}
+  \textbf{POST} \texttt{/api/auth/register}
 
   \begin{itemize}
   \tightlist
@@ -1124,22 +1124,22 @@ Rutas del API dedicadas a la autenticación de usuarios.
     Registrar un usuario nuevo.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/auth/token}
+  \textbf{POST} \texttt{/api/auth/token}
 
   \begin{itemize}
   \tightlist
   \item
-    Genera un nuevo token de acceso y refresco con credenciales.
+    Genera un nuevo \emph{token} de acceso y refresco con credenciales.
   \item
-    Utilizado para la funcionalidad de \emph{login}
+    Utilizado para la funcionalidad de \emph{login}.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/auth/refresh}
+  \textbf{POST} \texttt{/api/auth/refresh}
 
   \begin{itemize}
   \tightlist
   \item
-    Refresca el token de acceso.
+    Refresca el \emph{token} de acceso.
   \item
     Utilizado cuando un \emph{token} de acceso caducó.
   \end{itemize}
@@ -1153,7 +1153,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
 \begin{itemize}
 \tightlist
 \item
-  \textbf{GET} \emph{/api/users}
+  \textbf{GET} \texttt{/api/users}
 
   \begin{itemize}
   \tightlist
@@ -1163,15 +1163,15 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
     Separa los resultados en páginas.
   \end{itemize}
 \item
-  \textbf{GET} \emph{/api/users/top5}
+  \textbf{GET} \texttt{/api/users/top5}
 
   \begin{itemize}
   \tightlist
   \item
-    Lista de los cinco usuarios con más entrenamientos.
+    Lista de los 5 usuarios con más entrenamientos.
   \end{itemize}
 \item
-  \textbf{GET} \emph{/api/users/me}
+  \textbf{GET} \texttt{/api/users/me}
 
   \begin{itemize}
   \tightlist
@@ -1179,7 +1179,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
     Retorna la información del usuario logueado.
   \end{itemize}
 \item
-  \textbf{PATCH} \emph{/api/users/me}
+  \textbf{PATCH} \texttt{/api/users/me}
 
   \begin{itemize}
   \tightlist
@@ -1187,7 +1187,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
     Actualiza la información del usuario logueado.
   \end{itemize}
 \item
-  \textbf{GET} \emph{/api/users/me/trainings}
+  \textbf{GET} \texttt{/api/users/me/trainings}
 
   \begin{itemize}
   \tightlist
@@ -1202,26 +1202,26 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Retorna la información del usuario especificado por \texttt{user\_id}
+    Retorna la información del usuario especificado por \texttt{user\_id}.
   \end{itemize}
 \item
-  \textbf{PATCH} \emph{/api/users/\{user\_id\}}
+  \textbf{PATCH} \texttt{/api/users/\{user\_id\}}
 
   \begin{itemize}
   \tightlist
   \item
-    Actualiza la información del usuario especificado por \emph{user\_id}.
+    Actualiza la información del usuario especificado por \texttt{user\_id}.
   \end{itemize}
 \item
-  \textbf{DELETE} \emph{/api/users/\{user\_id\}}
+  \textbf{DELETE} \texttt{/api/users/\{user\_id\}}
 
   \begin{itemize}
   \tightlist
   \item
-    Borra al usuario especificado por \emph{user\_id}.
+    Borra al usuario especificado por \texttt{user\_id}.
   \end{itemize}
 \item
-  \textbf{GET} \_/api/users/\{user\_id\}/trainings
+  \textbf{GET} \texttt{/api/users/\{user\_id\}/trainings}
 
   \begin{itemize}
   \tightlist
@@ -1236,7 +1236,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
 \begin{itemize}
 \tightlist
 \item
-  \textbf{GET} \emph{/api/roles}
+  \textbf{GET} \texttt{/api/roles}
 
   \begin{itemize}
   \tightlist
@@ -1253,23 +1253,23 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
 \begin{itemize}
 \tightlist
 \item
-  \textbf{GET} \emph{/api/corpus/\{text\_id\}}
+  \textbf{GET} \texttt{/api/corpus/\{text\_id\}}
 
   \begin{itemize}
   \tightlist
   \item
-    Retorna los detalles del texto especificado por \emph{text\_id}.
+    Retorna los detalles del texto especificado por \texttt{text\_id}.
   \end{itemize}
 \item
-  \textbf{DELETE} \emph{/api/corpus/\{text\_id\}}
+  \textbf{DELETE} \texttt{/api/corpus/\{text\_id\}}
 
   \begin{itemize}
   \tightlist
   \item
-    Borra un texto especificado por \emph{text\_id} del \emph{corpus}.
+    Borra un texto especificado por \texttt{text\_id} del corpus.
   \end{itemize}
 \item
-  \textbf{GET} \emph{/api/corpus/\{text\_id\}/trainings}
+  \textbf{GET} \texttt{/api/corpus/\{text\_id\}/trainings}
 
   \begin{itemize}
   \tightlist
@@ -1277,7 +1277,7 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
     Retorna la lista de entrenamientos proporcionados por los usuarios sobre las entidades en el texto.
   \end{itemize}
 \item
-  \textbf{PUT} \emph{/api/corpus/\{text\_id\}/trainings}
+  \textbf{PUT} \texttt{/api/corpus/\{text\_id\}/trainings}
 
   \begin{itemize}
   \tightlist
@@ -1285,7 +1285,7 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
     Agrega un entrenamiento para el texto con id \emph{text\_id}.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/corpus/upload}
+  \textbf{POST} \texttt{/api/corpus/upload}
 
   \begin{itemize}
   \tightlist
@@ -1297,7 +1297,7 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
     Los archivos deben ser \texttt{UTF-8}.
   \end{itemize}
 \item
-  \textbf{GET} \emph{/api/corpus}
+  \textbf{GET} \texttt{/api/corpus}
 
   \begin{itemize}
   \tightlist
@@ -1307,7 +1307,7 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
     Separa los resultados en páginas.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/corpus}
+  \textbf{POST} \texttt{/api/corpus}
 
   \begin{itemize}
   \tightlist
@@ -1324,7 +1324,7 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
 \begin{itemize}
 \tightlist
 \item
-  \textbf{GET} \emph{/api/snapshots}
+  \textbf{GET} \texttt{/api/snapshots}
 
   \begin{itemize}
   \tightlist
@@ -1334,39 +1334,39 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
     Separa los resultados en páginas.
   \end{itemize}
 \item
-  \textbf{GET} \emph{/api/snapshots/\{snapshot\_id\}}
+  \textbf{GET} \texttt{/api/snapshots/\{snapshot\_id\}}
 
   \begin{itemize}
   \tightlist
   \item
-    Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico.
+    Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un \emph{snapshot} específico.
   \end{itemize}
 \item
-  \textbf{DELETE} \emph{/api/snapshots/\{snapshot\_id\}}
+  \textbf{DELETE} \texttt{/api/snapshots/\{snapshot\_id\}}
 
   \begin{itemize}
   \tightlist
   \item
-    Borra un snapshot con el id especificado.
+    Borra un \emph{snapshot} con el id especificado.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/snapshots/\{snapshot\_id\}/force-train}
+  \textbf{POST} \texttt{/api/snapshots/\{snapshot\_id\}/force-train}
 
   \begin{itemize}
   \tightlist
   \item
-    Envía la tarea de entrenamiento a los workers que tienen el \emph{snapshot} \emph{snapshot\_id} cargado.
+    Envía la tarea de entrenamiento a los workers que tienen el \emph{snapshot} \texttt{snapshot\_id} cargado.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/snapshots/\{snapshot\_id\}/force-untrain}
+  \textbf{POST} \texttt{/api/snapshots/\{snapshot\_id\}/force-untrain}
 
   \begin{itemize}
   \tightlist
   \item
-    Envía la tarea de desentrenar a los \emph{workers} que tienen el \emph{snapshot} \emph{snapshot\_id} cargado.
+    Envía la tarea de desentrenar a los \emph{workers} que tienen el \emph{snapshot}. \emph{snapshot\_id} cargado.
   \end{itemize}
 \item
-  \textbf{GET} \emph{/api/snapshots/current}
+  \textbf{GET} \texttt{/api/snapshots/current}
 
   \begin{itemize}
   \tightlist
@@ -1374,12 +1374,12 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
     Retorna información sobre el \emph{snapshot} actual.
   \end{itemize}
 \item
-  \textbf{PUT} \emph{/api/snapshots/current}
+  \textbf{PUT} \texttt{/api/snapshots/current}
 
   \begin{itemize}
   \tightlist
   \item
-    Crea un nuevo snapshot con la información provista
+    Crea un nuevo \emph{snapshot} con la información provista.
   \end{itemize}
 \end{itemize}
 
@@ -1391,54 +1391,54 @@ Conjunto de operaciones relacionadas al \emph{Reconocimiento de Entidades Nombra
 \begin{itemize}
 \tightlist
 \item
-  \textbf{GET} \emph{/api/ner/train}
+  \textbf{GET} \texttt{/api/ner/train}
 
   \begin{itemize}
   \tightlist
   \item
-    Retorna un texto para que un usuario del sistema revise si está correctamente inferido
+    Retorna un texto para que un usuario del sistema revise si está correctamente inferido.
   \item
     Únicamente retorna textos que el usuario logueado no haya corregido ya
   \end{itemize}
 \item
-  \textbf{GET} \emph{/api/ner/compare/\{first\_snapshot\}/\{second\_snapshot\}}
+  \textbf{GET} \texttt{/api/ner/compare/\{first\_snapshot\}/\{second\_snapshot\}}
 
   \begin{itemize}
   \tightlist
   \item
-    Compara el \emph{Reconocimiento de Entidades Nombradas} entre dos snapshots distintos
+    Compara el \emph{NER} entre dos \emph{snapshots} distintos.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/ner/current/parse}
+  \textbf{POST} \texttt{/api/ner/current/parse}
 
   \begin{itemize}
   \tightlist
   \item
-    Retorna un documento \emph{spaCy} para un texto dado utilizando el snapshot actual
+    Retorna un documento \emph{spaCy} para un texto dado utilizando el \emph{snapshot} actual.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/ner/\{snapshot\_id\}/parse}
+  \textbf{POST} \texttt{/api/ner/\{snapshot\_id\}/parse}
 
   \begin{itemize}
   \tightlist
   \item
-    Retorna un documento \emph{spaCy} para un texto dado utilizando el snapshot especificado
+    Retorna un documento \emph{spaCy} para un texto dado utilizando el \emph{snapshot} especificado.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/ner/current/entities}
+  \textbf{POST} \texttt{/api/ner/current/entities}
 
   \begin{itemize}
   \tightlist
   \item
-    Retorna la lista de \emph{Entidades Nombradas} para un texto dado utilizando el modelo actual
+    Retorna la lista de \emph{Entidades Nombradas} para un texto dado utilizando el modelo actual.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/ner/\{snapshot\_id\}/entities}
+  \textbf{POST} \texttt{/api/ner/\{snapshot\_id\}/entities}
 
   \begin{itemize}
   \tightlist
   \item
-    Retorna la lista de \emph{Entidades Nombradas} para un texto dado utilizando el modelo especificado
+    Retorna la lista de \emph{Entidades Nombradas} para un texto dado utilizando el modelo especificado.
   \end{itemize}
 \end{itemize}
 
@@ -1448,12 +1448,12 @@ Conjunto de operaciones relacionadas al \emph{Reconocimiento de Entidades Nombra
 \begin{itemize}
 \tightlist
 \item
-  \textbf{DELETE} \emph{/api/trainings/\{training\_id\}}
+  \textbf{DELETE} \texttt{/api/trainings/\{training\_id\}}
 
   \begin{itemize}
   \tightlist
   \item
-    Borra un entrenamiento
+    Borra un entrenamiento.
   \end{itemize}
 \end{itemize}
 
@@ -1463,20 +1463,20 @@ Conjunto de operaciones relacionadas al \emph{Reconocimiento de Entidades Nombra
 \begin{itemize}
 \tightlist
 \item
-  \textbf{GET} \emph{/api/workers/}
+  \textbf{GET} \texttt{/api/workers/}
 
   \begin{itemize}
   \tightlist
   \item
-    Lista de los workers disponibles
+    Lista de los workers disponibles.
   \end{itemize}
 \item
-  \textbf{POST} \emph{/api/workers/reassign}
+  \textbf{POST} \texttt{/api/workers/reassign}
 
   \begin{itemize}
   \tightlist
   \item
-    Reasigna un trabajador de un a versión de snapshot a otra
+    Reasigna un trabajador de un a versión de \emph{snapshot} a otra.
   \end{itemize}
 \end{itemize}
 
@@ -2302,7 +2302,7 @@ Por tal motivo recibimos el primer premio de dicha hackaton (``Mención itba,'' 
 \item
   Recomendar que con 4000 documentos se puede alcanzar 80 puntos de \(\text{valor-F}\)
 \item
-  Cuando se enfrenta un proyecto de etiquetado de \emph{NER} recomendamos una etapa inicial de 4000 documentos para alcanzar una exactitud razonable y poder inferir de la experiencia obtenida de los textos analizados que tipos de entidad segun la taxonomía de (Sekine, \protect\hyperlink{ref-Sekine-NER}{2007}) en la \ref{fig:fig-sekine} se necesitan agregqr.
+  Cuando se enfrenta un proyecto de etiquetado de \emph{NER}, recomendamos una etapa inicial de 4000 documentos para alcanzar una exactitud razonable y poder inferir de la experiencia obtenida de los textos analizados que tipos de entidad segun la taxonomía de (Sekine, \protect\hyperlink{ref-Sekine-NER}{2007}) en la \ref{fig:fig-sekine} se necesitan agregar.
 \end{itemize}
 
 \newpage
