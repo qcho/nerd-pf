@@ -487,7 +487,7 @@ _Mongoengine_ es una librería pensada para trabajar con _MongoDB_ en _Python_. 
 
 Librería que nos permite integrar la librería de serialización _Marshmallow_ con _Mongoengine_ simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del _API_. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto _User_ ya nunca deberíamos devolver en una respuesta el campo _password_ de la base de datos.
 
-### Base de Datos {MongoDB-Dev}
+### Base de Datos {#MongoDBDev}
 
 Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: _MongoDB_ [@mongodb].
 
@@ -672,7 +672,7 @@ _RabbitMQ_ está pensado desde su concepción para poder escalar horizontalmente
 
 #### _MongoDB cluster_
 
-Al igual que _RabbitMQ_, _MongoDB_ fue diseñado para escalar horizontalmente (ver [Base de datos](#MongoDB-Dev)), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.
+Al igual que _RabbitMQ_, _MongoDB_ fue diseñado para escalar horizontalmente (ver [Base de datos](#MongoDBDev)), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.
 
 #### _Worker cluster_
 
