@@ -124,7 +124,7 @@ También es posible desde aquí ver todos los textos que forman parte del _corpu
 
 La pantalla de _Estado_ permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del _corpus_ así como también realizar diversas acciones sobre los _workers_ (Figura \@ref(fig:logic-status)).
 
-```{r logic-status, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Información de _corpus_ y manejo de workers.'}
+```{r logic-status, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Información de corpus y manejo de workers.'}
 knitr::include_graphics('assets/logic/status.png')
 ```
 
