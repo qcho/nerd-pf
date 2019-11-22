@@ -720,10 +720,12 @@ DiagrammeR::DiagrammeR("
    a-->>c: Access/Refresh Tokens;
    c->>a: Consulta NER;
    a->>r: Crear tarea de NER;
-   w->>+r: Pedir tarea;
+   activate w;
+   w->>r: Pedir tarea;
    r-->>w: Tarea de NER;
    w->>w: Inferir entidades;
-   w-->>-r: Entidades inferidas;
+   w-->>r: Entidades inferidas;
+   deactivate w;
 ")
 ```
 
