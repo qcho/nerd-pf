@@ -1,5 +1,5 @@
 \newpage
-# (APPENDIX) Anexo: Datos de resultados {-}
+# Anexo: Datos de resultados {-}
 
 * **t:** porcentaje de documentos de entrenamiento.
 * **v:** porcentaje de documentos de validación.
