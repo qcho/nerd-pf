@@ -466,7 +466,26 @@ El servicio que provee el _API REST_ fue implementado utilizando el lenguaje de 
 
 ##### _Flask_
 
-Como base del proyecto utilizamos un _microframework_ de aplicaciones web llamado _Flask_ [@flask] ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios ni una librería para poder tener vistas que utilicen _templates_.
+Como base del proyecto utilizamos un _microframework_ de aplicaciones web llamado _Flask_ [@flask] ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.
+
+##### _flask-smorest_
+
+_Framework_ que enriquece a _Flask_ agregando la posibilidad de poder crear _APIs REST_ que se auto-documentan generando una especificación de _OpenAPI_ que es expuesta a los usuarios del servicio en dos variantes: _ReDoc_ y _Swagger UI_. Tener un _API_ que se auto-documenta nos permite ofrecerle a los clientes un lugar en el cual puedan consultar el funcionamiento completo de el servicio requiriendo poco trabajo extra a la hora de desarrollar el servicio.
+
+A su vez, provee facilidades de serialización y de-serialización de objetos en respuestas _JSON_ utilizando la librería de _marshmallow_ así como también utilizades para simplificar la creación de _endpoints_ que permitan paginar sus resultados (particularmente útil para listar entidades como entrenamientos, usuarios o textos).
+
+
+##### _flask-jwt-extended_
+
+_Flask JWT extended_ es una librería que agrega a _Flask_ la funcionalidad de poder restringir el acceso a ciertos _endpoints_ requiriendo que el usuario tenga un _JSON Web Token_ [@JWT] que acredite su identidad. A su vez, dado que cada _token_ se asocia a una identidad (usuario) y es capaz de contener información, podemos utilizar el mismo sistema para guardar los roles del usuario y requerir que cuente con los permisos necesarios.
+
+##### _Mongoengine_
+
+_Mongoengine_ es una librería pensada para trabajar con _MongoDB_ en _Python_. En su esencia es un  _Document-Object Mapper_ que permite convertir resultados de consultas de la base de datos en objetos de _Python_ así como también permite guardar esos objetos en la base de datos.
+
+##### _marshmallow-mongoengine_
+
+Librería que nos permite integrar la librería de serialización _Marshmallow_ con _Mongoengine_ simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del _API_. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto _User_ ya nunca deberíamos devolver en una respuesta el campo _password_ de la base de datos.
 
 <!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
 <!-- Los diagramas UML utilizados para representar la vista de desarrollo incluyen el diagrama del paquete. -->
