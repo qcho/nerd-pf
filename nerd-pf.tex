@@ -545,7 +545,7 @@ Una tabla de \emph{word-embeddings} mapea vectores largos binarios y esparsos en
 \hypertarget{informaciuxf3n-liguxfcuxedstica}{%
 \paragraph{Información ligüística}\label{informaciuxf3n-liguxfcuxedstica}}
 
-El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas, están resumidas en el siguiente ejemplo (TODO: figura 6).
+El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas, están resumidas en el siguiente ejemplo.
 
 \begin{figure}[H]
 
@@ -1643,8 +1643,8 @@ A su vez, provee facilidades de serialización y de-serialización de objetos en
 
 Librería que nos permite integrar la librería de serialización \emph{Marshmallow} con \emph{Mongoengine} simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del \emph{API}. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto \emph{User} ya nunca deberíamos devolver en una respuesta el campo \emph{password} de la base de datos.
 
-\hypertarget{base-de-datos-mongodb-dev}{%
-\subsubsection{Base de Datos \{MongoDB-Dev\}}\label{base-de-datos-mongodb-dev}}
+\hypertarget{MongoDBDev}{%
+\subsubsection{Base de Datos}\label{MongoDBDev}}
 
 Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: \emph{MongoDB} (``MongoDB,'' \protect\hyperlink{ref-mongodb}{2019}).
 
@@ -1919,7 +1919,7 @@ Debido a que el \emph{API} consume sus datos de \emph{MongoDB} así como tambié
 \hypertarget{mongodb-cluster}{%
 \paragraph{\texorpdfstring{\emph{MongoDB cluster}}{MongoDB cluster}}\label{mongodb-cluster}}
 
-Al igual que \emph{RabbitMQ}, \emph{MongoDB} fue diseñado para escalar horizontalmente (ver \protect\hyperlink{MongoDB-Dev}{Base de datos}), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.
+Al igual que \emph{RabbitMQ}, \emph{MongoDB} fue diseñado para escalar horizontalmente (ver \protect\hyperlink{MongoDBDev}{Base de datos}), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.
 
 \hypertarget{worker-cluster}{%
 \paragraph{\texorpdfstring{\emph{Worker cluster}}{Worker cluster}}\label{worker-cluster}}
