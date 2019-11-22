@@ -347,22 +347,22 @@ Conjunto de operaciones relacionadas al _Reconocimiento de Entidades Nombradas_
     * Retorna un documento _spaCy_ para un texto dado utilizando el _snapshot_ actual.
 * **POST** `/api/ner/{snapshot_id}/parse`
     * Retorna un documento _spaCy_ para un texto dado utilizando el _snapshot_ especificado.
-* **POST** _/api/ner/current/entities_
-    * Retorna la lista de _Entidades Nombradas_ para un texto dado utilizando el modelo actual
-* **POST** _/api/ner/\{snapshot_id\}/entities_
-    * Retorna la lista de _Entidades Nombradas_ para un texto dado utilizando el modelo especificado
+* **POST** `/api/ner/current/entities`
+    * Retorna la lista de _Entidades Nombradas_ para un texto dado utilizando el modelo actual.
+* **POST** `/api/ner/{snapshot_id}/entities`
+    * Retorna la lista de _Entidades Nombradas_ para un texto dado utilizando el modelo especificado.
 
 ##### Entrenamientos
 
-* **DELETE** _/api/trainings/\{training_id\}_
-    * Borra un entrenamiento
+* **DELETE** `/api/trainings/{training_id}`
+    * Borra un entrenamiento.
 
 ##### Workers
 
-* **GET** _/api/workers/_
-    * Lista de los workers disponibles
-* **POST** _/api/workers/reassign_
-    * Reasigna un trabajador de un a versión de snapshot a otra
+* **GET** `/api/workers/`
+    * Lista de los workers disponibles.
+* **POST** `/api/workers/reassign`
+    * Reasigna un trabajador de un a versión de _snapshot_ a otra.
 
 
 ## Vista de proceso
