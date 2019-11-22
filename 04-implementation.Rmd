@@ -1,11 +1,11 @@
 \newpage
 # NERd (Implementación) {#implementation}
 
-Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de tagueo de entidades.
+Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de etiquetado de entidades.
 Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.
 El nombre de esta herramienta es **NERd**, sigla cuyo significado en inglés es _**N**amed **E**ntity **R**ecognition **D**uh_^[Expresión de obviedad. _Used to express your belief that what was said was extremely obvious_ [@cambridge_duh]]!
 
-Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura \@ref(fig:arq41).
+Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura \@ref(fig:arq41)).
 
 ```{r arq41, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Ilustración de arquitectura 4+1.'}
 knitr::include_graphics('assets/4+1_Architectural_View_Model.svg')
@@ -26,17 +26,17 @@ A continuación detallamos distintas partes del servicio NERd así como también
 <!-- Los diagramas UML se utilizan para representar la vista lógica e incluyen diagramas de clase y diagramas de estado. -->
 ### Web
 
-La página web de _NERd_ está enfocada en las tareas de mantenimiento de los servicios ofrecidos por el _API_ así como también ofrece de interfaces que permiten a usuarios del sistema corregir de manera eficiente el modelo de inferencia.
+La página _web_ de _NERd_ está enfocada en las tareas de mantenimiento de los servicios ofrecidos por el _API_ así como también ofrece de interfaces que permiten a usuarios del sistema corregir de manera eficiente el modelo de inferencia.
 
 #### Inicio
 
-Pantalla de inicio donde se encuentran accesos rápidos para entrenar el modelo o para poder buscar entidades en textos.
-También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más (Figura \@ref(fig:logic-home)).
+La pantalla de inicio es donde se encuentran los accesos rápidos para entrenar el modelo o para buscar entidades en textos.
+También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más (Figura \@ref(fig:logic-home)). A este tipo de técnicas se las denomina _gamification_.
 
 ```{r logic-home, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pantalla de inicio con usuario logueado.'}
 knitr::include_graphics('assets/logic/home-logged-all.png')
 ```
-Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso (Figura \@ref(fig:logic-home-logged-notrainer)).
+Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso (Figura \@ref(fig:logic-home-logged-nontrainer)).
 
 ```{r logic-home-logged-nontrainer, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pantalla de inicio sin rol de entrenador.'}
 knitr::include_graphics('assets/logic/home-logged-not_trainer.png')
@@ -50,7 +50,7 @@ knitr::include_graphics('assets/logic/home-anonymous.png')
 
 #### Entrenamiento
 
-La pantalla de _Entrenamiento_ es el núcleo de la web en la cual es posible entrenar el modelo.
+La pantalla de entrenamiento es el núcleo de la _web_ donde se entrena el modelo.
 
 El usuario es presentado con un texto perteneciente al _corpus_ del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura \@ref(fig:logic-train)).
 
@@ -60,21 +60,21 @@ knitr::include_graphics('assets/logic/train.png')
 
 ##### Usabilidad
 
-Tuvimos un foco fuerte en la usabilidad del widget ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.
+Tuvimos un foco fuerte en la usabilidad del componente ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.
 
 ###### Llamado a acción y ayuda
 
-Dado que lo primero que ve el usuario es un texto con anotaciones, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el widget de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
+Dado que lo primero que ve el usuario es un texto con etiquetas de entidad, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el componente de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
 Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo (Figura \@ref(fig:logic-train-help)).
 
 ```{r logic-train-help, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Ayuda del entrenador.'}
 knitr::include_graphics('assets/logic/train-help.png')
 ```
 
-###### Creación y edición de entidades
+###### Etiquetado de entidades
 
-Para la creación de entidades decidimos ofrecer dos maneras: La primera es arrastrando un conjunto de palabras de manera tal de unirlas todas en una única entidad.
-La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de la ubicación de la palabra dentro del texto:
+Para etiquetar entidades decidimos ofrecer dos maneras: La más sencilla es hacer click en cada palabra. La segunda, para cuando una entidad esta definida por múltiples palabras, es arrastrar el cursor entre ellas.
+Dependiendo de la ubicación en la selección dentro del texto:
 
 - Si no existen entidades en el texto actual, se le asigna por defecto el tipo _MISC_ y se muestran el resto de los tipos para permitir cambiarlo de ser necesario.
 - Si existen entidades antes o después, se ofrece la opción de unir la palabra actual con la entidada más próxima para el lado elegido.
@@ -83,12 +83,11 @@ La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de 
 knitr::include_graphics('assets/logic/train-popup.png')
 ```
 
-Como podemos ver en la figura \@ref(fig:logic-train-popup), para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
-Si el modelo infirió una entidad de manera incorrecta, ya sea por que sea una entidad inválida o agregó palabras de más a una entidad inválida, permitimos que el usuario remueva la entidad y que después vuelva a agregar la entidad correcta.
+Como podemos ver en la figura \@ref(fig:logic-train-popup), si el modelo infirió una entidad de manera incorrecta, ya sea por que se trata de una entidad inválida o agregó palabras de más a la etiqueta, permitimos que el usuario remueva la entidad y que después vuelva a etiquetar correctamente.
 
 ###### Optimización en tiempos de carga
 
-Dado que es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario una experiencia completamente fluida.
+Es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario entrenador una experiencia completamente fluida.
 
 #### Administración de usuarios
 
@@ -98,19 +97,19 @@ La pantalla de _Administración de usuarios_ permite a los usuarios con el rol d
 knitr::include_graphics('assets/logic/user-list.png')
 ```
 
-#### Detalles de usuario
+#### Perfil del usuario
 
-La pantalla de detalle de usuario permite al usuario con sesión activa ver sus entrenamientos y cambiar su contraseña.
-
-Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero a otros usuarios (Figura \@ref(fig:logic-user-profile)).
+Al hacer click Perfil, el usuario con sesión activa puede ver sus entrenamientos y cambiar su contraseña (Figura \@ref(fig:logic-user-profile)).
 
 ```{r logic-user-profile, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Perfil de usuario.'}
 knitr::include_graphics('assets/logic/user-profile.png')
 ```
 
+Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero sobre cualquier usuario haciendo click en el nombre del en la figura \@ref(fig:logic-user-list).
+
 #### _Corpus_
 
-La pantalla de _Corpus_ permite a un usuario con el rol de administrador realizar tareas relacionadas con el _corpus_ del sistema (Figura \@ref(fig:logic-corpus-management)).
+La pantalla de _corpus_ permite a un usuario con el rol de administrador realizar tareas relacionadas con el conjunto de textos ingresados en el sistema (Figura \@ref(fig:logic-corpus-management)).
 
 ```{r logic-corpus-management, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Administración de corpus.'}
 knitr::include_graphics('assets/logic/corpus-management.png')
@@ -118,7 +117,7 @@ knitr::include_graphics('assets/logic/corpus-management.png')
 
 Desde aquí es posible agregar textos al _corpus_ utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión _.txt_ y cada línea del archivo será agregada al _corpus_ como un texto individual.
 
-También es posible desde aquí ver todos los textos que forman parte del _corpus_ así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del _corpus_ así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.
+También es posible desde aquí ver todos los textos que forman parte del _corpus_ así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del _corpus_ así como también eliminar correcciones a las inferencias de entidades cargados por usuarios.
 
 #### Estado
 
@@ -132,36 +131,37 @@ knitr::include_graphics('assets/logic/status.png')
 
 ###### Corpus
 
-Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el _corpus_ contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de _Corpus_.
+Es esta columna a la izquierda se puede ver rápidamente que porcentaje de el _corpus_ contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de _Corpus_.
 
-###### Crear snapshot
+###### Crear _snapshot_
 
-Es la sección en la cual será posible crear, borrar o modificar los tipos de entidades reconocidos por el snapshot actual. La acción de editar las entidades genera un snapshot nuevo.
+En esta sección, el administrador puede crear un _snapshot_ del estado actual de entrenamiento del modelo. Esta funcionalidad es utiil para comparar el avance del entrenamiento en diferentes momentos de la historia del mismo.
 
-Si el administrador así lo quisiera, puede utilizar esta sección para crear un snapshot nuevo sin editar entidades.
+Cuando se crea un _snapshot_ se incrementa la última versión disponible en uno y se gesta una nueva versión actual. Además existe la posibilidad de editar los posibles tipos de entidad del sistema en este momento. Como consecuencia de esto, el sistema se asegura que todo cambio de etiquetas tenga su correspondiente versión.
 
-###### Snapshots
+###### _Snapshots_
 
-Sección en la cual podemos ver la lista completa de snapshots.
-Para cada Snapshot, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.
+Sección en la cual podemos ver la lista completa de _snapshots_.
+Para cada _snapshot_, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.
 
-###### Reasignar trabajador
+Cuando el sistema entrena un _snapshot_ se tendrá en cuenta todos los textos que hayan sido etiquetados previamente a la creación del mismo.
 
-Sección que permite reasignar trabajadores para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar distintas pruebas sobre los mismos.
+###### Reasignar _worker_
 
+Sección que permite reasignar _workers_ (los servicios encargados de realizar operaciones de _NLP_) para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar pruebas sobre los mismos.
 
 #### Sandbox
 
-La pantalla de _Sandbox_ permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
+Se accede a la pantalla de _sandbox_ desde el inicio haciendo click en el boton de "Buscar entidades"; permite a los usuarios ingresar sus textos y obtener las entidades nombradas de los mismos haciendo consultas al servicio NERd del _snapshot_ actual.
 Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al _corpus_ (Figura \@ref(fig:logic-sandbox)).
 
 ```{r logic-sandbox, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Inferencia de entidades en sandbox.'}
 knitr::include_graphics('assets/logic/sandbox.png')
 ```
 
-#### Comparar
+#### Comparar (_snapshots_)
 
-Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos, con la opción de marcar visualmente aquellos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual (Figura \@ref(fig:logic-compare)).
+Esta sección es accesible únicamente por administradores y permite comparar las entidades inferidas por dos _snapshots_ distintos, con la opción de marcar visualmente aquellos textos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, podrá corregir de manera inline los errores en la inferencia del modelo actual (Figura \@ref(fig:logic-compare)).
 
 ```{r logic-compare, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Comparativa de modelos.'}
 knitr::include_graphics('assets/logic/compare.png')
@@ -193,7 +193,7 @@ Cuando no hay una sesión activa, se muestran únicamente las opciones para acce
 knitr::include_graphics('assets/logic/status-anonymous.png')
 ```
 
-Cuando hay una sesión activa el usuario cuenta con el rol de _USER_ y/o de _TRAINER_ pero **no** con el de _ADMIN_, debería poder acceder únicamente a su perfil (Figura \@ref(fig:logic-status-user)).
+Cuando hay una sesión activa el usuario cuenta con el rol de _USER_ y/o de _TRAINER_ pero **no** con el de _ADMIN_, podrá acceder únicamente a su perfil (Figura \@ref(fig:logic-status-user)).
 
 ```{r logic-status-user, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Usuario regular.'}
 knitr::include_graphics('assets/logic/status-user.png')
@@ -207,11 +207,15 @@ knitr::include_graphics('assets/logic/status-admin.png')
 
 ### _API_
 
-El acceso al servicio se realiza mediante un API REST que se auto-documenta utilizando la especificación de OpenAPI.
+Para este proyecto tomamos la decisión de ofrecer una _API REST_. Dado que _REST_ es un estilo de arquitectura y **no un standard** históricamente ha sido dificil ofrecer este tipo de servicio de una manera amena para el developer.
+
+En los últimos años han surgido especificaciones bien formadas para la definición de _REST APIs_, en particular _The Linux Foundation_ ha promovido que la industria utilice _OPEN API_.
+
+Es por ello que toda la especificación de nuestra _API_ es _OpenAPI 3_ compliant.
 
 #### Documentación
 
-Para visualizar la documentación de todos los _endpoints_ del _API_, es posible utilizar dos medios: _Swagger UI_ y _ReDoc_.
+Para visualizar la documentación de todos los _endpoints_ del _API_, es posible utilizar dos medios: _Swagger UI_ y _ReDoc_. Gracias al uso de _OpenAPI_ estas documentaciones han sido autogeneradas.
 
 ##### _Swagger UI_
 
@@ -235,7 +239,9 @@ knitr::include_graphics('assets/logic/swagger-responses.png')
 
 ##### _ReDoc_
 
-_ReDoc_ es una alternativa a _Swagger_ para visualizar la documentación de una especificación de _OpenAPI_ que presenta un diseño más moderno así como también se enfoca más en mostrar la información de manera más clara. A diferencia de _Swagger UI_, _ReDoc_ no permite realizar pruebas contra el servidor para el cual se está mostrando la documentación (Figura .
+_ReDoc_ es una alternativa a _Swagger_ para visualizar la documentación de una especificación de _OpenAPI_ que presenta un diseño más moderno así como también se enfoca más en mostrar la información de manera más clara.
+
+A diferencia de _Swagger UI_, _ReDoc_ no permite realizar pruebas contra el servidor para el cual se está mostrando la documentación (Figura \@ref(fig:logic-redoc-main)) pero ofrece una mejor experiencia de usuario a la hora de navegar la _API_.
 
 ```{r logic-redoc-main, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Ejemplo de documentación con ReDoc.'}
 knitr::include_graphics('assets/logic/redoc-main.png')
@@ -254,77 +260,77 @@ Rutas del API dedicadas a la autenticación de usuarios.
     * Utilizado para la funcionalidad de _login_
 * **POST** _/api/auth/refresh_
     * Refresca el token de acceso.
-    * Utilizado cuando un token de acceso caducó.
+    * Utilizado cuando un _token_ de acceso caducó.
 
 ##### Usuarios
 
 Conjunto de operaciones relacionadas con los usuarios del sistema.
 
 * **GET** _/api/users_
-    * Lista de usuarios existentes
-    * Separa los resultados en páginas
+    * Lista de usuarios existentes.
+    * Separa los resultados en páginas.
 * **GET** _/api/users/top5_
-    * Lista de los 5 usuarios con más entrenamientos
+    * Lista de los cinco usuarios con más entrenamientos.
 * **GET** _/api/users/me_
-    * Retorna la información del usuario logueado
+    * Retorna la información del usuario logueado.
 * **PATCH** _/api/users/me_
-    * Actualiza la información del usuario logueado
+    * Actualiza la información del usuario logueado.
 * **GET** _/api/users/me/trainings_
-    * Retorna los entrenamientos del usuario logueado
-    * Separa los resultados en páginas
-* **GET** _/api/users/\{user\_id\}_
-    * Retorna la información del usuario especificado por _user\_id_
+    * Retorna los entrenamientos del usuario logueado.
+    * Separa los resultados en páginas.
+* **GET** `/api/users/{user_id}`
+    * Retorna la información del usuario especificado por `user_id`
 * **PATCH** _/api/users/\{user\_id\}_
-    * Actualiza la información del usuario especificado por _user\_id_
+    * Actualiza la información del usuario especificado por _user\_id_.
 * **DELETE** _/api/users/\{user\_id\}_
-    * Borra al usuario especificado por _user\_id_
+    * Borra al usuario especificado por _user\_id_.
 * **GET** _/api/users/\{user\_id\}/trainings
-    * Retorna los entrenamientos del usuario especificado
+    * Retorna los entrenamientos del usuario especificado.
 
 ##### Roles
 
 * **GET** _/api/roles_
-    * Retorna la lista de todos los roles asignables a usuarios del sistema
+    * Retorna la lista de todos los roles asignables a usuarios del sistema.
 
 ##### Corpus
 
 Rutas dedicadas a operaciones con el _corpus_ del sistema.
 
 * **GET** _/api/corpus/\{text\_id\}_
-    * Retorna los detalles del texto especificado por _text\_id_
+    * Retorna los detalles del texto especificado por _text\_id_.
 * **DELETE** _/api/corpus/\{text\_id\}_
-    * Borra un texto especificado por _text\_id_ del corpus
+    * Borra un texto especificado por _text\_id_ del _corpus_.
 * **GET** _/api/corpus/\{text\_id\}/trainings_
-    * Retorna la lista de entrenamientos proporcionados por los usuarios sobre las entidades en el texto
+    * Retorna la lista de entrenamientos proporcionados por los usuarios sobre las entidades en el texto.
 * **PUT** _/api/corpus/\{text\_id\}/trainings_
-    * Agrega un entrenamiento para el texto con id _text_id_
+    * Agrega un entrenamiento para el texto con id _text_id_.
 * **POST** _/api/corpus/upload_
-    * Permite agregar textos de manera masiva al sistema
-    * Acepta una lista de archivos .txt donde cada línea es un texto a agregar
-    * Los archivos deben ser UTF-8
+    * Permite agregar textos de manera masiva al sistema.
+    * Acepta una lista de archivos `.txt` donde cada línea es un texto a agregar.
+    * Los archivos deben ser `UTF-8`.
 * **GET** _/api/corpus_
-    * Lista de textos cargados en el sistema para entrenamiento
-    * Separa los resultados en páginas
+    * Lista de textos cargados en el sistema para entrenamiento.
+    * Separa los resultados en páginas.
 * **POST** _/api/corpus_
-    * Agrega un texto al sistema para entrenamiento
+    * Agrega un texto al sistema para entrenamiento.
 
 ##### Snapshots
 
 Conjunto de operaciones relacionadas con los snapshots y workers.
 
 * **GET** _/api/snapshots_
-    * Listado de los snapshots disponibles
-    * Separa los resultados en páginas
+    * Listado de los snapshots disponibles.
+    * Separa los resultados en páginas.
 * **GET** _/api/snapshots/\{snapshot_id}_
-    * Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico
+    * Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico.
 * **DELETE** _/api/snapshots/\{snapshot_id}_
-    * Borra un snapshot con el id especificado
+    * Borra un snapshot con el id especificado.
 * **POST** _/api/snapshots/\{snapshot_id}/force-train_
-    * Envía la tarea de entrenamiento a los workers que tienen el snapshot _snapshot_id_ cargado.
+    * Envía la tarea de entrenamiento a los workers que tienen el _snapshot_ _snapshot_id_ cargado.
 * **POST** _/api/snapshots/\{snapshot_id}/force-untrain_
-    * Envía la tarea de desentrenar a los workers que tienen el snapshot _snapshot_id_ cargado.
+    * Envía la tarea de desentrenar a los _workers_ que tienen el _snapshot_ _snapshot_id_ cargado.
 * **GET** _/api/snapshots/current_
-    * Retorna información sobre el snapshot actual
+    * Retorna información sobre el _snapshot_ actual.
 * **PUT** _/api/snapshots/current_
     * Crea un nuevo snapshot con la información provista
 
@@ -396,7 +402,7 @@ Servicio que contiene la base de datos con la información necesaria (usuarios, 
 
 ### Cliente
 
-Es la interfaz del entrenador que se comunica con el API utilizando un _SDK_ auto-generado a partir de la definición de _OpenAPI_. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
+Es la interfaz del entrenador que se comunica con el API utilizando un _SDK_ auto-generado a partir de la definición de _OpenAPI_. Implementado en este proyecto es un cliente _web_ el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
 
 <!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
 
@@ -408,9 +414,9 @@ Esta vista también se conoce como la vista de implementación.
 
 ### Web
 
-La página web que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de _Single Page Application_ que nos permitió generar un _bundle_ que puede ser hosteado en _CDNs_ y nos permite tener ciclos de release independientes al los del servicio.
+La página _web_ que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de _Single Page Application_ que nos permitió generar un _bundle_ que puede ser hosteado en _CDNs_ y nos permite tener ciclos de release independientes al los del servicio.
 
-Poder separar las releases de la web y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el _API REST_ y una baja por cambios a la interfaz de la web no afecta la disponibilidad del servicio.
+Poder separar las releases de la _web_ y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el _API REST_ y una baja por cambios a la interfaz de la _web_ no afecta la disponibilidad del servicio.
 
 #### Tecnologías
 
@@ -436,7 +442,7 @@ Debido a que el servicio implementado expone una definiciión de _OpenAPI_, pode
 
 #### Arquitectura
 
-El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura \@ref(fig:developer-web-modules)).
+El código en la _web_ se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura \@ref(fig:developer-web-modules)).
 
 ```{r developer-web-modules, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Módulos de la página web.'}
 knitr::include_graphics('assets/developer/web-modules.png')
@@ -448,7 +454,7 @@ Los módulos marcados en rojos son de utilidad, ya sea por que contienen todo el
 
 #### Sesión
 
-El servicio web ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el _local storage_ del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.
+El servicio _web_ ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el _local storage_ del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.
 
 Si en algún momento en el futuro el _API_ nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código HTTP 401) y el token de refrescado dejó de ser válido, las credenciales se borran del _local storage_ y redirigimos al cliente a la pantalla de inicio.
 
@@ -460,13 +466,13 @@ Así como las credenciales, las preferencias de internacionalización son guarda
 
 ### _API_
 
-Implementada utilizando el lenguaje de programación _Python_. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en _Machine Learning_ se encuentran implementadas en este lenguaje. Provee del servicio al cual acceden los usuarios, tales como la plataforma web de entrenamiento mediante la implementación de un _API_ _REST_.
+Implementada utilizando el lenguaje de programación _Python_. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en _Machine Learning_ se encuentran implementadas en este lenguaje. Provee del servicio al cual acceden los usuarios, tales como la plataforma _web_ de entrenamiento mediante la implementación de un _API_ _REST_.
 
 #### Tecnologías
 
 ##### _Flask_
 
-Como base del proyecto utilizamos un _microframework_ de aplicaciones web llamado _Flask_ [@flask] ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.
+Como base del proyecto utilizamos un _microframework_ de aplicaciones _web_ llamado _Flask_ [@flask] ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.
 
 ##### _flask-smorest_
 
@@ -573,7 +579,7 @@ El proceso de _worker_ fue implementado en _Python_ utilizando la librería _Cel
 
 Deben tener por diseño siempre un modelo de inferencia de _spaCy_ cargado en memoria, por lo que cuando se crea uno nuevo, se le asigna por defecto el _snapshot_ actual (`snapshot_id = 0`) para poder ayudar a distribuir la carga de los pedidos al _API_.
 
-Debido a que requieren de un _snapshot_ para poder realizar la tarea de _NER_ así como también requieren del _corpus_ anotado para poder entrenar el modelo, cada _worker_ debe tener acceso a la base de datos principal de _NERd_ (Figura \@ref(fig:process-overview-client)).
+Debido a que requieren de un _snapshot_ para poder realizar la tarea de _NER_ así como también requieren del _corpus_ etiquetado para poder entrenar el modelo, cada _worker_ debe tener acceso a la base de datos principal de _NERd_ (Figura \@ref(fig:process-overview-client)).
 
 Cada _worker_ puede realizar las siguientes tareas:
 
@@ -601,7 +607,7 @@ La implementación completa de _NERd_ está formada por 5 contenedores requerido
 - **app**: Contiene el servicio de _API_.
 - **mongodb**: Contiene la base de datos.
 - **rabbitmq**: Contiene la cola de mensajes.
-- **ui**: Contiene la página web de administración y entrenamiento.
+- **ui**: Contiene la página _web_ de administración y entrenamiento.
 - **worker**: Contiene a uno o más _workers_.
 - **flower**: Contiene el servicio de monitoreo de _Flower_ (Opcional).
 
@@ -705,7 +711,7 @@ Si el cliente tiene un _token_ de _refresh_, en la figura \@ref(fig:scenarios-re
 DiagrammeR::DiagrammeR("
   sequenceDiagram;
    participant cliente as Usuario
-   participant web as Web
+   participant _web_ as Web
    participant API
    cliente->>+web: Login;
    web->>+API: Login con credenciales;
@@ -824,8 +830,8 @@ w->>w: Semáforo en 0?
 end
    w->>+m: Decrementar semáforo para vXX;
    m-->>-w: Éxito;
-   w->>+m: Pedir textos anotados para vXX;
-   m-->>-w: Textos anotados;
+   w->>+m: Pedir textos etoquetados para vXX;
+   m-->>-w: Textos etiquetados;
    w->>w: Entrenar;
    w->>+m: Actualizar fecha de entrenamiento;
    m-->>-w: Éxito;
