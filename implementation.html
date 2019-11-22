@@ -103,10 +103,10 @@
 <li class="chapter" data-level="4" data-path="implementation.html"><a href="implementation.html"><i class="fa fa-check"></i><b>4</b> NERd (Implementación)</a><ul>
 <li class="chapter" data-level="4.1" data-path="implementation.html"><a href="implementation.html#vista-lógica"><i class="fa fa-check"></i><b>4.1</b> Vista lógica</a><ul>
 <li class="chapter" data-level="4.1.1" data-path="implementation.html"><a href="implementation.html#web"><i class="fa fa-check"></i><b>4.1.1</b> Web</a></li>
-<li class="chapter" data-level="4.1.2" data-path="implementation.html"><a href="implementation.html#servicio"><i class="fa fa-check"></i><b>4.1.2</b> Servicio</a></li>
+<li class="chapter" data-level="4.1.2" data-path="implementation.html"><a href="implementation.html#api"><i class="fa fa-check"></i><b>4.1.2</b> <em>API</em></a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="implementation.html"><a href="implementation.html#vista-de-proceso"><i class="fa fa-check"></i><b>4.2</b> Vista de proceso</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="implementation.html"><a href="implementation.html#api"><i class="fa fa-check"></i><b>4.2.1</b> API</a></li>
+<li class="chapter" data-level="4.2.1" data-path="implementation.html"><a href="implementation.html#api-1"><i class="fa fa-check"></i><b>4.2.1</b> API</a></li>
 <li class="chapter" data-level="4.2.2" data-path="implementation.html"><a href="implementation.html#task-scheduler"><i class="fa fa-check"></i><b>4.2.2</b> Task Scheduler</a></li>
 <li class="chapter" data-level="4.2.3" data-path="implementation.html"><a href="implementation.html#worker"><i class="fa fa-check"></i><b>4.2.3</b> Worker</a></li>
 <li class="chapter" data-level="4.2.4" data-path="implementation.html"><a href="implementation.html#database"><i class="fa fa-check"></i><b>4.2.4</b> Database</a></li>
@@ -114,12 +114,15 @@
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="implementation.html"><a href="implementation.html#vista-de-desarrollo"><i class="fa fa-check"></i><b>4.3</b> Vista de desarrollo</a><ul>
 <li class="chapter" data-level="4.3.1" data-path="implementation.html"><a href="implementation.html#web-1"><i class="fa fa-check"></i><b>4.3.1</b> Web</a></li>
-<li class="chapter" data-level="4.3.2" data-path="implementation.html"><a href="implementation.html#api-1"><i class="fa fa-check"></i><b>4.3.2</b> <em>API</em></a></li>
+<li class="chapter" data-level="4.3.2" data-path="implementation.html"><a href="implementation.html#api-2"><i class="fa fa-check"></i><b>4.3.2</b> <em>API</em></a></li>
 <li class="chapter" data-level="4.3.3" data-path="implementation.html"><a href="implementation.html#base-de-datos"><i class="fa fa-check"></i><b>4.3.3</b> Base de Datos</a></li>
 <li class="chapter" data-level="4.3.4" data-path="implementation.html"><a href="implementation.html#task-scheduler-1"><i class="fa fa-check"></i><b>4.3.4</b> <em>Task Scheduler</em></a></li>
 <li class="chapter" data-level="4.3.5" data-path="implementation.html"><a href="implementation.html#worker-1"><i class="fa fa-check"></i><b>4.3.5</b> Worker</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a></li>
+<li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="implementation.html"><a href="implementation.html#docker"><i class="fa fa-check"></i><b>4.4.1</b> <em>Docker</em></a></li>
+<li class="chapter" data-level="4.4.2" data-path="implementation.html"><a href="implementation.html#escalamiento-horizontal"><i class="fa fa-check"></i><b>4.4.2</b> Escalamiento horizontal</a></li>
+</ul></li>
 <li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Resultados de entrenamiento</a><ul>
@@ -396,8 +399,8 @@ Figura 4.18: Usuario administrador.
 </div>
 </div>
 </div>
-<div id="servicio" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> Servicio</h3>
+<div id="api" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> <em>API</em></h3>
 <p>El acceso al servicio se realiza mediante un API REST que se auto-documenta utilizando la especificación de OpenAPI.</p>
 <div id="documentación" class="section level4">
 <h4><span class="header-section-number">4.1.2.1</span> Documentación</h4>
@@ -653,7 +656,7 @@ La vista de proceso aborda concurrencia, distribución, integradores, rendimient
 Figura 4.23: Componentes del sistema.
 </p>
 </div>
-<div id="api" class="section level3">
+<div id="api-1" class="section level3">
 <h3><span class="header-section-number">4.2.1</span> API</h3>
 <p>Servicio en el cual los clientes pueden pedir las <em>Entidades Nombradas</em> de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
 El <em>API</em> se comunica el servicio de <em>Bases de Datos</em> para obtener o modificar información sobre los usuarios, los textos pertenecientes al <em>corpus</em> o información de los distintos <em>snapshots</em> y envía mensajes al <em>Task Scheduler</em> para realizar diversas tareas relacionadas con <em>spaCy</em> así como también tareas de administración sobre los <em>workers</em> disponibles.</p>
@@ -740,7 +743,7 @@ Figura 4.24: Módulos de la página web.
 <p>Así como las credenciales, las preferencias de internacionalización son guardadas en el <em>local storage</em> del cliente web, de manera tal que los usuarios del sistema no deban elegir el idioma de su preferencia cada vez que ingresan a la página.</p>
 </div>
 </div>
-<div id="api-1" class="section level3">
+<div id="api-2" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> <em>API</em></h3>
 <p>Implementada utilizando el lenguaje de programación <em>Python</em>. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en <em>Machine Learning</em> se encuentran implementadas en este lenguaje. Provee del servicio al cual acceden los usuarios, tales como la plataforma web de entrenamiento mediante la implementación de un <em>API</em> <em>REST</em>.</p>
 <div id="tecnologías-1" class="section level4">
@@ -831,6 +834,37 @@ Figura 4.29: Colección de entrenamientos.
 <div id="task-scheduler-1" class="section level3">
 <h3><span class="header-section-number">4.3.4</span> <em>Task Scheduler</em></h3>
 <p>El <em>task scheduler</em> que utilizamos en el <em>API</em> para poder orquestrar todas las tareas relacionadas con <em>NER</em> así como también la de la administración de los <em>workers</em> es <em>Celery</em> <span class="citation">(“Celery,” <a href="#ref-celery">2019</a>)</span>. <em>Celery</em> es una cola de tareas asincrónica especializada en el procesamiento distribuido de las mismas. Si bien soporta distintos <em>backends</em> para la funcionalidad de cola de mensajes, decidimos utilizar <em>RabbitMQ</em> <span class="citation">(“RabbitMQ,” <a href="#ref-rabbitmq">2019</a>)</span> debido a su buena integración con <em>Celery</em> así como también por su robustez y posibilidad de escalar horizontalmente.</p>
+<p>Para el monitoreo de las tareas de <em>Celery</em> utilizamos la herramienta llamada <em>Flower</em> <span class="citation">(Movsisyan, <a href="#ref-flower">2016</a>)</span>, que permite cosas como el estado de cada worker (Figura <a href="implementation.html#fig:developer-flower-dashboard">4.30</a>), historial de tareas (Figura <a href="implementation.html#fig:developer-flower-task-history">4.31</a>) así como también estadísticas en tiempo real sobre el sistema (Figura <a href="implementation.html#fig:developer-flower-monitoring">4.32</a>) y detalles de todos los trabajadores que están conectados a la cola de mensajes (Figura <a href="implementation.html#fig:developer-flower-monitoring">4.32</a>).</p>
+<div class="figure" style="text-align: center"><span id="fig:developer-flower-dashboard"></span>
+<img src="assets/developer/flower-dashboard.png" alt="Página principal de Flower."  />
+<p class="caption">
+Figura 4.30: Página principal de Flower.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:developer-flower-task-history"></span>
+<img src="assets/developer/flower-task-history.png" alt="Historial de tareas en Flower."  />
+<p class="caption">
+Figura 4.31: Historial de tareas en Flower.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:developer-flower-monitoring"></span>
+<img src="assets/developer/flower-monitoring.png" alt="Monitoreo en tiempo real en Flower."  />
+<p class="caption">
+Figura 4.32: Monitoreo en tiempo real en Flower.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:developer-flower-broker"></span>
+<img src="assets/developer/flower-broker.png" alt="Listado de colas activas en Flower."  />
+<p class="caption">
+Figura 4.33: Listado de colas activas en Flower.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:developer-flower-worker-queues"></span>
+<img src="assets/developer/flower-worker-queues.png" alt="Colas de mensaje escuchadas por un worker."  />
+<p class="caption">
+Figura 4.34: Colas de mensaje escuchadas por un worker.
+</p>
+</div>
 </div>
 <div id="worker-1" class="section level3">
 <h3><span class="header-section-number">4.3.5</span> Worker</h3>
@@ -852,10 +886,27 @@ Figura 4.29: Colección de entrenamientos.
 <blockquote>
 <p>La vista física representa el sistema desde el punto de vista de un ingeniero de sistemas.
 Se refiere a la topología de los componentes de software en la capa física, así como a las conexiones físicas entre estos componentes.
-Esta vista también se conoce como la vista de <em>deployment</em>.
-<!-- Los diagramas UML utilizados para representar la vista física incluyen el diagrama de deployment. --></p>
+Esta vista también se conoce como la vista de <em>deployment</em>.</p>
 </blockquote>
+<p>Para la implementación de cada una de las partes de <em>NERd</em>, tuvimos como primer objetivo lograr el desarrollo de un proyecto que pudiera escalar horizontalmente desde su concepción, es por ello que separamos cada parte del proyecto para poder lograr una arquitectura que escale naturalmente.</p>
+<div id="docker" class="section level3">
+<h3><span class="header-section-number">4.4.1</span> <em>Docker</em></h3>
+<p><em>Docker</em> <span class="citation">(“Docker,” <a href="#ref-docker">2019</a>)</span> es un conjunto de productos que permiten empaquetar aplicaciones en contenedores. Cada contenedor contiene todo lo necesario para que la aplicación funcione (código, dependencias, configuraciones, herramientas del sistema, etc.)<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. Mediante el uso de virtualización, es posible distribuir y ejecutar un contenedor en más de un sistema, lo que lleva a la posibilidad de tener varias réplicas de un mismo servicio ejecutando al mismo tiempo.</p>
+<p>Por ésta razón decidimos utilizar <em>Docker</em> como la herramienta para empaquetar los servicios principales de <em>NERd</em>.</p>
+<p>La implementación completa de <em>NERd</em> está formada por 6 contenedores:</p>
+</div>
+<div id="escalamiento-horizontal" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> Escalamiento horizontal</h3>
+<p>Como podemos ver en la figura <a href="implementation.html#fig:physical-overview">4.35</a>,</p>
+<div class="figure" style="text-align: center"><span id="fig:physical-overview"></span>
+<img src="assets/physical/overview.png" alt="Interacción de servicios."  />
+<p class="caption">
+Figura 4.35: Interacción de servicios.
+</p>
+</div>
+<!-- Los diagramas UML utilizados para representar la vista física incluyen el diagrama de deployment. -->
 <!-- TODO: explicar docker. docker-package. red. nginx. etc -->
+</div>
 </div>
 <div id="escenarios" class="section level2">
 <h2><span class="header-section-number">4.5</span> Escenarios</h2>
@@ -867,8 +918,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-1e88982fec1af9841e2a" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1e88982fec1af9841e2a">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-0a639fdcbbc167e61dac" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0a639fdcbbc167e61dac">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -877,6 +928,9 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <div id="refs" class="references">
 <div id="ref-celery">
 <p>Celery: Distributed task queue. (2019). Retrieved November 20, 2019, from <a href="http://www.celeryproject.org/">http://www.celeryproject.org/</a></p>
+</div>
+<div id="ref-docker">
+<p>Docker. (2019). Retrieved November 20, 2019, from <a href="https://www.docker.com/">https://www.docker.com/</a></p>
 </div>
 <div id="ref-react">
 <p>Facebook. (2019). React: A javascript library for building user interfaces. Retrieved November 20, 2019, from <a href="https://reactjs.org/">https://reactjs.org/</a></p>
@@ -893,6 +947,9 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <div id="ref-mongodb">
 <p>MongoDB: The database for modern applications. (2019). Retrieved November 20, 2019, from <a href="https://www.mongodb.com">https://www.mongodb.com</a></p>
 </div>
+<div id="ref-flower">
+<p>Movsisyan, M. (2016). Flower. Retrieved November 20, 2019, from <a href="https://flower.readthedocs.io/">https://flower.readthedocs.io/</a></p>
+</div>
 <div id="ref-rabbitmq">
 <p>RabbitMQ. (2019). Retrieved November 20, 2019, from <a href="https://www.rabbitmq.com/">https://www.rabbitmq.com/</a></p>
 </div>
@@ -903,6 +960,7 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <li id="fn1"><p>Expresión de obviedad. <em>Used to express your belief that what was said was extremely obvious</em> <span class="citation">(“Duh definition,” <a href="#ref-cambridge_duh">2019</a>)</span><a href="implementation.html#fnref1" class="footnote-back">↩</a></p></li>
 <li id="fn2"><p><a href="https://docs.mongodb.com/manual/sharding/" class="uri">https://docs.mongodb.com/manual/sharding/</a><a href="implementation.html#fnref2" class="footnote-back">↩</a></p></li>
 <li id="fn3"><p><a href="https://docs.mongodb.com/manual/replication/" class="uri">https://docs.mongodb.com/manual/replication/</a><a href="implementation.html#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p><a href="https://www.docker.com/resources/what-container" class="uri">https://www.docker.com/resources/what-container</a><a href="implementation.html#fnref4" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
