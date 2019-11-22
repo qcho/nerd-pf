@@ -721,11 +721,11 @@ La predicción que realiza la \emph{CNN} tiene un puntaje de 0 a 1; un porcentaj
 \hypertarget{implementation}{%
 \section{NERd (Implementación)}\label{implementation}}
 
-Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de tagueo de entidades.
+Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de etiquetado de entidades.
 Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.
 El nombre de esta herramienta es \textbf{NERd}, sigla cuyo significado en inglés es \emph{\textbf{N}amed \textbf{E}ntity \textbf{R}ecognition \textbf{D}uh}\footnote{Expresión de obviedad. \emph{Used to express your belief that what was said was extremely obvious} (``Duh definition,'' \protect\hyperlink{ref-cambridge_duh}{2019})}!
 
-Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura \ref{fig:arq41}.
+Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura \ref{fig:arq41}).
 
 \begin{figure}[H]
 
@@ -756,13 +756,13 @@ A continuación detallamos distintas partes del servicio NERd así como también
 \hypertarget{web}{%
 \subsubsection{Web}\label{web}}
 
-La página web de \emph{NERd} está enfocada en las tareas de mantenimiento de los servicios ofrecidos por el \emph{API} así como también ofrece de interfaces que permiten a usuarios del sistema corregir de manera eficiente el modelo de inferencia.
+La página \emph{web} de \emph{NERd} está enfocada en las tareas de mantenimiento de los servicios ofrecidos por el \emph{API} así como también ofrece de interfaces que permiten a usuarios del sistema corregir de manera eficiente el modelo de inferencia.
 
 \hypertarget{inicio}{%
 \paragraph{Inicio}\label{inicio}}
 
-Pantalla de inicio donde se encuentran accesos rápidos para entrenar el modelo o para poder buscar entidades en textos.
-También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más (Figura \ref{fig:logic-home}).
+La pantalla de inicio es donde se encuentran los accesos rápidos para entrenar el modelo o para buscar entidades en textos.
+También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más (Figura \ref{fig:logic-home}). A este tipo de técnicas se las denomina \emph{gamification}.
 
 \begin{figure}[H]
 
@@ -773,7 +773,7 @@ También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a
 \caption{Pantalla de inicio con usuario logueado.}\label{fig:logic-home}
 \end{figure}
 
-Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso (Figura \ref{fig:logic-home-logged-notrainer}).
+Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso (Figura \ref{fig:logic-home-logged-nontrainer}).
 
 \begin{figure}[H]
 
@@ -798,7 +798,7 @@ Si la persona visitando la página no cuenta con una sesión activa, se le invit
 \hypertarget{entrenamiento}{%
 \paragraph{Entrenamiento}\label{entrenamiento}}
 
-La pantalla de \emph{Entrenamiento} es el núcleo de la web en la cual es posible entrenar el modelo.
+La pantalla de entrenamiento es el núcleo de la \emph{web} donde se entrena el modelo.
 
 El usuario es presentado con un texto perteneciente al \emph{corpus} del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura \ref{fig:logic-train}).
 
@@ -814,11 +814,11 @@ El usuario es presentado con un texto perteneciente al \emph{corpus} del servici
 \hypertarget{usabilidad}{%
 \subparagraph{Usabilidad}\label{usabilidad}}
 
-Tuvimos un foco fuerte en la usabilidad del widget ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.
+Tuvimos un foco fuerte en la usabilidad del componente ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.
 
 Llamado a acción y ayuda
 
-Dado que lo primero que ve el usuario es un texto con anotaciones, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el widget de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
+Dado que lo primero que ve el usuario es un texto con etiquetas de entidad, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el componente de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
 Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo (Figura \ref{fig:logic-train-help}).
 
 \begin{figure}[H]
@@ -830,10 +830,10 @@ Como refuerzo de este llamado a acción, agregamos un botón que al ser clickead
 \caption{Ayuda del entrenador.}\label{fig:logic-train-help}
 \end{figure}
 
-Creación y edición de entidades
+Etiquetado de entidades
 
-Para la creación de entidades decidimos ofrecer dos maneras: La primera es arrastrando un conjunto de palabras de manera tal de unirlas todas en una única entidad.
-La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de la ubicación de la palabra dentro del texto:
+Para etiquetar entidades decidimos ofrecer dos maneras: La más sencilla es hacer click en cada palabra. La segunda, para cuando una entidad esta definida por múltiples palabras, es arrastrar el cursor entre ellas.
+Dependiendo de la ubicación en la selección dentro del texto:
 
 \begin{itemize}
 \tightlist
@@ -852,12 +852,11 @@ La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de 
 \caption{Edición de entidad.}\label{fig:logic-train-popup}
 \end{figure}
 
-Como podemos ver en la figura \ref{fig:logic-train-popup}, para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
-Si el modelo infirió una entidad de manera incorrecta, ya sea por que sea una entidad inválida o agregó palabras de más a una entidad inválida, permitimos que el usuario remueva la entidad y que después vuelva a agregar la entidad correcta.
+Como podemos ver en la figura \ref{fig:logic-train-popup}, si el modelo infirió una entidad de manera incorrecta, ya sea por que se trata de una entidad inválida o agregó palabras de más a la etiqueta, permitimos que el usuario remueva la entidad y que después vuelva a etiquetar correctamente.
 
 Optimización en tiempos de carga
 
-Dado que es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario una experiencia completamente fluida.
+Es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario entrenador una experiencia completamente fluida.
 
 \hypertarget{administraciuxf3n-de-usuarios}{%
 \paragraph{Administración de usuarios}\label{administraciuxf3n-de-usuarios}}
@@ -873,12 +872,10 @@ La pantalla de \emph{Administración de usuarios} permite a los usuarios con el 
 \caption{Administración de usuarios.}\label{fig:logic-user-list}
 \end{figure}
 
-\hypertarget{detalles-de-usuario}{%
-\paragraph{Detalles de usuario}\label{detalles-de-usuario}}
+\hypertarget{perfil-del-usuario}{%
+\paragraph{Perfil del usuario}\label{perfil-del-usuario}}
 
-La pantalla de detalle de usuario permite al usuario con sesión activa ver sus entrenamientos y cambiar su contraseña.
-
-Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero a otros usuarios (Figura \ref{fig:logic-user-profile}).
+Al hacer click Perfil, el usuario con sesión activa puede ver sus entrenamientos y cambiar su contraseña (Figura \ref{fig:logic-user-profile}).
 
 \begin{figure}[H]
 
@@ -889,10 +886,12 @@ Los usuarios con rol administrador pueden realizar las acciones mencionadas prev
 \caption{Perfil de usuario.}\label{fig:logic-user-profile}
 \end{figure}
 
+Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero sobre cualquier usuario haciendo click en el nombre del en la figura \ref{fig:logic-user-list}.
+
 \hypertarget{corpus}{%
 \paragraph{\texorpdfstring{\emph{Corpus}}{Corpus}}\label{corpus}}
 
-La pantalla de \emph{Corpus} permite a un usuario con el rol de administrador realizar tareas relacionadas con el \emph{corpus} del sistema (Figura \ref{fig:logic-corpus-management}).
+La pantalla de \emph{corpus} permite a un usuario con el rol de administrador realizar tareas relacionadas con el conjunto de textos ingresados en el sistema (Figura \ref{fig:logic-corpus-management}).
 
 \begin{figure}[H]
 
@@ -905,7 +904,7 @@ La pantalla de \emph{Corpus} permite a un usuario con el rol de administrador re
 
 Desde aquí es posible agregar textos al \emph{corpus} utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión \emph{.txt} y cada línea del archivo será agregada al \emph{corpus} como un texto individual.
 
-También es posible desde aquí ver todos los textos que forman parte del \emph{corpus} así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del \emph{corpus} así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.
+También es posible desde aquí ver todos los textos que forman parte del \emph{corpus} así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del \emph{corpus} así como también eliminar correcciones a las inferencias de entidades cargados por usuarios.
 
 \hypertarget{estado}{%
 \paragraph{Estado}\label{estado}}
@@ -926,27 +925,29 @@ La pantalla de \emph{Estado} permite a un usuario con el rol de administrador vi
 
 Corpus
 
-Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el \emph{corpus} contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de \emph{Corpus}.
+Es esta columna a la izquierda se puede ver rápidamente que porcentaje de el \emph{corpus} contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de \emph{Corpus}.
 
-Crear snapshot
+Crear \emph{snapshot}
 
-Es la sección en la cual será posible crear, borrar o modificar los tipos de entidades reconocidos por el snapshot actual. La acción de editar las entidades genera un snapshot nuevo.
+En esta sección, el administrador puede crear un \emph{snapshot} del estado actual de entrenamiento del modelo. Esta funcionalidad es utiil para comparar el avance del entrenamiento en diferentes momentos de la historia del mismo.
 
-Si el administrador así lo quisiera, puede utilizar esta sección para crear un snapshot nuevo sin editar entidades.
+Cuando se crea un \emph{snapshot} se incrementa la última versión disponible en uno y se gesta una nueva versión actual. Además existe la posibilidad de editar los posibles tipos de entidad del sistema en este momento. Como consecuencia de esto, el sistema se asegura que todo cambio de etiquetas tenga su correspondiente versión.
 
-Snapshots
+\emph{Snapshots}
 
-Sección en la cual podemos ver la lista completa de snapshots.
-Para cada Snapshot, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.
+Sección en la cual podemos ver la lista completa de \emph{snapshots}.
+Para cada \emph{snapshot}, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.
 
-Reasignar trabajador
+Cuando el sistema entrena un \emph{snapshot} se tendrá en cuenta todos los textos que hayan sido etiquetados previamente a la creación del mismo.
 
-Sección que permite reasignar trabajadores para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar distintas pruebas sobre los mismos.
+Reasignar \emph{worker}
+
+Sección que permite reasignar \emph{workers} (los servicios encargados de realizar operaciones de \emph{NLP}) para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar pruebas sobre los mismos.
 
 \hypertarget{sandbox}{%
 \paragraph{Sandbox}\label{sandbox}}
 
-La pantalla de \emph{Sandbox} permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
+Se accede a la pantalla de \emph{sandbox} desde el inicio haciendo click en el boton de \enquote{Buscar entidades}; permite a los usuarios ingresar sus textos y obtener las entidades nombradas de los mismos haciendo consultas al servicio NERd del \emph{snapshot} actual.
 Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al \emph{corpus} (Figura \ref{fig:logic-sandbox}).
 
 \begin{figure}[H]
@@ -958,10 +959,10 @@ Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las en
 \caption{Inferencia de entidades en sandbox.}\label{fig:logic-sandbox}
 \end{figure}
 
-\hypertarget{comparar}{%
-\paragraph{Comparar}\label{comparar}}
+\hypertarget{comparar-snapshots}{%
+\paragraph{\texorpdfstring{Comparar (\emph{snapshots})}{Comparar (snapshots)}}\label{comparar-snapshots}}
 
-Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos, con la opción de marcar visualmente aquellos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual (Figura \ref{fig:logic-compare}).
+Esta sección es accesible únicamente por administradores y permite comparar las entidades inferidas por dos \emph{snapshots} distintos, con la opción de marcar visualmente aquellos textos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, podrá corregir de manera inline los errores en la inferencia del modelo actual (Figura \ref{fig:logic-compare}).
 
 \begin{figure}[H]
 
@@ -1016,7 +1017,7 @@ Cuando no hay una sesión activa, se muestran únicamente las opciones para acce
 \caption{Usuario anónimo.}\label{fig:logic-status-anonymous}
 \end{figure}
 
-Cuando hay una sesión activa el usuario cuenta con el rol de \emph{USER} y/o de \emph{TRAINER} pero \textbf{no} con el de \emph{ADMIN}, debería poder acceder únicamente a su perfil (Figura \ref{fig:logic-status-user}).
+Cuando hay una sesión activa el usuario cuenta con el rol de \emph{USER} y/o de \emph{TRAINER} pero \textbf{no} con el de \emph{ADMIN}, podrá acceder únicamente a su perfil (Figura \ref{fig:logic-status-user}).
 
 \begin{figure}[H]
 
@@ -1041,12 +1042,16 @@ Finalmente, cuando el usuario logueado tiene el rol de \emph{ADMIN}, tiene acces
 \hypertarget{api}{%
 \subsubsection{\texorpdfstring{\emph{API}}{API}}\label{api}}
 
-El acceso al servicio se realiza mediante un API REST que se auto-documenta utilizando la especificación de OpenAPI.
+Para este proyecto tomamos la decisión de ofrecer una \emph{API REST}. Dado que \emph{REST} es un estilo de arquitectura y \textbf{no un standard} históricamente ha sido dificil ofrecer este tipo de servicio de una manera amena para el developer.
+
+En los últimos años han surgido especificaciones bien formadas para la definición de \emph{REST APIs}, en particular \emph{The Linux Foundation} ha promovido que la industria utilice \emph{OPEN API}.
+
+Es por ello que toda la especificación de nuestra \emph{API} es \emph{OpenAPI 3} compliant.
 
 \hypertarget{documentaciuxf3n}{%
 \paragraph{Documentación}\label{documentaciuxf3n}}
 
-Para visualizar la documentación de todos los \emph{endpoints} del \emph{API}, es posible utilizar dos medios: \emph{Swagger UI} y \emph{ReDoc}.
+Para visualizar la documentación de todos los \emph{endpoints} del \emph{API}, es posible utilizar dos medios: \emph{Swagger UI} y \emph{ReDoc}. Gracias al uso de \emph{OpenAPI} estas documentaciones han sido autogeneradas.
 
 \hypertarget{swagger-ui}{%
 \subparagraph{\texorpdfstring{\emph{Swagger UI}}{Swagger UI}}\label{swagger-ui}}
@@ -1087,7 +1092,9 @@ Para las respuesta, \emph{Swagger} muestra la forma del \emph{JSON} de respuesta
 \hypertarget{redoc}{%
 \subparagraph{\texorpdfstring{\emph{ReDoc}}{ReDoc}}\label{redoc}}
 
-\emph{ReDoc} es una alternativa a \emph{Swagger} para visualizar la documentación de una especificación de \emph{OpenAPI} que presenta un diseño más moderno así como también se enfoca más en mostrar la información de manera más clara. A diferencia de \emph{Swagger UI}, \emph{ReDoc} no permite realizar pruebas contra el servidor para el cual se está mostrando la documentación (Figura .
+\emph{ReDoc} es una alternativa a \emph{Swagger} para visualizar la documentación de una especificación de \emph{OpenAPI} que presenta un diseño más moderno así como también se enfoca más en mostrar la información de manera más clara.
+
+A diferencia de \emph{Swagger UI}, \emph{ReDoc} no permite realizar pruebas contra el servidor para el cual se está mostrando la documentación (Figura \ref{fig:logic-redoc-main}) pero ofrece una mejor experiencia de usuario a la hora de navegar la \emph{API}.
 
 \begin{figure}[H]
 
@@ -1134,7 +1141,7 @@ Rutas del API dedicadas a la autenticación de usuarios.
   \item
     Refresca el token de acceso.
   \item
-    Utilizado cuando un token de acceso caducó.
+    Utilizado cuando un \emph{token} de acceso caducó.
   \end{itemize}
 \end{itemize}
 
@@ -1151,9 +1158,9 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Lista de usuarios existentes
+    Lista de usuarios existentes.
   \item
-    Separa los resultados en páginas
+    Separa los resultados en páginas.
   \end{itemize}
 \item
   \textbf{GET} \emph{/api/users/top5}
@@ -1161,7 +1168,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Lista de los 5 usuarios con más entrenamientos
+    Lista de los cinco usuarios con más entrenamientos.
   \end{itemize}
 \item
   \textbf{GET} \emph{/api/users/me}
@@ -1169,7 +1176,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Retorna la información del usuario logueado
+    Retorna la información del usuario logueado.
   \end{itemize}
 \item
   \textbf{PATCH} \emph{/api/users/me}
@@ -1177,7 +1184,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Actualiza la información del usuario logueado
+    Actualiza la información del usuario logueado.
   \end{itemize}
 \item
   \textbf{GET} \emph{/api/users/me/trainings}
@@ -1185,17 +1192,17 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Retorna los entrenamientos del usuario logueado
+    Retorna los entrenamientos del usuario logueado.
   \item
-    Separa los resultados en páginas
+    Separa los resultados en páginas.
   \end{itemize}
 \item
-  \textbf{GET} \emph{/api/users/\{user\_id\}}
+  \textbf{GET} \texttt{/api/users/\{user\_id\}}
 
   \begin{itemize}
   \tightlist
   \item
-    Retorna la información del usuario especificado por \emph{user\_id}
+    Retorna la información del usuario especificado por \texttt{user\_id}
   \end{itemize}
 \item
   \textbf{PATCH} \emph{/api/users/\{user\_id\}}
@@ -1203,7 +1210,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Actualiza la información del usuario especificado por \emph{user\_id}
+    Actualiza la información del usuario especificado por \emph{user\_id}.
   \end{itemize}
 \item
   \textbf{DELETE} \emph{/api/users/\{user\_id\}}
@@ -1211,7 +1218,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Borra al usuario especificado por \emph{user\_id}
+    Borra al usuario especificado por \emph{user\_id}.
   \end{itemize}
 \item
   \textbf{GET} \_/api/users/\{user\_id\}/trainings
@@ -1219,7 +1226,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Retorna los entrenamientos del usuario especificado
+    Retorna los entrenamientos del usuario especificado.
   \end{itemize}
 \end{itemize}
 
@@ -1234,7 +1241,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Retorna la lista de todos los roles asignables a usuarios del sistema
+    Retorna la lista de todos los roles asignables a usuarios del sistema.
   \end{itemize}
 \end{itemize}
 
@@ -1251,7 +1258,7 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Retorna los detalles del texto especificado por \emph{text\_id}
+    Retorna los detalles del texto especificado por \emph{text\_id}.
   \end{itemize}
 \item
   \textbf{DELETE} \emph{/api/corpus/\{text\_id\}}
@@ -1259,7 +1266,7 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Borra un texto especificado por \emph{text\_id} del corpus
+    Borra un texto especificado por \emph{text\_id} del \emph{corpus}.
   \end{itemize}
 \item
   \textbf{GET} \emph{/api/corpus/\{text\_id\}/trainings}
@@ -1267,7 +1274,7 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Retorna la lista de entrenamientos proporcionados por los usuarios sobre las entidades en el texto
+    Retorna la lista de entrenamientos proporcionados por los usuarios sobre las entidades en el texto.
   \end{itemize}
 \item
   \textbf{PUT} \emph{/api/corpus/\{text\_id\}/trainings}
@@ -1275,7 +1282,7 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Agrega un entrenamiento para el texto con id \emph{text\_id}
+    Agrega un entrenamiento para el texto con id \emph{text\_id}.
   \end{itemize}
 \item
   \textbf{POST} \emph{/api/corpus/upload}
@@ -1283,11 +1290,11 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Permite agregar textos de manera masiva al sistema
+    Permite agregar textos de manera masiva al sistema.
   \item
-    Acepta una lista de archivos .txt donde cada línea es un texto a agregar
+    Acepta una lista de archivos \texttt{.txt} donde cada línea es un texto a agregar.
   \item
-    Los archivos deben ser UTF-8
+    Los archivos deben ser \texttt{UTF-8}.
   \end{itemize}
 \item
   \textbf{GET} \emph{/api/corpus}
@@ -1295,9 +1302,9 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Lista de textos cargados en el sistema para entrenamiento
+    Lista de textos cargados en el sistema para entrenamiento.
   \item
-    Separa los resultados en páginas
+    Separa los resultados en páginas.
   \end{itemize}
 \item
   \textbf{POST} \emph{/api/corpus}
@@ -1305,7 +1312,7 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
   \begin{itemize}
   \tightlist
   \item
-    Agrega un texto al sistema para entrenamiento
+    Agrega un texto al sistema para entrenamiento.
   \end{itemize}
 \end{itemize}
 
@@ -1322,9 +1329,9 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
   \begin{itemize}
   \tightlist
   \item
-    Listado de los snapshots disponibles
+    Listado de los snapshots disponibles.
   \item
-    Separa los resultados en páginas
+    Separa los resultados en páginas.
   \end{itemize}
 \item
   \textbf{GET} \emph{/api/snapshots/\{snapshot\_id\}}
@@ -1332,7 +1339,7 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
   \begin{itemize}
   \tightlist
   \item
-    Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico
+    Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico.
   \end{itemize}
 \item
   \textbf{DELETE} \emph{/api/snapshots/\{snapshot\_id\}}
@@ -1340,7 +1347,7 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
   \begin{itemize}
   \tightlist
   \item
-    Borra un snapshot con el id especificado
+    Borra un snapshot con el id especificado.
   \end{itemize}
 \item
   \textbf{POST} \emph{/api/snapshots/\{snapshot\_id\}/force-train}
@@ -1348,7 +1355,7 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
   \begin{itemize}
   \tightlist
   \item
-    Envía la tarea de entrenamiento a los workers que tienen el snapshot \emph{snapshot\_id} cargado.
+    Envía la tarea de entrenamiento a los workers que tienen el \emph{snapshot} \emph{snapshot\_id} cargado.
   \end{itemize}
 \item
   \textbf{POST} \emph{/api/snapshots/\{snapshot\_id\}/force-untrain}
@@ -1356,7 +1363,7 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
   \begin{itemize}
   \tightlist
   \item
-    Envía la tarea de desentrenar a los workers que tienen el snapshot \emph{snapshot\_id} cargado.
+    Envía la tarea de desentrenar a los \emph{workers} que tienen el \emph{snapshot} \emph{snapshot\_id} cargado.
   \end{itemize}
 \item
   \textbf{GET} \emph{/api/snapshots/current}
@@ -1364,7 +1371,7 @@ Conjunto de operaciones relacionadas con los snapshots y workers.
   \begin{itemize}
   \tightlist
   \item
-    Retorna información sobre el snapshot actual
+    Retorna información sobre el \emph{snapshot} actual.
   \end{itemize}
 \item
   \textbf{PUT} \emph{/api/snapshots/current}
@@ -1529,7 +1536,7 @@ Servicio que contiene la base de datos con la información necesaria (usuarios, 
 \hypertarget{cliente}{%
 \subsubsection{Cliente}\label{cliente}}
 
-Es la interfaz del entrenador que se comunica con el API utilizando un \emph{SDK} auto-generado a partir de la definición de \emph{OpenAPI}. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
+Es la interfaz del entrenador que se comunica con el API utilizando un \emph{SDK} auto-generado a partir de la definición de \emph{OpenAPI}. Implementado en este proyecto es un cliente \emph{web} el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
 
 \hypertarget{vista-de-desarrollo}{%
 \subsection{Vista de desarrollo}\label{vista-de-desarrollo}}
@@ -1542,9 +1549,9 @@ Esta vista también se conoce como la vista de implementación.
 \hypertarget{web-1}{%
 \subsubsection{Web}\label{web-1}}
 
-La página web que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de \emph{Single Page Application} que nos permitió generar un \emph{bundle} que puede ser hosteado en \emph{CDNs} y nos permite tener ciclos de release independientes al los del servicio.
+La página \emph{web} que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de \emph{Single Page Application} que nos permitió generar un \emph{bundle} que puede ser hosteado en \emph{CDNs} y nos permite tener ciclos de release independientes al los del servicio.
 
-Poder separar las releases de la web y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el \emph{API REST} y una baja por cambios a la interfaz de la web no afecta la disponibilidad del servicio.
+Poder separar las releases de la \emph{web} y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el \emph{API REST} y una baja por cambios a la interfaz de la \emph{web} no afecta la disponibilidad del servicio.
 
 \hypertarget{tecnologuxedas}{%
 \paragraph{Tecnologías}\label{tecnologuxedas}}
@@ -1579,7 +1586,7 @@ Debido a que el servicio implementado expone una definiciión de \emph{OpenAPI},
 \hypertarget{arquitectura}{%
 \paragraph{Arquitectura}\label{arquitectura}}
 
-El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura \ref{fig:developer-web-modules}).
+El código en la \emph{web} se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura \ref{fig:developer-web-modules}).
 
 \begin{figure}[H]
 
@@ -1597,7 +1604,7 @@ Los módulos marcados en rojos son de utilidad, ya sea por que contienen todo el
 \hypertarget{sesiuxf3n}{%
 \paragraph{Sesión}\label{sesiuxf3n}}
 
-El servicio web ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el \emph{local storage} del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.
+El servicio \emph{web} ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el \emph{local storage} del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.
 
 Si en algún momento en el futuro el \emph{API} nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código HTTP 401) y el token de refrescado dejó de ser válido, las credenciales se borran del \emph{local storage} y redirigimos al cliente a la pantalla de inicio.
 
@@ -1611,7 +1618,7 @@ Así como las credenciales, las preferencias de internacionalización son guarda
 \hypertarget{api-2}{%
 \subsubsection{\texorpdfstring{\emph{API}}{API}}\label{api-2}}
 
-Implementada utilizando el lenguaje de programación \emph{Python}. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en \emph{Machine Learning} se encuentran implementadas en este lenguaje. Provee del servicio al cual acceden los usuarios, tales como la plataforma web de entrenamiento mediante la implementación de un \emph{API} \emph{REST}.
+Implementada utilizando el lenguaje de programación \emph{Python}. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en \emph{Machine Learning} se encuentran implementadas en este lenguaje. Provee del servicio al cual acceden los usuarios, tales como la plataforma \emph{web} de entrenamiento mediante la implementación de un \emph{API} \emph{REST}.
 
 \hypertarget{tecnologuxedas-1}{%
 \paragraph{Tecnologías}\label{tecnologuxedas-1}}
@@ -1619,7 +1626,7 @@ Implementada utilizando el lenguaje de programación \emph{Python}. El principal
 \hypertarget{flask}{%
 \subparagraph{\texorpdfstring{\emph{Flask}}{Flask}}\label{flask}}
 
-Como base del proyecto utilizamos un \emph{microframework} de aplicaciones web llamado \emph{Flask} (``Flask,'' \protect\hyperlink{ref-flask}{2019}) ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.
+Como base del proyecto utilizamos un \emph{microframework} de aplicaciones \emph{web} llamado \emph{Flask} (``Flask,'' \protect\hyperlink{ref-flask}{2019}) ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.
 
 \hypertarget{flask-smorest}{%
 \subparagraph{\texorpdfstring{\emph{flask-smorest}}{flask-smorest}}\label{flask-smorest}}
@@ -1781,7 +1788,7 @@ El proceso de \emph{worker} fue implementado en \emph{Python} utilizando la libr
 
 Deben tener por diseño siempre un modelo de inferencia de \emph{spaCy} cargado en memoria, por lo que cuando se crea uno nuevo, se le asigna por defecto el \emph{snapshot} actual (\texttt{snapshot\_id\ =\ 0}) para poder ayudar a distribuir la carga de los pedidos al \emph{API}.
 
-Debido a que requieren de un \emph{snapshot} para poder realizar la tarea de \emph{NER} así como también requieren del \emph{corpus} anotado para poder entrenar el modelo, cada \emph{worker} debe tener acceso a la base de datos principal de \emph{NERd} (Figura \ref{fig:process-overview-client}).
+Debido a que requieren de un \emph{snapshot} para poder realizar la tarea de \emph{NER} así como también requieren del \emph{corpus} etiquetado para poder entrenar el modelo, cada \emph{worker} debe tener acceso a la base de datos principal de \emph{NERd} (Figura \ref{fig:process-overview-client}).
 
 Cada \emph{worker} puede realizar las siguientes tareas:
 
@@ -1828,7 +1835,7 @@ La implementación completa de \emph{NERd} está formada por 5 contenedores requ
 \item
   \textbf{rabbitmq}: Contiene la cola de mensajes.
 \item
-  \textbf{ui}: Contiene la página web de administración y entrenamiento.
+  \textbf{ui}: Contiene la página \emph{web} de administración y entrenamiento.
 \item
   \textbf{worker}: Contiene a uno o más \emph{workers}.
 \item

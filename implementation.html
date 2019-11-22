@@ -59,7 +59,7 @@
 <script src="libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
 <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="libs/chromatography-0.1/chromatography.js"></script>
-<script src="libs/DiagrammeR-binding-1.0.1/DiagrammeR.js"></script>
+<script src="libs/DiagrammeR-binding-1.0.0/DiagrammeR.js"></script>
 
 
 <style type="text/css">
@@ -240,10 +240,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="implementation" class="section level1">
 <h1><span class="header-section-number">Capítulo 4</span> NERd (Implementación)</h1>
-<p>Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de tagueo de entidades.
+<p>Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de etiquetado de entidades.
 Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.
 El nombre de esta herramienta es <strong>NERd</strong>, sigla cuyo significado en inglés es <em><strong>N</strong>amed <strong>E</strong>ntity <strong>R</strong>ecognition <strong>D</strong>uh</em><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>!</p>
-<p>Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura <a href="implementation.html#fig:arq41">4.1</a>.</p>
+<p>Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura <a href="implementation.html#fig:arq41">4.1</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:arq41"></span>
 <img src="assets/4+1_Architectural_View_Model.svg" alt="Ilustración de arquitectura 4+1."  />
 <p class="caption">
@@ -266,18 +266,18 @@ Figura 4.1: Ilustración de arquitectura 4+1.
 <!-- Los diagramas UML se utilizan para representar la vista lógica e incluyen diagramas de clase y diagramas de estado. -->
 <div id="web" class="section level3">
 <h3><span class="header-section-number">4.1.1</span> Web</h3>
-<p>La página web de <em>NERd</em> está enfocada en las tareas de mantenimiento de los servicios ofrecidos por el <em>API</em> así como también ofrece de interfaces que permiten a usuarios del sistema corregir de manera eficiente el modelo de inferencia.</p>
+<p>La página <em>web</em> de <em>NERd</em> está enfocada en las tareas de mantenimiento de los servicios ofrecidos por el <em>API</em> así como también ofrece de interfaces que permiten a usuarios del sistema corregir de manera eficiente el modelo de inferencia.</p>
 <div id="inicio" class="section level4">
 <h4><span class="header-section-number">4.1.1.1</span> Inicio</h4>
-<p>Pantalla de inicio donde se encuentran accesos rápidos para entrenar el modelo o para poder buscar entidades en textos.
-También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más (Figura <a href="implementation.html#fig:logic-home">4.2</a>).</p>
+<p>La pantalla de inicio es donde se encuentran los accesos rápidos para entrenar el modelo o para buscar entidades en textos.
+También se encuentra aquí una lista de los 5 usuarios que más contribuyeron a entrenar el modelo. Detrás de esta funcionalidad se busca generar un espíritu competitivo entre los usuarios para que los mismos busquen contribuir más (Figura <a href="implementation.html#fig:logic-home">4.2</a>). A este tipo de técnicas se las denomina <em>gamification</em>.</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-home"></span>
 <img src="assets/logic/home-logged-all.png" alt="Pantalla de inicio con usuario logueado."  />
 <p class="caption">
 Figura 4.2: Pantalla de inicio con usuario logueado.
 </p>
 </div>
-<p>Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso (Figura <a href="#fig:logic-home-logged-notrainer"><strong>??</strong></a>).</p>
+<p>Si la persona no cuenta con permisos de entrenador, se le sugiere que contacte a un administrador para que le otorgue el permiso (Figura <a href="implementation.html#fig:logic-home-logged-nontrainer">4.3</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-home-logged-nontrainer"></span>
 <img src="assets/logic/home-logged-not_trainer.png" alt="Pantalla de inicio sin rol de entrenador."  />
 <p class="caption">
@@ -294,7 +294,7 @@ Figura 4.4: Pantalla de inicio sin sesión.
 </div>
 <div id="entrenamiento" class="section level4">
 <h4><span class="header-section-number">4.1.1.2</span> Entrenamiento</h4>
-<p>La pantalla de <em>Entrenamiento</em> es el núcleo de la web en la cual es posible entrenar el modelo.</p>
+<p>La pantalla de entrenamiento es el núcleo de la <em>web</em> donde se entrena el modelo.</p>
 <p>El usuario es presentado con un texto perteneciente al <em>corpus</em> del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura <a href="implementation.html#fig:logic-train">4.5</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-train"></span>
 <img src="assets/logic/train.png" alt="Pantalla de entrenamiento."  />
@@ -304,10 +304,10 @@ Figura 4.5: Pantalla de entrenamiento.
 </div>
 <div id="usabilidad" class="section level5">
 <h5><span class="header-section-number">4.1.1.2.1</span> Usabilidad</h5>
-<p>Tuvimos un foco fuerte en la usabilidad del widget ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.</p>
+<p>Tuvimos un foco fuerte en la usabilidad del componente ya que los entrenadores del servicio van a pasar prácticamente todo su tiempo en ésta pantalla, por lo que se tuvieron las siguientes consideraciones en la implementación.</p>
 <div id="llamado-a-acción-y-ayuda" class="section level6">
 <h6><span class="header-section-number">4.1.1.2.1.1</span> Llamado a acción y ayuda</h6>
-<p>Dado que lo primero que ve el usuario es un texto con anotaciones, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el widget de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
+<p>Dado que lo primero que ve el usuario es un texto con etiquetas de entidad, agregamos un título que invita al usuario a realizar acciones sobre el texto. De esta manera, le mostramos las dos acciones principales realizables desde el componente de entrenamiento: Click en alguna palabra o entidad y arrastrar un conjunto de palabras para crear una entidad nueva.
 Como refuerzo de este llamado a acción, agregamos un botón que al ser clickeado muestra un mensaje de ayuda con instrucciones más detalladas sobre el objetivo del entrenador y las acciones que deben de realizarse sobre el mismo (Figura <a href="implementation.html#fig:logic-train-help">4.6</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-train-help"></span>
 <img src="assets/logic/train-help.png" alt="Ayuda del entrenador."  />
@@ -316,10 +316,10 @@ Figura 4.6: Ayuda del entrenador.
 </p>
 </div>
 </div>
-<div id="creación-y-edición-de-entidades" class="section level6">
-<h6><span class="header-section-number">4.1.1.2.1.2</span> Creación y edición de entidades</h6>
-<p>Para la creación de entidades decidimos ofrecer dos maneras: La primera es arrastrando un conjunto de palabras de manera tal de unirlas todas en una única entidad.
-La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de la ubicación de la palabra dentro del texto:</p>
+<div id="etiquetado-de-entidades" class="section level6">
+<h6><span class="header-section-number">4.1.1.2.1.2</span> Etiquetado de entidades</h6>
+<p>Para etiquetar entidades decidimos ofrecer dos maneras: La más sencilla es hacer click en cada palabra. La segunda, para cuando una entidad esta definida por múltiples palabras, es arrastrar el cursor entre ellas.
+Dependiendo de la ubicación en la selección dentro del texto:</p>
 <ul>
 <li>Si no existen entidades en el texto actual, se le asigna por defecto el tipo <em>MISC</em> y se muestran el resto de los tipos para permitir cambiarlo de ser necesario.</li>
 <li>Si existen entidades antes o después, se ofrece la opción de unir la palabra actual con la entidada más próxima para el lado elegido.</li>
@@ -330,12 +330,11 @@ La otra es hacer click en una palabra y ahí se ofrecen opciones dependiendo de 
 Figura 4.7: Edición de entidad.
 </p>
 </div>
-<p>Como podemos ver en la figura <a href="implementation.html#fig:logic-train-popup">4.7</a>, para la edición de entidades decidimos permitir únicamente la modificación del tipo de una entidad inferida.
-Si el modelo infirió una entidad de manera incorrecta, ya sea por que sea una entidad inválida o agregó palabras de más a una entidad inválida, permitimos que el usuario remueva la entidad y que después vuelva a agregar la entidad correcta.</p>
+<p>Como podemos ver en la figura <a href="implementation.html#fig:logic-train-popup">4.7</a>, si el modelo infirió una entidad de manera incorrecta, ya sea por que se trata de una entidad inválida o agregó palabras de más a la etiqueta, permitimos que el usuario remueva la entidad y que después vuelva a etiquetar correctamente.</p>
 </div>
 <div id="optimización-en-tiempos-de-carga" class="section level6">
 <h6><span class="header-section-number">4.1.1.2.1.3</span> Optimización en tiempos de carga</h6>
-<p>Dado que es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario una experiencia completamente fluida.</p>
+<p>Es esperado que un usuario entrene más de un texto, al momento de pedir un texto para mostrar, se pide el siguiente. Mediante este mecanismo de pre-carga, podemos eliminar el tiempo de espera entre texto y texto ofreciendo al usuario entrenador una experiencia completamente fluida.</p>
 </div>
 </div>
 </div>
@@ -349,20 +348,20 @@ Figura 4.8: Administración de usuarios.
 </p>
 </div>
 </div>
-<div id="detalles-de-usuario" class="section level4">
-<h4><span class="header-section-number">4.1.1.4</span> Detalles de usuario</h4>
-<p>La pantalla de detalle de usuario permite al usuario con sesión activa ver sus entrenamientos y cambiar su contraseña.</p>
-<p>Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero a otros usuarios (Figura <a href="implementation.html#fig:logic-user-profile">4.9</a>).</p>
+<div id="perfil-del-usuario" class="section level4">
+<h4><span class="header-section-number">4.1.1.4</span> Perfil del usuario</h4>
+<p>Al hacer click Perfil, el usuario con sesión activa puede ver sus entrenamientos y cambiar su contraseña (Figura <a href="implementation.html#fig:logic-user-profile">4.9</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-user-profile"></span>
 <img src="assets/logic/user-profile.png" alt="Perfil de usuario."  />
 <p class="caption">
 Figura 4.9: Perfil de usuario.
 </p>
 </div>
+<p>Los usuarios con rol administrador pueden realizar las acciones mencionadas previamente pero sobre cualquier usuario haciendo click en el nombre del en la figura <a href="implementation.html#fig:logic-user-list">4.8</a>.</p>
 </div>
 <div id="corpus" class="section level4">
 <h4><span class="header-section-number">4.1.1.5</span> <em>Corpus</em></h4>
-<p>La pantalla de <em>Corpus</em> permite a un usuario con el rol de administrador realizar tareas relacionadas con el <em>corpus</em> del sistema (Figura <a href="implementation.html#fig:logic-corpus-management">4.10</a>).</p>
+<p>La pantalla de <em>corpus</em> permite a un usuario con el rol de administrador realizar tareas relacionadas con el conjunto de textos ingresados en el sistema (Figura <a href="implementation.html#fig:logic-corpus-management">4.10</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-corpus-management"></span>
 <img src="assets/logic/corpus-management.png" alt="Administración de corpus."  />
 <p class="caption">
@@ -370,7 +369,7 @@ Figura 4.10: Administración de corpus.
 </p>
 </div>
 <p>Desde aquí es posible agregar textos al <em>corpus</em> utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión <em>.txt</em> y cada línea del archivo será agregada al <em>corpus</em> como un texto individual.</p>
-<p>También es posible desde aquí ver todos los textos que forman parte del <em>corpus</em> así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del <em>corpus</em> así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.</p>
+<p>También es posible desde aquí ver todos los textos que forman parte del <em>corpus</em> así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del <em>corpus</em> así como también eliminar correcciones a las inferencias de entidades cargados por usuarios.</p>
 </div>
 <div id="estado" class="section level4">
 <h4><span class="header-section-number">4.1.1.6</span> Estado</h4>
@@ -385,27 +384,28 @@ Figura 4.11: Información de corpus y manejo de workers.
 <h5><span class="header-section-number">4.1.1.6.1</span> Secciones</h5>
 <div id="corpus-1" class="section level6">
 <h6><span class="header-section-number">4.1.1.6.1.1</span> Corpus</h6>
-<p>Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el <em>corpus</em> contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de <em>Corpus</em>.</p>
+<p>Es esta columna a la izquierda se puede ver rápidamente que porcentaje de el <em>corpus</em> contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de <em>Corpus</em>.</p>
 </div>
 <div id="crear-snapshot" class="section level6">
-<h6><span class="header-section-number">4.1.1.6.1.2</span> Crear snapshot</h6>
-<p>Es la sección en la cual será posible crear, borrar o modificar los tipos de entidades reconocidos por el snapshot actual. La acción de editar las entidades genera un snapshot nuevo.</p>
-<p>Si el administrador así lo quisiera, puede utilizar esta sección para crear un snapshot nuevo sin editar entidades.</p>
+<h6><span class="header-section-number">4.1.1.6.1.2</span> Crear <em>snapshot</em></h6>
+<p>En esta sección, el administrador puede crear un <em>snapshot</em> del estado actual de entrenamiento del modelo. Esta funcionalidad es utiil para comparar el avance del entrenamiento en diferentes momentos de la historia del mismo.</p>
+<p>Cuando se crea un <em>snapshot</em> se incrementa la última versión disponible en uno y se gesta una nueva versión actual. Además existe la posibilidad de editar los posibles tipos de entidad del sistema en este momento. Como consecuencia de esto, el sistema se asegura que todo cambio de etiquetas tenga su correspondiente versión.</p>
 </div>
 <div id="snapshots" class="section level6">
-<h6><span class="header-section-number">4.1.1.6.1.3</span> Snapshots</h6>
-<p>Sección en la cual podemos ver la lista completa de snapshots.
-Para cada Snapshot, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.</p>
+<h6><span class="header-section-number">4.1.1.6.1.3</span> <em>Snapshots</em></h6>
+<p>Sección en la cual podemos ver la lista completa de <em>snapshots</em>.
+Para cada <em>snapshot</em>, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.</p>
+<p>Cuando el sistema entrena un <em>snapshot</em> se tendrá en cuenta todos los textos que hayan sido etiquetados previamente a la creación del mismo.</p>
 </div>
-<div id="reasignar-trabajador" class="section level6">
-<h6><span class="header-section-number">4.1.1.6.1.4</span> Reasignar trabajador</h6>
-<p>Sección que permite reasignar trabajadores para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar distintas pruebas sobre los mismos.</p>
+<div id="reasignar-worker" class="section level6">
+<h6><span class="header-section-number">4.1.1.6.1.4</span> Reasignar <em>worker</em></h6>
+<p>Sección que permite reasignar <em>workers</em> (los servicios encargados de realizar operaciones de <em>NLP</em>) para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar pruebas sobre los mismos.</p>
 </div>
 </div>
 </div>
 <div id="sandbox" class="section level4">
 <h4><span class="header-section-number">4.1.1.7</span> Sandbox</h4>
-<p>La pantalla de <em>Sandbox</em> permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
+<p>Se accede a la pantalla de <em>sandbox</em> desde el inicio haciendo click en el boton de “Buscar entidades”; permite a los usuarios ingresar sus textos y obtener las entidades nombradas de los mismos haciendo consultas al servicio NERd del <em>snapshot</em> actual.
 Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al <em>corpus</em> (Figura <a href="implementation.html#fig:logic-sandbox">4.12</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-sandbox"></span>
 <img src="assets/logic/sandbox.png" alt="Inferencia de entidades en sandbox."  />
@@ -414,9 +414,9 @@ Figura 4.12: Inferencia de entidades en sandbox.
 </p>
 </div>
 </div>
-<div id="comparar" class="section level4">
-<h4><span class="header-section-number">4.1.1.8</span> Comparar</h4>
-<p>Sección accesible únicamente a administradores en la que es posible comparar las entidades inferidas por dos modelos distintos, con la opción de marcar visualmente aquellos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, es posible corregir de manera inline los errores en la inferencia del modelo actual (Figura <a href="implementation.html#fig:logic-compare">4.13</a>).</p>
+<div id="comparar-snapshots" class="section level4">
+<h4><span class="header-section-number">4.1.1.8</span> Comparar (<em>snapshots</em>)</h4>
+<p>Esta sección es accesible únicamente por administradores y permite comparar las entidades inferidas por dos <em>snapshots</em> distintos, con la opción de marcar visualmente aquellos textos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, podrá corregir de manera inline los errores en la inferencia del modelo actual (Figura <a href="implementation.html#fig:logic-compare">4.13</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-compare"></span>
 <img src="assets/logic/compare.png" alt="Comparativa de modelos."  />
 <p class="caption">
@@ -454,7 +454,7 @@ Figura 4.15: Inicio de sesión.
 Figura 4.16: Usuario anónimo.
 </p>
 </div>
-<p>Cuando hay una sesión activa el usuario cuenta con el rol de <em>USER</em> y/o de <em>TRAINER</em> pero <strong>no</strong> con el de <em>ADMIN</em>, debería poder acceder únicamente a su perfil (Figura <a href="implementation.html#fig:logic-status-user">4.17</a>).</p>
+<p>Cuando hay una sesión activa el usuario cuenta con el rol de <em>USER</em> y/o de <em>TRAINER</em> pero <strong>no</strong> con el de <em>ADMIN</em>, podrá acceder únicamente a su perfil (Figura <a href="implementation.html#fig:logic-status-user">4.17</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-status-user"></span>
 <img src="assets/logic/status-user.png" alt="Usuario regular."  />
 <p class="caption">
@@ -472,10 +472,12 @@ Figura 4.18: Usuario administrador.
 </div>
 <div id="api" class="section level3">
 <h3><span class="header-section-number">4.1.2</span> <em>API</em></h3>
-<p>El acceso al servicio se realiza mediante un API REST que se auto-documenta utilizando la especificación de OpenAPI.</p>
+<p>Para este proyecto tomamos la decisión de ofrecer una <em>API REST</em>. Dado que <em>REST</em> es un estilo de arquitectura y <strong>no un standard</strong> históricamente ha sido dificil ofrecer este tipo de servicio de una manera amena para el developer.</p>
+<p>En los últimos años han surgido especificaciones bien formadas para la definición de <em>REST APIs</em>, en particular <em>The Linux Foundation</em> ha promovido que la industria utilice <em>OPEN API</em>.</p>
+<p>Es por ello que toda la especificación de nuestra <em>API</em> es <em>OpenAPI 3</em> compliant.</p>
 <div id="documentación" class="section level4">
 <h4><span class="header-section-number">4.1.2.1</span> Documentación</h4>
-<p>Para visualizar la documentación de todos los <em>endpoints</em> del <em>API</em>, es posible utilizar dos medios: <em>Swagger UI</em> y <em>ReDoc</em>.</p>
+<p>Para visualizar la documentación de todos los <em>endpoints</em> del <em>API</em>, es posible utilizar dos medios: <em>Swagger UI</em> y <em>ReDoc</em>. Gracias al uso de <em>OpenAPI</em> estas documentaciones han sido autogeneradas.</p>
 <div id="swagger-ui" class="section level5">
 <h5><span class="header-section-number">4.1.2.1.1</span> <em>Swagger UI</em></h5>
 <p>La documentación provista por <em>Swagger UI</em> permite ver el detalle de cada uno de los <em>endpoints</em> del servicio así como también permite realizar consultas de prueba contra el servidor real, prestándose así como una especie de <em>sandbox</em> (Figura <a href="implementation.html#fig:logic-swagger-main">4.19</a>).</p>
@@ -502,7 +504,8 @@ Figura 4.21: Ejemplo de documentación con Swagger para respuestas.
 </div>
 <div id="redoc" class="section level5">
 <h5><span class="header-section-number">4.1.2.1.2</span> <em>ReDoc</em></h5>
-<p><em>ReDoc</em> es una alternativa a <em>Swagger</em> para visualizar la documentación de una especificación de <em>OpenAPI</em> que presenta un diseño más moderno así como también se enfoca más en mostrar la información de manera más clara. A diferencia de <em>Swagger UI</em>, <em>ReDoc</em> no permite realizar pruebas contra el servidor para el cual se está mostrando la documentación (Figura .</p>
+<p><em>ReDoc</em> es una alternativa a <em>Swagger</em> para visualizar la documentación de una especificación de <em>OpenAPI</em> que presenta un diseño más moderno así como también se enfoca más en mostrar la información de manera más clara.</p>
+<p>A diferencia de <em>Swagger UI</em>, <em>ReDoc</em> no permite realizar pruebas contra el servidor para el cual se está mostrando la documentación (Figura <a href="implementation.html#fig:logic-redoc-main">4.22</a>) pero ofrece una mejor experiencia de usuario a la hora de navegar la <em>API</em>.</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-redoc-main"></span>
 <img src="assets/logic/redoc-main.png" alt="Ejemplo de documentación con ReDoc."  />
 <p class="caption">
@@ -529,7 +532,7 @@ Figura 4.22: Ejemplo de documentación con ReDoc.
 <li><strong>POST</strong> <em>/api/auth/refresh</em>
 <ul>
 <li>Refresca el token de acceso.</li>
-<li>Utilizado cuando un token de acceso caducó.</li>
+<li>Utilizado cuando un <em>token</em> de acceso caducó.</li>
 </ul></li>
 </ul>
 </div>
@@ -539,41 +542,41 @@ Figura 4.22: Ejemplo de documentación con ReDoc.
 <ul>
 <li><strong>GET</strong> <em>/api/users</em>
 <ul>
-<li>Lista de usuarios existentes</li>
-<li>Separa los resultados en páginas</li>
+<li>Lista de usuarios existentes.</li>
+<li>Separa los resultados en páginas.</li>
 </ul></li>
 <li><strong>GET</strong> <em>/api/users/top5</em>
 <ul>
-<li>Lista de los 5 usuarios con más entrenamientos</li>
+<li>Lista de los cinco usuarios con más entrenamientos.</li>
 </ul></li>
 <li><strong>GET</strong> <em>/api/users/me</em>
 <ul>
-<li>Retorna la información del usuario logueado</li>
+<li>Retorna la información del usuario logueado.</li>
 </ul></li>
 <li><strong>PATCH</strong> <em>/api/users/me</em>
 <ul>
-<li>Actualiza la información del usuario logueado</li>
+<li>Actualiza la información del usuario logueado.</li>
 </ul></li>
 <li><strong>GET</strong> <em>/api/users/me/trainings</em>
 <ul>
-<li>Retorna los entrenamientos del usuario logueado</li>
-<li>Separa los resultados en páginas</li>
+<li>Retorna los entrenamientos del usuario logueado.</li>
+<li>Separa los resultados en páginas.</li>
 </ul></li>
-<li><strong>GET</strong> <em>/api/users/{user_id}</em>
+<li><strong>GET</strong> <code>/api/users/{user_id}</code>
 <ul>
-<li>Retorna la información del usuario especificado por <em>user_id</em></li>
+<li>Retorna la información del usuario especificado por <code>user_id</code></li>
 </ul></li>
 <li><strong>PATCH</strong> <em>/api/users/{user_id}</em>
 <ul>
-<li>Actualiza la información del usuario especificado por <em>user_id</em></li>
+<li>Actualiza la información del usuario especificado por <em>user_id</em>.</li>
 </ul></li>
 <li><strong>DELETE</strong> <em>/api/users/{user_id}</em>
 <ul>
-<li>Borra al usuario especificado por <em>user_id</em></li>
+<li>Borra al usuario especificado por <em>user_id</em>.</li>
 </ul></li>
 <li><strong>GET</strong> _/api/users/{user_id}/trainings
 <ul>
-<li>Retorna los entrenamientos del usuario especificado</li>
+<li>Retorna los entrenamientos del usuario especificado.</li>
 </ul></li>
 </ul>
 </div>
@@ -582,7 +585,7 @@ Figura 4.22: Ejemplo de documentación con ReDoc.
 <ul>
 <li><strong>GET</strong> <em>/api/roles</em>
 <ul>
-<li>Retorna la lista de todos los roles asignables a usuarios del sistema</li>
+<li>Retorna la lista de todos los roles asignables a usuarios del sistema.</li>
 </ul></li>
 </ul>
 </div>
@@ -592,34 +595,34 @@ Figura 4.22: Ejemplo de documentación con ReDoc.
 <ul>
 <li><strong>GET</strong> <em>/api/corpus/{text_id}</em>
 <ul>
-<li>Retorna los detalles del texto especificado por <em>text_id</em></li>
+<li>Retorna los detalles del texto especificado por <em>text_id</em>.</li>
 </ul></li>
 <li><strong>DELETE</strong> <em>/api/corpus/{text_id}</em>
 <ul>
-<li>Borra un texto especificado por <em>text_id</em> del corpus</li>
+<li>Borra un texto especificado por <em>text_id</em> del <em>corpus</em>.</li>
 </ul></li>
 <li><strong>GET</strong> <em>/api/corpus/{text_id}/trainings</em>
 <ul>
-<li>Retorna la lista de entrenamientos proporcionados por los usuarios sobre las entidades en el texto</li>
+<li>Retorna la lista de entrenamientos proporcionados por los usuarios sobre las entidades en el texto.</li>
 </ul></li>
 <li><strong>PUT</strong> <em>/api/corpus/{text_id}/trainings</em>
 <ul>
-<li>Agrega un entrenamiento para el texto con id <em>text_id</em></li>
+<li>Agrega un entrenamiento para el texto con id <em>text_id</em>.</li>
 </ul></li>
 <li><strong>POST</strong> <em>/api/corpus/upload</em>
 <ul>
-<li>Permite agregar textos de manera masiva al sistema</li>
-<li>Acepta una lista de archivos .txt donde cada línea es un texto a agregar</li>
-<li>Los archivos deben ser UTF-8</li>
+<li>Permite agregar textos de manera masiva al sistema.</li>
+<li>Acepta una lista de archivos <code>.txt</code> donde cada línea es un texto a agregar.</li>
+<li>Los archivos deben ser <code>UTF-8</code>.</li>
 </ul></li>
 <li><strong>GET</strong> <em>/api/corpus</em>
 <ul>
-<li>Lista de textos cargados en el sistema para entrenamiento</li>
-<li>Separa los resultados en páginas</li>
+<li>Lista de textos cargados en el sistema para entrenamiento.</li>
+<li>Separa los resultados en páginas.</li>
 </ul></li>
 <li><strong>POST</strong> <em>/api/corpus</em>
 <ul>
-<li>Agrega un texto al sistema para entrenamiento</li>
+<li>Agrega un texto al sistema para entrenamiento.</li>
 </ul></li>
 </ul>
 </div>
@@ -629,28 +632,28 @@ Figura 4.22: Ejemplo de documentación con ReDoc.
 <ul>
 <li><strong>GET</strong> <em>/api/snapshots</em>
 <ul>
-<li>Listado de los snapshots disponibles</li>
-<li>Separa los resultados en páginas</li>
+<li>Listado de los snapshots disponibles.</li>
+<li>Separa los resultados en páginas.</li>
 </ul></li>
 <li><strong>GET</strong> <em>/api/snapshots/{snapshot_id}</em>
 <ul>
-<li>Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico</li>
+<li>Retorna información (tipos de entidades, fecha de creación, fecha de entrenamiento, etc.) sobre un snapshot específico.</li>
 </ul></li>
 <li><strong>DELETE</strong> <em>/api/snapshots/{snapshot_id}</em>
 <ul>
-<li>Borra un snapshot con el id especificado</li>
+<li>Borra un snapshot con el id especificado.</li>
 </ul></li>
 <li><strong>POST</strong> <em>/api/snapshots/{snapshot_id}/force-train</em>
 <ul>
-<li>Envía la tarea de entrenamiento a los workers que tienen el snapshot <em>snapshot_id</em> cargado.</li>
+<li>Envía la tarea de entrenamiento a los workers que tienen el <em>snapshot</em> <em>snapshot_id</em> cargado.</li>
 </ul></li>
 <li><strong>POST</strong> <em>/api/snapshots/{snapshot_id}/force-untrain</em>
 <ul>
-<li>Envía la tarea de desentrenar a los workers que tienen el snapshot <em>snapshot_id</em> cargado.</li>
+<li>Envía la tarea de desentrenar a los <em>workers</em> que tienen el <em>snapshot</em> <em>snapshot_id</em> cargado.</li>
 </ul></li>
 <li><strong>GET</strong> <em>/api/snapshots/current</em>
 <ul>
-<li>Retorna información sobre el snapshot actual</li>
+<li>Retorna información sobre el <em>snapshot</em> actual.</li>
 </ul></li>
 <li><strong>PUT</strong> <em>/api/snapshots/current</em>
 <ul>
@@ -753,7 +756,7 @@ Su funcionamiento es crítico para poder manejar grandes volúmenes de consultas
 </div>
 <div id="cliente" class="section level3">
 <h3><span class="header-section-number">4.2.5</span> Cliente</h3>
-<p>Es la interfaz del entrenador que se comunica con el API utilizando un <em>SDK</em> auto-generado a partir de la definición de <em>OpenAPI</em>. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.</p>
+<p>Es la interfaz del entrenador que se comunica con el API utilizando un <em>SDK</em> auto-generado a partir de la definición de <em>OpenAPI</em>. Implementado en este proyecto es un cliente <em>web</em> el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.</p>
 <!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
 <!-- TODO: explicar ui vs backend vs mensajes amq vs workers (no detalles de implementación ver siguiente) -->
 </div>
@@ -766,8 +769,8 @@ Esta vista también se conoce como la vista de implementación.</p>
 </blockquote>
 <div id="web-1" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Web</h3>
-<p>La página web que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de <em>Single Page Application</em> que nos permitió generar un <em>bundle</em> que puede ser hosteado en <em>CDNs</em> y nos permite tener ciclos de release independientes al los del servicio.</p>
-<p>Poder separar las releases de la web y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el <em>API REST</em> y una baja por cambios a la interfaz de la web no afecta la disponibilidad del servicio.</p>
+<p>La página <em>web</em> que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de <em>Single Page Application</em> que nos permitió generar un <em>bundle</em> que puede ser hosteado en <em>CDNs</em> y nos permite tener ciclos de release independientes al los del servicio.</p>
+<p>Poder separar las releases de la <em>web</em> y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el <em>API REST</em> y una baja por cambios a la interfaz de la <em>web</em> no afecta la disponibilidad del servicio.</p>
 <div id="tecnologías" class="section level4">
 <h4><span class="header-section-number">4.3.1.1</span> Tecnologías</h4>
 <p>Para la implementación utilizamos el lenguaje de programación llamado <strong>Typescript</strong>, lenguaje desarrollado por <em>Microsoft</em> que compila a <em>JavaScript</em> con el agregado de <em>Tipos</em> que permiten producir código de mayor calidad debido al agregado de la posibilidad del chequeo estático de código para validar su correctitud.</p>
@@ -793,7 +796,7 @@ Debido a que el servicio implementado expone una definiciión de <em>OpenAPI</em
 </div>
 <div id="arquitectura" class="section level4">
 <h4><span class="header-section-number">4.3.1.2</span> Arquitectura</h4>
-<p>El código en la Web se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura <a href="implementation.html#fig:developer-web-modules">4.24</a>).</p>
+<p>El código en la <em>web</em> se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura <a href="implementation.html#fig:developer-web-modules">4.24</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:developer-web-modules"></span>
 <img src="assets/developer/web-modules.png" alt="Módulos de la página web."  />
 <p class="caption">
@@ -805,7 +808,7 @@ Figura 4.24: Módulos de la página web.
 </div>
 <div id="sesión" class="section level4">
 <h4><span class="header-section-number">4.3.1.3</span> Sesión</h4>
-<p>El servicio web ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el <em>local storage</em> del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.</p>
+<p>El servicio <em>web</em> ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el <em>local storage</em> del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.</p>
 <p>Si en algún momento en el futuro el <em>API</em> nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código HTTP 401) y el token de refrescado dejó de ser válido, las credenciales se borran del <em>local storage</em> y redirigimos al cliente a la pantalla de inicio.</p>
 <p>Ofrecemos también la posibilidad de no guardar la sesión, lo cual hará que una vez cerrada la pestaña, el usuario deba volver a ingresar al sistema para poder acceder a los distintos servicios.</p>
 </div>
@@ -816,12 +819,12 @@ Figura 4.24: Módulos de la página web.
 </div>
 <div id="api-2" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> <em>API</em></h3>
-<p>Implementada utilizando el lenguaje de programación <em>Python</em>. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en <em>Machine Learning</em> se encuentran implementadas en este lenguaje. Provee del servicio al cual acceden los usuarios, tales como la plataforma web de entrenamiento mediante la implementación de un <em>API</em> <em>REST</em>.</p>
+<p>Implementada utilizando el lenguaje de programación <em>Python</em>. El principal motivador de esta elección fue que las librerías que más se acercan al estado del arte en <em>Machine Learning</em> se encuentran implementadas en este lenguaje. Provee del servicio al cual acceden los usuarios, tales como la plataforma <em>web</em> de entrenamiento mediante la implementación de un <em>API</em> <em>REST</em>.</p>
 <div id="tecnologías-1" class="section level4">
 <h4><span class="header-section-number">4.3.2.1</span> Tecnologías</h4>
 <div id="flask" class="section level5">
 <h5><span class="header-section-number">4.3.2.1.1</span> <em>Flask</em></h5>
-<p>Como base del proyecto utilizamos un <em>microframework</em> de aplicaciones web llamado <em>Flask</em> <span class="citation">(“Flask,” <a href="#ref-flask">2019</a>)</span> ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.</p>
+<p>Como base del proyecto utilizamos un <em>microframework</em> de aplicaciones <em>web</em> llamado <em>Flask</em> <span class="citation">(“Flask,” <a href="#ref-flask">2019</a>)</span> ya que por diseño utiliza pocos recursos. Por defecto no incluye ninguna solución para comunicarse con una base de datos, ni lógica para validar formularios.</p>
 </div>
 <div id="flask-smorest" class="section level5">
 <h5><span class="header-section-number">4.3.2.1.2</span> <em>flask-smorest</em></h5>
@@ -941,7 +944,7 @@ Figura 4.34: Colas de mensaje escuchadas por un worker.
 <h3><span class="header-section-number">4.3.5</span> Worker</h3>
 <p>El proceso de <em>worker</em> fue implementado en <em>Python</em> utilizando la librería <em>Celery</em>.</p>
 <p>Deben tener por diseño siempre un modelo de inferencia de <em>spaCy</em> cargado en memoria, por lo que cuando se crea uno nuevo, se le asigna por defecto el <em>snapshot</em> actual (<code>snapshot_id = 0</code>) para poder ayudar a distribuir la carga de los pedidos al <em>API</em>.</p>
-<p>Debido a que requieren de un <em>snapshot</em> para poder realizar la tarea de <em>NER</em> así como también requieren del <em>corpus</em> anotado para poder entrenar el modelo, cada <em>worker</em> debe tener acceso a la base de datos principal de <em>NERd</em> (Figura <a href="implementation.html#fig:process-overview-client">4.23</a>).</p>
+<p>Debido a que requieren de un <em>snapshot</em> para poder realizar la tarea de <em>NER</em> así como también requieren del <em>corpus</em> etiquetado para poder entrenar el modelo, cada <em>worker</em> debe tener acceso a la base de datos principal de <em>NERd</em> (Figura <a href="implementation.html#fig:process-overview-client">4.23</a>).</p>
 <p>Cada <em>worker</em> puede realizar las siguientes tareas:</p>
 <ul>
 <li><strong>train</strong>: Entrenar el modelo de inferencia de <em>spaCy</em> utilizando el snapshot para el cual fue configurado.</li>
@@ -969,7 +972,7 @@ Esta vista también se conoce como la vista de <em>deployment</em>.</p>
 <li><strong>app</strong>: Contiene el servicio de <em>API</em>.</li>
 <li><strong>mongodb</strong>: Contiene la base de datos.</li>
 <li><strong>rabbitmq</strong>: Contiene la cola de mensajes.</li>
-<li><strong>ui</strong>: Contiene la página web de administración y entrenamiento.</li>
+<li><strong>ui</strong>: Contiene la página <em>web</em> de administración y entrenamiento.</li>
 <li><strong>worker</strong>: Contiene a uno o más <em>workers</em>.</li>
 <li><strong>flower</strong>: Contiene el servicio de monitoreo de <em>Flower</em> (Opcional).</li>
 </ul>
@@ -1051,8 +1054,8 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <p>Debido a como está diseñado <em>JWT</em>, se espera que los tokens de acceso sean válidos por un tiempo acotado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el <em>token</em> de acceso utilizando el <em>token</em> de <em>refresh</em>.</p>
 <p>Si el cliente tiene un <em>token</em> de <em>refresh</em>, en la figura <a href="implementation.html#fig:scenarios-relogin">4.36</a> podemos ver el flujo que realiza la implementación <em>web</em> del entrenador para realizar el refresco de la sesión. Al recibir un <span class="math inline">\(401\)</span> por parte del servidor, el SDK realiza un</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-relogin"></span>
-<div id="htmlwidget-e89ee57d8dd46914fbe5" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e89ee57d8dd46914fbe5">{"x":{"diagram":"\n  sequenceDiagram;\n   participant cliente as Usuario\n   participant web as Web\n   participant API\n   cliente->>+web: Login;\n   web->>+API: Login con credenciales;\n   API-->>-web: Access/Refresh Tokens;\n   web-->>-cliente: Mostrar login OK;\n   cliente->>+web: Ver mis entrenamientos;\n   web->>+API: Pedido;\n   alt Sesión válida\n     API-->>web: Respuesta (200);\n     web-->>cliente: Mostrar resultados;\n   else Sesión caducada\n     API-->>-web: Respuesta (401);\n     web->>+API: Session refresh;\n     API-->>-web: Access Token;\n     web->>+API: Pedido;\n     alt Refresh token válido\n      API-->>web: Respuesta (200);\n      web-->>cliente: Mostrar resultados;\n     else Refresh token caducado\n      API-->>-web: Respuesta (401);\n      web-->>-cliente: Mostrar mensaje de error;\n     end\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e952b4f7d8bde7eadcca" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e952b4f7d8bde7eadcca">{"x":{"diagram":"\n  sequenceDiagram;\n   participant cliente as Usuario\n   participant _web_ as Web\n   participant API\n   cliente->>+web: Login;\n   web->>+API: Login con credenciales;\n   API-->>-web: Access/Refresh Tokens;\n   web-->>-cliente: Mostrar login OK;\n   cliente->>+web: Ver mis entrenamientos;\n   web->>+API: Pedido;\n   alt Sesión válida\n     API-->>web: Respuesta (200);\n     web-->>cliente: Mostrar resultados;\n   else Sesión caducada\n     API-->>-web: Respuesta (401);\n     web->>+API: Session refresh;\n     API-->>-web: Access Token;\n     web->>+API: Pedido;\n     alt Refresh token válido\n      API-->>web: Respuesta (200);\n      web-->>cliente: Mostrar resultados;\n     else Refresh token caducado\n      API-->>-web: Respuesta (401);\n      web-->>-cliente: Mostrar mensaje de error;\n     end\n   end\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.36: Flujo de relogin
 </p>
@@ -1063,8 +1066,8 @@ Figura 4.36: Flujo de relogin
 <p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-ner">4.37</a>, para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.</p>
 <p>Cuando un <em>cliente</em> realiza un pedido al <em>API</em>, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el <em>request</em> en <em>RabbitMQ</em>. Luego, un único <em>worker</em> que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, <em>RabbitMQ</em> notifica al <em>API</em> de la tarea y este puede devolver finalmente el resultado al <em>Cliente</em>.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-ner"></span>
-<div id="htmlwidget-1d4039e88868beae5665" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1d4039e88868beae5665">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Consulta NER (vXX);\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a67bebbe5dc4fb29f1ee" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a67bebbe5dc4fb29f1ee">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Consulta NER (vXX);\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.37: Flujo de NER.
 </p>
@@ -1075,8 +1078,8 @@ Figura 4.37: Flujo de NER.
 <p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-web-train">4.38</a>, para poder mostrar un texto a entrenar son necesarios cinco servicios.</p>
 <p>El proceso de la inferencia es el mismo que el mostrado en la figura <a href="implementation.html#fig:scenarios-ner">4.37</a>, agregándose la consulta a <em>MongoDB</em> al principio para poder obtener un texto que aún no haya sido entrenado por el usuario logueado.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-web-train"></span>
-<div id="htmlwidget-ea81d251c128f3378c84" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ea81d251c128f3378c84">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant m as MongoDB\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Pedir texto a entrenar;\n   a->>+m: Buscar texto no entrenado;\n   m-->>-a: Texto no entrenado;\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-0cfb66536598e7404a55" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0cfb66536598e7404a55">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant m as MongoDB\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Pedir texto a entrenar;\n   a->>+m: Buscar texto no entrenado;\n   m-->>-a: Texto no entrenado;\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.38: Pedido de texto para entrenamiento.
 </p>
@@ -1089,8 +1092,8 @@ Figura 4.38: Pedido de texto para entrenamiento.
 <p>Para realizar ese control de concurrencia utilizamos el campo <code>semaphore</code> del modelo de <em>snapshot</em> guardado en la base de datos (Figura <a href="implementation.html#fig:developer-db-snapshot">4.28</a>) el cual usualmente se encuentra en <span class="math inline">\(0\)</span>. El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.</p>
 <p>En la figura <a href="implementation.html#fig:scenarios-worker-train">4.39</a> podemos ver un escenario en el que tanto <em>Worker 2</em> y <em>Worker 3</em> pueden leer en simultáneo el modelo pero <em>Worker 1</em> debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-worker-train"></span>
-<div id="htmlwidget-5af89f84caf56417859d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5af89f84caf56417859d">{"x":{"diagram":"\n  sequenceDiagram;\n   participant a as API\n   participant r as RabbitMQ\n   participant m as MongoDB\n   participant w as Worker 1\n   participant ww as Worker 2\nparticipant www as Worker 3\nparticipant mo as Model\nww->>m: Incrementar semáforo para vXX;\nww->>+mo: Read;\n   a->>r: Crear tarea de entrenar vXX;\n   w->>+r: Pedir tarea;\n   r-->>-w: Tarea de entrenar;\nactivate w;\nloop Worker 1 bloqueado\nw->>w: Semáforo en 0?\nwww->>m: Incrementar semáforo para vXX;\nwww->>+mo: Read;\nmo-->>-ww: Modelo\nww->>+m: Decrementar semáforo para vXX\nm-->>-ww:Exito\nmo-->>-www: Modelo\n  www->>+m: Decrementar semáforo para vXX;\nm-->>-www:Exito\nw->>w: Semáforo en 0?\nend\n   w->>+m: Decrementar semáforo para vXX;\n   m-->>-w: Éxito;\n   w->>+m: Pedir textos anotados para vXX;\n   m-->>-w: Textos anotados;\n   w->>w: Entrenar;\n   w->>+m: Actualizar fecha de entrenamiento;\n   m-->>-w: Éxito;\n   w->>+m: Incrementar semáforo\nm-->>-w:Éxito\n   w->>r: Entrenamiento exitoso;\ndeactivate w\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-9f2429aa2f8a8c21a5e1" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9f2429aa2f8a8c21a5e1">{"x":{"diagram":"\n  sequenceDiagram;\n   participant a as API\n   participant r as RabbitMQ\n   participant m as MongoDB\n   participant w as Worker 1\n   participant ww as Worker 2\nparticipant www as Worker 3\nparticipant mo as Model\nww->>m: Incrementar semáforo para vXX;\nww->>+mo: Read;\n   a->>r: Crear tarea de entrenar vXX;\n   w->>+r: Pedir tarea;\n   r-->>-w: Tarea de entrenar;\nactivate w;\nloop Worker 1 bloqueado\nw->>w: Semáforo en 0?\nwww->>m: Incrementar semáforo para vXX;\nwww->>+mo: Read;\nmo-->>-ww: Modelo\nww->>+m: Decrementar semáforo para vXX\nm-->>-ww:Exito\nmo-->>-www: Modelo\n  www->>+m: Decrementar semáforo para vXX;\nm-->>-www:Exito\nw->>w: Semáforo en 0?\nend\n   w->>+m: Decrementar semáforo para vXX;\n   m-->>-w: Éxito;\n   w->>+m: Pedir textos etoquetados para vXX;\n   m-->>-w: Textos etiquetados;\n   w->>w: Entrenar;\n   w->>+m: Actualizar fecha de entrenamiento;\n   m-->>-w: Éxito;\n   w->>+m: Incrementar semáforo\nm-->>-w:Éxito\n   w->>r: Entrenamiento exitoso;\ndeactivate w\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.39: Bloqueo de entrenamiento por lectura.
 </p>
@@ -1100,8 +1103,8 @@ Figura 4.39: Bloqueo de entrenamiento por lectura.
 <h3><span class="header-section-number">4.5.5</span> <em>Worker</em>: cambio de snapshot</h3>
 <p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-worker-snapshot-change">4.40</a>, ante una tarea de reasignación de snapshot, el <em>worker</em> se desuscribe de la cola de mensajes del <em>snapshot</em> que está escuchando actualmente y se suscribe a la cola de mensajes del <em>snapshot</em> al que se lo quiere cambiar. Luego, se recarga el modelo.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-worker-snapshot-change"></span>
-<div id="htmlwidget-c0691d27cc90f3feaf7b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c0691d27cc90f3feaf7b">{"x":{"diagram":"\nsequenceDiagram;\n  participant a as API;\n  participant r as RabbitMQ;\n  participant w as Worker;\n  participant m as Model;\n  a->>r: Reasignar worker;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de cambiar snapshot;\n  w->>+r: Borrar suscripción a snapshot actual;\n  r-->>-w: Suscripción borrada;\n  w->>+r: Suscribir a snapshot nuevo;\n  r-->>-w: Suscripción exitosa;\n  a->>+r: Tarea de NER;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de NER;\n  alt Snapshot desactualizado\n  w->>+m: Cargar modelo;\n  m-->>-w: Modelo;\n  w->>w: NER;\n  else Snapshot actualizado\n  w->>w: NER;\n  end;\n  w-->>r: Entidades inferidas;\n  r-->>a: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a19e409510822898e676" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a19e409510822898e676">{"x":{"diagram":"\nsequenceDiagram;\n  participant a as API;\n  participant r as RabbitMQ;\n  participant w as Worker;\n  participant m as Model;\n  a->>r: Reasignar worker;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de cambiar snapshot;\n  w->>+r: Borrar suscripción a snapshot actual;\n  r-->>-w: Suscripción borrada;\n  w->>+r: Suscribir a snapshot nuevo;\n  r-->>-w: Suscripción exitosa;\n  a->>+r: Tarea de NER;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de NER;\n  alt Snapshot desactualizado\n  w->>+m: Cargar modelo;\n  m-->>-w: Modelo;\n  w->>w: NER;\n  else Snapshot actualizado\n  w->>w: NER;\n  end;\n  w-->>r: Entidades inferidas;\n  r-->>a: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.40: Cambio de modelo.
 </p>
