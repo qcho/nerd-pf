@@ -654,12 +654,12 @@ Figura 4.23: Componentes del sistema.
 <div id="api" class="section level3">
 <h3><span class="header-section-number">4.2.1</span> API</h3>
 <p>Servicio en el cual los clientes pueden pedir las <em>Entidades Nombradas</em> de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
-El <em>API</em> se comunica el servicio de <em>Bases de Datos</em> para obtener o modificar información sobre los usuarios, los textos pertenecientes al <em>corpus</em> o información de los distintos <em>snapshots</em> y con el <em>Task Scheduler</em> para realizar diversas tareas relacionadas con <em>spaCy</em>.</p>
+El <em>API</em> se comunica el servicio de <em>Bases de Datos</em> para obtener o modificar información sobre los usuarios, los textos pertenecientes al <em>corpus</em> o información de los distintos <em>snapshots</em> y envía mensajes al <em>Task Scheduler</em> para realizar diversas tareas relacionadas con <em>spaCy</em> así como también tareas de administración sobre los <em>workers</em> disponibles.</p>
 </div>
 <div id="task-scheduler" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Task Scheduler</h3>
-<p>Recibe tareas desde el <em>API</em> tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. Dado que su tarea es recibir tareas desde el <em>API</em> y enviar y recibir mensajes de los <em>Workers</em>, debería existir una única instancia del mismo.
-A su vez, notifica al <em>API</em> la finalización de tareas asincrónicas</p>
+<p>Recibe tareas desde el <em>API</em> tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. A el task scheduler se suscriben todos los <em>workers</em> del sistema de manera tal de poder recibir mensajes y realizar acciones.
+Su funcionamiento es crítico para poder manejar grandes volúmenes de consultas al motor de inferencia ya que permite generar una estructura que escale horizontalmente debido a la posibilidad de contar con la suscripción de un número arbitrario de <em>workers</em>.</p>
 </div>
 <div id="worker" class="section level3">
 <h3><span class="header-section-number">4.2.3</span> Worker</h3>
@@ -669,20 +669,17 @@ A su vez, notifica al <em>API</em> la finalización de tareas asincrónicas</p>
 <li><em>Task scheduler</em> para poder recibir tareas.</li>
 </ul>
 <p>Como el <em>Worker</em> es una unidad de trabajo que recibe tareas desde el <em>Task Scheduler</em>, es posible tener varios <em>Workers</em> donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos snapshots).</p>
+<p>Cuando un <em>Worker</em> es creado, automáticamente carga el modelo actual (<em>current snapshot</em>) y se suscribe a la cola de mensajes para esa versión en particular.</p>
 </div>
 <div id="database" class="section level3">
 <h3><span class="header-section-number">4.2.4</span> Database</h3>
-<p>Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de API funcione así como también los datos necesarios por los workers (entrenamientos).</p>
+<p>Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de <em>API</em> funcione así como también los datos necesarios por los workers (entrenamientos).</p>
 </div>
 <div id="cliente" class="section level3">
 <h3><span class="header-section-number">4.2.5</span> Cliente</h3>
-<p>Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-generado a partir de la definición de <em>OpenAPI</em>. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades</p>
-<p>[TODO]</p>
-<div id="mecanismo-de-reautenticación" class="section level4">
-<h4><span class="header-section-number">4.2.5.1</span> Mecanismo de reautenticación</h4>
+<p>Es la interfaz del entrenador que se comunica con el API utilizando un <em>SDK</em> auto-generado a partir de la definición de <em>OpenAPI</em>. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.</p>
 <!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
 <!-- TODO: explicar ui vs backend vs mensajes amq vs workers (no detalles de implementación ver siguiente) -->
-</div>
 </div>
 </div>
 <div id="vista-de-desarrollo" class="section level2">
@@ -808,11 +805,22 @@ Figura 4.27: Colección de textos.
 </div>
 <div id="snapshot" class="section level5">
 <h5><span class="header-section-number">4.3.3.1.3</span> <em>Snapshot</em></h5>
-<p>La coleción <em>snapshot</em> contiene información sobre los distintos <em>snapshots</em> creados en el sistema (Figura <a href="implementation.html#fig:developer-db-snapshot">4.28</a>). De particular interés es el atributo <em>types</em>, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo <em>semaphore</em>, que sirve como un campo de control para poder organizar a los <em>workers</em> que están utilizando ese <em>snapshot</em> en particular.</p>
+<p>La colección <em>snapshot</em> contiene información sobre los distintos <em>snapshots</em> creados en el sistema (Figura <a href="implementation.html#fig:developer-db-snapshot">4.28</a>). De particular interés es el atributo <em>types</em>, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo <em>semaphore</em>, que sirve como un campo de control para poder organizar a los <em>workers</em> que están utilizando ese <em>snapshot</em> en particular.</p>
 <div class="figure" style="text-align: center"><span id="fig:developer-db-snapshot"></span>
 <img src="assets/developer/db-snapshot.png" alt="Colección de snapshots."  />
 <p class="caption">
 Figura 4.28: Colección de snapshots.
+</p>
+</div>
+</div>
+<div id="training" class="section level5">
+<h5><span class="header-section-number">4.3.3.1.4</span> <em>Training</em></h5>
+<p>La colección <em>training</em> contiene información sobre todos los entrenamientos cargados en el sistema (Figura <a href="implementation.html#fig:developer-db-training">4.29</a>). Cada entrenamiento contiene referencia al texto al que pertenece así como también al usuario que lo creó. De manera tal de poder obtener la información de los documentos relacionados sin necesidad de duplicar información.</p>
+<p>Dentro de un documento training, se encuentra el atributo <em>document</em>, que es el que internamente contiene la representación de un documento de entrenamiento que es entendido por <em>spaCy</em> y que luego será utilizado para entrenar el modelo de inferencia.</p>
+<div class="figure" style="text-align: center"><span id="fig:developer-db-training"></span>
+<img src="assets/developer/db-training.png" alt="Colección de entrenamientos."  />
+<p class="caption">
+Figura 4.29: Colección de entrenamientos.
 </p>
 </div>
 <!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
@@ -843,8 +851,8 @@ También sirven como punto de partida para las pruebas de un prototipo de arquit
 Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-<div id="htmlwidget-cc3192f3c2da4f754a7e" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-cc3192f3c2da4f754a7e">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-2a0ac4c961dee62be1d9" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2a0ac4c961dee62be1d9">{"x":{"diagram":"\n  sequenceDiagram;\n   customer->>ticket seller: ask for a ticket;\n   ticket seller->>database: seats;\n   alt tickets available\n     database->>ticket seller: ok;\n     ticket seller->>customer: confirm;\n     customer->>ticket seller: ok;\n     ticket seller->>database: book a seat;\n     ticket seller->>printer: print a ticket;\n   else sold out\n     database->>ticket seller: none left;\n     ticket seller->>customer: sorry;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 
 <div style="page-break-after: always;"></div>
 </div>

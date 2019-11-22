@@ -1416,13 +1416,13 @@ Como podemos ver en la figura \ref{fig:process-overview-client}, existen cinco p
 \subsubsection{API}\label{api}}
 
 Servicio en el cual los clientes pueden pedir las \emph{Entidades Nombradas} de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
-El \emph{API} se comunica el servicio de \emph{Bases de Datos} para obtener o modificar información sobre los usuarios, los textos pertenecientes al \emph{corpus} o información de los distintos \emph{snapshots} y con el \emph{Task Scheduler} para realizar diversas tareas relacionadas con \emph{spaCy}.
+El \emph{API} se comunica el servicio de \emph{Bases de Datos} para obtener o modificar información sobre los usuarios, los textos pertenecientes al \emph{corpus} o información de los distintos \emph{snapshots} y envía mensajes al \emph{Task Scheduler} para realizar diversas tareas relacionadas con \emph{spaCy} así como también tareas de administración sobre los \emph{workers} disponibles.
 
 \hypertarget{task-scheduler}{%
 \subsubsection{Task Scheduler}\label{task-scheduler}}
 
-Recibe tareas desde el \emph{API} tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. Dado que su tarea es recibir tareas desde el \emph{API} y enviar y recibir mensajes de los \emph{Workers}, debería existir una única instancia del mismo.
-A su vez, notifica al \emph{API} la finalización de tareas asincrónicas
+Recibe tareas desde el \emph{API} tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. A el task scheduler se suscriben todos los \emph{workers} del sistema de manera tal de poder recibir mensajes y realizar acciones.
+Su funcionamiento es crítico para poder manejar grandes volúmenes de consultas al motor de inferencia ya que permite generar una estructura que escale horizontalmente debido a la posibilidad de contar con la suscripción de un número arbitrario de \emph{workers}.
 
 \hypertarget{worker}{%
 \subsubsection{Worker}\label{worker}}
@@ -1439,20 +1439,17 @@ Un \emph{Worker} se encarga de realizar el \emph{Reconocimiento de Entidades Nom
 
 Como el \emph{Worker} es una unidad de trabajo que recibe tareas desde el \emph{Task Scheduler}, es posible tener varios \emph{Workers} donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos snapshots).
 
+Cuando un \emph{Worker} es creado, automáticamente carga el modelo actual (\emph{current snapshot}) y se suscribe a la cola de mensajes para esa versión en particular.
+
 \hypertarget{database}{%
 \subsubsection{Database}\label{database}}
 
-Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de API funcione así como también los datos necesarios por los workers (entrenamientos).
+Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de \emph{API} funcione así como también los datos necesarios por los workers (entrenamientos).
 
 \hypertarget{cliente}{%
 \subsubsection{Cliente}\label{cliente}}
 
-Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-generado a partir de la definición de \emph{OpenAPI}. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades
-
-{[}TODO{]}
-
-\hypertarget{mecanismo-de-reautenticaciuxf3n}{%
-\paragraph{Mecanismo de reautenticación}\label{mecanismo-de-reautenticaciuxf3n}}
+Es la interfaz del entrenador que se comunica con el API utilizando un \emph{SDK} auto-generado a partir de la definición de \emph{OpenAPI}. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
 
 \hypertarget{vista-de-desarrollo}{%
 \subsection{Vista de desarrollo}\label{vista-de-desarrollo}}
@@ -1623,7 +1620,7 @@ La colección \emph{text} contiene todos los textos que forman parte del corpus 
 \hypertarget{snapshot}{%
 \subparagraph{\texorpdfstring{\emph{Snapshot}}{Snapshot}}\label{snapshot}}
 
-La coleción \emph{snapshot} contiene información sobre los distintos \emph{snapshots} creados en el sistema (Figura \ref{fig:developer-db-snapshot}). De particular interés es el atributo \emph{types}, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo \emph{semaphore}, que sirve como un campo de control para poder organizar a los \emph{workers} que están utilizando ese \emph{snapshot} en particular.
+La colección \emph{snapshot} contiene información sobre los distintos \emph{snapshots} creados en el sistema (Figura \ref{fig:developer-db-snapshot}). De particular interés es el atributo \emph{types}, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo \emph{semaphore}, que sirve como un campo de control para poder organizar a los \emph{workers} que están utilizando ese \emph{snapshot} en particular.
 
 \begin{figure}[H]
 
@@ -1632,6 +1629,22 @@ La coleción \emph{snapshot} contiene información sobre los distintos \emph{sna
 }
 
 \caption{Colección de snapshots.}\label{fig:developer-db-snapshot}
+\end{figure}
+
+\hypertarget{training}{%
+\subparagraph{\texorpdfstring{\emph{Training}}{Training}}\label{training}}
+
+La colección \emph{training} contiene información sobre todos los entrenamientos cargados en el sistema (Figura \ref{fig:developer-db-training}). Cada entrenamiento contiene referencia al texto al que pertenece así como también al usuario que lo creó. De manera tal de poder obtener la información de los documentos relacionados sin necesidad de duplicar información.
+
+Dentro de un documento training, se encuentra el atributo \emph{document}, que es el que internamente contiene la representación de un documento de entrenamiento que es entendido por \emph{spaCy} y que luego será utilizado para entrenar el modelo de inferencia.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/db-training.pdf} 
+
+}
+
+\caption{Colección de entrenamientos.}\label{fig:developer-db-training}
 \end{figure}
 
 \hypertarget{vista-fuxedsica}{%
