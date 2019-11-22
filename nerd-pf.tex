@@ -29,46 +29,6 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
 \usepackage{graphicx}
 % grffile has become a legacy package: https://ctan.org/pkg/grffile
@@ -161,6 +121,7 @@
 \usepackage{float} % for images with H
 
 \usepackage{csquotes} % for quoting
+\usepackage{xcolor}
 % Don't use xcolor (bug with bookdown).
 % Define them instead. http://latexcolor.com/
 \definecolor{slategray}{rgb}{0.44, 0.5, 0.56}
@@ -235,8 +196,8 @@ Es por ello que en este trabajo final hemos tomado la decisión de implementar u
 En el contexto de \emph{extracción de información}, una \emph{entidad nombrada} es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son \enquote{Mauricio Macri}, \enquote{Ciudad Autónoma de Buenos Aires}, \enquote{Apple Macbook}.
 También se suele definir sencillamente como aquellas entidades que se pueden ver como instancias de entidad (por ejemplo, la Ciudad Autónoma de Buenos Aires es una instancia de una ciudad).
 
-\hypertarget{definiciuxf3n-formal}{%
-\paragraph{Definición formal}\label{definiciuxf3n-formal}}
+\hypertarget{ner-formal}{%
+\paragraph{Definición formal}\label{ner-formal}}
 
 Formalmente el concepto de \enquote{entidad nombrada} se deriva de la definición del filósofo estadounidense \textbf{Saul Kripke} de \textbf{designador rígido} (Kripke, \protect\hyperlink{ref-kripke1980naming}{1980}) que forma parte de la lógica modal y filosofía del lenguaje.
 
@@ -318,7 +279,7 @@ La segunda fase requiere elegir una ontología para organizar categorías de cos
 \hypertarget{dificultades-para-encontrar-mejores-algoritmos}{%
 \paragraph{Dificultades para encontrar mejores algoritmos}\label{dificultades-para-encontrar-mejores-algoritmos}}
 
-El estado del arte de \emph{NER} desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta (Honnibal, \protect\hyperlink{ref-honnibal_NER}{2017}). En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la figura \ref{fig:spacy-algos}.
+El estado del arte de \emph{NER} desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta (Honnibal \& Montani, \protect\hyperlink{ref-honnibal_NER}{2017}). En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la figura \ref{fig:spacy-algos}.
 
 \begin{figure}[H]
 
@@ -338,12 +299,12 @@ Es por esto que resulta interesante analizar que otro tipo de problemas podemos 
 
 Existe un hilo conductor en el que todas las investigaciones mencionadas en la figura \ref{fig:spacy-algos} coinciden; incluso los sistemas \emph{NER} más avanzadas son frágiles, dado que los sistemas NER desarrollados para un dominio no suelen comportarse bien en otros dominios (Poibeau \& Kosseim, \protect\hyperlink{ref-Poibeau2000ProperNE}{2000}). La puesta a punto de un sistema \emph{NER} para un nuevo dominio conlleva un esfuerzo considerable. Esto es cierto para modelos basados en reglas y para sistemas estadísticos.
 
-Se entiende por dominio a todos los textos que en su conjunto forman un corpus común. Ejemplos de estos son \enquote{Noticias periodísticas}, \enquote{Textos jurídicos}, \enquote{Reportes militares}, \enquote{Papers académicos}, etc.
+Se entiende por dominio a todos los textos que en su conjunto forman un \emph{corpus} común. Ejemplos de estos son \enquote{Noticias periodísticas}, \enquote{Textos jurídicos}, \enquote{Reportes militares}, \enquote{Papers académicos}, etc.
 
 \hypertarget{los-datos-son-el-problema}{%
 \subsection{Los datos son el problema}\label{los-datos-son-el-problema}}
 
-Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la \enquote{Inteligencia Artificial} es el la captura de datos, no los algoritmos (Montani, \protect\hyperlink{ref-montani_AI}{2016}).
+Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la \enquote{Inteligencia Artificial} es el la captura de datos, no los algoritmos (Honnibal \& Montani, \protect\hyperlink{ref-montani_AI}{2016}).
 
 En particular para el estado actual del arte de \emph{NER} es necesario tener el cuerpo de textos a analizar (\emph{corpus}) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.
 
@@ -355,7 +316,7 @@ De esta manera queda bien definido el problema que queremos atacar (y el título
 Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas.
 \end{quote}
 
-Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier corpus de documentos que posea una cantidad suficiente de datos.
+Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier \emph{corpus} de documentos que posea una cantidad suficiente de datos.
 
 \newpage
 
@@ -620,8 +581,8 @@ Finalmente en esta etapa tenemos un nuevo \enquote{vector de significado} que re
 \caption{Predict.}\label{fig:formula-predict}
 \end{figure}
 
-\hypertarget{uso-del-modelo-estaduxedstico}{%
-\subsection{Uso del modelo estadístico}\label{uso-del-modelo-estaduxedstico}}
+\hypertarget{use-of-cnn}{%
+\subsection{Uso del modelo estadístico}\label{use-of-cnn}}
 
 Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte mediante el uso de un \enquote{autómata finito determinístico de pila} en conjunto con una red neuronal (Lample, Ballesteros, Subramanian, Kawakami, \& Dyer, \protect\hyperlink{ref-DBLP:journalsux2fcorrux2fLampleBSKD16}{2016}).
 
@@ -664,14 +625,16 @@ Para saber que acción tomar se consulta el modelo estadístico. En la figura se
 \item
   Primero se empieza con un stack vacío.
 \item
-  Se consume \enquote{Mark} y la CNN predice que es una posible Persona. Lo envia al stack.
+  Se consume \emph{\enquote{Mark}} y la \emph{CNN} predice que es una posible Persona. Lo envia al stack.
 \item
-  Se consume \enquote{Watney} y la CNN predice que es una posible continuación de Persona. Lo envia al stack.
+  Se consume \emph{\enquote{Watney}} y la \emph{CNN} predice que es una posible continuación de Persona. Lo envia al stack.
 \item
-  Se consume \enquote{visited} y la CNN predice que esto no forma parte de una entidad. Por lo tanto antes se REDUCE la entidad \enquote{Mark Watney} del stack actual.
+  Se consume \emph{\enquote{visited}} y la \emph{CNN} predice que esto no forma parte de una entidad. Por lo tanto antes se \emph{REDUCE} la entidad \emph{\enquote{Mark Watney}} del stack actual.
 \item
-  Análogamente se detecta la entidad \enquote{Mars}
+  Análogamente se detecta la entidad \emph{\enquote{Mars}}
 \end{itemize}
+
+La predicción que realiza la \emph{CNN} tiene un puntaje de 0 a 1; un porcentaje de certeza de que la token sea de un tipo específico. A veces las tokens pueden tener más de una etiqueta candidata a ser utilizada y éste es el método para desempatar este conflicto. Cuanto más cercano a \(0.5\) es ese punaje mayor es la incerteza.
 
 \newpage
 
@@ -757,7 +720,7 @@ Si la persona visitando la página no cuenta con una sesión activa, se le invit
 
 La pantalla de \emph{Entrenamiento} es el núcleo de la web en la cual es posible entrenar el modelo.
 
-El usuario es presentado con un texto perteneciente al Corpus del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura \ref{fig:logic-train}).
+El usuario es presentado con un texto perteneciente al \emph{corpus} del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura \ref{fig:logic-train}).
 
 \begin{figure}[H]
 
@@ -847,9 +810,9 @@ Los usuarios con rol administrador pueden realizar las acciones mencionadas prev
 \end{figure}
 
 \hypertarget{corpus}{%
-\paragraph{Corpus}\label{corpus}}
+\paragraph{\texorpdfstring{\emph{Corpus}}{Corpus}}\label{corpus}}
 
-La pantalla de \emph{Corpus} permite a un usuario con el rol de administrador realizar tareas relacionadas con el corpus del sistema (Figura \ref{fig:logic-corpus-management}).
+La pantalla de \emph{Corpus} permite a un usuario con el rol de administrador realizar tareas relacionadas con el \emph{corpus} del sistema (Figura \ref{fig:logic-corpus-management}).
 
 \begin{figure}[H]
 
@@ -860,14 +823,14 @@ La pantalla de \emph{Corpus} permite a un usuario con el rol de administrador re
 \caption{Administración de corpus.}\label{fig:logic-corpus-management}
 \end{figure}
 
-Desde aquí es posible agregar textos al corpus utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión \emph{.txt} y cada línea del archivo será agregada al corpus como un texto individual.
+Desde aquí es posible agregar textos al \emph{corpus} utilizando la funcionalidad de subida de archivos. Los archivos deben ser archivos con extensión \emph{.txt} y cada línea del archivo será agregada al \emph{corpus} como un texto individual.
 
-También es posible desde aquí ver todos los textos que forman parte del corpus así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del corpus así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.
+También es posible desde aquí ver todos los textos que forman parte del \emph{corpus} así como también poder ver los entrenamientos para cada uno de los textos. Finalmente, es posible quitar textos del \emph{corpus} así como también es posible eliminar correcciones a las inferencias de entidades cargados por usuarios.
 
 \hypertarget{estado}{%
 \paragraph{Estado}\label{estado}}
 
-La pantalla de \emph{Estado} permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del corpus así como también realizar diversas acciones sobre los \emph{workers} (Figura \ref{fig:logic-status}).
+La pantalla de \emph{Estado} permite a un usuario con el rol de administrador visualizar el estado de entrenamiento del \emph{corpus} así como también realizar diversas acciones sobre los \emph{workers} (Figura \ref{fig:logic-status}).
 
 \begin{figure}[H]
 
@@ -883,7 +846,7 @@ La pantalla de \emph{Estado} permite a un usuario con el rol de administrador vi
 
 Corpus
 
-Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el corpus contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de \emph{Corpus}.
+Es la columna la izquierda y aquí se puede ver rápidamente que porcentaje de el \emph{corpus} contiene correcciones por usuarios así como también saber la cantidad total de correcciones del sistema (un texto puede tener más de una corrección por distintos usuarios) y también presenta un botón que permite al administrador ir a la pantalla de \emph{Corpus}.
 
 Crear snapshot
 
@@ -904,7 +867,7 @@ Sección que permite reasignar trabajadores para que sirvan un snapshot distinto
 \paragraph{Sandbox}\label{sandbox}}
 
 La pantalla de \emph{Sandbox} permite a los usuarios hacer consultas al servicio NERd para poder obtener entidades nombradas a partir de textos arbitrarios.
-Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al corpus (Figura \ref{fig:logic-sandbox}).
+Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las entidades inferidas y agregar el texto con sus correcciones al \emph{corpus} (Figura \ref{fig:logic-sandbox}).
 
 \begin{figure}[H]
 
@@ -1198,7 +1161,7 @@ Conjunto de operaciones relacionadas con los usuarios del sistema.
 \hypertarget{corpus-2}{%
 \subparagraph{Corpus}\label{corpus-2}}
 
-Rutas dedicadas a operaciones con el corpus del sistema.
+Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
 
 \begin{itemize}
 \tightlist
@@ -1453,7 +1416,7 @@ Como podemos ver en la figura \ref{fig:process-overview-client}, existen cinco p
 \subsubsection{API}\label{api}}
 
 Servicio en el cual los clientes pueden pedir las \emph{Entidades Nombradas} de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
-El \emph{API} se comunica el servicio de \emph{Bases de Datos} para obtener o modificar información sobre los usuarios, los textos pertenecientes al corpus o información de los distintos \emph{snapshots} y con el \emph{Task Scheduler} para realizar diversas tareas relacionadas con \emph{spaCy}.
+El \emph{API} se comunica el servicio de \emph{Bases de Datos} para obtener o modificar información sobre los usuarios, los textos pertenecientes al \emph{corpus} o información de los distintos \emph{snapshots} y con el \emph{Task Scheduler} para realizar diversas tareas relacionadas con \emph{spaCy}.
 
 \hypertarget{task-scheduler}{%
 \subsubsection{Task Scheduler}\label{task-scheduler}}
@@ -1485,6 +1448,11 @@ Servicio que contiene la base de datos con la información necesaria (usuarios, 
 \subsubsection{Cliente}\label{cliente}}
 
 Es la interfaz del entrenador que se comunica con el API utilizando un SDK auto-generado a partir de la definición de \emph{OpenAPI}. Implementado en este proyecto es un cliente web el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades
+
+{[}TODO{]}
+
+\hypertarget{mecanismo-de-reautenticaciuxf3n}{%
+\paragraph{Mecanismo de reautenticación}\label{mecanismo-de-reautenticaciuxf3n}}
 
 \hypertarget{vista-de-desarrollo}{%
 \subsection{Vista de desarrollo}\label{vista-de-desarrollo}}
@@ -1598,6 +1566,60 @@ A su vez, provee facilidades de serialización y de-serialización de objetos en
 
 Librería que nos permite integrar la librería de serialización \emph{Marshmallow} con \emph{Mongoengine} simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del \emph{API}. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto \emph{User} ya nunca deberíamos devolver en una respuesta el campo \emph{password} de la base de datos.
 
+\hypertarget{arquitectura-1}{%
+\paragraph{Arquitectura}\label{arquitectura-1}}
+
+{[}TODO{]}
+
+\hypertarget{base-de-datos}{%
+\subsubsection{Base de Datos}\label{base-de-datos}}
+
+Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: \emph{MongoDB} (Ryan, Horowitz, \& Merriman, \protect\hyperlink{ref-mongodb}{2019}).
+
+\emph{MongoDB} nos permite tener un lugar en donde guardar todos los documentos que puede escalar tanto como sea necesario debido a su posibilidad de fragmentar\footnote{\url{https://docs.mongodb.com/manual/sharding/}} o replicar\footnote{\url{https://docs.mongodb.com/manual/replication/}} información entre distintas instancias que pueden estar ubicadas en distintos servidores.
+
+\hypertarget{modelado}{%
+\paragraph{Modelado}\label{modelado}}
+
+Para el modelado de los datos utilizamos cuatro colecciones mostradas en la figura \ref{fig:developer-db-overview}.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/db-overview.pdf} 
+
+}
+
+\caption{Colecciones de la base de datos.}\label{fig:developer-db-overview}
+\end{figure}
+
+\hypertarget{user}{%
+\subparagraph{\texorpdfstring{\emph{User}}{User}}\label{user}}
+
+La colección \emph{user} contiene la información de todos los usuarios del sistema (Figura \ref{fig:developer-db-user}). Entre los datos del usuario está el campo \emph{trainings}, que guarda internamente una lista de \emph{ObjectId} pertenecientes a los entrenamientos del usuario. A su vez está la lista de roles a los cuales tiene acceso el usuario.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/db-user.pdf} 
+
+}
+
+\caption{Colección de usuarios.}\label{fig:developer-db-user}
+\end{figure}
+
+\hypertarget{text}{%
+\subparagraph{\texorpdfstring{\emph{Text}}{Text}}\label{text}}
+
+La colección \emph{text} contiene todos los textos que forman parte del corpus que son cargados para ser mostrados en la interfaz de entrenamiento (Figura \ref{fig:developer-db-text}).
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/db-text.png} 
+
+}
+
+\caption{Colección de textos.}\label{fig:developer-db-text}
+\end{figure}
+
 \hypertarget{vista-fuxedsica}{%
 \subsection{Vista física}\label{vista-fuxedsica}}
 
@@ -1670,8 +1692,8 @@ La métrica de \(\text{valor-F}\) es ampliamente utilizada en la literatura del 
 
 Por esa razón hemos decidido utilizar la métrica \(F_1\) para poder comparar nuestra \textbf{exactitud} con los resultados obtenidos por los entrenamientos de otras publicaciones y sistemas.
 
-\hypertarget{resultados-obtenidos}{%
-\subsection{Resultados obtenidos}\label{resultados-obtenidos}}
+\hypertarget{result-data}{%
+\subsection{Resultados obtenidos}\label{result-data}}
 
 La recomendación de \emph{spaCy} para entrenamientos de \emph{NER} es de al menos etiquetar 2000 textos. En este trabajo hemos etiquetado, de manera manual utilizando nuestra plataforma, muchos más y para los resultados obtuvimos una \textbf{muestra aleatoria de 4000 textos}.
 
@@ -1713,43 +1735,162 @@ Sobre la cantidad de documentos necesarios para el entrenamiento vs evaluación 
 \hypertarget{discussion}{%
 \section{Discusión}\label{discussion}}
 
-\hypertarget{tipos-de-entidades-relevantes}{%
-\subsection{Tipos de entidades relevantes}\label{tipos-de-entidades-relevantes}}
+\hypertarget{analisis-de-resultados}{%
+\subsection{Analisis de resultados}\label{analisis-de-resultados}}
 
-tener en cuenta (Brunstein, \protect\hyperlink{ref-brunstein2002}{2002})
+Los resultados indicados en la sección \ref{result-data} muestran que el \(\text{valor-F}\) inicial de \emph{spaCy} para nuestro \emph{corpus} de noticias tiene una \emph{score} de 66 puntos. Esta puntuación dista mucho del valor 89 que indica la librería en su documentación (Honnibal \& Montani, \protect\hyperlink{ref-spacy-spanish-model}{2019}) para este idioma.
 
-\begin{verbatim}
-# Notas sobre mejora en tipos de entidades
-Presidente -> Person Descriptor
-NORP -> (Polical) Peronistas, Kirchneristas
-Facility Name -> usually location. "Wall Street", "Muralla China"
+La razón de esta discrepancia ha sido mencionada en varias oportunidades a lo largo de este trabajo; el modelo de \emph{spaCy} ha sido entrenado con un \emph{corpus} de documentos diferente del que nosotros como usuarios de la librería tenemos interés. En particular el modelo inicial de \emph{spaCy} ha sido entrenado con la siguiente información:
 
-Organization Name -> Government vs Corporation.
-Product Name -> autos "Fiat Toro", celulares "Galaxy S10"
-Events -> Superclásico. Superliga. Copa argentina. Elecciones 2019. Las Paso.
-Disease -> 
-Game -> Football, Basket (para "titulos" no tan relevante)
-\end{verbatim}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{Spanish UD AnCora Corpus}}. Contiene más de 14mil documentos de entrenamiento provenientes de noticias españolas (Zeman \& Martínez Alonso, \protect\hyperlink{ref-ancora-es}{2019}).
+\item
+  \textbf{\emph{WikiNER}}. Proveniente de más de 50,000 documentos de wikipedia en español (Nothman, Ringland, Radford, Murphy, \& Curran, \protect\hyperlink{ref-Nothman2017}{2017}).
+\end{itemize}
 
-\hypertarget{seed-en-los-types}{%
-\subsection{Seed en los types}\label{seed-en-los-types}}
+Este es un claro ejemplo de la fragilidad que poseen los modelos estadísticos en cuanto al corpus de interés. El modelo de \emph{spaCy} ha sido entrenado con noticias de España, sin embargo, esas noticias no alcanzan para que el modelo pueda generalizar a las noticias de Argentina y mantener el alto grado de exactitud del modelo anterior.
 
-en especial para los nuevos.
+En este trabajo entrenando sobre el modelo de \emph{spaCy} con 3600 documentos hemos alcanzado subir ese \(\text{valor-F}\) de 66 a 80 puntos. Con una fracción de los documentos que \emph{spaCy} utilizó en su entrenamiento base podemos ajustar cualquier corpus de documentos.
+
+\hypertarget{tipos-de-entidades}{%
+\subsection{Tipos de entidades}\label{tipos-de-entidades}}
+
+La detección de entidades por defecto en español de \emph{spaCy}, incluye las entidades \texttt{Persona}, \texttt{Organización}, \texttt{Locación} y \texttt{Miscelaneo}. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de \texttt{Fecha}.
+
+El hecho de que exista una clasificación de entidad como \texttt{Miscelaneo} indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección \ref{ner-formal} se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.
+
+Existe literatura acerca de la posible taxonomía de las entidades. En (Brunstein, \protect\hyperlink{ref-brunstein2002}{2002}) se proponen 29 tipos y 64 subtipos.
+
+Esta discusión es producto de la necesidad de agregar nuevos tipos que experimentamos al finalizar el entrenamiento de las 4000 noticias. Sin embargo lo propuesto en (Brunstein, \protect\hyperlink{ref-brunstein2002}{2002}) no cubrió nuestras expectativas. Finalmente encontramos una taxonomía lo suficientemente completa para cubrir nuestras necesidades(Sekine, \protect\hyperlink{ref-Sekine-NER}{2007}) que puede ser resumida en la figura \ref{fig:fig-sekine}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/sekine.pdf} 
+
+}
+
+\caption{Taxonomía extendida de Sekine}\label{fig:fig-sekine}
+\end{figure}
+
+Haciendo un análisis de dicha taxonomía encontramos que nuestro \emph{corpus} puede beneficiarse de los siguientes nuevos tipos de entidad:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{Political\_Party}}: diferentes actores políticos.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ej: peronistas, kirchneristas, macristas.
+  \end{itemize}
+\item
+  \textbf{\emph{Offence}}: ofensas.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ej: asesinato, abducción, fraude, aborto, robo.
+  \end{itemize}
+\item
+  \textbf{\emph{Facility\_Name}}: lugares específicos.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ej: Ecoparque, Disneyland, Canal de Suez, Aeropuerto de Ezeiza.
+  \end{itemize}
+\item
+  \textbf{\emph{Product\_Name}}: nombres de productos.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ej: Galaxy S10, Fiat Toro, Manaos.
+  \end{itemize}
+\item
+  \textbf{\emph{Game}}: nombres de juegos.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ej: futbol, football, basket, fortnite, ajedrez.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{semilla-inicial}{%
+\subsection{Semilla inicial}\label{semilla-inicial}}
+
+Nuestro sistema ofrece al usuario una forma sencilla y ágil de entrenar modelos estadísticos y sumar nuevos tipos de entidad. Sin embargo, entrenar un nuevo tipo de entidad suele ser una tarea inicialmente lenta y difícil dado que se necesita un número mínimo de etiquetas para que la nueva entidad empiece a tener relevancia dentro del modelo y sea inferida.
+
+Por ejemplo, suponga se quiere agregar el nuevo tipo de entidad \enquote{Droga} al modelo. Podemos estar horas etiquetando entidades hasta cruzarnos con la primera instancia de \enquote{marihuana} y luego varias etiquetas más hasta cruzarnos con \enquote{cocaína}. Además, como el sistema no conoce previamente el significado abstracto de \enquote{Droga} dichas \emph{keywords} no van a ser identificadas previamente por el etiquetador.
+
+Una posible solución para evitar esta \enquote{curva de aprendizaje} es la de permitir al usuario definir una \enquote{semilla} de palabras clave (o \emph{keywords}) a la hora de definir un tipo nuevo:
+
+\begin{quote}
+Droga: Heroína, Cocaína, Barbitúricos, Metadona, Alcohol, Ketamina, Benzodiazopines, Anfetaminas, Tabaco, Cannabis, etc.
+\end{quote}
+
+De esta manera y gracias al proceso de \emph{word-embeddings} visto en la sección \ref{encode} el modelo puede pre-entrenarse para identificar las palabras definidas y todas aquellas que tengan un significado similar en el espacio vectorial de significados.
+
+\hypertarget{entrenamiento-live-vs-offline}{%
+\subsection{\texorpdfstring{Entrenamiento \emph{live} vs \emph{offline}}{Entrenamiento live vs offline}}\label{entrenamiento-live-vs-offline}}
+
+Existen dos maneras de entrenar un modelo de predicción NLP:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Online} o \emph{Live}: cada nueva etiqueta que entrenamos es inmediatamente inyectada al modelo de predicciones.
+\item
+  \emph{Offline}: cada nueva etiqueta que entrenamos es guardada para ser entrenada en otro momento.
+\end{itemize}
+
+En nuestro sistemas hemos elegido la segunda opción porque al poseer la capacidad de escalar horizontalmente la cantidad de \emph{workers}; el modelo se carga en varios servicios y de ser entrenado de manera \emph{live} el entrenamiento iría a workers diferentes resultando en inconsistencias entre ellos. Existen maneras de migrar nuestro sistema a un modelo \emph{online} y mantener la capacidad de escalar horizontalmente, pero escapa al alcance que decidimos darle a este trabajo por lo cual lo consideramos una propuesta de mejora a futuro.
+
+Uno de los mayores beneficios de tener un modelo online, ademas del trivial de que esta constantemente actualizado con las ultimas mejoras; es el de la capacidad de apuntar a los \emph{tokens} que poseen una mayor incertidumbre. En la sección \ref{use-of-cnn} hemos mencionado que puede ocurrir que algunas palabras tengan una incerteza acerca de qué etiqueta debe ser predecida. En particular este tipo de técnicas están dentro de la literatura conocida como \emph{\enquote{Uncertainty sampling}} que se puede resumir en buscar entidades que tengan un \emph{score} \(~ 0.5\) y dirigir el entrenamiento a esos \emph{tokens} primero.
 
 \hypertarget{linkeo-de-entidades-con-knowledge-base}{%
-\subsection{Linkeo de entidades con Knowledge Base}\label{linkeo-de-entidades-con-knowledge-base}}
+\subsection{\texorpdfstring{\emph{Linkeo} de entidades con \emph{Knowledge Base}}{Linkeo de entidades con Knowledge Base}}\label{linkeo-de-entidades-con-knowledge-base}}
 
-La tarea de reconocer entidades nombradas en el texto es Reconocimiento de entidades nombradas, mientras que la tarea de determinar la identidad de las entidades nombradas mencionadas en el texto se llama Desambiguación de entidades nombradas. Ambas tareas requieren algoritmos y recursos dedicados para ser abordados. {[}3{]}
+Existe otra tarea en el universo de \emph{NLP} que está muy relacionada a la tarea de \emph{NER}: es la tarea de \emph{Named Entity Linking} (``Entity linking,'' \protect\hyperlink{ref-wiki_nel}{2019}).
 
-\hypertarget{mejora-live-vs-offline}{%
-\subsection{Mejora live vs offline}\label{mejora-live-vs-offline}}
+Un corolario de la definición de \textbf{designador rígido} en la sección \ref{ner-formal} es que una misma entidad puede tener varios designadores. Por ejemplo \enquote{Lionel Messi} también puede ser referido como \enquote{Leo Messi}, \enquote{Leo}, \enquote{La Pulga}, \enquote{Lionel Andrés \enquote{Leo} Messi}, etc. Todos ellos son designadores rígidos de una misma entidad, del concepto de Messi. A este concepto abstracto de entidad se le puede asignar un identificador único dentro de una base de datos de conocimiento (\emph{knowledge base} en inglés) para luego ser utilizado en la normalización de entidades.
 
-Mejora \enquote{Uncertainty sampling} -\textgreater{} buscar entidades que tengan un score \textasciitilde{} 0.5
+Ya existen \emph{knowledge bases} universales en internet. Una de las más importante y completas es \textbf{\emph{wikidata}}. El identificador de Messi es el \texttt{Q615} (``Wikidata - lionel messi,'' \protect\hyperlink{ref-wikidata_messi}{2019}).
+
+Si al etiquetar una entidad además de decirle a nuestro sistema de qué tipo es sumamos la funcionalidad de decirle a que identificador de entidad corresponde. Se podría luego entrenar un nuevo modelo de \emph{NEL}, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.
+
+El sistema puede beneficiarse porque tiene disponible ahora de \emph{Wikidata} mucha información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura \ref{fig:fig-messi}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/wikidata_messi.pdf} 
+
+}
+
+\caption{Wikidata - Lionel Messi}\label{fig:fig-messi}
+\end{figure}
+
+Desde el punto de vista del usuario; puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de \enquote{nubes de palabras} a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de \enquote{Mauricio} y en otros se hable de \enquote{Macri}; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada por nuestro sistema en la figura \ref{fig:fig-cloud}.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/LosPersonajesDelDia.pdf} 
+
+}
+
+\caption{Con NEL se sumarían "Messi" con "Lionel" y "Mauricio" con "Macri"}\label{fig:fig-cloud}
+\end{figure}
+
+Para finalizar, un dato curioso es que a esta tarea de reconocimiento de entidades más desambiguación de las mismas se lo suele llamar \emph{NERD} (\emph{named-entity recognition and disambiguation}) al igual que nuestro proyecto \emph{NERd}; una coincidencia accidental pero que evidencia la necesidad a futuro de implementar esta mejora.
 
 \hypertarget{utilidad-de-la-herramienta}{%
 \subsection{Utilidad de la herramienta}\label{utilidad-de-la-herramienta}}
 
-Para poder poner a prueba nuestra herramienta \textbf{NERd} en un entorno real participamos de la hackaton en MediaParty 2019.
+Para poner a prueba nuestra herramienta \textbf{NERd} en un entorno real participamos de la hackatón en MediaParty 2019.
 
 \begin{quote}
 \textbf{(``Hackaton,'' \protect\hyperlink{ref-hackaton2019}{2019})} es un evento de tres días en Argentina, que reúne a 2500 emprendedores, periodistas, programadores de software y diseñadores de cinco continentes para trabajar juntos para el futuro de los medios de comunicación.
@@ -1767,76 +1908,12 @@ Por tal motivo recibimos el primer premio de dicha hackaton (``Mención itba,'' 
 \hypertarget{conclusiones}{%
 \section{Conclusiones}\label{conclusiones}}
 
-\hypertarget{examples}{%
-\subsection{Examples}\label{examples}}
-
-You can label chapter and section titles using \texttt{\{\#label\}} after them, e.g., we can reference Chapter \ref{intro}. If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \ref{state-of-art}.
-
-Figures and tables with captions will be placed in \texttt{figure} and \texttt{table} environments, respectively.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar =} \KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, }\FloatTok{.1}\NormalTok{, }\FloatTok{.1}\NormalTok{))}
-\KeywordTok{plot}\NormalTok{(pressure, }\DataTypeTok{type =} \StringTok{'b'}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.8\linewidth]{nerd-pf_files/figure-latex/nice-fig-1.pdf} 
-
-}
-
-\caption{Here is a nice figure!}\label{fig:nice-fig}
-\end{figure}
-
-Reference a figure by its code chunk label with the \texttt{fig:} prefix, e.g., see Figure \ref{fig:nice-fig}. Similarly, you can reference tables generated from \texttt{knitr::kable()}, e.g., see Table \ref{tab:nice-tab}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(}
-  \KeywordTok{head}\NormalTok{(iris, }\DecValTok{20}\NormalTok{), }\DataTypeTok{caption =} \StringTok{'Here is a nice table!'}\NormalTok{,}
-  \DataTypeTok{booktabs =} \OtherTok{TRUE}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{table}
-
-\caption{\label{tab:nice-tab}Here is a nice table!}
-\centering
-\begin{tabular}[t]{rrrrl}
-\toprule
-Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species\\
-\midrule
-5.1 & 3.5 & 1.4 & 0.2 & setosa\\
-4.9 & 3.0 & 1.4 & 0.2 & setosa\\
-4.7 & 3.2 & 1.3 & 0.2 & setosa\\
-4.6 & 3.1 & 1.5 & 0.2 & setosa\\
-5.0 & 3.6 & 1.4 & 0.2 & setosa\\
-\addlinespace
-5.4 & 3.9 & 1.7 & 0.4 & setosa\\
-4.6 & 3.4 & 1.4 & 0.3 & setosa\\
-5.0 & 3.4 & 1.5 & 0.2 & setosa\\
-4.4 & 2.9 & 1.4 & 0.2 & setosa\\
-4.9 & 3.1 & 1.5 & 0.1 & setosa\\
-\addlinespace
-5.4 & 3.7 & 1.5 & 0.2 & setosa\\
-4.8 & 3.4 & 1.6 & 0.2 & setosa\\
-4.8 & 3.0 & 1.4 & 0.1 & setosa\\
-4.3 & 3.0 & 1.1 & 0.1 & setosa\\
-5.8 & 4.0 & 1.2 & 0.2 & setosa\\
-\addlinespace
-5.7 & 4.4 & 1.5 & 0.4 & setosa\\
-5.4 & 3.9 & 1.3 & 0.4 & setosa\\
-5.1 & 3.5 & 1.4 & 0.3 & setosa\\
-5.7 & 3.8 & 1.7 & 0.3 & setosa\\
-5.1 & 3.8 & 1.5 & 0.3 & setosa\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-You can write citations, too. For example, we are using the \textbf{bookdown} package (Xie, \protect\hyperlink{ref-R-bookdown}{2019}) in this sample book, which was built on top of R Markdown and \textbf{knitr} (Xie, \protect\hyperlink{ref-xie2015}{2015}).
+\begin{itemize}
+\item
+  Recomendar que con 4000 documentos se puede alcanzar 80 puntos de \(\text{valor-F}\)
+\item
+  Cuando se enfrenta un proyecto de etiquetado de \emph{NER} recomendamos una etapa inicial de 4000 documentos para alcanzar una exactitud razonable y poder inferir de la experiencia obtenida de los textos analizados que tipos de entidad segun la taxonomía de (Sekine, \protect\hyperlink{ref-Sekine-NER}{2007}) en la \ref{fig:fig-sekine} se necesitan agregqr.
+\end{itemize}
 
 \newpage
 
@@ -2262,9 +2339,9 @@ Itn & NER Loss & NER P & NER R & NER F & Token \% & CPU WPS & GPU WPS\tabularnew
 
 \newpage
 
-\hypertarget{references}{%
-\section*{References}\label{references}}
-\addcontentsline{toc}{section}{References}
+\hypertarget{referencias}{%
+\section*{Referencias}\label{referencias}}
+\addcontentsline{toc}{section}{Referencias}
 
 \hypertarget{refs}{}
 \leavevmode\hypertarget{ref-brunstein2002}{}%
@@ -2279,6 +2356,9 @@ Duh definition. (2019). Retrieved October 14, 2019, from \url{https://dictionary
 \leavevmode\hypertarget{ref-github_machine_learning}{}%
 Elliott, T. (2019). The state of the octoverse: Machine learning. Retrieved January 24, 2019, from \url{https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/}
 
+\leavevmode\hypertarget{ref-wiki_nel}{}%
+Entity linking. (2019). Retrieved November 19, 2019, from \url{https://en.wikipedia.org/wiki/Entity_linking}
+
 \leavevmode\hypertarget{ref-ethayarajh-etal-2019-towards}{}%
 Ethayarajh, K., Duvenaud, D., \& Hirst, G. (2019). Towards understanding linear word analogies. \emph{Proceedings of the 57th annual meeting of the association for computational linguistics}, 3253--3262. \url{https://doi.org/10.18653/v1/P19-1315}
 
@@ -2291,8 +2371,14 @@ Hackaton. (2019). Retrieved August 31, 2019, from \url{https://mediaparty.info/}
 \leavevmode\hypertarget{ref-pub_1084928040}{}%
 Hand, D., \& Christen, P. (2018). A note on using the f-measure for evaluating record linkage algorithms. \emph{Statistics and Computing}, \emph{28}(3), 539--547. \url{https://doi.org/10.1007/s11222-017-9746-6}
 
+\leavevmode\hypertarget{ref-montani_AI}{}%
+Honnibal, M., \& Montani, I. (2016). Practical and effective neural ner. Retrieved November 28, 2016, from \url{https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf}
+
 \leavevmode\hypertarget{ref-honnibal_NER}{}%
-Honnibal, M. (2017). Practical and effective neural ner. Retrieved November 2, 2017, from \url{https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf}
+Honnibal, M., \& Montani, I. (2017). Practical and effective neural ner. Retrieved November 2, 2017, from \url{https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf}
+
+\leavevmode\hypertarget{ref-spacy-spanish-model}{}%
+Honnibal, M., \& Montani, I. (2019). Spacy spanish model. Retrieved November 16, 2019, from \url{https://spacy.io/models/es}
 
 \leavevmode\hypertarget{ref-JWT}{}%
 Jones, M., Bradley, J., Sakimura, N, NRI, \& Microsoft. (2015). JSON web token. Retrieved November 20, 2019, from \url{https://tools.ietf.org/html/rfc7519}
@@ -2312,8 +2398,8 @@ Marsh, E., \& Perzanowski, D. (1998). MUC-7 evaluation of IE technology: Overvie
 \leavevmode\hypertarget{ref-mediaparty2019_win}{}%
 Mención itba. (2019). Retrieved October 3, 2019, from \url{https://www.instagram.com/p/B3Koum2peD-/}
 
-\leavevmode\hypertarget{ref-montani_AI}{}%
-Montani, I. (2016). Practical and effective neural ner. Retrieved November 28, 2016, from \url{https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf}
+\leavevmode\hypertarget{ref-Nothman2017}{}%
+Nothman, J., Ringland, N., Radford, W., Murphy, T., \& Curran, J. R. (2017). \emph{Learning multilingual named entity recognition from Wikipedia}. \url{https://doi.org/10.6084/m9.figshare.5462500.v1}
 
 \leavevmode\hypertarget{ref-flask}{}%
 Pallets, T. (2019). Flask: Lightweight wsgi web application framework. Retrieved November 20, 2019, from \url{https://palletsprojects.com/p/flask/}
@@ -2324,11 +2410,17 @@ Parikh, A., Täckström, O., Das, D., \& Uszkoreit, J. (2016). A decomposable at
 \leavevmode\hypertarget{ref-Poibeau2000ProperNE}{}%
 Poibeau, T., \& Kosseim, L. (2000). Proper name extraction from non-journalistic texts. \emph{CLIN}.
 
-\leavevmode\hypertarget{ref-xie2015}{}%
-Xie, Y. (2015). \emph{Dynamic documents with R and knitr} (2nd ed.). Retrieved from \url{http://yihui.name/knitr/}
+\leavevmode\hypertarget{ref-mongodb}{}%
+Ryan, K. P., Horowitz, E., \& Merriman, D. (2019). MongoDB: The database for modern applications. Retrieved November 20, 2019, from \url{https://www.mongodb.com}
 
-\leavevmode\hypertarget{ref-R-bookdown}{}%
-Xie, Y. (2019). \emph{Bookdown: Authoring books and technical documents with r markdown}. Retrieved from \url{https://github.com/rstudio/bookdown}
+\leavevmode\hypertarget{ref-Sekine-NER}{}%
+Sekine, S. (2007). \emph{The definition of sekine's extended named entities}. Retrieved from \url{https://nlp.cs.nyu.edu/ene/version7_1_0Beng.html}
+
+\leavevmode\hypertarget{ref-wikidata_messi}{}%
+Wikidata - lionel messi. (2019). Retrieved November 19, 2019, from \url{https://www.wikidata.org/wiki/Q615}
+
+\leavevmode\hypertarget{ref-ancora-es}{}%
+Zeman, D., \& Martínez Alonso, H. (2019). Spanish ud ancora corpus. Retrieved May 1, 2019, from \url{https://github.com/UniversalDependencies/UD_Spanish-AnCora}
 
 
 \end{document}

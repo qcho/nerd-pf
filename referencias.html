@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Referencias | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.15.4 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Referencias | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="github-repo" content="qcho/nerd-pf" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Referencias | Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Horacio Miguel Gómez (L:50825)" />
+<meta name="author" content="Juan Pablo Orsay (L:49373)" />
+<meta name="author" content="Proyecto final de carrera" />
+
+
+<meta name="date" content="2019-11-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="conclusiones.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/d3-3.3.8/d3.min.js"></script>
+<script src="libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/chromatography-0.1/chromatography.js"></script>
+<script src="libs/DiagrammeR-binding-1.0.1/DiagrammeR.js"></script>
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Named Entity Recognition Duh!</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="problem-definition.html"><a href="problem-definition.html"><i class="fa fa-check"></i><b>2</b> Definición del problema</a><ul>
+<li class="chapter" data-level="2.1" data-path="problem-definition.html"><a href="problem-definition.html#conceptos-básicos"><i class="fa fa-check"></i><b>2.1</b> Conceptos básicos</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="problem-definition.html"><a href="problem-definition.html#entidad-nombrada"><i class="fa fa-check"></i><b>2.1.1</b> Entidad nombrada</a></li>
+<li class="chapter" data-level="2.1.2" data-path="problem-definition.html"><a href="problem-definition.html#reconocimiento-de-entidades"><i class="fa fa-check"></i><b>2.1.2</b> Reconocimiento de entidades</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="problem-definition.html"><a href="problem-definition.html#los-datos-son-el-problema"><i class="fa fa-check"></i><b>2.2</b> Los datos son el problema</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="state-of-art.html"><a href="state-of-art.html"><i class="fa fa-check"></i><b>3</b> Estado del arte</a><ul>
+<li class="chapter" data-level="3.1" data-path="state-of-art.html"><a href="state-of-art.html#stack-de-software"><i class="fa fa-check"></i><b>3.1</b> Stack de software</a></li>
+<li class="chapter" data-level="3.2" data-path="state-of-art.html"><a href="state-of-art.html#el-pipeline"><i class="fa fa-check"></i><b>3.2</b> El pipeline</a></li>
+<li class="chapter" data-level="3.3" data-path="state-of-art.html"><a href="state-of-art.html#algoritmo-de-tokenización"><i class="fa fa-check"></i><b>3.3</b> Algoritmo de tokenización</a></li>
+<li class="chapter" data-level="3.4" data-path="state-of-art.html"><a href="state-of-art.html#modelos-basados-en-reglas"><i class="fa fa-check"></i><b>3.4</b> Modelos basados en reglas</a></li>
+<li class="chapter" data-level="3.5" data-path="state-of-art.html"><a href="state-of-art.html#modelos-de-deep-learning"><i class="fa fa-check"></i><b>3.5</b> Modelos de “<em>deep-learning</em>”</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="state-of-art.html"><a href="state-of-art.html#embed"><i class="fa fa-check"></i><b>3.5.1</b> <em>Embed</em></a></li>
+<li class="chapter" data-level="3.5.2" data-path="state-of-art.html"><a href="state-of-art.html#encode"><i class="fa fa-check"></i><b>3.5.2</b> <em>Encode</em></a></li>
+<li class="chapter" data-level="3.5.3" data-path="state-of-art.html"><a href="state-of-art.html#attend"><i class="fa fa-check"></i><b>3.5.3</b> <em>Attend</em></a></li>
+<li class="chapter" data-level="3.5.4" data-path="state-of-art.html"><a href="state-of-art.html#predict"><i class="fa fa-check"></i><b>3.5.4</b> <em>Predict</em></a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="state-of-art.html"><a href="state-of-art.html#use-of-cnn"><i class="fa fa-check"></i><b>3.6</b> Uso del modelo estadístico</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="implementation.html"><a href="implementation.html"><i class="fa fa-check"></i><b>4</b> NERd (Implementación)</a><ul>
+<li class="chapter" data-level="4.1" data-path="implementation.html"><a href="implementation.html#vista-lógica"><i class="fa fa-check"></i><b>4.1</b> Vista lógica</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="implementation.html"><a href="implementation.html#web"><i class="fa fa-check"></i><b>4.1.1</b> Web</a></li>
+<li class="chapter" data-level="4.1.2" data-path="implementation.html"><a href="implementation.html#servicio"><i class="fa fa-check"></i><b>4.1.2</b> Servicio</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="implementation.html"><a href="implementation.html#vista-de-proceso"><i class="fa fa-check"></i><b>4.2</b> Vista de proceso</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="implementation.html"><a href="implementation.html#api"><i class="fa fa-check"></i><b>4.2.1</b> API</a></li>
+<li class="chapter" data-level="4.2.2" data-path="implementation.html"><a href="implementation.html#task-scheduler"><i class="fa fa-check"></i><b>4.2.2</b> Task Scheduler</a></li>
+<li class="chapter" data-level="4.2.3" data-path="implementation.html"><a href="implementation.html#worker"><i class="fa fa-check"></i><b>4.2.3</b> Worker</a></li>
+<li class="chapter" data-level="4.2.4" data-path="implementation.html"><a href="implementation.html#database"><i class="fa fa-check"></i><b>4.2.4</b> Database</a></li>
+<li class="chapter" data-level="4.2.5" data-path="implementation.html"><a href="implementation.html#cliente"><i class="fa fa-check"></i><b>4.2.5</b> Cliente</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="implementation.html"><a href="implementation.html#vista-de-desarrollo"><i class="fa fa-check"></i><b>4.3</b> Vista de desarrollo</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="implementation.html"><a href="implementation.html#web-1"><i class="fa fa-check"></i><b>4.3.1</b> Web</a></li>
+<li class="chapter" data-level="4.3.2" data-path="implementation.html"><a href="implementation.html#servicio-1"><i class="fa fa-check"></i><b>4.3.2</b> Servicio</a></li>
+<li class="chapter" data-level="4.3.3" data-path="implementation.html"><a href="implementation.html#base-de-datos"><i class="fa fa-check"></i><b>4.3.3</b> Base de Datos</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="implementation.html"><a href="implementation.html#vista-física"><i class="fa fa-check"></i><b>4.4</b> Vista física</a></li>
+<li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Resultados de entrenamiento</a><ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#métrica-valor-f"><i class="fa fa-check"></i><b>5.1</b> Métrica: Valor-F</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#result-data"><i class="fa fa-check"></i><b>5.2</b> Resultados obtenidos</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Discusión</a><ul>
+<li class="chapter" data-level="6.1" data-path="discussion.html"><a href="discussion.html#analisis-de-resultados"><i class="fa fa-check"></i><b>6.1</b> Analisis de resultados</a></li>
+<li class="chapter" data-level="6.2" data-path="discussion.html"><a href="discussion.html#tipos-de-entidades"><i class="fa fa-check"></i><b>6.2</b> Tipos de entidades</a></li>
+<li class="chapter" data-level="6.3" data-path="discussion.html"><a href="discussion.html#semilla-inicial"><i class="fa fa-check"></i><b>6.3</b> Semilla inicial</a></li>
+<li class="chapter" data-level="6.4" data-path="discussion.html"><a href="discussion.html#entrenamiento-live-vs-offline"><i class="fa fa-check"></i><b>6.4</b> Entrenamiento <em>live</em> vs <em>offline</em></a></li>
+<li class="chapter" data-level="6.5" data-path="discussion.html"><a href="discussion.html#linkeo-de-entidades-con-knowledge-base"><i class="fa fa-check"></i><b>6.5</b> <em>Linkeo</em> de entidades con <em>Knowledge Base</em></a></li>
+<li class="chapter" data-level="6.6" data-path="discussion.html"><a href="discussion.html#utilidad-de-la-herramienta"><i class="fa fa-check"></i><b>6.6</b> Utilidad de la herramienta</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>7</b> Conclusiones</a></li>
+<li class="appendix"><span><b>Anexo: Datos de resultados</b></span><ul>
+<li class="chapter" data-level="1" data-path="conclusiones.html"><a href="conclusiones.html#t-0---v-100.-baseline-spacy"><i class="fa fa-check"></i><b>1</b> t: 0% - v: 100%. <em>Baseline spacy</em></a></li>
+<li class="chapter" data-level="2" data-path="conclusiones.html"><a href="conclusiones.html#t-50---v-50"><i class="fa fa-check"></i><b>2</b> t: 50% - v: 50%</a></li>
+<li class="chapter" data-level="3" data-path="conclusiones.html"><a href="conclusiones.html#t-75---v-25"><i class="fa fa-check"></i><b>3</b> t: 75% - v: 25%</a></li>
+<li class="chapter" data-level="4" data-path="conclusiones.html"><a href="conclusiones.html#t-80---v-20"><i class="fa fa-check"></i><b>4</b> t: 80% - v: 20%</a></li>
+<li class="chapter" data-level="5" data-path="conclusiones.html"><a href="conclusiones.html#t-85---v-15"><i class="fa fa-check"></i><b>5</b> t: 85% - v: 15%</a></li>
+<li class="chapter" data-level="6" data-path="conclusiones.html"><a href="conclusiones.html#t-90---v-10"><i class="fa fa-check"></i><b>6</b> t: 90% - v: 10%</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="referencias" class="section level1 unnumbered">
+<h1>Referencias</h1>
+
+<div id="refs" class="references">
+<div>
+<p>Brunstein, A. (2002). Annotation guidelines for answer types. Retrieved from <a href="https://catalog.ldc.upenn.edu/docs/LDC2005T33/BBN-Types-Subtypes.html">https://catalog.ldc.upenn.edu/docs/LDC2005T33/BBN-Types-Subtypes.html</a></p>
+</div>
+<div>
+<p>Case, K. E., &amp; Fair, R. C. (1999). <em>Principles of economics</em>. Retrieved from <a href="https://books.google.com.ar/books?id=9vvAlOBfq0kC">https://books.google.com.ar/books?id=9vvAlOBfq0kC</a></p>
+</div>
+<div>
+<p>Duh definition. (2019). Retrieved October 14, 2019, from <a href="https://dictionary.cambridge.org/es/diccionario/ingles/duh">https://dictionary.cambridge.org/es/diccionario/ingles/duh</a></p>
+</div>
+<div>
+<p>Elliott, T. (2019). The state of the octoverse: Machine learning. Retrieved January 24, 2019, from <a href="https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/">https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/</a></p>
+</div>
+<div>
+<p>Entity linking. (2019). Retrieved November 19, 2019, from <a href="https://en.wikipedia.org/wiki/Entity_linking">https://en.wikipedia.org/wiki/Entity_linking</a></p>
+</div>
+<div>
+<p>Ethayarajh, K., Duvenaud, D., &amp; Hirst, G. (2019). Towards understanding linear word analogies. <em>Proceedings of the 57th annual meeting of the association for computational linguistics</em>, 3253–3262. <a href="https://doi.org/10.18653/v1/P19-1315">https://doi.org/10.18653/v1/P19-1315</a></p>
+</div>
+<div>
+<p>Facebook. (2019). React: A javascript library for building user interfaces. Retrieved November 20, 2019, from <a href="https://reactjs.org/">https://reactjs.org/</a></p>
+</div>
+<div>
+<p>Hackaton. (2019). Retrieved August 31, 2019, from <a href="https://mediaparty.info/">https://mediaparty.info/</a></p>
+</div>
+<div>
+<p>Hand, D., &amp; Christen, P. (2018). A note on using the f-measure for evaluating record linkage algorithms. <em>Statistics and Computing</em>, <em>28</em>(3), 539–547. <a href="https://doi.org/10.1007/s11222-017-9746-6">https://doi.org/10.1007/s11222-017-9746-6</a></p>
+</div>
+<div>
+<p>Honnibal, M., &amp; Montani, I. (2016). Practical and effective neural ner. Retrieved November 28, 2016, from <a href="https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf">https://github.com/explosion/talks/blob/master/2016-11-28_The-State-of-AI-2016.pdf</a></p>
+</div>
+<div>
+<p>Honnibal, M., &amp; Montani, I. (2017). Practical and effective neural ner. Retrieved November 2, 2017, from <a href="https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf">https://github.com/explosion/talks/blob/master/2017-11-02_Practical-and-Effective-Neural-NER.pdf</a></p>
+</div>
+<div>
+<p>Honnibal, M., &amp; Montani, I. (2019). Spacy spanish model. Retrieved November 16, 2019, from <a href="https://spacy.io/models/es">https://spacy.io/models/es</a></p>
+</div>
+<div>
+<p>Jones, M., Bradley, J., Sakimura, N, NRI, &amp; Microsoft. (2015). JSON web token. Retrieved November 20, 2019, from <a href="https://tools.ietf.org/html/rfc7519">https://tools.ietf.org/html/rfc7519</a></p>
+</div>
+<div>
+<p>Kripke, S. (1980). <em>Naming and necessity</em>. Retrieved from <a href="https://books.google.com.ar/books?id=9vvAlOBfq0kC">https://books.google.com.ar/books?id=9vvAlOBfq0kC</a></p>
+</div>
+<div>
+<p>Kruchten, P. (1995). The 4+1 view model of architecture. <em>IEEE Softw.</em>, <em>12</em>(6), 42–50. <a href="https://doi.org/10.1109/52.469759">https://doi.org/10.1109/52.469759</a></p>
+</div>
+<div>
+<p>Lample, G., Ballesteros, M., Subramanian, S., Kawakami, K., &amp; Dyer, C. (2016). Neural architectures for named entity recognition. <em>CoRR</em>, <em>abs/1603.01360</em>. Retrieved from <a href="http://arxiv.org/abs/1603.01360">http://arxiv.org/abs/1603.01360</a></p>
+</div>
+<div>
+<p>Marsh, E., &amp; Perzanowski, D. (1998). MUC-7 evaluation of IE technology: Overview of results. <em>Seventh message understanding conference (MUC-7): Proceedings of a conference held in fairfax, virginia, April 29 - may 1, 1998</em>. Retrieved from <a href="https://www.aclweb.org/anthology/M98-1002">https://www.aclweb.org/anthology/M98-1002</a></p>
+</div>
+<div>
+<p>Mención itba. (2019). Retrieved October 3, 2019, from <a href="https://www.instagram.com/p/B3Koum2peD-/">https://www.instagram.com/p/B3Koum2peD-/</a></p>
+</div>
+<div>
+<p>Nothman, J., Ringland, N., Radford, W., Murphy, T., &amp; Curran, J. R. (2017). <em>Learning multilingual named entity recognition from Wikipedia</em>. <a href="https://doi.org/10.6084/m9.figshare.5462500.v1">https://doi.org/10.6084/m9.figshare.5462500.v1</a></p>
+</div>
+<div>
+<p>Pallets, T. (2019). Flask: Lightweight wsgi web application framework. Retrieved November 20, 2019, from <a href="https://palletsprojects.com/p/flask/">https://palletsprojects.com/p/flask/</a></p>
+</div>
+<div>
+<p>Parikh, A., Täckström, O., Das, D., &amp; Uszkoreit, J. (2016). A decomposable attention model for natural language inference. <em>Proceedings of the 2016 conference on empirical methods in natural language processing</em>, 2249–2255. <a href="https://doi.org/10.18653/v1/D16-1244">https://doi.org/10.18653/v1/D16-1244</a></p>
+</div>
+<div>
+<p>Poibeau, T., &amp; Kosseim, L. (2000). Proper name extraction from non-journalistic texts. <em>CLIN</em>.</p>
+</div>
+<div>
+<p>Ryan, K. P., Horowitz, E., &amp; Merriman, D. (2019). MongoDB: The database for modern applications. Retrieved November 20, 2019, from <a href="https://www.mongodb.com">https://www.mongodb.com</a></p>
+</div>
+<div>
+<p>Sekine, S. (2007). <em>The definition of sekine’s extended named entities</em>. Retrieved from <a href="https://nlp.cs.nyu.edu/ene/version7_1_0Beng.html">https://nlp.cs.nyu.edu/ene/version7_1_0Beng.html</a></p>
+</div>
+<div>
+<p>Wikidata - lionel messi. (2019). Retrieved November 19, 2019, from <a href="https://www.wikidata.org/wiki/Q615">https://www.wikidata.org/wiki/Q615</a></p>
+</div>
+<div>
+<p>Zeman, D., &amp; Martínez Alonso, H. (2019). Spanish ud ancora corpus. Retrieved May 1, 2019, from <a href="https://github.com/UniversalDependencies/UD_Spanish-AnCora">https://github.com/UniversalDependencies/UD_Spanish-AnCora</a></p>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="conclusiones.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/qcho/nerd-pf/edit/master/09-references.Rmd",
+"text": "Editar"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["nerd-pf.pdf", "nerd-pf.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
