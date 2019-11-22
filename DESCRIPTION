@@ -3,4 +3,4 @@ Type: Book
 Title: Named Entiity Recognition Duh!
 Version: 0.0.1
 Imports: tufte, webshot, tidyverse, ggplot2
-Remotes: rstudio/bookdown, rich-iannone/DiagrammeR
+Remotes: rstudio/bookdown
