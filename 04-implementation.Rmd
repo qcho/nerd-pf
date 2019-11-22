@@ -205,7 +205,7 @@ Finalmente, cuando el usuario logueado tiene el rol de _ADMIN_, tiene acceso a t
 knitr::include_graphics('assets/logic/status-admin.png')
 ```
 
-### Servicio
+### _API_
 
 El acceso al servicio se realiza mediante un API REST que se auto-documenta utilizando la especificación de OpenAPI.
 
@@ -357,6 +357,7 @@ Conjunto de operaciones relacionadas al _Reconocimiento de Entidades Nombradas_
     * Lista de los workers disponibles
 * **POST** _/api/workers/reassign_
     * Reasigna un trabajador de un a versión de snapshot a otra
+
 
 ## Vista de proceso
 > La vista de proceso trata los aspectos dinámicos del sistema, explica los procesos del sistema y cómo se comunican, y se centra en el comportamiento del sistema en tiempo de ejecución.
@@ -544,6 +545,28 @@ knitr::include_graphics('assets/developer/db-training.png')
 
 El _task scheduler_ que utilizamos en el _API_ para poder orquestrar todas las tareas relacionadas con _NER_ así como también la de la administración de los _workers_ es _Celery_ [@celery]. _Celery_ es una cola de tareas asincrónica especializada en el procesamiento distribuido de las mismas. Si bien soporta distintos _backends_ para la funcionalidad de cola de mensajes, decidimos utilizar _RabbitMQ_ [@rabbitmq] debido a su buena integración con _Celery_ así como también por su robustez y posibilidad de escalar horizontalmente.
 
+Para el monitoreo de las tareas de _Celery_ utilizamos la herramienta llamada _Flower_ [@flower], que permite cosas como el estado de cada worker (Figura \@ref(fig:developer-flower-dashboard)), historial de tareas (Figura \@ref(fig:developer-flower-task-history)) así como también estadísticas en tiempo real sobre el sistema (Figura \@ref(fig:developer-flower-monitoring)) y detalles de todos los trabajadores que están conectados a la cola de mensajes (Figura \@ref(fig:developer-flower-monitoring)).
+
+```{r developer-flower-dashboard, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Página principal de Flower.'}
+knitr::include_graphics('assets/developer/flower-dashboard.png')
+```
+
+```{r developer-flower-task-history, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Historial de tareas en Flower.'}
+knitr::include_graphics('assets/developer/flower-task-history.png')
+```
+
+```{r developer-flower-monitoring, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Monitoreo en tiempo real en Flower.'}
+knitr::include_graphics('assets/developer/flower-monitoring.png')
+```
+
+```{r developer-flower-broker, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Listado de colas activas en Flower.'}
+knitr::include_graphics('assets/developer/flower-broker.png')
+```
+
+```{r developer-flower-worker-queues, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colas de mensaje escuchadas por un worker.'}
+knitr::include_graphics('assets/developer/flower-worker-queues.png')
+```
+
 ### Worker
 
 El proceso de _worker_ fue implementado en _Python_ utilizando la librería _Celery_.
@@ -564,6 +587,25 @@ Cada _worker_ puede realizar las siguientes tareas:
 > La vista física representa el sistema desde el punto de vista de un ingeniero de sistemas.
 Se refiere a la topología de los componentes de software en la capa física, así como a las conexiones físicas entre estos componentes.
 Esta vista también se conoce como la vista de _deployment_.
+
+Para la implementación de cada una de las partes de _NERd_, tuvimos como primer objetivo lograr el desarrollo de un proyecto que pudiera escalar horizontalmente desde su concepción, es por ello que separamos cada parte del proyecto para poder lograr una arquitectura que escale naturalmente.
+
+### _Docker_
+
+_Docker_ [@docker] es un conjunto de productos que permiten empaquetar aplicaciones en contenedores. Cada contenedor contiene todo lo necesario para que la aplicación funcione (código, dependencias, configuraciones, herramientas del sistema, etc.)^[https://www.docker.com/resources/what-container]. Mediante el uso de virtualización, es posible distribuir y ejecutar un contenedor en más de un sistema, lo que lleva a la posibilidad de tener varias réplicas de un mismo servicio ejecutando al mismo tiempo.
+
+Por ésta razón decidimos utilizar _Docker_ como la herramienta para empaquetar los servicios principales de _NERd_.
+
+La implementación completa de _NERd_ está formada por 6 contenedores:
+
+### Escalamiento horizontal
+
+Como podemos ver en la figura \@ref(fig:physical-overview), 
+
+```{r physical-overview, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Interacción de servicios.'}
+knitr::include_graphics('assets/physical/overview.png')
+```
+
 <!-- Los diagramas UML utilizados para representar la vista física incluyen el diagrama de deployment. -->
 
 <!-- TODO: explicar docker. docker-package. red. nginx. etc -->
