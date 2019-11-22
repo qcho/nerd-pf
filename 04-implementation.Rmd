@@ -487,7 +487,7 @@ _Mongoengine_ es una librería pensada para trabajar con _MongoDB_ en _Python_. 
 
 Librería que nos permite integrar la librería de serialización _Marshmallow_ con _Mongoengine_ simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del _API_. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto _User_ ya nunca deberíamos devolver en una respuesta el campo _password_ de la base de datos.
 
-### Base de Datos
+### Base de Datos {MongoDB-Dev}
 
 Debido a que en el proyecto necesitamos guardar mayormente documentos (entrenamientos), optamos por utilizar una base de datos orientada a documentos: _MongoDB_ [@mongodb].
 
@@ -596,14 +596,55 @@ _Docker_ [@docker] es un conjunto de productos que permiten empaquetar aplicacio
 
 Por ésta razón decidimos utilizar _Docker_ como la herramienta para empaquetar los servicios principales de _NERd_.
 
-La implementación completa de _NERd_ está formada por 6 contenedores:
+La implementación completa de _NERd_ está formada por 5 contenedores requeridos y uno opcional:
+
+- **app**: Contiene el servicio de _API_.
+- **mongodb**: Contiene la base de datos.
+- **rabbitmq**: Contiene la cola de mensajes.
+- **ui**: Contiene la página web de administración y entrenamiento.
+- **worker**: Contiene a uno o más _workers_.
+- **flower**: Contiene el servicio de monitoreo de _Flower_ (Opcional).
+
+### Deployment
+
+Para poder crear un entorno completo de _NERd_, utilizamos una herramienta incluída en _Docker_ llamada _Docker Compose_ [@dockercompose], con la cual definimos cada uno de los servicios y las conexiones de red y disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \@ref(fig:physical-overview) funcionen correctamente.
+
+A su vez, dentro de un archivo _Makefile_ del proyecto definimos un conjunto de comandos que sirven para levantar _NERd_.
+
+```bash
+make setup # Inicializa todos los contenedores de NERd, creando 2 workers
+make down # Destruye todos los contenedores de NERd
+make stop # Apaga los contenedores de NERd (sirve liberar recursos en una máquina)
+make start # Enciende los contenedores parados de NERd
+```
 
 ### Escalamiento horizontal
 
-Como podemos ver en la figura \@ref(fig:physical-overview), 
+En la figura \@ref(fig:physical-overview) podemos ver a los 5 contenedores principales de _NERd_. Cada uno de ellos fue pensado para que con cambios tanto a sus configuraciones puedan existir varias instancias de cada uno.
 
 ```{r physical-overview, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Interacción de servicios.'}
 knitr::include_graphics('assets/physical/overview.png')
+```
+
+#### _NERd cluster_
+
+Debido a que el _API_ consume sus datos de _MongoDB_ así como también requiere de una conexión mediante _Celery_ a _RabbitMQ_ para poder realizar las tareas de _NER_, es posible tener varias instancias del mismo de manera tal que cada una se conecte al cluster de los dos servicios. Es posible mediante el uso de un _Load Balancer_ generar un cluster de servicios de _API_.
+
+#### _RabbitMQ cluster_
+
+_RabbitMQ_ está pensado desde su concepción para poder escalar horizontalmente^[https://www.rabbitmq.com/clustering.html], por lo que para tener varias instancias de cola de mensajes será necesario corregir la configuración del servicio.
+
+#### _MongoDB cluster_
+
+Al igual que _RabbitMQ_, _MongoDB_ fue diseñado para escalar horizontalmente (ver [Base de datos](#MongoDB-Dev)), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.
+
+#### _Worker cluster_
+
+Dado que cada _worker_ está implementado como un _Celery worker_, mientras la configuración del mismo sea correcta, al levantar nuevos containers será posible escalarlo horizontalmente. Incluído en el repositorio de _NERd_ está un comando de _Makefile_ que permite escalar el servicio worker:
+
+```bash
+make scale-up # Crea un nuevo worker localmente
+make scale-down # Destruye un worker localmente
 ```
 
 <!-- Los diagramas UML utilizados para representar la vista física incluyen el diagrama de deployment. -->
