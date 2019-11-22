@@ -870,5 +870,3 @@ sequenceDiagram;
 ")
 ```
 
-<!-- TODO: explicar algún caso de uso completo. Maybe el PF de pablo? -->
-
