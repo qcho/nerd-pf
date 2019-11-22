@@ -534,8 +534,8 @@ La colección _training_ contiene información sobre todos los entrenamientos ca
 
 Dentro de un documento training, se encuentra el atributo _document_, que es el que internamente contiene la representación de un documento de entrenamiento que es entendido por _spaCy_ y que luego será utilizado para entrenar el modelo de inferencia.
 
-```{r developer-db-snapshot, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colección de snapshots.'}
-knitr::include_graphics('assets/developer/db-snapshot.png')
+```{r developer-db-training, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colección de entrenamientos.'}
+knitr::include_graphics('assets/developer/db-training.png')
 ```
 
 <!-- Utiliza el diagrama de componentes UML para describir los componentes del sistema. -->
