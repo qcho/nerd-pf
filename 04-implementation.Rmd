@@ -15,7 +15,7 @@ Este modelo nos permite describir la aplicación de una manera genérica y orden
 
 > _The “4+1” view model is rather “generic”: other notations and tools can be used, other design methods can be used, especially for the logical and process decompositions, but we have indicated the ones we have used with success._
 >
-> `r tufte::quote_footer('--- [@Kruchten:1995:VMA:624610.625529]')` 
+> `r tufte::quote_footer('--- [@Kruchten:1995:VMA:624610.625529]')` 
 
 ## Vista lógica
 
@@ -369,58 +369,151 @@ Conjunto de operaciones relacionadas al _Reconocimiento de Entidades Nombradas_
 > La vista de proceso trata los aspectos dinámicos del sistema, explica los procesos del sistema y cómo se comunican, y se centra en el comportamiento del sistema en tiempo de ejecución.
 La vista de proceso aborda concurrencia, distribución, integradores, rendimiento y escalabilidad, etc.
 
-Como podemos ver en la figura \@ref(fig:process-overview-client), existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.
+Como podemos ver en la figura \@ref(fig:process-overview-client), existen cinco tipos de proceso que juntos forman la totalidad de NERd y su entrenador.
+
+Para la implementación de cada una de las partes tuvimos como primer objetivo lograr el desarrollo de un proyecto que pudiera escalar horizontalmente desde su concepción, es por ello que separamos cada parte del proyecto para poder lograr una arquitectura que escale naturalmente.
 
 ```{r process-overview-client, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Componentes del sistema.'}
 knitr::include_graphics('assets/process/process-overview-client.png')
 ```
 
-### API
+### Cliente web
+
+Es la interfaz del entrenador que se comunica con el API utilizando un _SDK_ auto-generado a partir de la definición de _OpenAPI_. Implementado en este proyecto es un cliente _web_ el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
+
+### _API_
 
 Servicio en el cual los clientes pueden pedir las _Entidades Nombradas_ de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
 El _API_ se comunica el servicio de _Bases de Datos_ para obtener o modificar información sobre los usuarios, los textos pertenecientes al _corpus_ o información de los distintos _snapshots_ y envía mensajes al _Task Scheduler_ para realizar diversas tareas relacionadas con _spaCy_ así como también tareas de administración sobre los _workers_ disponibles.
+
+Debido a que la _API_ está implementada en _python_ y este es un lenguaje cuyo intérprete posee un _lock_ global [@python_gil], debimos implementar la aplicación como un servicio que implementa _WSGI_ [@pep-3333]. Luego la aplicación es servida por _gunicorn_, un _application server_ para este fin que escala horizontalmente su _pool_ de _workers_.
+
+### Worker
+
+Un _worker_ se encarga de realizar las operaciones de _NER_ incluyendo el entrenamiento de modelos de inferencia. Es un servicio que existe de manera independiente.
+
+El modelo estadístico debe ser cargado en memoria para poder ser utilizado. El mismo requiere de muchos recursos y tiene una eficiencia limitada ya que puede atender una sóla consulta a la vez. Es por ello que decidimos, en lugar de que el modelo sea parte de la _API_ resultando en un cuello de botella, encapsular el modelo en un servicio externo para que pueda ser escalado horizontalmente.
+
+Como el _worker_ es una unidad de trabajo que recibe tareas desde el _task scheduler_, es posible tener varios _workers_ donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos _snapshots_).
+
+Cuando un _worker_ es creado, automáticamente carga el modelo actual (_snapshot_ actual) y se suscribe a la cola de mensajes para esa versión en particular.
+
+#### Entrenamiento y carga de snapshots
+
+Dado que pueden haber varios _workers_ utilizando el mismo modelo de _spaCy_, es de vital importancia que si existe al menos un _worker_ leyendo un modelo desde el disco y otro worker quiere entrenar ese modelo, que no pueda hasta que el resto haya terminado de leerlo.
+Ésto se debe a que si el _worker_ que está entrenando el modelo sobreescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del _worker_ de lectura. Como no hay ninguna limitación en la lectura, más de un _worker_ puede leer en simultáneo.
+
+Para realizar ese control de concurrencia utilizamos el campo `semaphore` del modelo de _snapshot_ guardado en la base de datos (Figura \@ref(fig:developer-db-snapshot)) el cual usualmente se encuentra en $0$. El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.
+
+En la figura \@ref(fig:scenarios-worker-train) podemos ver un escenario en el que tanto _Worker 2_ y _Worker 3_ pueden leer en simultáneo el modelo pero _Worker 1_ debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.
+
+```{r scenarios-worker-train, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Bloqueo de entrenamiento por lectura.'}
+DiagrammeR::DiagrammeR("
+  sequenceDiagram;
+   participant a as API
+   participant r as RabbitMQ
+   participant m as MongoDB
+   participant w as Worker 1
+   participant ww as Worker 2
+participant www as Worker 3
+participant mo as Model
+ww->>m: Incrementar semáforo para vXX;
+ww->>+mo: Read;
+   a->>r: Crear tarea de entrenar vXX;
+   w->>+r: Pedir tarea;
+   r-->>-w: Tarea de entrenar;
+activate w;
+loop Worker 1 bloqueado
+w->>w: Semáforo en 0?
+www->>m: Incrementar semáforo para vXX;
+www->>+mo: Read;
+mo-->>-ww: Modelo
+ww->>+m: Decrementar semáforo para vXX
+m-->>-ww:Exito
+mo-->>-www: Modelo
+  www->>+m: Decrementar semáforo para vXX;
+m-->>-www:Exito
+w->>w: Semáforo en 0?
+end
+   w->>+m: Decrementar semáforo para vXX;
+   m-->>-w: Éxito;
+   w->>+m: Pedir textos etoquetados para vXX;
+   m-->>-w: Textos etiquetados;
+   w->>w: Entrenar;
+   w->>+m: Actualizar fecha de entrenamiento;
+   m-->>-w: Éxito;
+   w->>+m: Incrementar semáforo
+m-->>-w:Éxito
+   w->>r: Entrenamiento exitoso;
+deactivate w
+")
+```
 
 ### Task Scheduler
 
 Recibe tareas desde el _API_ tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. A el task scheduler se suscriben todos los _workers_ del sistema de manera tal de poder recibir mensajes y realizar acciones.
 Su funcionamiento es crítico para poder manejar grandes volúmenes de consultas al motor de inferencia ya que permite generar una estructura que escale horizontalmente debido a la posibilidad de contar con la suscripción de un número arbitrario de _workers_.
 
-### Worker
+Este proceso escala horizontalmente debido a que su implementación en la capa física es un _cluster_.
 
-Un _Worker_ se encarga de realizar el _Reconocimiento de Entidades Nombradas_ así como también de entrenar modelos de inferencia. Es un servicio que existe de manera independiente y necesita de dos otros servicios para funcionar:
-
-* _Base de datos_ para obtener los datos necesarios para entrenar un modelo.
-* _Task scheduler_ para poder recibir tareas.
-
-Como el _Worker_ es una unidad de trabajo que recibe tareas desde el _Task Scheduler_, es posible tener varios _Workers_ donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos snapshots).
-
-Cuando un _Worker_ es creado, automáticamente carga el modelo actual (_current snapshot_) y se suscribe a la cola de mensajes para esa versión en particular.
-
-### Database
+### Base de datos
 
 Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de _API_ funcione así como también los datos necesarios por los workers (entrenamientos).
 
-### Cliente
+Este proceso escala horizontalmente debido a que su implementación en la capa física es un _cluster_.
 
-Es la interfaz del entrenador que se comunica con el API utilizando un _SDK_ auto-generado a partir de la definición de _OpenAPI_. Implementado en este proyecto es un cliente _web_ el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
+#### Autenticación
 
-<!-- Los diagramas UML para representar la vista de proceso incluyen el diagrama de actividad. -->
+El proceso de autenticación de la _API_ sigue el flujo de _OAuth2_ [@oauth2], debido a como está definido, el usuario al autenticarse con _email_ y _password_ recibe par de identificadores únicos llamados `access_token` y `refresh_token`. A partir de este momento todos los requests del usuario a la _API_ poseen en su encabezado el `access_token`. Ocurre que estos _tokens_ de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el `access_token` utilizando el `refresh_token` provisto en el _login_ inicial. Al hacer esto el usuario recibe un nuevo par de _tokens_ de igual manera a como lo hizo en el _login_ con sus credenciales.
 
-<!-- TODO: explicar ui vs backend vs mensajes amq vs workers (no detalles de implementación ver siguiente) -->
+De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend **una sola vez** sus credenciales sensibles.
+
+En la figura \@ref(fig:scenarios-relogin) podemos ver el flujo que realiza la implementación _web_ del entrenador para realizar el refresco de la sesión al recibir un $401$ por parte del servidor.
+
+```{r scenarios-relogin, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Flujo de relogin'}
+DiagrammeR::DiagrammeR("
+  sequenceDiagram;
+   participant cliente as Usuario
+   participant web as Web
+   participant API
+   cliente->>+web: Login;
+   web->>+API: Login con credenciales;
+   API-->>-web: Access + Refresh Tokens;
+   web-->>-cliente: Mostrar login OK;
+   cliente->>+web: Ver mis entrenamientos;
+   web->>+API: Pedido;
+   alt Sesión válida
+     API-->>web: Resultados (200);
+     web-->>cliente: Mostrar resultados;
+   else Sesión caducada
+     API-->>-web: Sesión inválida (401);
+     web->>+API: Session refresh;
+     alt Refresh token válido
+      API-->>web: Access token (200);
+      web->>+API: Reintentar pedido;
+      API-->>-web: Resultados;
+      web-->>cliente: Mostrar resultados;
+     else Refresh token caducado
+      API-->>-web: Respuesta (401);
+      web-->>-cliente: Mostrar mensaje de error;
+     end
+   end
+")
+```
 
 ## Vista de desarrollo
 > La vista de desarrollo ilustra un sistema desde la perspectiva de un programador y se ocupa de la gestión de software.
 Esta vista también se conoce como la vista de implementación.
 
-### Web
+### Cliente web
 
 La página _web_ que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de _Single Page Application_ que nos permitió generar un _bundle_ que puede ser hosteado en _CDNs_ y nos permite tener ciclos de release independientes al los del servicio.
 
-Poder separar las releases de la _web_ y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el _API REST_ y una baja por cambios a la interfaz de la _web_ no afecta la disponibilidad del servicio.
+Poder separar las _releases_ de la _web_ y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el _API REST_ y una baja por cambios a la interfaz de la _web_ no afecta la disponibilidad del servicio.
 
 #### Tecnologías
 
-Para la implementación utilizamos el lenguaje de programación llamado **Typescript**, lenguaje desarrollado por _Microsoft_ que compila a _JavaScript_ con el agregado de _Tipos_ que permiten producir código de mayor calidad debido al agregado de la posibilidad del chequeo estático de código para validar su correctitud.
+Para la implementación utilizamos el lenguaje de programación llamado **Typescript** [@typescript], lenguaje desarrollado por _Microsoft_ que compila a _JavaScript_ con el agregado de _Tipos_ que permiten producir código de mayor calidad debido al agregado de la posibilidad del chequeo estático de código para validar su correctitud.
 
 Una vez definido el lenguaje, optamos por utilizar la librería llamada **ReactJS** [@react] desarrollada por _Facebook_ para implementar la interfaz.
 
@@ -442,7 +535,7 @@ Debido a que el servicio implementado expone una definiciión de _OpenAPI_, pode
 
 #### Arquitectura
 
-El código en la _web_ se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura \@ref(fig:developer-web-modules)).
+El código en la _web_ se encuentra separado por funcionalidad, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura \@ref(fig:developer-web-modules)).
 
 ```{r developer-web-modules, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Módulos de la página web.'}
 knitr::include_graphics('assets/developer/web-modules.png')
@@ -450,13 +543,13 @@ knitr::include_graphics('assets/developer/web-modules.png')
 
 Los módulos marcados en azul son relacionados al contenido que se muestra cada ruta del sistema.
 
-Los módulos marcados en rojos son de utilidad, ya sea por que contienen todo el código relevante a la comunicación con el _API REST_ o a componentes utilizados en varias áreas de los módulos azules.
+Los módulos marcados en rojo son de utilidad, ya sea por que contienen todo el código relevante a la comunicación con el _API REST_ o a componentes utilizados en varias áreas de los módulos azules.
 
 #### Sesión
 
 El servicio _web_ ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el _local storage_ del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.
 
-Si en algún momento en el futuro el _API_ nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código HTTP 401) y el token de refrescado dejó de ser válido, las credenciales se borran del _local storage_ y redirigimos al cliente a la pantalla de inicio.
+Si en algún momento en el futuro el _API_ nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código `HTTP 401`) y el _token_ de refrescado dejó de ser válido, las credenciales se borran del _local storage_ y redirigimos al cliente a la pantalla de inicio.
 
 Ofrecemos también la posibilidad de no guardar la sesión, lo cual hará que una vez cerrada la pestaña, el usuario deba volver a ingresar al sistema para poder acceder a los distintos servicios.
 
@@ -476,7 +569,7 @@ Como base del proyecto utilizamos un _microframework_ de aplicaciones _web_ llam
 
 ##### _flask-smorest_
 
-_Framework_ que enriquece a _Flask_ agregando la posibilidad de poder crear _APIs REST_ que se auto-documentan generando una especificación de _OpenAPI_ que es expuesta a los usuarios del servicio en dos variantes: _ReDoc_ y _Swagger UI_. Tener un _API_ que se auto-documenta nos permite ofrecerle a los clientes un lugar en el cual puedan consultar el funcionamiento completo de el servicio requiriendo poco trabajo extra a la hora de desarrollar el servicio.
+_Framework_ que enriquece a _Flask_ agregando la posibilidad de poder crear _APIs REST_ generando una especificación de _OpenAPI_ que es expuesta a los usuarios del servicio en dos variantes de documentación: _ReDoc_ y _Swagger UI_. Tener un _API_ que se auto-documenta nos permite ofrecerle a los clientes un lugar en el cual puedan consultar el funcionamiento completo de el servicio requiriendo poco trabajo extra a la hora de desarrollar el servicio.
 
 A su vez, provee facilidades de serialización y de-serialización de objetos en respuestas _JSON_ utilizando la librería de _marshmallow_ así como también utilizades para simplificar la creación de _endpoints_ que permitan paginar sus resultados (particularmente útil para listar entidades como entrenamientos, usuarios o textos).
 
@@ -487,11 +580,54 @@ _Flask JWT extended_ es una librería que agrega a _Flask_ la funcionalidad de p
 
 ##### _Mongoengine_
 
-_Mongoengine_ es una librería pensada para trabajar con _MongoDB_ en _Python_. En su esencia es un  _Document-Object Mapper_ que permite convertir resultados de consultas de la base de datos en objetos de _Python_ así como también permite guardar esos objetos en la base de datos.
+_Mongoengine_ es una librería pensada para trabajar con _MongoDB_ en _Python_. En su esencia es un _Document-Object Mapper_ que permite convertir resultados de consultas de la base de datos en objetos de _Python_ así como también permite guardar esos objetos en la base de datos.
 
 ##### _marshmallow-mongoengine_
 
 Librería que nos permite integrar la librería de serialización _Marshmallow_ con _Mongoengine_ simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del _API_. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto _User_ ya nunca deberíamos devolver en una respuesta el campo _password_ de la base de datos.
+
+### Worker
+
+El proceso de _worker_ fue implementado en _Python_ utilizando la librería _Celery_.
+
+Por diseño, los _workers_ siempre tienen un modelo de inferencia cargado en memoria, por lo que cuando se crea uno nuevo se le asigna por defecto el _snapshot_ actual (`snapshot_id = 0`) para poder ayudar a distribuir la carga de los pedidos al _API_.
+
+Debido a que requieren de un _snapshot_ para poder realizar la tarea de _NER_ así como también requieren del _corpus_ etiquetado para poder entrenar el modelo, cada _worker_ debe tener acceso a la base de datos principal de _NERd_ (Figura \@ref(fig:process-overview-client)).
+
+Cada _worker_ puede realizar las siguientes tareas:
+
+* **train**: Entrenar el modelo de inferencia de _spaCy_ utilizando el _snapshot_ para el cual fue configurado.
+* **un_train**: Borra el modelo guardado en el disco, efectivamente "des-entrenandose". Principalmente utilizado para liberar recursos.
+* **reload**: Recarga el modelo de inferencia desde el disco. Utilizado cuando algún _worker_ entrenó el modelo y el actual quedó desactualizado.
+* **nlp**: Realiza la tarea de _NER_ utilizando el modelo cargado.
+* **change_snapshot**: Cambia el _snapshot_ utilizado en el _worker_.
+
+### _Task Scheduler_
+
+El _task scheduler_ que utilizamos en el _API_ para poder orquestar todas las tareas relacionadas con _NER_ así como también la de la administración de los _workers_ es _Celery_ [@celery]. _Celery_ es una cola de tareas asincrónica especializada en procesamiento distribuido.
+Si bien soporta distintos _backends_ para la funcionalidad de cola de mensajes, decidimos utilizar _RabbitMQ_ [@rabbitmq] debido a su robustez y la posibilidad de escalar horizontalmente.
+
+Para el monitoreo de las tareas de _Celery_ utilizamos la herramienta llamada _Flower_ [@flower], que permite consultar el estado de cada worker (Figura \@ref(fig:developer-flower-dashboard)), historial de tareas (Figura \@ref(fig:developer-flower-task-history)) así como también estadísticas en tiempo real sobre el sistema (Figura \@ref(fig:developer-flower-monitoring)) y detalles de todos los _workers_ que están conectados a la cola de mensajes (Figura \@ref(fig:developer-flower-monitoring)).
+
+```{r developer-flower-dashboard, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Página principal de Flower.'}
+knitr::include_graphics('assets/developer/flower-dashboard.png')
+```
+
+```{r developer-flower-task-history, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Historial de tareas en Flower.'}
+knitr::include_graphics('assets/developer/flower-task-history.png')
+```
+
+```{r developer-flower-monitoring, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Monitoreo en tiempo real en Flower.'}
+knitr::include_graphics('assets/developer/flower-monitoring.png')
+```
+
+```{r developer-flower-broker, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Listado de colas activas en Flower.'}
+knitr::include_graphics('assets/developer/flower-broker.png')
+```
+
+```{r developer-flower-worker-queues, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colas de mensaje escuchadas por un worker.'}
+knitr::include_graphics('assets/developer/flower-worker-queues.png')
+```
 
 ### Base de Datos {#MongoDBDev}
 
@@ -525,7 +661,7 @@ knitr::include_graphics('assets/developer/db-text.png')
 
 ##### _Snapshot_
 
-La colección _snapshot_ contiene información sobre los distintos _snapshots_ creados en el sistema (Figura \@ref(fig:developer-db-snapshot)). De particular interés es el atributo _types_, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo _semaphore_, que sirve como un campo de control para poder organizar a los _workers_ que están utilizando ese _snapshot_ en particular.
+La colección _snapshot_ contiene información sobre los distintos _snapshots_ creados en el sistema (Figura \@ref(fig:developer-db-snapshot)). De particular interés es el atributo _types_, que contiene un mapa de todos los tipos de entidades disponibles en el _snapshot_. También contiene el atributo _semaphore_, que sirve como un campo de control para poder organizar a los _workers_ que están utilizando ese _snapshot_ en particular.
 
 ```{r developer-db-snapshot, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colección de snapshots.'}
 knitr::include_graphics('assets/developer/db-snapshot.png')
@@ -535,7 +671,7 @@ knitr::include_graphics('assets/developer/db-snapshot.png')
 
 La colección _training_ contiene información sobre todos los entrenamientos cargados en el sistema (Figura \@ref(fig:developer-db-training)). Cada entrenamiento contiene referencia al texto al que pertenece así como también al usuario que lo creó. De manera tal de poder obtener la información de los documentos relacionados sin necesidad de duplicar información.
 
-Dentro de un documento training, se encuentra el atributo _document_, que es el que internamente contiene la representación de un documento de entrenamiento que es entendido por _spaCy_ y que luego será utilizado para entrenar el modelo de inferencia.
+Dentro de un documento _training_, se encuentra el atributo _document_, que es el que internamente contiene la representación de un documento de entrenamiento que es entendido por _spaCy_ y que luego será utilizado para entrenar el modelo de inferencia.
 
 ```{r developer-db-training, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colección de entrenamientos.'}
 knitr::include_graphics('assets/developer/db-training.png')
@@ -546,55 +682,10 @@ knitr::include_graphics('assets/developer/db-training.png')
 <!-- TODO: explicar implementación de software ui y backend. Python, React, etc.-->
 <!-- TODO: Hablar sobre Atributos de calidad de software -->
 
-
-### _Task Scheduler_
-
-El _task scheduler_ que utilizamos en el _API_ para poder orquestrar todas las tareas relacionadas con _NER_ así como también la de la administración de los _workers_ es _Celery_ [@celery]. _Celery_ es una cola de tareas asincrónica especializada en el procesamiento distribuido de las mismas. Si bien soporta distintos _backends_ para la funcionalidad de cola de mensajes, decidimos utilizar _RabbitMQ_ [@rabbitmq] debido a su buena integración con _Celery_ así como también por su robustez y posibilidad de escalar horizontalmente.
-
-Para el monitoreo de las tareas de _Celery_ utilizamos la herramienta llamada _Flower_ [@flower], que permite cosas como el estado de cada worker (Figura \@ref(fig:developer-flower-dashboard)), historial de tareas (Figura \@ref(fig:developer-flower-task-history)) así como también estadísticas en tiempo real sobre el sistema (Figura \@ref(fig:developer-flower-monitoring)) y detalles de todos los trabajadores que están conectados a la cola de mensajes (Figura \@ref(fig:developer-flower-monitoring)).
-
-```{r developer-flower-dashboard, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Página principal de Flower.'}
-knitr::include_graphics('assets/developer/flower-dashboard.png')
-```
-
-```{r developer-flower-task-history, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Historial de tareas en Flower.'}
-knitr::include_graphics('assets/developer/flower-task-history.png')
-```
-
-```{r developer-flower-monitoring, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Monitoreo en tiempo real en Flower.'}
-knitr::include_graphics('assets/developer/flower-monitoring.png')
-```
-
-```{r developer-flower-broker, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Listado de colas activas en Flower.'}
-knitr::include_graphics('assets/developer/flower-broker.png')
-```
-
-```{r developer-flower-worker-queues, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Colas de mensaje escuchadas por un worker.'}
-knitr::include_graphics('assets/developer/flower-worker-queues.png')
-```
-
-### Worker
-
-El proceso de _worker_ fue implementado en _Python_ utilizando la librería _Celery_.
-
-Deben tener por diseño siempre un modelo de inferencia de _spaCy_ cargado en memoria, por lo que cuando se crea uno nuevo, se le asigna por defecto el _snapshot_ actual (`snapshot_id = 0`) para poder ayudar a distribuir la carga de los pedidos al _API_.
-
-Debido a que requieren de un _snapshot_ para poder realizar la tarea de _NER_ así como también requieren del _corpus_ etiquetado para poder entrenar el modelo, cada _worker_ debe tener acceso a la base de datos principal de _NERd_ (Figura \@ref(fig:process-overview-client)).
-
-Cada _worker_ puede realizar las siguientes tareas:
-
-* **train**: Entrenar el modelo de inferencia de _spaCy_ utilizando el snapshot para el cual fue configurado.
-* **un_train**: Borra el modelo guardado en el disco, efectivamente "des-entrenandose". Principalmente utilizado para liberar recursos.
-* **reload**: Recarga el modelo de inferencia desde el disco. Utilizado cuando algún worker entrenó el modelo y el actual quedó desactualizado.
-* **nlp**: Realiza la tarea de _NER_ utilizando el modelo cargado.
-* **change_snapshot**: Cambia el _snapshot_ utilizado en el worker.
-
 ## Vista física
 > La vista física representa el sistema desde el punto de vista de un ingeniero de sistemas.
 Se refiere a la topología de los componentes de software en la capa física, así como a las conexiones físicas entre estos componentes.
 Esta vista también se conoce como la vista de _deployment_.
-
-Para la implementación de cada una de las partes de _NERd_, tuvimos como primer objetivo lograr el desarrollo de un proyecto que pudiera escalar horizontalmente desde su concepción, es por ello que separamos cada parte del proyecto para poder lograr una arquitectura que escale naturalmente.
 
 ### _Docker_
 
@@ -604,14 +695,16 @@ Por ésta razón decidimos utilizar _Docker_ como la herramienta para empaquetar
 
 La implementación completa de _NERd_ está formada por 5 contenedores requeridos y uno opcional:
 
-- **app**: Contiene el servicio de _API_.
-- **mongodb**: Contiene la base de datos.
-- **rabbitmq**: Contiene la cola de mensajes.
-- **ui**: Contiene la página _web_ de administración y entrenamiento.
-- **worker**: Contiene a uno o más _workers_.
-- **flower**: Contiene el servicio de monitoreo de _Flower_ (Opcional).
+- **ui**: servidor _web_ de la página de administración y entrenamiento.
+- **app**: servidor de aplicaciones web de la _API_.
+- **worker**: servicio de _NER_. (escalable)
+- **rabbitmq**: cola de mensajes.
+- **flower**: servicio de monitoreo de _RabbitMQ_ (opcional).
+- **mongodb**: base de datos.
 
-### Deployment: _Docker images_
+### Deployment
+
+#### _Docker images_
 
 Para realizar un _deployment_ de nuevas versiones de cada contenedor de docker, existen comandos dentro del archivo `Makefile`:
 
@@ -620,11 +713,16 @@ make build # Construye nuevas imágenes para cada uno de los servicios
 make release-push # Publica las nuevas imágenes a github
 ```
 
-### Deployment: Service
+Las imágenes base que utilizamos en todos los servicios son mantenidas por _Bitnami_ [@bitnami]. Tomamos esta decisión para:
+1. Reducir el tamaño de las imágenes al reutilizar la capa de sistema operativo entre todas ellas.
+2. Se actualizan automáticamente con todos los parches de seguridad de las plataformas elegidas.
+3. Están implementadas siguiendo las mejores prácticas acerca del no uso de _root_ en containers.
 
-Para poder crear un entorno completo de _NERd_, utilizamos una herramienta incluída en _Docker_ llamada _Docker Compose_ [@dockercompose], con la cual definimos cada uno de los servicios y las conexiones de red y disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \@ref(fig:physical-overview) funcionen correctamente.
+#### _Service_
 
-A su vez, dentro de un archivo _Makefile_ del proyecto definimos un conjunto de comandos que sirven para levantar un entorno de desarrollo de _NERd_.
+Para poder crear un entorno completo de _NERd_, utilizamos la herramienta llamada `docker-compose` [@dockercompose], con la cual definimos cada uno de los servicios, las conexiones de red y los volúmenes de disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \@ref(fig:physical-overview) funcionen correctamente.
+
+A su vez, dentro de un archivo _Makefile_ del proyecto definimos un conjunto de comandos que sirven para crear un entorno de desarrollo de _NERd_.
 
 ```bash
 make setup # Inicializa todos los contenedores de NERd, creando 2 workers
@@ -633,9 +731,9 @@ make stop # Apaga los contenedores de NERd (sirve liberar recursos en una máqui
 make start # Enciende los contenedores parados de NERd
 ```
 
-Para realizar un deploy de la aplicación en un entorno productivo utilizaremos de ejemplo utilizando el servidor provisto por el _ITBA_.
+Para realizar un _deploy_ de la aplicación en un entorno productivo utilizaremos de ejemplo utilizando el servidor provisto por el _ITBA_.
 
-Primero es necesario contar con una configuración de SSH la cual defina el _host_ _pf-nerd_:
+Primero es necesario contar con una configuración de _SSH_ que defina el _host_ _pf-nerd_:
 
 ```sshconfig
 Host pampero
@@ -652,25 +750,33 @@ Host pf-nerd
     ControlPersist 600
 ```
 
-Con esa configuración en el archivo `~/.ssh/config` podemos ejecutar el comando para realizar el setup de una instancia con las configuraciones de producción.
+Con esa configuración en el archivo `~/.ssh/config` podemos ejecutar el comando para realizar el _setup_ de una instancia con las configuraciones de producción.
 
 ```bash
 make prod-setup
 ```
 
-Ese comando puede ser utilizado también para 
+### Servicios
 
-### Escalamiento horizontal
+#### Cliente _web_
 
-En la figura \@ref(fig:physical-overview) podemos ver a los 5 contenedores principales de _NERd_. Cada uno de ellos fue pensado para que con cambios tanto a sus configuraciones puedan existir varias instancias de cada uno.
+Dentro del _container_ `ui`, incluimos _nginx_ [@nginx] como servidor _web_ de la plataforma. El mismo tiene dos responsabilidades:
 
-```{r physical-overview, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Interacción de servicios.'}
-knitr::include_graphics('assets/physical/overview.png')
-```
+1. Servir el contenido estático de la _SPA_.
+2. Redirigir los _requests_ de las urls que comienzan con `/api/` al container de _API_.
 
-#### _NERd cluster_
+#### _API_
 
 Debido a que el _API_ consume sus datos de _MongoDB_ así como también requiere de una conexión mediante _Celery_ a _RabbitMQ_ para poder realizar las tareas de _NER_, es posible tener varias instancias del mismo de manera tal que cada una se conecte al cluster de los dos servicios. Es posible mediante el uso de un _Load Balancer_ generar un cluster de servicios de _API_.
+
+#### _Worker_
+
+Dado que cada _worker_ está implementado como un _Celery worker_, mientras la configuración del mismo sea correcta, al levantar nuevos containers será posible escalarlo horizontalmente. Incluído en el repositorio de _NERd_ está un comando de _Makefile_ que permite escalar el servicio worker:
+
+```bash
+make scale-up # Crea un nuevo worker localmente
+make scale-down # Destruye un worker localmente
+```
 
 #### _RabbitMQ cluster_
 
@@ -680,63 +786,13 @@ _RabbitMQ_ está pensado desde su concepción para poder escalar horizontalmente
 
 Al igual que _RabbitMQ_, _MongoDB_ fue diseñado para escalar horizontalmente (ver [Base de datos](#MongoDBDev)), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.
 
-#### _Worker cluster_
-
-Dado que cada _worker_ está implementado como un _Celery worker_, mientras la configuración del mismo sea correcta, al levantar nuevos containers será posible escalarlo horizontalmente. Incluído en el repositorio de _NERd_ está un comando de _Makefile_ que permite escalar el servicio worker:
-
-```bash
-make scale-up # Crea un nuevo worker localmente
-make scale-down # Destruye un worker localmente
-```
-
-<!-- Los diagramas UML utilizados para representar la vista física incluyen el diagrama de deployment. -->
-
-<!-- TODO: explicar docker. docker-package. red. nginx. etc -->
-
 ## Escenarios
 
 > La descripción de una arquitectura se ilustra utilizando un pequeño conjunto de casos de uso, o escenarios, que se convierten en una quinta vista.
 > Los escenarios describen secuencias de interacciones entre objetos y entre procesos.
 > Se utilizan para identificar elementos arquitectónicos y para ilustrar y validar el diseño de la arquitectura.
 > También sirven como punto de partida para las pruebas de un prototipo de arquitectura.
-> Esta vista también se conoce como vista de caso de uso. 
-
-### _Web_: _relogin_
-
-Debido a como está diseñado _JWT_, se espera que los tokens de acceso sean válidos por un tiempo acotado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el _token_ de acceso utilizando el _token_ de _refresh_.
-
-Si el cliente tiene un _token_ de _refresh_, en la figura \@ref(fig:scenarios-relogin) podemos ver el flujo que realiza la implementación _web_ del entrenador para realizar el refresco de la sesión. Al recibir un $401$ por parte del servidor, el SDK realiza un 
-
-```{r scenarios-relogin, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Flujo de relogin'}
-DiagrammeR::DiagrammeR("
-  sequenceDiagram;
-   participant cliente as Usuario
-   participant _web_ as Web
-   participant API
-   cliente->>+web: Login;
-   web->>+API: Login con credenciales;
-   API-->>-web: Access/Refresh Tokens;
-   web-->>-cliente: Mostrar login OK;
-   cliente->>+web: Ver mis entrenamientos;
-   web->>+API: Pedido;
-   alt Sesión válida
-     API-->>web: Respuesta (200);
-     web-->>cliente: Mostrar resultados;
-   else Sesión caducada
-     API-->>-web: Respuesta (401);
-     web->>+API: Session refresh;
-     API-->>-web: Access Token;
-     web->>+API: Pedido;
-     alt Refresh token válido
-      API-->>web: Respuesta (200);
-      web-->>cliente: Mostrar resultados;
-     else Refresh token caducado
-      API-->>-web: Respuesta (401);
-      web-->>-cliente: Mostrar mensaje de error;
-     end
-   end
-")
-```
+> Esta vista también se conoce como vista de caso de uso.
 
 ### Inferencia de entidades utilizando el API
 
@@ -806,61 +862,9 @@ DiagrammeR::DiagrammeR("
 ")
 ```
 
-### _Worker_: Entrenamiento y carga del modelo de spaCy
+### Habilitar snapshots
 
-Dado que pueden haber varios _workers_ utilizando el mismo modelo de _spaCy_, es de vital importancia que si existe al menos un _worker_ leyendo un modelo desde el disco y otro worker quiere entrenar ese modelo, que no pueda hasta que el resto haya terminado de leerlo.
-Ésto se debe a que si el _worker_ que está entrenando el modelo sobreescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del _worker_ de lectura. Como no hay ninguna limitación en la lectura, más de un _worker_ puede leer en simultáneo.
-
-Para realizar ese control de concurrencia utilizamos el campo `semaphore` del modelo de _snapshot_ guardado en la base de datos (Figura \@ref(fig:developer-db-snapshot)) el cual usualmente se encuentra en $0$. El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.
-
-En la figura \@ref(fig:scenarios-worker-train) podemos ver un escenario en el que tanto _Worker 2_ y _Worker 3_ pueden leer en simultáneo el modelo pero _Worker 1_ debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.
-
-```{r scenarios-worker-train, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Bloqueo de entrenamiento por lectura.'}
-DiagrammeR::DiagrammeR("
-  sequenceDiagram;
-   participant a as API
-   participant r as RabbitMQ
-   participant m as MongoDB
-   participant w as Worker 1
-   participant ww as Worker 2
-participant www as Worker 3
-participant mo as Model
-ww->>m: Incrementar semáforo para vXX;
-ww->>+mo: Read;
-   a->>r: Crear tarea de entrenar vXX;
-   w->>+r: Pedir tarea;
-   r-->>-w: Tarea de entrenar;
-activate w;
-loop Worker 1 bloqueado
-w->>w: Semáforo en 0?
-www->>m: Incrementar semáforo para vXX;
-www->>+mo: Read;
-mo-->>-ww: Modelo
-ww->>+m: Decrementar semáforo para vXX
-m-->>-ww:Exito
-mo-->>-www: Modelo
-  www->>+m: Decrementar semáforo para vXX;
-m-->>-www:Exito
-w->>w: Semáforo en 0?
-end
-   w->>+m: Decrementar semáforo para vXX;
-   m-->>-w: Éxito;
-   w->>+m: Pedir textos etoquetados para vXX;
-   m-->>-w: Textos etiquetados;
-   w->>w: Entrenar;
-   w->>+m: Actualizar fecha de entrenamiento;
-   m-->>-w: Éxito;
-   w->>+m: Incrementar semáforo
-m-->>-w:Éxito
-   w->>r: Entrenamiento exitoso;
-deactivate w
-")
-```
-
-
-### _Worker_: cambio de snapshot
-
-Como podemos ver en la figura \@ref(fig:scenarios-worker-snapshot-change), ante una tarea de reasignación de snapshot, el _worker_ se desuscribe de la cola de mensajes del _snapshot_ que está escuchando actualmente y se suscribe a la cola de mensajes del _snapshot_ al que se lo quiere cambiar. Luego, se recarga el modelo.
+Cuando un usuario necesita comparar dos snapshots, precisa tener al menos un _worker_ de cada versión levantado. En la figura \@ref(fig:scenarios-worker-snapshot-change), ante una tarea de reasignación de snapshot, el _worker_ se desuscribe de la cola de mensajes del _snapshot_ que está escuchando actualmente y se suscribe a la cola de mensajes del _snapshot_ al que se lo quiere cambiar. Luego, se recarga el modelo.
 
 ```{r scenarios-worker-snapshot-change, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Cambio de modelo.'}
 DiagrammeR::DiagrammeR("
@@ -890,4 +894,3 @@ sequenceDiagram;
   r-->>a: Entidades inferidas;
 ")
 ```
-
