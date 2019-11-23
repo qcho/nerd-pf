@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 5 Resultados de entrenamiento | Creación eficiente de modelos estadísticos para la detección de entidades nombradas</title>
+  <title>Capítulo 5 Resultados de entrenamiento | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas</title>
   <meta name="description" content="Proyecto final de la carrera de ingeniería informática. ITBA." />
   <meta name="generator" content="bookdown 0.15.4 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 5 Resultados de entrenamiento | Creación eficiente de modelos estadísticos para la detección de entidades nombradas" />
+  <meta property="og:title" content="Capítulo 5 Resultados de entrenamiento | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcho/nerd-pf" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 5 Resultados de entrenamiento | Creación eficiente de modelos estadísticos para la detección de entidades nombradas" />
+  <meta name="twitter:title" content="Capítulo 5 Resultados de entrenamiento | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas" />
   
   <meta name="twitter:description" content="Proyecto final de la carrera de ingeniería informática. ITBA." />
   
@@ -227,7 +227,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Creación eficiente de modelos estadísticos para la detección de entidades nombradas</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas</a>
           </h1>
         </div>
 
@@ -269,8 +269,8 @@ En nuestro uso es el número de entidades del conjunto de evaluación que aparec
 </div>
 <div id="result-data" class="section level2">
 <h2><span class="header-section-number">5.2</span> Resultados obtenidos</h2>
-<p>La recomendación de <em>spaCy</em> para entrenamientos de <em>NER</em> es de al menos etiquetar 2000 textos, por lo que en este trabajo hemos etiquetado utilizando nuestra plataforma un número suficiente como para poder utilizar en el cálculo de resultados una <strong>muestra aleatoria</strong> de 4000 valores.</p>
-<p>En los entrenamientos por refuerzo es necesario tomar la decisión de cuantos textos etiquetados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.</p>
+<p>La recomendación de <em>spaCy</em> para entrenamientos de <em>NER</em> es de al menos anotar 2000 textos, por lo que en este trabajo hemos etiquetado utilizando nuestra plataforma un número suficiente como para poder utilizar en el cálculo de resultados una <strong>muestra aleatoria</strong> de 4000 valores.</p>
+<p>En los entrenamientos por refuerzo es necesario tomar la decisión de cuantos textos anotados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.</p>
 <p>Decidimos realizar diferentes pruebas y combinaciones de cantidad de documentos de entrenamiento y evaluación para analizar el <span class="math inline">\(\text{valor-F}\)</span> del modelo resultante:</p>
 <ul>
 <li>Entrenamiento: 0% (0 documentos) y evaluación: 0% (4000). Este escenario equivale a utilizar el modelo base de spaCy.</li>

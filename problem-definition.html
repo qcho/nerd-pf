@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 2 Definición del problema | Creación eficiente de modelos estadísticos para la detección de entidades nombradas</title>
+  <title>Capítulo 2 Definición del problema | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas</title>
   <meta name="description" content="Proyecto final de la carrera de ingeniería informática. ITBA." />
   <meta name="generator" content="bookdown 0.15.4 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 2 Definición del problema | Creación eficiente de modelos estadísticos para la detección de entidades nombradas" />
+  <meta property="og:title" content="Capítulo 2 Definición del problema | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcho/nerd-pf" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 2 Definición del problema | Creación eficiente de modelos estadísticos para la detección de entidades nombradas" />
+  <meta name="twitter:title" content="Capítulo 2 Definición del problema | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas" />
   
   <meta name="twitter:description" content="Proyecto final de la carrera de ingeniería informática. ITBA." />
   
@@ -227,7 +227,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Creación eficiente de modelos estadísticos para la detección de entidades nombradas</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas</a>
           </h1>
         </div>
 
@@ -311,13 +311,14 @@ Figura 2.1: Principales avances del estado del arte para NER en los últimos añ
 <div id="los-datos-son-el-problema" class="section level2">
 <h2><span class="header-section-number">2.2</span> Los datos son el problema</h2>
 <p>Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la “Inteligencia Artificial” es el la captura de datos, no los algoritmos <span class="citation">(Honnibal &amp; Montani, <a href="#ref-montani_AI">2016</a>)</span>.</p>
-<p>En particular para el estado actual del arte de <em>NER</em> es necesario tener el cuerpo de textos a analizar (<em>corpus</em>) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.</p>
-<p>Este aprendizaje se carga en lo que se reconoce como un “Modelo estadístico” y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas / librerias / frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.</p>
+<p>La <strong>anotación</strong> en el aprendizaje automático es el proceso de etiquetar datos. Con esto, las algoritmos pueden usar los datos anotados para aprender a reconocer patrones similares cuando se presentan datos nuevos. En particular para el estado actual del arte de <em>NER</em> es necesario tener un subconjunto del cuerpo de textos a analizar (<em>corpus</em>) anotado de tal manera que se conozcan previamente la ubicación de entidades, sus nombres y tipo.</p>
+<p>Este aprendizaje se carga en lo que se reconoce como un <strong>modelo estadístico</strong> y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas, librerias, frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.</p>
 <p>De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo).</p>
 <blockquote>
-<p>Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas.</p>
+<p>NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas.</p>
 </blockquote>
 <p>Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier <em>corpus</em> de documentos que posea una cantidad suficiente de datos.</p>
+<p>El nombre de esta herramienta es <strong>NERd</strong>, sigla cuyo significado en inglés es <em><strong>N</strong>amed <strong>E</strong>ntity <strong>R</strong>ecognition <strong>D</strong>uh</em><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>!</p>
 
 <div style="page-break-after: always;"></div>
 </div>
@@ -339,6 +340,12 @@ Figura 2.1: Principales avances del estado del arte para NER en los últimos añ
 <div id="ref-Poibeau2000ProperNE">
 <p>Poibeau, T., &amp; Kosseim, L. (2000). Proper name extraction from non-journalistic texts. <em>CLIN</em>.</p>
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>Expresión de obviedad. <em>Used to express your belief that what was said was extremely obvious</em> <span class="citation">(“Duh definition,” <a href="#ref-cambridge_duh">2019</a>)</span><a href="problem-definition.html#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
 </div>
             </section>
 

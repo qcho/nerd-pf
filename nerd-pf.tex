@@ -26,7 +26,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
-            pdftitle={Creación eficiente de modelos estadísticos para la detección de entidades nombradas},
+            pdftitle={NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas},
             pdfauthor={Horacio Miguel Gómez (L:50825); Juan Pablo Orsay (L:49373); Proyecto final de carrera},
             pdfborder={0 0 0},
             breaklinks=true}
@@ -121,7 +121,7 @@
 
 \setlength{\droptitle}{-2em}
 
-  \title{Creación eficiente de modelos estadísticos para la detección de entidades nombradas}
+  \title{NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
   \subtitle{Instituto Tecnológico de Buenos Aires}
@@ -198,7 +198,7 @@
         \vspace*{1cm}
 
         \Huge
-        \textbf{Creación eficiente de modelos estadísticos para la detección de entidades nombradas}
+        \textbf{NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas}
 
         \vspace{0.5cm}
         \LARGE
@@ -389,17 +389,19 @@ Se entiende por dominio a todos los textos que en su conjunto forman un \emph{co
 
 Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la \enquote{Inteligencia Artificial} es el la captura de datos, no los algoritmos (Honnibal \& Montani, \protect\hyperlink{ref-montani_AI}{2016}).
 
-En particular para el estado actual del arte de \emph{NER} es necesario tener el cuerpo de textos a analizar (\emph{corpus}) tagueado de tal manera que se conozcan previamente los nombres y tipos de entidades de un subconjunto de textos para inferir sobre el resto.
+La \textbf{anotación} en el aprendizaje automático es el proceso de etiquetar datos. Con esto, las algoritmos pueden usar los datos anotados para aprender a reconocer patrones similares cuando se presentan datos nuevos. En particular para el estado actual del arte de \emph{NER} es necesario tener un subconjunto del cuerpo de textos a analizar (\emph{corpus}) anotado de tal manera que se conozcan previamente la ubicación de entidades, sus nombres y tipo.
 
-Este aprendizaje se carga en lo que se reconoce como un \enquote{Modelo estadístico} y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas / librerias / frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
+Este aprendizaje se carga en lo que se reconoce como un \textbf{modelo estadístico} y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas, librerias, frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
 
 De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo).
 
 \begin{quote}
-Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas.
+NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas.
 \end{quote}
 
 Para este fin se creó un sistema informático que permitirá obtener resultados a la altura de de las soluciones del estado del arte para cualquier \emph{corpus} de documentos que posea una cantidad suficiente de datos.
+
+El nombre de esta herramienta es \textbf{NERd}, sigla cuyo significado en inglés es \emph{\textbf{N}amed \textbf{E}ntity \textbf{R}ecognition \textbf{D}uh}\footnote{Expresión de obviedad. \emph{Used to express your belief that what was said was extremely obvious} (``Duh definition,'' \protect\hyperlink{ref-cambridge_duh}{2019})}!
 
 \newpage
 
@@ -541,7 +543,7 @@ La idea de \emph{word embeddings} es la de \enquote{embeber} el conjunto de toke
 
 Es importante destacar que en la etapa de \emph{embed}, toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razón es facilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras están relacionadas entre sí de manera eficiente y no supervisada).
 
-Esto permite al modelo poder inferir significado a partir de la información no etiquetada dentro del problema en particular a resolver (el de \emph{NER}).
+Esto permite al modelo poder inferir significado a partir de la información no anotada dentro del problema en particular a resolver (el de \emph{NER}).
 
 Una tabla de \emph{word-embeddings} mapea vectores largos binarios y esparsos en vectores cortos densos y continuos, cargados de significado relevante. Existen varias estrategias para enriquecer los \emph{tokens} con información adicional. Las dos fuentes más grandes de información embebida son las de \textbf{información lingüística} y los \textbf{\emph{word-vectors}}.
 
@@ -726,7 +728,6 @@ La predicción que realiza la \emph{CNN} tiene un puntaje de 0 a 1; un porcentaj
 
 Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de etiquetado de entidades.
 Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.
-El nombre de esta herramienta es \textbf{NERd}, sigla cuyo significado en inglés es \emph{\textbf{N}amed \textbf{E}ntity \textbf{R}ecognition \textbf{D}uh}\footnote{Expresión de obviedad. \emph{Used to express your belief that what was said was extremely obvious} (``Duh definition,'' \protect\hyperlink{ref-cambridge_duh}{2019})}!
 
 Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura \ref{fig:arq41}).
 
@@ -941,7 +942,7 @@ Cuando se crea un \emph{snapshot} se incrementa la última versión disponible e
 Sección en la cual podemos ver la lista completa de \emph{snapshots}.
 Para cada \emph{snapshot}, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.
 
-Cuando el sistema entrena un \emph{snapshot} se tendrá en cuenta todos los textos que hayan sido etiquetados previamente a la creación del mismo.
+Cuando el sistema entrena un \emph{snapshot} se tendrá en cuenta todos los textos que hayan sido anotados previamente a la creación del mismo.
 
 Reasignar \emph{worker}
 
@@ -1699,7 +1700,7 @@ El proceso de \emph{worker} fue implementado en \emph{Python} utilizando la libr
 
 Por diseño, los \emph{workers} siempre tienen un modelo de inferencia cargado en memoria, por lo que cuando se crea uno nuevo se le asigna por defecto el \emph{snapshot} actual (\texttt{snapshot\_id\ =\ 0}) para poder ayudar a distribuir la carga de los pedidos al \emph{API}.
 
-Debido a que requieren de un \emph{snapshot} para poder realizar la tarea de \emph{NER} así como también requieren del \emph{corpus} etiquetado para poder entrenar el modelo, cada \emph{worker} debe tener acceso a la base de datos principal de \emph{NERd} (Figura \ref{fig:process-overview-client}).
+Debido a que requieren de un \emph{snapshot} para poder realizar la tarea de \emph{NER} así como también requieren del \emph{corpus} anotado para poder entrenar el modelo, cada \emph{worker} debe tener acceso a la base de datos principal de \emph{NERd} (Figura \ref{fig:process-overview-client}).
 
 Cada \emph{worker} puede realizar las siguientes tareas:
 
@@ -2116,9 +2117,9 @@ Por esa razón hemos decidido utilizar la métrica \(F_1\) para poder comparar n
 \hypertarget{result-data}{%
 \subsection{Resultados obtenidos}\label{result-data}}
 
-La recomendación de \emph{spaCy} para entrenamientos de \emph{NER} es de al menos etiquetar 2000 textos, por lo que en este trabajo hemos etiquetado utilizando nuestra plataforma un número suficiente como para poder utilizar en el cálculo de resultados una \textbf{muestra aleatoria} de 4000 valores.
+La recomendación de \emph{spaCy} para entrenamientos de \emph{NER} es de al menos anotar 2000 textos, por lo que en este trabajo hemos etiquetado utilizando nuestra plataforma un número suficiente como para poder utilizar en el cálculo de resultados una \textbf{muestra aleatoria} de 4000 valores.
 
-En los entrenamientos por refuerzo es necesario tomar la decisión de cuantos textos etiquetados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.
+En los entrenamientos por refuerzo es necesario tomar la decisión de cuantos textos anotados serán utilizados para entrenar y cuantos serán utilizados para evaluar el entrenamiento.
 
 Decidimos realizar diferentes pruebas y combinaciones de cantidad de documentos de entrenamiento y evaluación para analizar el \(\text{valor-F}\) del modelo resultante:
 
@@ -2244,9 +2245,9 @@ Haciendo un análisis de dicha taxonomía encontramos que nuestro \emph{corpus} 
 \hypertarget{semilla-inicial}{%
 \subsection{Semilla inicial}\label{semilla-inicial}}
 
-Nuestro sistema ofrece al usuario una forma sencilla y ágil de entrenar modelos estadísticos y sumar nuevos tipos de entidad. Sin embargo, entrenar un nuevo tipo de entidad suele ser una tarea inicialmente lenta y difícil dado que se necesita un número mínimo de etiquetas para que la nueva entidad empiece a tener relevancia dentro del modelo y sea inferida.
+Nuestro sistema ofrece al usuario una forma sencilla y ágil de entrenar modelos estadísticos y sumar nuevos tipos de entidad. Sin embargo, entrenar un nuevo tipo de entidad suele ser una tarea inicialmente lenta y difícil dado que se necesita un número mínimo de anotaciones para que la nueva entidad empiece a tener relevancia dentro del modelo y sea inferida.
 
-Por ejemplo, suponga se quiere agregar el nuevo tipo de entidad \enquote{Droga} al modelo. Podemos estar horas etiquetando entidades hasta cruzarnos con la primera instancia de \enquote{marihuana} y luego varias etiquetas más hasta cruzarnos con \enquote{cocaína}. Además, como el sistema no conoce previamente el significado abstracto de \enquote{Droga} dichas \emph{keywords} no van a ser identificadas previamente por el etiquetador.
+Por ejemplo, suponga se quiere agregar el nuevo tipo de entidad \enquote{Droga} al modelo. Podemos estar horas etiquetando entidades hasta cruzarnos con la primera instancia de \enquote{marihuana} y luego varias anotaciones más hasta cruzarnos con \enquote{cocaína}. Además, como el sistema no conoce previamente el significado abstracto de \enquote{Droga} dichas \emph{keywords} no van a ser identificadas previamente por el anotador
 
 Una posible solución para evitar esta \enquote{curva de aprendizaje} es la de permitir al usuario definir una \enquote{semilla} de palabras clave (o \emph{keywords}) a la hora de definir un tipo nuevo:
 
@@ -2329,9 +2330,9 @@ Por tal motivo recibimos el primer premio de dicha hackaton (``Mención itba,'' 
 \hypertarget{conclusiones}{%
 \section{Conclusiones}\label{conclusiones}}
 
-Utilizando \emph{spaCy} para la inferencia de entidades pudimos alcanzar una exactitud aceptable de 80 puntos de \(\text{valor-F}\) con 4000 documentos etiquetados.
+Utilizando \emph{spaCy} para la inferencia de entidades pudimos alcanzar una exactitud aceptable de 80 puntos de \(\text{valor-F}\) con 4000 documentos anotados
 
-Recomendamos a quienes quieran entrenar un modelo \emph{NER} que realicen una etapa inicial de etiquetado con al menos la cantidad mencionada de textos. De esta manera las inferencias del modelo serán más exactas a la hora de realizar futuros entrenamientos. Además los entrenadores tendrán la experiencia para definir qué tipos de entidades serán necesarias para etiquetar el corpus provisto.
+Recomendamos a quienes quieran entrenar un modelo \emph{NER} que realicen una etapa inicial de anotación con al menos la cantidad mencionada de textos. De esta manera las inferencias del modelo serán más exactas a la hora de realizar futuros entrenamientos. Además los entrenadores tendrán la experiencia para definir qué tipos de entidades serán necesarias para etiquetar el corpus provisto.
 
 Gracias a la implementación del proyecto \emph{NERd} pudimos ofrecer un sistema que permita a cada comunidad generar modelos específicos para sus necesidades. A su vez, la implementación específica permite escalar al proyecto horizontalmente para poder servir tantos pedidos de \emph{NER} como sean necesarios sin sacrificar \emph{performance}.
 

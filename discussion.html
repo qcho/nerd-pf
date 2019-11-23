@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 6 Discusión | Creación eficiente de modelos estadísticos para la detección de entidades nombradas</title>
+  <title>Capítulo 6 Discusión | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas</title>
   <meta name="description" content="Proyecto final de la carrera de ingeniería informática. ITBA." />
   <meta name="generator" content="bookdown 0.15.4 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 6 Discusión | Creación eficiente de modelos estadísticos para la detección de entidades nombradas" />
+  <meta property="og:title" content="Capítulo 6 Discusión | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcho/nerd-pf" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 6 Discusión | Creación eficiente de modelos estadísticos para la detección de entidades nombradas" />
+  <meta name="twitter:title" content="Capítulo 6 Discusión | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas" />
   
   <meta name="twitter:description" content="Proyecto final de la carrera de ingeniería informática. ITBA." />
   
@@ -227,7 +227,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Creación eficiente de modelos estadísticos para la detección de entidades nombradas</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas</a>
           </h1>
         </div>
 
@@ -286,8 +286,8 @@ Figura 6.1: Taxonomía extendida de Sekine.
 </div>
 <div id="semilla-inicial" class="section level2">
 <h2><span class="header-section-number">6.3</span> Semilla inicial</h2>
-<p>Nuestro sistema ofrece al usuario una forma sencilla y ágil de entrenar modelos estadísticos y sumar nuevos tipos de entidad. Sin embargo, entrenar un nuevo tipo de entidad suele ser una tarea inicialmente lenta y difícil dado que se necesita un número mínimo de etiquetas para que la nueva entidad empiece a tener relevancia dentro del modelo y sea inferida.</p>
-<p>Por ejemplo, suponga se quiere agregar el nuevo tipo de entidad “Droga” al modelo. Podemos estar horas etiquetando entidades hasta cruzarnos con la primera instancia de “marihuana” y luego varias etiquetas más hasta cruzarnos con “cocaína”. Además, como el sistema no conoce previamente el significado abstracto de “Droga” dichas <em>keywords</em> no van a ser identificadas previamente por el etiquetador.</p>
+<p>Nuestro sistema ofrece al usuario una forma sencilla y ágil de entrenar modelos estadísticos y sumar nuevos tipos de entidad. Sin embargo, entrenar un nuevo tipo de entidad suele ser una tarea inicialmente lenta y difícil dado que se necesita un número mínimo de anotaciones para que la nueva entidad empiece a tener relevancia dentro del modelo y sea inferida.</p>
+<p>Por ejemplo, suponga se quiere agregar el nuevo tipo de entidad “Droga” al modelo. Podemos estar horas etiquetando entidades hasta cruzarnos con la primera instancia de “marihuana” y luego varias anotaciones más hasta cruzarnos con “cocaína”. Además, como el sistema no conoce previamente el significado abstracto de “Droga” dichas <em>keywords</em> no van a ser identificadas previamente por el anotador</p>
 <p>Una posible solución para evitar esta “curva de aprendizaje” es la de permitir al usuario definir una “semilla” de palabras clave (o <em>keywords</em>) a la hora de definir un tipo nuevo:</p>
 <blockquote>
 <p>Droga: Heroína, Cocaína, Barbitúricos, Metadona, Alcohol, Ketamina, Benzodiazopines, Anfetaminas, Tabaco, Cannabis, etc.</p>

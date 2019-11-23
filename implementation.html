@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 4 NERd (Implementación) | Creación eficiente de modelos estadísticos para la detección de entidades nombradas</title>
+  <title>Capítulo 4 NERd (Implementación) | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas</title>
   <meta name="description" content="Proyecto final de la carrera de ingeniería informática. ITBA." />
   <meta name="generator" content="bookdown 0.15.4 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 4 NERd (Implementación) | Creación eficiente de modelos estadísticos para la detección de entidades nombradas" />
+  <meta property="og:title" content="Capítulo 4 NERd (Implementación) | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcho/nerd-pf" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 4 NERd (Implementación) | Creación eficiente de modelos estadísticos para la detección de entidades nombradas" />
+  <meta name="twitter:title" content="Capítulo 4 NERd (Implementación) | NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas" />
   
   <meta name="twitter:description" content="Proyecto final de la carrera de ingeniería informática. ITBA." />
   
@@ -227,7 +227,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Creación eficiente de modelos estadísticos para la detección de entidades nombradas</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas</a>
           </h1>
         </div>
 
@@ -238,8 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="implementation" class="section level1">
 <h1><span class="header-section-number">Capítulo 4</span> NERd (Implementación)</h1>
 <p>Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de etiquetado de entidades.
-Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.
-El nombre de esta herramienta es <strong>NERd</strong>, sigla cuyo significado en inglés es <em><strong>N</strong>amed <strong>E</strong>ntity <strong>R</strong>ecognition <strong>D</strong>uh</em><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>!</p>
+Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.</p>
 <p>Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura <a href="implementation.html#fig:arq41">4.1</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:arq41"></span>
 <img src="assets/4+1_Architectural_View_Model.svg" alt="Ilustración de arquitectura 4+1."  />
@@ -392,7 +391,7 @@ Figura 4.11: Información de corpus y manejo de workers.
 <h6><span class="header-section-number">4.1.1.6.1.3</span> <em>Snapshots</em></h6>
 <p>Sección en la cual podemos ver la lista completa de <em>snapshots</em>.
 Para cada <em>snapshot</em>, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.</p>
-<p>Cuando el sistema entrena un <em>snapshot</em> se tendrá en cuenta todos los textos que hayan sido etiquetados previamente a la creación del mismo.</p>
+<p>Cuando el sistema entrena un <em>snapshot</em> se tendrá en cuenta todos los textos que hayan sido anotados previamente a la creación del mismo.</p>
 </div>
 <div id="reasignar-worker" class="section level6">
 <h6><span class="header-section-number">4.1.1.6.1.4</span> Reasignar <em>worker</em></h6>
@@ -751,8 +750,8 @@ El <em>API</em> se comunica el servicio de <em>Bases de Datos</em> para obtener 
 <p>Para realizar ese control de concurrencia utilizamos el campo <code>semaphore</code> del modelo de <em>snapshot</em> guardado en la base de datos (Figura <a href="implementation.html#fig:developer-db-snapshot">4.35</a>) el cual usualmente se encuentra en <span class="math inline">\(0\)</span>. El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.</p>
 <p>En la figura <a href="implementation.html#fig:scenarios-worker-train">4.24</a> podemos ver un escenario en el que tanto <em>Worker 2</em> y <em>Worker 3</em> pueden leer en simultáneo el modelo pero <em>Worker 1</em> debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-worker-train"></span>
-<div id="htmlwidget-dc9e904fb819ddc73fab" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-dc9e904fb819ddc73fab">{"x":{"diagram":"\n  sequenceDiagram;\n   participant a as API\n   participant r as RabbitMQ\n   participant m as MongoDB\n   participant w as Worker 1\n   participant ww as Worker 2\nparticipant www as Worker 3\nparticipant mo as Model\nww->>m: Incrementar semáforo para vXX;\nww->>+mo: Read;\n   a->>r: Crear tarea de entrenar vXX;\n   w->>+r: Pedir tarea;\n   r-->>-w: Tarea de entrenar;\nactivate w;\nloop Worker 1 bloqueado\nw->>w: Semáforo en 0?\nwww->>m: Incrementar semáforo para vXX;\nwww->>+mo: Read;\nmo-->>-ww: Modelo\nww->>+m: Decrementar semáforo para vXX\nm-->>-ww:Exito\nmo-->>-www: Modelo\n  www->>+m: Decrementar semáforo para vXX;\nm-->>-www:Exito\nw->>w: Semáforo en 0?\nend\n   w->>+m: Decrementar semáforo para vXX;\n   m-->>-w: Éxito;\n   w->>+m: Pedir textos etoquetados para vXX;\n   m-->>-w: Textos etiquetados;\n   w->>w: Entrenar;\n   w->>+m: Actualizar fecha de entrenamiento;\n   m-->>-w: Éxito;\n   w->>+m: Incrementar semáforo\nm-->>-w:Éxito\n   w->>r: Entrenamiento exitoso;\ndeactivate w\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-285d2f5714783b82d3c6" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-285d2f5714783b82d3c6">{"x":{"diagram":"\n  sequenceDiagram;\n   participant a as API\n   participant r as RabbitMQ\n   participant m as MongoDB\n   participant w as Worker 1\n   participant ww as Worker 2\nparticipant www as Worker 3\nparticipant mo as Model\nww->>m: Incrementar semáforo para vXX;\nww->>+mo: Read;\n   a->>r: Crear tarea de entrenar vXX;\n   w->>+r: Pedir tarea;\n   r-->>-w: Tarea de entrenar;\nactivate w;\nloop Worker 1 bloqueado\nw->>w: Semáforo en 0?\nwww->>m: Incrementar semáforo para vXX;\nwww->>+mo: Read;\nmo-->>-ww: Modelo\nww->>+m: Decrementar semáforo para vXX\nm-->>-ww:Exito\nmo-->>-www: Modelo\n  www->>+m: Decrementar semáforo para vXX;\nm-->>-www:Exito\nw->>w: Semáforo en 0?\nend\n   w->>+m: Decrementar semáforo para vXX;\n   m-->>-w: Éxito;\n   w->>+m: Pedir textos etoquetados para vXX;\n   m-->>-w: Textos anotados;\n   w->>w: Entrenar;\n   w->>+m: Actualizar fecha de entrenamiento;\n   m-->>-w: Éxito;\n   w->>+m: Incrementar semáforo\nm-->>-w:Éxito\n   w->>r: Entrenamiento exitoso;\ndeactivate w\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.24: Bloqueo de entrenamiento por lectura.
 </p>
@@ -775,8 +774,8 @@ Su funcionamiento es crítico para poder manejar grandes volúmenes de consultas
 <p>De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend <strong>una sola vez</strong> sus credenciales sensibles.</p>
 <p>En la figura <a href="implementation.html#fig:scenarios-relogin">4.25</a> podemos ver el flujo que realiza la implementación <em>web</em> del entrenador para realizar el refresco de la sesión al recibir un <span class="math inline">\(401\)</span> por parte del servidor.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-relogin"></span>
-<div id="htmlwidget-50186643165970536617" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-50186643165970536617">{"x":{"diagram":"\n  sequenceDiagram;\n   participant cliente as Usuario\n   participant web as Web\n   participant API\n   cliente->>+web: Login;\n   web->>+API: Login con credenciales;\n   API-->>-web: Access + Refresh Tokens;\n   web-->>-cliente: Mostrar login OK;\n   cliente->>+web: Ver mis entrenamientos;\n   web->>+API: Pedido;\n   alt Sesión válida\n     API-->>web: Resultados (200);\n     web-->>cliente: Mostrar resultados;\n   else Sesión caducada\n     API-->>-web: Sesión inválida (401);\n     web->>+API: Session refresh;\n     alt Refresh token válido\n      API-->>web: Access token (200);\n      web->>+API: Reintentar pedido;\n      API-->>-web: Resultados;\n      web-->>cliente: Mostrar resultados;\n     else Refresh token caducado\n      API-->>-web: Respuesta (401);\n      web-->>-cliente: Mostrar mensaje de error;\n     end\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-66d3388e04007b98238b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-66d3388e04007b98238b">{"x":{"diagram":"\n  sequenceDiagram;\n   participant cliente as Usuario\n   participant web as Web\n   participant API\n   cliente->>+web: Login;\n   web->>+API: Login con credenciales;\n   API-->>-web: Access + Refresh Tokens;\n   web-->>-cliente: Mostrar login OK;\n   cliente->>+web: Ver mis entrenamientos;\n   web->>+API: Pedido;\n   alt Sesión válida\n     API-->>web: Resultados (200);\n     web-->>cliente: Mostrar resultados;\n   else Sesión caducada\n     API-->>-web: Sesión inválida (401);\n     web->>+API: Session refresh;\n     alt Refresh token válido\n      API-->>web: Access token (200);\n      web->>+API: Reintentar pedido;\n      API-->>-web: Resultados;\n      web-->>cliente: Mostrar resultados;\n     else Refresh token caducado\n      API-->>-web: Respuesta (401);\n      web-->>-cliente: Mostrar mensaje de error;\n     end\n   end\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.25: Flujo de relogin
 </p>
@@ -872,7 +871,7 @@ Figura 4.26: Módulos de la página web.
 <h3><span class="header-section-number">4.3.3</span> Worker</h3>
 <p>El proceso de <em>worker</em> fue implementado en <em>Python</em> utilizando la librería <em>Celery</em>.</p>
 <p>Por diseño, los <em>workers</em> siempre tienen un modelo de inferencia cargado en memoria, por lo que cuando se crea uno nuevo se le asigna por defecto el <em>snapshot</em> actual (<code>snapshot_id = 0</code>) para poder ayudar a distribuir la carga de los pedidos al <em>API</em>.</p>
-<p>Debido a que requieren de un <em>snapshot</em> para poder realizar la tarea de <em>NER</em> así como también requieren del <em>corpus</em> etiquetado para poder entrenar el modelo, cada <em>worker</em> debe tener acceso a la base de datos principal de <em>NERd</em> (Figura <a href="implementation.html#fig:process-overview-client">4.23</a>).</p>
+<p>Debido a que requieren de un <em>snapshot</em> para poder realizar la tarea de <em>NER</em> así como también requieren del <em>corpus</em> anotado para poder entrenar el modelo, cada <em>worker</em> debe tener acceso a la base de datos principal de <em>NERd</em> (Figura <a href="implementation.html#fig:process-overview-client">4.23</a>).</p>
 <p>Cada <em>worker</em> puede realizar las siguientes tareas:</p>
 <ul>
 <li><strong>train</strong>: Entrenar el modelo de inferencia de <em>spaCy</em> utilizando el <em>snapshot</em> para el cual fue configurado.</li>
@@ -1082,8 +1081,8 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-ner">4.37</a>, para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.</p>
 <p>Cuando un <em>cliente</em> realiza un pedido al <em>API</em>, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el <em>request</em> en <em>RabbitMQ</em>. Luego, un único <em>worker</em> que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, <em>RabbitMQ</em> notifica al <em>API</em> de la tarea y este puede devolver finalmente el resultado al <em>cliente</em>.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-ner"></span>
-<div id="htmlwidget-ed2a92410c39d09c1ca3" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ed2a92410c39d09c1ca3">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Consulta NER (vXX);\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-bb5175f01a011ee85a97" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bb5175f01a011ee85a97">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Consulta NER (vXX);\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.37: Flujo de NER.
 </p>
@@ -1102,8 +1101,8 @@ Figura 4.37: Flujo de NER.
 <p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-web-train">4.38</a>, para poder mostrar un texto a entrenar son necesarios cinco servicios.</p>
 <p>El proceso de la inferencia es el mismo que el mostrado en la figura <a href="implementation.html#fig:scenarios-ner">4.37</a>, agregándose la consulta a <em>MongoDB</em> al principio para poder obtener un texto que aún no haya sido entrenado por el usuario logueado.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-web-train"></span>
-<div id="htmlwidget-6d8996e951fe52ea4452" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6d8996e951fe52ea4452">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant m as MongoDB\n   participant r as RabbitMQ\n   participant w as Worker\n   loop Entrenar\n   c->>+a: Pedir texto a entrenar;\n   a->>+m: Buscar texto no entrenado;\n   m-->>-a: Texto no entrenado;\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n   c->>c: Corrección de entidades;\n   c->>+a: Texto con entidades corregidas;\n   a->>+m: Guardar corrección;\n   m-->>-a: Guardado;\n   a-->>-c: Corregido;\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-880711a012421d551ab9" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-880711a012421d551ab9">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant m as MongoDB\n   participant r as RabbitMQ\n   participant w as Worker\n   loop Entrenar\n   c->>+a: Pedir texto a entrenar;\n   a->>+m: Buscar texto no entrenado;\n   m-->>-a: Texto no entrenado;\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n   c->>c: Corrección de entidades;\n   c->>+a: Texto con entidades corregidas;\n   a->>+m: Guardar corrección;\n   m-->>-a: Guardado;\n   a-->>-c: Corregido;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.38: Pedido de texto para entrenamiento.
 </p>
@@ -1113,8 +1112,8 @@ Figura 4.38: Pedido de texto para entrenamiento.
 <h3><span class="header-section-number">4.5.3</span> Habilitar snapshots</h3>
 <p>Cuando un usuario necesita comparar dos snapshots, precisa tener al menos un <em>worker</em> de cada versión levantado. En la figura <a href="implementation.html#fig:scenarios-worker-snapshot-change">4.39</a>, ante una tarea de reasignación de snapshot, el <em>worker</em> se desuscribe de la cola de mensajes del <em>snapshot</em> que está escuchando actualmente y se suscribe a la cola de mensajes del <em>snapshot</em> al que se lo quiere cambiar. Luego, se recarga el modelo.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-worker-snapshot-change"></span>
-<div id="htmlwidget-6ebc1bc7d302b0501cef" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6ebc1bc7d302b0501cef">{"x":{"diagram":"\nsequenceDiagram;\n  participant a as API;\n  participant r as RabbitMQ;\n  participant w as Worker;\n  participant m as Model;\n  a->>r: Reasignar worker;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de cambiar snapshot;\n  w->>+r: Borrar suscripción a snapshot actual;\n  r-->>-w: Suscripción borrada;\n  w->>+r: Suscribir a snapshot nuevo;\n  r-->>-w: Suscripción exitosa;\n  a->>+r: Tarea de NER;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de NER;\n  alt Snapshot desactualizado\n  w->>+m: Cargar modelo;\n  m-->>-w: Modelo;\n  w->>w: NER;\n  else Snapshot actualizado\n  w->>w: NER;\n  end;\n  w-->>r: Entidades inferidas;\n  r-->>a: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-713fa7baa62819269fa4" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-713fa7baa62819269fa4">{"x":{"diagram":"\nsequenceDiagram;\n  participant a as API;\n  participant r as RabbitMQ;\n  participant w as Worker;\n  participant m as Model;\n  a->>r: Reasignar worker;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de cambiar snapshot;\n  w->>+r: Borrar suscripción a snapshot actual;\n  r-->>-w: Suscripción borrada;\n  w->>+r: Suscribir a snapshot nuevo;\n  r-->>-w: Suscripción exitosa;\n  a->>+r: Tarea de NER;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de NER;\n  alt Snapshot desactualizado\n  w->>+m: Cargar modelo;\n  m-->>-w: Modelo;\n  w->>w: NER;\n  else Snapshot actualizado\n  w->>w: NER;\n  end;\n  w-->>r: Entidades inferidas;\n  r-->>a: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.39: Cambio de modelo.
 </p>
@@ -1177,8 +1176,7 @@ Figura 4.39: Cambio de modelo.
 </div>
 <div class="footnotes">
 <hr />
-<ol start="1">
-<li id="fn1"><p>Expresión de obviedad. <em>Used to express your belief that what was said was extremely obvious</em> <span class="citation">(“Duh definition,” <a href="#ref-cambridge_duh">2019</a>)</span><a href="implementation.html#fnref1" class="footnote-back">↩</a></p></li>
+<ol start="2">
 <li id="fn2"><p><a href="https://docs.mongodb.com/manual/sharding/" class="uri">https://docs.mongodb.com/manual/sharding/</a><a href="implementation.html#fnref2" class="footnote-back">↩</a></p></li>
 <li id="fn3"><p><a href="https://docs.mongodb.com/manual/replication/" class="uri">https://docs.mongodb.com/manual/replication/</a><a href="implementation.html#fnref3" class="footnote-back">↩</a></p></li>
 <li id="fn4"><p><a href="https://www.docker.com/resources/what-container" class="uri">https://www.docker.com/resources/what-container</a><a href="implementation.html#fnref4" class="footnote-back">↩</a></p></li>
