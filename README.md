@@ -36,3 +36,10 @@ Images need to have it's `PDF` counterparts. You may create the with:
 
 or if having an svg to avoid unnedded rasterization between formats
 `rsvg-convert -f pdf -o image_file.pdf image_file.svg`
+
+## Mermaid
+
+To convert mermaid `.mmd` files to `.png`, install the mermaid cli and run:
+```
+mmdc -w 1920 -H 1080 -i input.mmd -o output.png
+```

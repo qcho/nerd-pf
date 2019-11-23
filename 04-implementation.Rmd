@@ -406,46 +406,8 @@ Para realizar ese control de concurrencia utilizamos el campo `semaphore` del mo
 
 En la figura \@ref(fig:scenarios-worker-train) podemos ver un escenario en el que tanto _Worker 2_ y _Worker 3_ pueden leer en simultáneo el modelo pero _Worker 1_ debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.
 
-```{r scenarios-worker-train, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Bloqueo de entrenamiento por lectura.'}
-DiagrammeR::DiagrammeR("
-  sequenceDiagram;
-   participant a as API
-   participant r as RabbitMQ
-   participant m as MongoDB
-   participant w as Worker 1
-   participant ww as Worker 2
-participant www as Worker 3
-participant mo as Model
-ww->>m: Incrementar semáforo para vXX;
-ww->>+mo: Read;
-   a->>r: Crear tarea de entrenar vXX;
-   w->>+r: Pedir tarea;
-   r-->>-w: Tarea de entrenar;
-activate w;
-loop Worker 1 bloqueado
-w->>w: Semáforo en 0?
-www->>m: Incrementar semáforo para vXX;
-www->>+mo: Read;
-mo-->>-ww: Modelo
-ww->>+m: Decrementar semáforo para vXX
-m-->>-ww:Exito
-mo-->>-www: Modelo
-  www->>+m: Decrementar semáforo para vXX;
-m-->>-www:Exito
-w->>w: Semáforo en 0?
-end
-   w->>+m: Decrementar semáforo para vXX;
-   m-->>-w: Éxito;
-   w->>+m: Pedir textos etoquetados para vXX;
-   m-->>-w: Textos anotados;
-   w->>w: Entrenar;
-   w->>+m: Actualizar fecha de entrenamiento;
-   m-->>-w: Éxito;
-   w->>+m: Incrementar semáforo
-m-->>-w:Éxito
-   w->>r: Entrenamiento exitoso;
-deactivate w
-")
+```{r scenarios-worker-train, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Bloqueo de entrenamiento por lectura.'}
+  knitr::include_graphics('assets/mermaid/scenarios-worker-train.png')
 ```
 
 ### Task Scheduler
@@ -470,34 +432,7 @@ De esta manera se mejora la seguridad del sistema dado que el usuario sólo nece
 En la figura \@ref(fig:scenarios-relogin) podemos ver el flujo que realiza la implementación _web_ del entrenador para realizar el refresco de la sesión al recibir un $401$ por parte del servidor.
 
 ```{r scenarios-relogin, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Flujo de relogin'}
-DiagrammeR::DiagrammeR("
-  sequenceDiagram;
-   participant cliente as Usuario
-   participant web as Web
-   participant API
-   cliente->>+web: Login;
-   web->>+API: Login con credenciales;
-   API-->>-web: Access + Refresh Tokens;
-   web-->>-cliente: Mostrar login OK;
-   cliente->>+web: Ver mis entrenamientos;
-   web->>+API: Pedido;
-   alt Sesión válida
-     API-->>web: Resultados (200);
-     web-->>cliente: Mostrar resultados;
-   else Sesión caducada
-     API-->>-web: Sesión inválida (401);
-     web->>+API: Session refresh;
-     alt Refresh token válido
-      API-->>web: Access token (200);
-      web->>+API: Reintentar pedido;
-      API-->>-web: Resultados;
-      web-->>cliente: Mostrar resultados;
-     else Refresh token caducado
-      API-->>-web: Respuesta (401);
-      web-->>-cliente: Mostrar mensaje de error;
-     end
-   end
-")
+knitr::include_graphics('assets/mermaid/scenarios-relogin.png')
 ```
 
 ## Vista de desarrollo
@@ -800,22 +735,7 @@ Como podemos ver en la figura \@ref(fig:scenarios-ner), para realizar el reconoc
 Cuando un _cliente_ realiza un pedido al _API_, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el _request_ en  _RabbitMQ_. Luego, un único _worker_ que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, _RabbitMQ_ notifica al _API_ de la tarea y este puede devolver finalmente el resultado al _cliente_.
 
 ```{r scenarios-ner, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Flujo de NER.'}
-DiagrammeR::DiagrammeR("
-  sequenceDiagram;
-   participant c as Usuario
-   participant a as API
-   participant r as RabbitMQ
-   participant w as Worker
-   c->>+a: Consulta NER (vXX);
-   a->>+r: Crear tarea de NER;
-   activate w;
-   w->>r: Pedir tarea;
-   r-->>w: Tarea de NER;
-   w->>w: Inferir entidades;
-   w->>-r: Entidades inferidas;
-   r-->>-a: Entidades inferidas;
-   a-->>-c: Entidades inferidas;
-")
+knitr::include_graphics('assets/mermaid/scenarios-ner.png')
 ```
 
 ### Corrección de entidades utilizando el entrenador
@@ -833,32 +753,7 @@ Como podemos ver en la figura \@ref(fig:scenarios-web-train), para poder mostrar
 El proceso de la inferencia es el mismo que el mostrado en la figura \@ref(fig:scenarios-ner), agregándose la consulta a _MongoDB_ al principio para poder obtener un texto que aún no haya sido entrenado por el usuario logueado.
 
 ```{r scenarios-web-train, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Pedido de texto para entrenamiento.'}
-DiagrammeR::DiagrammeR("
-  sequenceDiagram;
-   participant c as Usuario
-   participant a as API
-   participant m as MongoDB
-   participant r as RabbitMQ
-   participant w as Worker
-   loop Entrenar
-   c->>+a: Pedir texto a entrenar;
-   a->>+m: Buscar texto no entrenado;
-   m-->>-a: Texto no entrenado;
-   a->>+r: Crear tarea de NER;
-   activate w;
-   w->>r: Pedir tarea;
-   r-->>w: Tarea de NER;
-   w->>w: Inferir entidades;
-   w->>-r: Entidades inferidas;
-   r-->>-a: Entidades inferidas;
-   a-->>-c: Entidades inferidas;
-   c->>c: Corrección de entidades;
-   c->>+a: Texto con entidades corregidas;
-   a->>+m: Guardar corrección;
-   m-->>-a: Guardado;
-   a-->>-c: Corregido;
-   end
-")
+knitr::include_graphics('assets/mermaid/scenarios-web-train.png')
 ```
 
 ### Habilitar snapshots
@@ -866,30 +761,5 @@ DiagrammeR::DiagrammeR("
 Cuando un usuario necesita comparar dos snapshots, precisa tener al menos un _worker_ de cada versión levantado. En la figura \@ref(fig:scenarios-worker-snapshot-change), ante una tarea de reasignación de snapshot, el _worker_ se desuscribe de la cola de mensajes del _snapshot_ que está escuchando actualmente y se suscribe a la cola de mensajes del _snapshot_ al que se lo quiere cambiar. Luego, se recarga el modelo.
 
 ```{r scenarios-worker-snapshot-change, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Cambio de modelo.'}
-DiagrammeR::DiagrammeR("
-sequenceDiagram;
-  participant a as API;
-  participant r as RabbitMQ;
-  participant w as Worker;
-  participant m as Model;
-  a->>r: Reasignar worker;
-  w->>+r: Pedir tarea;
-  r-->>-w: Tarea de cambiar snapshot;
-  w->>+r: Borrar suscripción a snapshot actual;
-  r-->>-w: Suscripción borrada;
-  w->>+r: Suscribir a snapshot nuevo;
-  r-->>-w: Suscripción exitosa;
-  a->>+r: Tarea de NER;
-  w->>+r: Pedir tarea;
-  r-->>-w: Tarea de NER;
-  alt Snapshot desactualizado
-  w->>+m: Cargar modelo;
-  m-->>-w: Modelo;
-  w->>w: NER;
-  else Snapshot actualizado
-  w->>w: NER;
-  end;
-  w-->>r: Entidades inferidas;
-  r-->>a: Entidades inferidas;
-")
+knitr::include_graphics('assets/mermaid/scenarios-worker-snapshot-change.png')
 ```

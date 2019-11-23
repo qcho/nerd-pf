@@ -1,0 +1,26 @@
+  sequenceDiagram;
+   participant cliente as Usuario
+   participant web as Web
+   participant API
+   cliente->>+web: Login;
+   web->>+API: Login con credenciales;
+   API-->>-web: Access + Refresh Tokens;
+   web-->>-cliente: Mostrar login OK;
+   cliente->>+web: Ver mis entrenamientos;
+   web->>+API: Pedido;
+   alt Sesión válida
+     API-->>web: Resultados (200);
+     web-->>cliente: Mostrar resultados;
+   else Sesión caducada
+     API-->>-web: Sesión inválida (401);
+     web->>+API: Session refresh;
+     alt Refresh token válido
+      API-->>web: Access token (200);
+      web->>+API: Reintentar pedido;
+      API-->>-web: Resultados;
+      web-->>cliente: Mostrar resultados;
+     else Refresh token caducado
+      API-->>-web: Respuesta (401);
+      web-->>-cliente: Mostrar mensaje de error;
+     end
+   end

@@ -1,0 +1,14 @@
+sequenceDiagram;
+   participant c as Usuario
+   participant a as API
+   participant r as RabbitMQ
+   participant w as Worker
+   c->>+a: Consulta NER (vXX);
+   a->>+r: Crear tarea de NER;
+   activate w;
+   w->>r: Pedir tarea;
+   r-->>w: Tarea de NER;
+   w->>w: Inferir entidades;
+   w->>-r: Entidades inferidas;
+   r-->>-a: Entidades inferidas;
+   a-->>-c: Entidades inferidas;

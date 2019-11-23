@@ -25,11 +25,7 @@ description: "Proyecto final de la carrera de ingeniería informática. ITBA."
 ---
 
 ```{r include=FALSE}
-library(remotes)
-remotes::install_github("rich-iannone/DiagrammeR")
 library(knitr)
-library(DiagrammeR)
-library(webshot)
 library(tidyverse)
 source('./initial_setup.R')
 ```

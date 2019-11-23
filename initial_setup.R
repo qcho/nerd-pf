@@ -1,9 +1,7 @@
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'DiagrammeR'
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
-
-webshot::install_phantomjs()
 
 options(tinytex.verbose = TRUE)
 options(knitr.include_graphics.ext = TRUE)

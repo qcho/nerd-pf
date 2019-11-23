@@ -1,0 +1,24 @@
+sequenceDiagram;
+  participant a as API;
+  participant r as RabbitMQ;
+  participant w as Worker;
+  participant m as Model;
+  a->>r: Reasignar worker;
+  w->>+r: Pedir tarea;
+  r-->>-w: Tarea de cambiar snapshot;
+  w->>+r: Borrar suscripción a snapshot actual;
+  r-->>-w: Suscripción borrada;
+  w->>+r: Suscribir a snapshot nuevo;
+  r-->>-w: Suscripción exitosa;
+  a->>+r: Tarea de NER;
+  w->>+r: Pedir tarea;
+  r-->>-w: Tarea de NER;
+  alt Snapshot desactualizado
+  w->>+m: Cargar modelo;
+  m-->>-w: Modelo;
+  w->>w: NER;
+  else Snapshot actualizado
+  w->>w: NER;
+  end;
+  w-->>r: Entidades inferidas;
+  r-->>a: Entidades inferidas;

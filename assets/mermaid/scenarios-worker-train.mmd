@@ -1,0 +1,37 @@
+sequenceDiagram;
+   participant a as API
+   participant r as RabbitMQ
+   participant m as MongoDB
+   participant w as Worker 1
+   participant ww as Worker 2
+participant www as Worker 3
+participant mo as Model
+ww->>m: Incrementar semáforo para vXX;
+ww->>+mo: Read;
+   a->>r: Crear tarea de entrenar vXX;
+   w->>+r: Pedir tarea;
+   r-->>-w: Tarea de entrenar;
+activate w;
+loop Worker 1 bloqueado
+w->>w: Semáforo en 0?
+www->>m: Incrementar semáforo para vXX;
+www->>+mo: Read;
+mo-->>-ww: Modelo
+ww->>+m: Decrementar semáforo para vXX
+m-->>-ww:Exito
+mo-->>-www: Modelo
+  www->>+m: Decrementar semáforo para vXX;
+m-->>-www:Exito
+w->>w: Semáforo en 0?
+end
+   w->>+m: Decrementar semáforo para vXX;
+   m-->>-w: Éxito;
+   w->>+m: Pedir textos etoquetados para vXX;
+   m-->>-w: Textos anotados;
+   w->>w: Entrenar;
+   w->>+m: Actualizar fecha de entrenamiento;
+   m-->>-w: Éxito;
+   w->>+m: Incrementar semáforo
+m-->>-w:Éxito
+   w->>r: Entrenamiento exitoso;
+deactivate w
