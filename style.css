@@ -17,6 +17,6 @@ pre code {
   text-align: justify;
 }
 
-.page-inner {
+.book .book-body .page-wrapper .page-inner {
   width: 75%;
 }
