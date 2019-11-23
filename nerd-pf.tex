@@ -1986,6 +1986,22 @@ Cuando un \emph{cliente} realiza un pedido al \emph{API}, crea una nueva tarea e
 \hypertarget{correcciuxf3n-de-entidades-utilizando-el-entrenador}{%
 \subsubsection{Corrección de entidades utilizando el entrenador}\label{correcciuxf3n-de-entidades-utilizando-el-entrenador}}
 
+Para realizar una corrección, el usuario deberá realizar los siguientes pasos:
+
+\begin{itemize}
+\tightlist
+\item
+  Ingresar al sistema con credenciales que tengan el permiso para entrenar.
+\item
+  Hacer \emph{click} en el botón de \textbf{ENTRENAR}.
+\item
+  Esperar a que cargue el texto.
+\item
+  Revisar las entidades y corregir como sea necesario.
+\item
+  Hacer \emph{click} en el botón \textbf{ACEPTAR}.
+\end{itemize}
+
 Como podemos ver en la figura \ref{fig:scenarios-web-train}, para poder mostrar un texto a entrenar son necesarios cinco servicios.
 
 El proceso de la inferencia es el mismo que el mostrado en la figura \ref{fig:scenarios-ner}, agregándose la consulta a \emph{MongoDB} al principio para poder obtener un texto que aún no haya sido entrenado por el usuario logueado.
