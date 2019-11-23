@@ -3,6 +3,6 @@
 
 Utilizando _spaCy_ para la inferencia de entidades pudimos alcanzar un $\text{valor-F}$ aceptable con 4000 documentos anotados. Por lo que recomendamos a las personas que quieran entrenar un modelo que realice _NER_ que, previo al uso del modelo de inferencia, realizar la etapa de entrenamiento con al menos esa cantidad documentos para alcanzar los 80 puntos de $\text{valor-F}$.
 
-Mediante la implementación del proyecto _NERd_ pudimos realizar un sistema que permite escalar horizontalmente para poder servir tantos pedidos de _NER_ como sean necesarios sin sacrificar _performance_.
+Mediante la implementación del proyecto _NERd_ pudimos realizar un sistema que permite tener un servicio que permita a cada comunidad generar modelos específicos para sus necesidades. A su vez, la implementación específica permite al proyecto escalar horizontalmente para poder servir tantos pedidos de _NER_ como sean necesarios sin sacrificar _performance_.
 
-<!-- TODO: WIP -->
+Debido a que el proyecto es _Open Source_, a futuro podrá ser beneficiado por aportes de la comunidad para incorporar funcionalidades nuevas, tales como la incorporación de técnicas de _Named Entity Linking_ para obtener mejores resultados en la detección de entidades nombradas.
