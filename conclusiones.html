@@ -240,19 +240,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="conclusiones" class="section level1">
 <h1><span class="header-section-number">Capítulo 7</span> Conclusiones</h1>
-<ul>
-<li><p>Recomendar que con 4000 documentos se puede alcanzar 80 puntos de <span class="math inline">\(\text{valor-F}\)</span></p></li>
-<li><p>Cuando se enfrenta un proyecto de etiquetado de <em>NER</em>, recomendamos una etapa inicial de 4000 documentos para alcanzar una exactitud razonable y poder inferir de la experiencia obtenida de los textos analizados que tipos de entidad segun la taxonomía de <span class="citation">(Sekine, <a href="#ref-Sekine-NER">2007</a>)</span> en la <a href="discussion.html#fig:fig-sekine">6.1</a> se necesitan agregar.</p></li>
-</ul>
-<!-- TODO: WIP -->
+<p>Utilizando <em>spaCy</em> para la inferencia de entidades pudimos alcanzar un <span class="math inline">\(\text{valor-F}\)</span> aceptable con 4000 documentos anotados. Por lo que recomendamos a las personas que quieran entrenar un modelo que realice <em>NER</em> que, previo al uso del modelo de inferencia, realizar la etapa de entrenamiento con al menos esa cantidad documentos para alcanzar los 80 puntos de <span class="math inline">\(\text{valor-F}\)</span>.</p>
+<p>Mediante la implementación del proyecto <em>NERd</em> pudimos realizar un sistema que permite tener un servicio que permita a cada comunidad generar modelos específicos para sus necesidades. A su vez, la implementación específica permite al proyecto escalar horizontalmente para poder servir tantos pedidos de <em>NER</em> como sean necesarios sin sacrificar <em>performance</em>.</p>
+<p>Debido a que el proyecto es <em>Open Source</em>, a futuro podrá ser beneficiado por aportes de la comunidad para incorporar funcionalidades nuevas, tales como la incorporación de técnicas de <em>Named Entity Linking</em> para obtener mejores resultados en la detección de entidades nombradas.</p>
 
 <div style="page-break-after: always;"></div>
-</div>
-<h3>Referencias</h3>
-<div id="refs" class="references">
-<div id="ref-Sekine-NER">
-<p>Sekine, S. (2007). <em>The definition of sekine’s extended named entities</em>. Retrieved from <a href="https://nlp.cs.nyu.edu/ene/version7_1_0Beng.html">https://nlp.cs.nyu.edu/ene/version7_1_0Beng.html</a></p>
-</div>
 </div>
             </section>
 

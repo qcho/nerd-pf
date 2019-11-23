@@ -206,17 +206,19 @@
 
         \vspace{1.5cm}
 
-        \textbf{Juan Pablo Orsay} $L : 49373$\\
-        \textbf{Horacio Miguel Gómez} $L : 50825$
+        \textbf{Juan Pablo Orsay} (L: 49373)\\
+        \textbf{Horacio Miguel Gómez} (L: 50825)
 
         \vfill
+
+        \includegraphics[width=0.6\textwidth]{assets/logoItba}
+
+        \vspace{0.8cm}
 
         Proyecto final para la carrera de\\
         Ingeniería Informática
 
         \vspace{0.8cm}
-
-        %\includegraphics[width=0.4\textwidth]{university}
 
         \Large
         Buenos Aires, Argentina\\
@@ -2314,12 +2316,11 @@ Por tal motivo recibimos el primer premio de dicha hackaton (``Mención itba,'' 
 \hypertarget{conclusiones}{%
 \section{Conclusiones}\label{conclusiones}}
 
-\begin{itemize}
-\item
-  Recomendar que con 4000 documentos se puede alcanzar 80 puntos de \(\text{valor-F}\)
-\item
-  Cuando se enfrenta un proyecto de etiquetado de \emph{NER}, recomendamos una etapa inicial de 4000 documentos para alcanzar una exactitud razonable y poder inferir de la experiencia obtenida de los textos analizados que tipos de entidad segun la taxonomía de (Sekine, \protect\hyperlink{ref-Sekine-NER}{2007}) en la \ref{fig:fig-sekine} se necesitan agregar.
-\end{itemize}
+Utilizando \emph{spaCy} para la inferencia de entidades pudimos alcanzar un \(\text{valor-F}\) aceptable con 4000 documentos anotados. Por lo que recomendamos a las personas que quieran entrenar un modelo que realice \emph{NER} que, previo al uso del modelo de inferencia, realizar la etapa de entrenamiento con al menos esa cantidad documentos para alcanzar los 80 puntos de \(\text{valor-F}\).
+
+Mediante la implementación del proyecto \emph{NERd} pudimos realizar un sistema que permite tener un servicio que permita a cada comunidad generar modelos específicos para sus necesidades. A su vez, la implementación específica permite al proyecto escalar horizontalmente para poder servir tantos pedidos de \emph{NER} como sean necesarios sin sacrificar \emph{performance}.
+
+Debido a que el proyecto es \emph{Open Source}, a futuro podrá ser beneficiado por aportes de la comunidad para incorporar funcionalidades nuevas, tales como la incorporación de técnicas de \emph{Named Entity Linking} para obtener mejores resultados en la detección de entidades nombradas.
 
 \newpage
 
