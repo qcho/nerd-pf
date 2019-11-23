@@ -765,6 +765,14 @@ DiagrammeR::DiagrammeR("
 
 ### Corrección de entidades utilizando el entrenador
 
+Para realizar una corrección, el usuario deberá realizar los siguientes pasos:
+
+* Ingresar al sistema con credenciales que tengan el permiso para entrenar.
+* Hacer _click_ en el botón de **ENTRENAR**.
+* Esperar a que cargue el texto.
+* Revisar las entidades y corregir como sea necesario.
+* Hacer _click_ en el botón **ACEPTAR**.
+
 Como podemos ver en la figura \@ref(fig:scenarios-web-train), para poder mostrar un texto a entrenar son necesarios cinco servicios.
 
 El proceso de la inferencia es el mismo que el mostrado en la figura \@ref(fig:scenarios-ner), agregándose la consulta a _MongoDB_ al principio para poder obtener un texto que aún no haya sido entrenado por el usuario logueado.
