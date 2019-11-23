@@ -21,7 +21,7 @@ csl: apa.csl
 lof: True
 link-citations: yes
 github-repo: qcho/nerd-pf
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+description: "Proyecto final de la carrera de ingeniería informática. ITBA."
 ---
 
 ```{r include=FALSE}
