@@ -183,7 +183,6 @@ Para saber que acción tomar se consulta el modelo estadístico. En la figura \@
 knitr::include_graphics('assets/lampe_2.png')
 ```
 
-<!-- TODO: Corregir esto -->
 * Primero se empieza con un stack vacío.
 * Se consume _"Mark"_ y la _CNN_ predice que es una posible Persona. Lo envia al stack.
 * Se consume _"Watney"_ y la _CNN_ predice que es una posible continuación de Persona. Lo envia al stack.
