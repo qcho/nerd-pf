@@ -26,7 +26,7 @@
 <meta name="author" content="Proyecto final de carrera" />
 
 
-<meta name="date" content="2019-11-22" />
+<meta name="date" content="2019-11-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -189,8 +189,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="implementation.html"><a href="implementation.html#escenarios"><i class="fa fa-check"></i><b>4.5</b> Escenarios</a><ul>
 <li class="chapter" data-level="4.5.1" data-path="implementation.html"><a href="implementation.html#web-relogin"><i class="fa fa-check"></i><b>4.5.1</b> <em>Web</em>: <em>relogin</em></a></li>
-<li class="chapter" data-level="4.5.2" data-path="implementation.html"><a href="implementation.html#ner"><i class="fa fa-check"></i><b>4.5.2</b> <em>NER</em></a></li>
-<li class="chapter" data-level="4.5.3" data-path="implementation.html"><a href="implementation.html#web-entrenador-web"><i class="fa fa-check"></i><b>4.5.3</b> <em>Web</em>: Entrenador web</a></li>
+<li class="chapter" data-level="4.5.2" data-path="implementation.html"><a href="implementation.html#inferencia-de-entidades-utilizando-el-api"><i class="fa fa-check"></i><b>4.5.2</b> Inferencia de entidades utilizando el API</a></li>
+<li class="chapter" data-level="4.5.3" data-path="implementation.html"><a href="implementation.html#corrección-de-entidades-utilizando-el-entrenador"><i class="fa fa-check"></i><b>4.5.3</b> Corrección de entidades utilizando el entrenador</a></li>
 <li class="chapter" data-level="4.5.4" data-path="implementation.html"><a href="implementation.html#worker-entrenamiento-y-carga-del-modelo-de-spacy"><i class="fa fa-check"></i><b>4.5.4</b> <em>Worker</em>: Entrenamiento y carga del modelo de spaCy</a></li>
 <li class="chapter" data-level="4.5.5" data-path="implementation.html"><a href="implementation.html#worker-cambio-de-snapshot"><i class="fa fa-check"></i><b>4.5.5</b> <em>Worker</em>: cambio de snapshot</a></li>
 </ul></li>
@@ -295,7 +295,7 @@ Figura 4.4: Pantalla de inicio sin sesión.
 <div id="entrenamiento" class="section level4">
 <h4><span class="header-section-number">4.1.1.2</span> Entrenamiento</h4>
 <p>La pantalla de entrenamiento es el núcleo de la <em>web</em> donde se entrena el modelo.</p>
-<p>El usuario es presentado con un texto perteneciente al <em>corpus</em> del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura <a href="implementation.html#fig:logic-train">4.5</a>).</p>
+<p>El usuario es presentado con un texto perteneciente al <em>corpus</em> del servicio con las entidades inferidas por el modelo actual. Con un editor especial que recibe un documento generado por <em>spaCy</em> que incluye <em>tokens</em> de palabras y entidades, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura <a href="implementation.html#fig:logic-train">4.5</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-train"></span>
 <img src="assets/logic/train.png" alt="Pantalla de entrenamiento."  />
 <p class="caption">
@@ -1054,32 +1054,32 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <p>Debido a como está diseñado <em>JWT</em>, se espera que los tokens de acceso sean válidos por un tiempo acotado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el <em>token</em> de acceso utilizando el <em>token</em> de <em>refresh</em>.</p>
 <p>Si el cliente tiene un <em>token</em> de <em>refresh</em>, en la figura <a href="implementation.html#fig:scenarios-relogin">4.36</a> podemos ver el flujo que realiza la implementación <em>web</em> del entrenador para realizar el refresco de la sesión. Al recibir un <span class="math inline">\(401\)</span> por parte del servidor, el SDK realiza un</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-relogin"></span>
-<div id="htmlwidget-69f44cc3d996790db836" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-69f44cc3d996790db836">{"x":{"diagram":"\n  sequenceDiagram;\n   participant cliente as Usuario\n   participant _web_ as Web\n   participant API\n   cliente->>+web: Login;\n   web->>+API: Login con credenciales;\n   API-->>-web: Access/Refresh Tokens;\n   web-->>-cliente: Mostrar login OK;\n   cliente->>+web: Ver mis entrenamientos;\n   web->>+API: Pedido;\n   alt Sesión válida\n     API-->>web: Respuesta (200);\n     web-->>cliente: Mostrar resultados;\n   else Sesión caducada\n     API-->>-web: Respuesta (401);\n     web->>+API: Session refresh;\n     API-->>-web: Access Token;\n     web->>+API: Pedido;\n     alt Refresh token válido\n      API-->>web: Respuesta (200);\n      web-->>cliente: Mostrar resultados;\n     else Refresh token caducado\n      API-->>-web: Respuesta (401);\n      web-->>-cliente: Mostrar mensaje de error;\n     end\n   end\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-d3573e53056b00f8d23e" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d3573e53056b00f8d23e">{"x":{"diagram":"\n  sequenceDiagram;\n   participant cliente as Usuario\n   participant _web_ as Web\n   participant API\n   cliente->>+web: Login;\n   web->>+API: Login con credenciales;\n   API-->>-web: Access/Refresh Tokens;\n   web-->>-cliente: Mostrar login OK;\n   cliente->>+web: Ver mis entrenamientos;\n   web->>+API: Pedido;\n   alt Sesión válida\n     API-->>web: Respuesta (200);\n     web-->>cliente: Mostrar resultados;\n   else Sesión caducada\n     API-->>-web: Respuesta (401);\n     web->>+API: Session refresh;\n     API-->>-web: Access Token;\n     web->>+API: Pedido;\n     alt Refresh token válido\n      API-->>web: Respuesta (200);\n      web-->>cliente: Mostrar resultados;\n     else Refresh token caducado\n      API-->>-web: Respuesta (401);\n      web-->>-cliente: Mostrar mensaje de error;\n     end\n   end\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.36: Flujo de relogin
 </p>
 </div>
 </div>
-<div id="ner" class="section level3">
-<h3><span class="header-section-number">4.5.2</span> <em>NER</em></h3>
+<div id="inferencia-de-entidades-utilizando-el-api" class="section level3">
+<h3><span class="header-section-number">4.5.2</span> Inferencia de entidades utilizando el API</h3>
 <p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-ner">4.37</a>, para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.</p>
-<p>Cuando un <em>cliente</em> realiza un pedido al <em>API</em>, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el <em>request</em> en <em>RabbitMQ</em>. Luego, un único <em>worker</em> que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, <em>RabbitMQ</em> notifica al <em>API</em> de la tarea y este puede devolver finalmente el resultado al <em>Cliente</em>.</p>
+<p>Cuando un <em>cliente</em> realiza un pedido al <em>API</em>, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el <em>request</em> en <em>RabbitMQ</em>. Luego, un único <em>worker</em> que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, <em>RabbitMQ</em> notifica al <em>API</em> de la tarea y este puede devolver finalmente el resultado al <em>cliente</em>.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-ner"></span>
-<div id="htmlwidget-61927c366a8e8426ba70" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-61927c366a8e8426ba70">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Consulta NER (vXX);\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-5d19891d5edd3115e47e" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5d19891d5edd3115e47e">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Consulta NER (vXX);\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.37: Flujo de NER.
 </p>
 </div>
 </div>
-<div id="web-entrenador-web" class="section level3">
-<h3><span class="header-section-number">4.5.3</span> <em>Web</em>: Entrenador web</h3>
+<div id="corrección-de-entidades-utilizando-el-entrenador" class="section level3">
+<h3><span class="header-section-number">4.5.3</span> Corrección de entidades utilizando el entrenador</h3>
 <p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-web-train">4.38</a>, para poder mostrar un texto a entrenar son necesarios cinco servicios.</p>
 <p>El proceso de la inferencia es el mismo que el mostrado en la figura <a href="implementation.html#fig:scenarios-ner">4.37</a>, agregándose la consulta a <em>MongoDB</em> al principio para poder obtener un texto que aún no haya sido entrenado por el usuario logueado.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-web-train"></span>
-<div id="htmlwidget-2ed01283e268e79332b2" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2ed01283e268e79332b2">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant m as MongoDB\n   participant r as RabbitMQ\n   participant w as Worker\n   c->>+a: Pedir texto a entrenar;\n   a->>+m: Buscar texto no entrenado;\n   m-->>-a: Texto no entrenado;\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-470a122c549014885f43" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-470a122c549014885f43">{"x":{"diagram":"\n  sequenceDiagram;\n   participant c as Usuario\n   participant a as API\n   participant m as MongoDB\n   participant r as RabbitMQ\n   participant w as Worker\n   loop Entrenar\n   c->>+a: Pedir texto a entrenar;\n   a->>+m: Buscar texto no entrenado;\n   m-->>-a: Texto no entrenado;\n   a->>+r: Crear tarea de NER;\n   activate w;\n   w->>r: Pedir tarea;\n   r-->>w: Tarea de NER;\n   w->>w: Inferir entidades;\n   w->>-r: Entidades inferidas;\n   r-->>-a: Entidades inferidas;\n   a-->>-c: Entidades inferidas;\n   c->>c: Corrección de entidades;\n   c->>+a: Texto con entidades corregidas;\n   a->>+m: Guardar corrección;\n   m-->>-a: Guardado;\n   a-->>-c: Corregido;\n   end\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.38: Pedido de texto para entrenamiento.
 </p>
@@ -1092,8 +1092,8 @@ Figura 4.38: Pedido de texto para entrenamiento.
 <p>Para realizar ese control de concurrencia utilizamos el campo <code>semaphore</code> del modelo de <em>snapshot</em> guardado en la base de datos (Figura <a href="implementation.html#fig:developer-db-snapshot">4.28</a>) el cual usualmente se encuentra en <span class="math inline">\(0\)</span>. El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.</p>
 <p>En la figura <a href="implementation.html#fig:scenarios-worker-train">4.39</a> podemos ver un escenario en el que tanto <em>Worker 2</em> y <em>Worker 3</em> pueden leer en simultáneo el modelo pero <em>Worker 1</em> debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-worker-train"></span>
-<div id="htmlwidget-79e64826816f254001f1" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-79e64826816f254001f1">{"x":{"diagram":"\n  sequenceDiagram;\n   participant a as API\n   participant r as RabbitMQ\n   participant m as MongoDB\n   participant w as Worker 1\n   participant ww as Worker 2\nparticipant www as Worker 3\nparticipant mo as Model\nww->>m: Incrementar semáforo para vXX;\nww->>+mo: Read;\n   a->>r: Crear tarea de entrenar vXX;\n   w->>+r: Pedir tarea;\n   r-->>-w: Tarea de entrenar;\nactivate w;\nloop Worker 1 bloqueado\nw->>w: Semáforo en 0?\nwww->>m: Incrementar semáforo para vXX;\nwww->>+mo: Read;\nmo-->>-ww: Modelo\nww->>+m: Decrementar semáforo para vXX\nm-->>-ww:Exito\nmo-->>-www: Modelo\n  www->>+m: Decrementar semáforo para vXX;\nm-->>-www:Exito\nw->>w: Semáforo en 0?\nend\n   w->>+m: Decrementar semáforo para vXX;\n   m-->>-w: Éxito;\n   w->>+m: Pedir textos etoquetados para vXX;\n   m-->>-w: Textos etiquetados;\n   w->>w: Entrenar;\n   w->>+m: Actualizar fecha de entrenamiento;\n   m-->>-w: Éxito;\n   w->>+m: Incrementar semáforo\nm-->>-w:Éxito\n   w->>r: Entrenamiento exitoso;\ndeactivate w\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-8d030754baac0c2ad2f5" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8d030754baac0c2ad2f5">{"x":{"diagram":"\n  sequenceDiagram;\n   participant a as API\n   participant r as RabbitMQ\n   participant m as MongoDB\n   participant w as Worker 1\n   participant ww as Worker 2\nparticipant www as Worker 3\nparticipant mo as Model\nww->>m: Incrementar semáforo para vXX;\nww->>+mo: Read;\n   a->>r: Crear tarea de entrenar vXX;\n   w->>+r: Pedir tarea;\n   r-->>-w: Tarea de entrenar;\nactivate w;\nloop Worker 1 bloqueado\nw->>w: Semáforo en 0?\nwww->>m: Incrementar semáforo para vXX;\nwww->>+mo: Read;\nmo-->>-ww: Modelo\nww->>+m: Decrementar semáforo para vXX\nm-->>-ww:Exito\nmo-->>-www: Modelo\n  www->>+m: Decrementar semáforo para vXX;\nm-->>-www:Exito\nw->>w: Semáforo en 0?\nend\n   w->>+m: Decrementar semáforo para vXX;\n   m-->>-w: Éxito;\n   w->>+m: Pedir textos etoquetados para vXX;\n   m-->>-w: Textos etiquetados;\n   w->>w: Entrenar;\n   w->>+m: Actualizar fecha de entrenamiento;\n   m-->>-w: Éxito;\n   w->>+m: Incrementar semáforo\nm-->>-w:Éxito\n   w->>r: Entrenamiento exitoso;\ndeactivate w\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.39: Bloqueo de entrenamiento por lectura.
 </p>
@@ -1103,8 +1103,8 @@ Figura 4.39: Bloqueo de entrenamiento por lectura.
 <h3><span class="header-section-number">4.5.5</span> <em>Worker</em>: cambio de snapshot</h3>
 <p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-worker-snapshot-change">4.40</a>, ante una tarea de reasignación de snapshot, el <em>worker</em> se desuscribe de la cola de mensajes del <em>snapshot</em> que está escuchando actualmente y se suscribe a la cola de mensajes del <em>snapshot</em> al que se lo quiere cambiar. Luego, se recarga el modelo.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-worker-snapshot-change"></span>
-<div id="htmlwidget-99d51dfcd7277ee9ab2d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-99d51dfcd7277ee9ab2d">{"x":{"diagram":"\nsequenceDiagram;\n  participant a as API;\n  participant r as RabbitMQ;\n  participant w as Worker;\n  participant m as Model;\n  a->>r: Reasignar worker;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de cambiar snapshot;\n  w->>+r: Borrar suscripción a snapshot actual;\n  r-->>-w: Suscripción borrada;\n  w->>+r: Suscribir a snapshot nuevo;\n  r-->>-w: Suscripción exitosa;\n  a->>+r: Tarea de NER;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de NER;\n  alt Snapshot desactualizado\n  w->>+m: Cargar modelo;\n  m-->>-w: Modelo;\n  w->>w: NER;\n  else Snapshot actualizado\n  w->>w: NER;\n  end;\n  w-->>r: Entidades inferidas;\n  r-->>a: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-deccab949c69e66f024a" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-deccab949c69e66f024a">{"x":{"diagram":"\nsequenceDiagram;\n  participant a as API;\n  participant r as RabbitMQ;\n  participant w as Worker;\n  participant m as Model;\n  a->>r: Reasignar worker;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de cambiar snapshot;\n  w->>+r: Borrar suscripción a snapshot actual;\n  r-->>-w: Suscripción borrada;\n  w->>+r: Suscribir a snapshot nuevo;\n  r-->>-w: Suscripción exitosa;\n  a->>+r: Tarea de NER;\n  w->>+r: Pedir tarea;\n  r-->>-w: Tarea de NER;\n  alt Snapshot desactualizado\n  w->>+m: Cargar modelo;\n  m-->>-w: Modelo;\n  w->>w: NER;\n  else Snapshot actualizado\n  w->>w: NER;\n  end;\n  w-->>r: Entidades inferidas;\n  r-->>a: Entidades inferidas;\n"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 4.40: Cambio de modelo.
 </p>

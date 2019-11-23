@@ -130,7 +130,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-11-22}
+    \date{2019-11-23}
 
 % Usefull information about documentclass
 % http://ctan.dcc.uchile.cl/macros/latex/contrib/koma-script/doc/scrguien.pdf
@@ -800,7 +800,7 @@ Si la persona visitando la página no cuenta con una sesión activa, se le invit
 
 La pantalla de entrenamiento es el núcleo de la \emph{web} donde se entrena el modelo.
 
-El usuario es presentado con un texto perteneciente al \emph{corpus} del servicio con las entidades inferidas por el modelo actual. Con un editor especial, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura \ref{fig:logic-train}).
+El usuario es presentado con un texto perteneciente al \emph{corpus} del servicio con las entidades inferidas por el modelo actual. Con un editor especial que recibe un documento generado por \emph{spaCy} que incluye \emph{tokens} de palabras y entidades, le permitimos al usuario poder corregir las entidades inferidas y enviarle la corrección al servicio. Esa corrección será utilizada posteriormente a la hora de mejorar el modelo actual (Figura \ref{fig:logic-train}).
 
 \begin{figure}[H]
 
@@ -1967,12 +1967,12 @@ Si el cliente tiene un \emph{token} de \emph{refresh}, en la figura \ref{fig:sce
 \caption{Flujo de relogin}\label{fig:scenarios-relogin}
 \end{figure}
 
-\hypertarget{ner}{%
-\subsubsection{\texorpdfstring{\emph{NER}}{NER}}\label{ner}}
+\hypertarget{inferencia-de-entidades-utilizando-el-api}{%
+\subsubsection{Inferencia de entidades utilizando el API}\label{inferencia-de-entidades-utilizando-el-api}}
 
 Como podemos ver en la figura \ref{fig:scenarios-ner}, para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.
 
-Cuando un \emph{cliente} realiza un pedido al \emph{API}, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el \emph{request} en \emph{RabbitMQ}. Luego, un único \emph{worker} que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, \emph{RabbitMQ} notifica al \emph{API} de la tarea y este puede devolver finalmente el resultado al \emph{Cliente}.
+Cuando un \emph{cliente} realiza un pedido al \emph{API}, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el \emph{request} en \emph{RabbitMQ}. Luego, un único \emph{worker} que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, \emph{RabbitMQ} notifica al \emph{API} de la tarea y este puede devolver finalmente el resultado al \emph{cliente}.
 
 \begin{figure}[H]
 
@@ -1983,8 +1983,8 @@ Cuando un \emph{cliente} realiza un pedido al \emph{API}, crea una nueva tarea e
 \caption{Flujo de NER.}\label{fig:scenarios-ner}
 \end{figure}
 
-\hypertarget{web-entrenador-web}{%
-\subsubsection{\texorpdfstring{\emph{Web}: Entrenador web}{Web: Entrenador web}}\label{web-entrenador-web}}
+\hypertarget{correcciuxf3n-de-entidades-utilizando-el-entrenador}{%
+\subsubsection{Corrección de entidades utilizando el entrenador}\label{correcciuxf3n-de-entidades-utilizando-el-entrenador}}
 
 Como podemos ver en la figura \ref{fig:scenarios-web-train}, para poder mostrar un texto a entrenar son necesarios cinco servicios.
 
