@@ -234,6 +234,7 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
+\listoffigures
 \newpage
 
 \hypertarget{intro}{%
@@ -743,7 +744,7 @@ Este modelo nos permite describir la aplicación de una manera genérica y orden
 \begin{quote}
 \emph{The \enquote{4+1} view model is rather \enquote{generic}: other notations and tools can be used, other design methods can be used, especially for the logical and process decompositions, but we have indicated the ones we have used with success.}
 
-\hfill --- (Kruchten, \protect\hyperlink{ref-Kruchten:1995:VMA:624610.625529}{1995})
+\hfill --- (Kruchten, \protect\hyperlink{ref-Kruchten:1995:VMA:624610.625529}{1995})
 \end{quote}
 
 \hypertarget{vista-luxf3gica}{%
@@ -1490,7 +1491,9 @@ La vista de proceso trata los aspectos dinámicos del sistema, explica los proce
 La vista de proceso aborda concurrencia, distribución, integradores, rendimiento y escalabilidad, etc.
 \end{quote}
 
-Como podemos ver en la figura \ref{fig:process-overview-client}, existen cinco procesos que juntos forman la totalidad de NERd y su entrenador.
+Como podemos ver en la figura \ref{fig:process-overview-client}, existen cinco tipos de proceso que juntos forman la totalidad de NERd y su entrenador.
+
+Para la implementación de cada una de las partes tuvimos como primer objetivo lograr el desarrollo de un proyecto que pudiera escalar horizontalmente desde su concepción, es por ello que separamos cada parte del proyecto para poder lograr una arquitectura que escale naturalmente.
 
 \begin{figure}[H]
 
@@ -1501,11 +1504,48 @@ Como podemos ver en la figura \ref{fig:process-overview-client}, existen cinco p
 \caption{Componentes del sistema.}\label{fig:process-overview-client}
 \end{figure}
 
+\hypertarget{cliente-web}{%
+\subsubsection{Cliente web}\label{cliente-web}}
+
+Es la interfaz del entrenador que se comunica con el API utilizando un \emph{SDK} auto-generado a partir de la definición de \emph{OpenAPI}. Implementado en este proyecto es un cliente \emph{web} el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
+
 \hypertarget{api-1}{%
-\subsubsection{API}\label{api-1}}
+\subsubsection{\texorpdfstring{\emph{API}}{API}}\label{api-1}}
 
 Servicio en el cual los clientes pueden pedir las \emph{Entidades Nombradas} de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
 El \emph{API} se comunica el servicio de \emph{Bases de Datos} para obtener o modificar información sobre los usuarios, los textos pertenecientes al \emph{corpus} o información de los distintos \emph{snapshots} y envía mensajes al \emph{Task Scheduler} para realizar diversas tareas relacionadas con \emph{spaCy} así como también tareas de administración sobre los \emph{workers} disponibles.
+
+Debido a que la \emph{API} está implementada en \emph{python} y este es un lenguaje cuyo intérprete posee un \emph{lock} global (``Python,'' \protect\hyperlink{ref-python_gil}{2019}), debimos implementar la aplicación como un servicio que implementa \emph{WSGI} (Eby, \protect\hyperlink{ref-pep-3333}{2010}). Luego la aplicación es servida por \emph{gunicorn}, un \emph{application server} para este fin que escala horizontalmente su \emph{pool} de \emph{workers}.
+
+\hypertarget{worker}{%
+\subsubsection{Worker}\label{worker}}
+
+Un \emph{worker} se encarga de realizar las operaciones de \emph{NER} incluyendo el entrenamiento de modelos de inferencia. Es un servicio que existe de manera independiente.
+
+El modelo estadístico debe ser cargado en memoria para poder ser utilizado. El mismo requiere de muchos recursos y tiene una eficiencia limitada ya que puede atender una sóla consulta a la vez. Es por ello que decidimos, en lugar de que el modelo sea parte de la \emph{API} resultando en un cuello de botella, encapsular el modelo en un servicio externo para que pueda ser escalado horizontalmente.
+
+Como el \emph{worker} es una unidad de trabajo que recibe tareas desde el \emph{task scheduler}, es posible tener varios \emph{workers} donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos \emph{snapshots}).
+
+Cuando un \emph{worker} es creado, automáticamente carga el modelo actual (\emph{snapshot} actual) y se suscribe a la cola de mensajes para esa versión en particular.
+
+\hypertarget{entrenamiento-y-carga-de-snapshots}{%
+\paragraph{Entrenamiento y carga de snapshots}\label{entrenamiento-y-carga-de-snapshots}}
+
+Dado que pueden haber varios \emph{workers} utilizando el mismo modelo de \emph{spaCy}, es de vital importancia que si existe al menos un \emph{worker} leyendo un modelo desde el disco y otro worker quiere entrenar ese modelo, que no pueda hasta que el resto haya terminado de leerlo.
+Ésto se debe a que si el \emph{worker} que está entrenando el modelo sobreescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del \emph{worker} de lectura. Como no hay ninguna limitación en la lectura, más de un \emph{worker} puede leer en simultáneo.
+
+Para realizar ese control de concurrencia utilizamos el campo \texttt{semaphore} del modelo de \emph{snapshot} guardado en la base de datos (Figura \ref{fig:developer-db-snapshot}) el cual usualmente se encuentra en \(0\). El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.
+
+En la figura \ref{fig:scenarios-worker-train} podemos ver un escenario en el que tanto \emph{Worker 2} y \emph{Worker 3} pueden leer en simultáneo el modelo pero \emph{Worker 1} debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-worker-train-1.pdf} 
+
+}
+
+\caption{Bloqueo de entrenamiento por lectura.}\label{fig:scenarios-worker-train}
+\end{figure}
 
 \hypertarget{task-scheduler}{%
 \subsubsection{Task Scheduler}\label{task-scheduler}}
@@ -1513,32 +1553,32 @@ El \emph{API} se comunica el servicio de \emph{Bases de Datos} para obtener o mo
 Recibe tareas desde el \emph{API} tales como reconocer entidades, entrenar y desentrenar un modelo, cambiar el modelo de un worker entre otras. A el task scheduler se suscriben todos los \emph{workers} del sistema de manera tal de poder recibir mensajes y realizar acciones.
 Su funcionamiento es crítico para poder manejar grandes volúmenes de consultas al motor de inferencia ya que permite generar una estructura que escale horizontalmente debido a la posibilidad de contar con la suscripción de un número arbitrario de \emph{workers}.
 
-\hypertarget{worker}{%
-\subsubsection{Worker}\label{worker}}
+Este proceso escala horizontalmente debido a que su implementación en la capa física es un \emph{cluster}.
 
-Un \emph{Worker} se encarga de realizar el \emph{Reconocimiento de Entidades Nombradas} así como también de entrenar modelos de inferencia. Es un servicio que existe de manera independiente y necesita de dos otros servicios para funcionar:
-
-\begin{itemize}
-\tightlist
-\item
-  \emph{Base de datos} para obtener los datos necesarios para entrenar un modelo.
-\item
-  \emph{Task scheduler} para poder recibir tareas.
-\end{itemize}
-
-Como el \emph{Worker} es una unidad de trabajo que recibe tareas desde el \emph{Task Scheduler}, es posible tener varios \emph{Workers} donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos snapshots).
-
-Cuando un \emph{Worker} es creado, automáticamente carga el modelo actual (\emph{current snapshot}) y se suscribe a la cola de mensajes para esa versión en particular.
-
-\hypertarget{database}{%
-\subsubsection{Database}\label{database}}
+\hypertarget{base-de-datos}{%
+\subsubsection{Base de datos}\label{base-de-datos}}
 
 Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de \emph{API} funcione así como también los datos necesarios por los workers (entrenamientos).
 
-\hypertarget{cliente}{%
-\subsubsection{Cliente}\label{cliente}}
+Este proceso escala horizontalmente debido a que su implementación en la capa física es un \emph{cluster}.
 
-Es la interfaz del entrenador que se comunica con el API utilizando un \emph{SDK} auto-generado a partir de la definición de \emph{OpenAPI}. Implementado en este proyecto es un cliente \emph{web} el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
+\hypertarget{autenticaciuxf3n-1}{%
+\paragraph{Autenticación}\label{autenticaciuxf3n-1}}
+
+El proceso de autenticación de la \emph{API} sigue el flujo de \emph{OAuth2} (Group, \protect\hyperlink{ref-oauth2}{2017}), debido a como está definido, el usuario al autenticarse con \emph{email} y \emph{password} recibe par de identificadores únicos llamados \texttt{access\_token} y \texttt{refresh\_token}. A partir de este momento todos los requests del usuario a la \emph{API} poseen en su encabezado el \texttt{access\_token}. Ocurre que estos \emph{tokens} de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el \texttt{access\_token} utilizando el \texttt{refresh\_token} provisto en el \emph{login} inicial. Al hacer esto el usuario recibe un nuevo par de \emph{tokens} de igual manera a como lo hizo en el \emph{login} con sus credenciales.
+
+De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend \textbf{una sola vez} sus credenciales sensibles.
+
+En la figura \ref{fig:scenarios-relogin} podemos ver el flujo que realiza la implementación \emph{web} del entrenador para realizar el refresco de la sesión al recibir un \(401\) por parte del servidor.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-relogin-1.pdf} 
+
+}
+
+\caption{Flujo de relogin}\label{fig:scenarios-relogin}
+\end{figure}
 
 \hypertarget{vista-de-desarrollo}{%
 \subsection{Vista de desarrollo}\label{vista-de-desarrollo}}
@@ -1548,17 +1588,17 @@ La vista de desarrollo ilustra un sistema desde la perspectiva de un programador
 Esta vista también se conoce como la vista de implementación.
 \end{quote}
 
-\hypertarget{web-1}{%
-\subsubsection{Web}\label{web-1}}
+\hypertarget{cliente-web-1}{%
+\subsubsection{Cliente web}\label{cliente-web-1}}
 
 La página \emph{web} que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de \emph{Single Page Application} que nos permitió generar un \emph{bundle} que puede ser hosteado en \emph{CDNs} y nos permite tener ciclos de release independientes al los del servicio.
 
-Poder separar las releases de la \emph{web} y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el \emph{API REST} y una baja por cambios a la interfaz de la \emph{web} no afecta la disponibilidad del servicio.
+Poder separar las \emph{releases} de la \emph{web} y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el \emph{API REST} y una baja por cambios a la interfaz de la \emph{web} no afecta la disponibilidad del servicio.
 
 \hypertarget{tecnologuxedas}{%
 \paragraph{Tecnologías}\label{tecnologuxedas}}
 
-Para la implementación utilizamos el lenguaje de programación llamado \textbf{Typescript}, lenguaje desarrollado por \emph{Microsoft} que compila a \emph{JavaScript} con el agregado de \emph{Tipos} que permiten producir código de mayor calidad debido al agregado de la posibilidad del chequeo estático de código para validar su correctitud.
+Para la implementación utilizamos el lenguaje de programación llamado \textbf{Typescript} (``Typescript,'' \protect\hyperlink{ref-typescript}{2019}), lenguaje desarrollado por \emph{Microsoft} que compila a \emph{JavaScript} con el agregado de \emph{Tipos} que permiten producir código de mayor calidad debido al agregado de la posibilidad del chequeo estático de código para validar su correctitud.
 
 Una vez definido el lenguaje, optamos por utilizar la librería llamada \textbf{ReactJS} (Facebook, \protect\hyperlink{ref-react}{2019}) desarrollada por \emph{Facebook} para implementar la interfaz.
 
@@ -1588,7 +1628,7 @@ Debido a que el servicio implementado expone una definiciión de \emph{OpenAPI},
 \hypertarget{arquitectura}{%
 \paragraph{Arquitectura}\label{arquitectura}}
 
-El código en la \emph{web} se encuentra separado por rasgos, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura \ref{fig:developer-web-modules}).
+El código en la \emph{web} se encuentra separado por funcionalidad, ya sean de utilidad, como modelos o funciones, o de funcionalidad, como la vista de la pantalla de inicio (Figura \ref{fig:developer-web-modules}).
 
 \begin{figure}[H]
 
@@ -1601,14 +1641,14 @@ El código en la \emph{web} se encuentra separado por rasgos, ya sean de utilida
 
 Los módulos marcados en azul son relacionados al contenido que se muestra cada ruta del sistema.
 
-Los módulos marcados en rojos son de utilidad, ya sea por que contienen todo el código relevante a la comunicación con el \emph{API REST} o a componentes utilizados en varias áreas de los módulos azules.
+Los módulos marcados en rojo son de utilidad, ya sea por que contienen todo el código relevante a la comunicación con el \emph{API REST} o a componentes utilizados en varias áreas de los módulos azules.
 
 \hypertarget{sesiuxf3n}{%
 \paragraph{Sesión}\label{sesiuxf3n}}
 
 El servicio \emph{web} ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el \emph{local storage} del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.
 
-Si en algún momento en el futuro el \emph{API} nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código HTTP 401) y el token de refrescado dejó de ser válido, las credenciales se borran del \emph{local storage} y redirigimos al cliente a la pantalla de inicio.
+Si en algún momento en el futuro el \emph{API} nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código \texttt{HTTP\ 401}) y el \emph{token} de refrescado dejó de ser válido, las credenciales se borran del \emph{local storage} y redirigimos al cliente a la pantalla de inicio.
 
 Ofrecemos también la posibilidad de no guardar la sesión, lo cual hará que una vez cerrada la pestaña, el usuario deba volver a ingresar al sistema para poder acceder a los distintos servicios.
 
@@ -1633,7 +1673,7 @@ Como base del proyecto utilizamos un \emph{microframework} de aplicaciones \emph
 \hypertarget{flask-smorest}{%
 \subparagraph{\texorpdfstring{\emph{flask-smorest}}{flask-smorest}}\label{flask-smorest}}
 
-\emph{Framework} que enriquece a \emph{Flask} agregando la posibilidad de poder crear \emph{APIs REST} que se auto-documentan generando una especificación de \emph{OpenAPI} que es expuesta a los usuarios del servicio en dos variantes: \emph{ReDoc} y \emph{Swagger UI}. Tener un \emph{API} que se auto-documenta nos permite ofrecerle a los clientes un lugar en el cual puedan consultar el funcionamiento completo de el servicio requiriendo poco trabajo extra a la hora de desarrollar el servicio.
+\emph{Framework} que enriquece a \emph{Flask} agregando la posibilidad de poder crear \emph{APIs REST} generando una especificación de \emph{OpenAPI} que es expuesta a los usuarios del servicio en dos variantes de documentación: \emph{ReDoc} y \emph{Swagger UI}. Tener un \emph{API} que se auto-documenta nos permite ofrecerle a los clientes un lugar en el cual puedan consultar el funcionamiento completo de el servicio requiriendo poco trabajo extra a la hora de desarrollar el servicio.
 
 A su vez, provee facilidades de serialización y de-serialización de objetos en respuestas \emph{JSON} utilizando la librería de \emph{marshmallow} así como también utilizades para simplificar la creación de \emph{endpoints} que permitan paginar sus resultados (particularmente útil para listar entidades como entrenamientos, usuarios o textos).
 
@@ -1651,6 +1691,84 @@ A su vez, provee facilidades de serialización y de-serialización de objetos en
 \subparagraph{\texorpdfstring{\emph{marshmallow-mongoengine}}{marshmallow-mongoengine}}\label{marshmallow-mongoengine}}
 
 Librería que nos permite integrar la librería de serialización \emph{Marshmallow} con \emph{Mongoengine} simplificando el manejo de objetos entre la base de datos y los objetos que se serializan o deserializan en la capa del \emph{API}. Es de especial utilidad la posibilidad de excluir campos a serializar ya que permite retornar únicamente lo que es de interés para el usuario, como por ejemplo sucede al retornar un objeto \emph{User} ya nunca deberíamos devolver en una respuesta el campo \emph{password} de la base de datos.
+
+\hypertarget{worker-1}{%
+\subsubsection{Worker}\label{worker-1}}
+
+El proceso de \emph{worker} fue implementado en \emph{Python} utilizando la librería \emph{Celery}.
+
+Por diseño, los \emph{workers} siempre tienen un modelo de inferencia cargado en memoria, por lo que cuando se crea uno nuevo se le asigna por defecto el \emph{snapshot} actual (\texttt{snapshot\_id\ =\ 0}) para poder ayudar a distribuir la carga de los pedidos al \emph{API}.
+
+Debido a que requieren de un \emph{snapshot} para poder realizar la tarea de \emph{NER} así como también requieren del \emph{corpus} etiquetado para poder entrenar el modelo, cada \emph{worker} debe tener acceso a la base de datos principal de \emph{NERd} (Figura \ref{fig:process-overview-client}).
+
+Cada \emph{worker} puede realizar las siguientes tareas:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{train}: Entrenar el modelo de inferencia de \emph{spaCy} utilizando el \emph{snapshot} para el cual fue configurado.
+\item
+  \textbf{un\_train}: Borra el modelo guardado en el disco, efectivamente \enquote{des-entrenandose}. Principalmente utilizado para liberar recursos.
+\item
+  \textbf{reload}: Recarga el modelo de inferencia desde el disco. Utilizado cuando algún \emph{worker} entrenó el modelo y el actual quedó desactualizado.
+\item
+  \textbf{nlp}: Realiza la tarea de \emph{NER} utilizando el modelo cargado.
+\item
+  \textbf{change\_snapshot}: Cambia el \emph{snapshot} utilizado en el \emph{worker}.
+\end{itemize}
+
+\hypertarget{task-scheduler-1}{%
+\subsubsection{\texorpdfstring{\emph{Task Scheduler}}{Task Scheduler}}\label{task-scheduler-1}}
+
+El \emph{task scheduler} que utilizamos en el \emph{API} para poder orquestar todas las tareas relacionadas con \emph{NER} así como también la de la administración de los \emph{workers} es \emph{Celery} (``Celery,'' \protect\hyperlink{ref-celery}{2019}). \emph{Celery} es una cola de tareas asincrónica especializada en procesamiento distribuido.
+Si bien soporta distintos \emph{backends} para la funcionalidad de cola de mensajes, decidimos utilizar \emph{RabbitMQ} (``RabbitMQ,'' \protect\hyperlink{ref-rabbitmq}{2019}) debido a su robustez y la posibilidad de escalar horizontalmente.
+
+Para el monitoreo de las tareas de \emph{Celery} utilizamos la herramienta llamada \emph{Flower} (Movsisyan, \protect\hyperlink{ref-flower}{2016}), que permite consultar el estado de cada worker (Figura \ref{fig:developer-flower-dashboard}), historial de tareas (Figura \ref{fig:developer-flower-task-history}) así como también estadísticas en tiempo real sobre el sistema (Figura \ref{fig:developer-flower-monitoring}) y detalles de todos los \emph{workers} que están conectados a la cola de mensajes (Figura \ref{fig:developer-flower-monitoring}).
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/flower-dashboard.png} 
+
+}
+
+\caption{Página principal de Flower.}\label{fig:developer-flower-dashboard}
+\end{figure}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/flower-task-history.png} 
+
+}
+
+\caption{Historial de tareas en Flower.}\label{fig:developer-flower-task-history}
+\end{figure}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/flower-monitoring.png} 
+
+}
+
+\caption{Monitoreo en tiempo real en Flower.}\label{fig:developer-flower-monitoring}
+\end{figure}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/flower-broker.pdf} 
+
+}
+
+\caption{Listado de colas activas en Flower.}\label{fig:developer-flower-broker}
+\end{figure}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/developer/flower-worker-queues.png} 
+
+}
+
+\caption{Colas de mensaje escuchadas por un worker.}\label{fig:developer-flower-worker-queues}
+\end{figure}
 
 \hypertarget{MongoDBDev}{%
 \subsubsection{Base de Datos}\label{MongoDBDev}}
@@ -1704,7 +1822,7 @@ La colección \emph{text} contiene todos los textos que forman parte del corpus 
 \hypertarget{snapshot}{%
 \subparagraph{\texorpdfstring{\emph{Snapshot}}{Snapshot}}\label{snapshot}}
 
-La colección \emph{snapshot} contiene información sobre los distintos \emph{snapshots} creados en el sistema (Figura \ref{fig:developer-db-snapshot}). De particular interés es el atributo \emph{types}, que contiene un mapa de todos los tipos de entidades disponibles en el snapshot. También contiene el atributo \emph{semaphore}, que sirve como un campo de control para poder organizar a los \emph{workers} que están utilizando ese \emph{snapshot} en particular.
+La colección \emph{snapshot} contiene información sobre los distintos \emph{snapshots} creados en el sistema (Figura \ref{fig:developer-db-snapshot}). De particular interés es el atributo \emph{types}, que contiene un mapa de todos los tipos de entidades disponibles en el \emph{snapshot}. También contiene el atributo \emph{semaphore}, que sirve como un campo de control para poder organizar a los \emph{workers} que están utilizando ese \emph{snapshot} en particular.
 
 \begin{figure}[H]
 
@@ -1720,7 +1838,7 @@ La colección \emph{snapshot} contiene información sobre los distintos \emph{sn
 
 La colección \emph{training} contiene información sobre todos los entrenamientos cargados en el sistema (Figura \ref{fig:developer-db-training}). Cada entrenamiento contiene referencia al texto al que pertenece así como también al usuario que lo creó. De manera tal de poder obtener la información de los documentos relacionados sin necesidad de duplicar información.
 
-Dentro de un documento training, se encuentra el atributo \emph{document}, que es el que internamente contiene la representación de un documento de entrenamiento que es entendido por \emph{spaCy} y que luego será utilizado para entrenar el modelo de inferencia.
+Dentro de un documento \emph{training}, se encuentra el atributo \emph{document}, que es el que internamente contiene la representación de un documento de entrenamiento que es entendido por \emph{spaCy} y que luego será utilizado para entrenar el modelo de inferencia.
 
 \begin{figure}[H]
 
@@ -1731,83 +1849,6 @@ Dentro de un documento training, se encuentra el atributo \emph{document}, que e
 \caption{Colección de entrenamientos.}\label{fig:developer-db-training}
 \end{figure}
 
-\hypertarget{task-scheduler-1}{%
-\subsubsection{\texorpdfstring{\emph{Task Scheduler}}{Task Scheduler}}\label{task-scheduler-1}}
-
-El \emph{task scheduler} que utilizamos en el \emph{API} para poder orquestrar todas las tareas relacionadas con \emph{NER} así como también la de la administración de los \emph{workers} es \emph{Celery} (``Celery,'' \protect\hyperlink{ref-celery}{2019}). \emph{Celery} es una cola de tareas asincrónica especializada en el procesamiento distribuido de las mismas. Si bien soporta distintos \emph{backends} para la funcionalidad de cola de mensajes, decidimos utilizar \emph{RabbitMQ} (``RabbitMQ,'' \protect\hyperlink{ref-rabbitmq}{2019}) debido a su buena integración con \emph{Celery} así como también por su robustez y posibilidad de escalar horizontalmente.
-
-Para el monitoreo de las tareas de \emph{Celery} utilizamos la herramienta llamada \emph{Flower} (Movsisyan, \protect\hyperlink{ref-flower}{2016}), que permite cosas como el estado de cada worker (Figura \ref{fig:developer-flower-dashboard}), historial de tareas (Figura \ref{fig:developer-flower-task-history}) así como también estadísticas en tiempo real sobre el sistema (Figura \ref{fig:developer-flower-monitoring}) y detalles de todos los trabajadores que están conectados a la cola de mensajes (Figura \ref{fig:developer-flower-monitoring}).
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/developer/flower-dashboard.png} 
-
-}
-
-\caption{Página principal de Flower.}\label{fig:developer-flower-dashboard}
-\end{figure}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/developer/flower-task-history.png} 
-
-}
-
-\caption{Historial de tareas en Flower.}\label{fig:developer-flower-task-history}
-\end{figure}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/developer/flower-monitoring.png} 
-
-}
-
-\caption{Monitoreo en tiempo real en Flower.}\label{fig:developer-flower-monitoring}
-\end{figure}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/developer/flower-broker.pdf} 
-
-}
-
-\caption{Listado de colas activas en Flower.}\label{fig:developer-flower-broker}
-\end{figure}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/developer/flower-worker-queues.png} 
-
-}
-
-\caption{Colas de mensaje escuchadas por un worker.}\label{fig:developer-flower-worker-queues}
-\end{figure}
-
-\hypertarget{worker-1}{%
-\subsubsection{Worker}\label{worker-1}}
-
-El proceso de \emph{worker} fue implementado en \emph{Python} utilizando la librería \emph{Celery}.
-
-Deben tener por diseño siempre un modelo de inferencia de \emph{spaCy} cargado en memoria, por lo que cuando se crea uno nuevo, se le asigna por defecto el \emph{snapshot} actual (\texttt{snapshot\_id\ =\ 0}) para poder ayudar a distribuir la carga de los pedidos al \emph{API}.
-
-Debido a que requieren de un \emph{snapshot} para poder realizar la tarea de \emph{NER} así como también requieren del \emph{corpus} etiquetado para poder entrenar el modelo, cada \emph{worker} debe tener acceso a la base de datos principal de \emph{NERd} (Figura \ref{fig:process-overview-client}).
-
-Cada \emph{worker} puede realizar las siguientes tareas:
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{train}: Entrenar el modelo de inferencia de \emph{spaCy} utilizando el snapshot para el cual fue configurado.
-\item
-  \textbf{un\_train}: Borra el modelo guardado en el disco, efectivamente \enquote{des-entrenandose}. Principalmente utilizado para liberar recursos.
-\item
-  \textbf{reload}: Recarga el modelo de inferencia desde el disco. Utilizado cuando algún worker entrenó el modelo y el actual quedó desactualizado.
-\item
-  \textbf{nlp}: Realiza la tarea de \emph{NER} utilizando el modelo cargado.
-\item
-  \textbf{change\_snapshot}: Cambia el \emph{snapshot} utilizado en el worker.
-\end{itemize}
-
 \hypertarget{vista-fuxedsica}{%
 \subsection{Vista física}\label{vista-fuxedsica}}
 
@@ -1816,8 +1857,6 @@ La vista física representa el sistema desde el punto de vista de un ingeniero d
 Se refiere a la topología de los componentes de software en la capa física, así como a las conexiones físicas entre estos componentes.
 Esta vista también se conoce como la vista de \emph{deployment}.
 \end{quote}
-
-Para la implementación de cada una de las partes de \emph{NERd}, tuvimos como primer objetivo lograr el desarrollo de un proyecto que pudiera escalar horizontalmente desde su concepción, es por ello que separamos cada parte del proyecto para poder lograr una arquitectura que escale naturalmente.
 
 \hypertarget{docker}{%
 \subsubsection{\texorpdfstring{\emph{Docker}}{Docker}}\label{docker}}
@@ -1831,21 +1870,24 @@ La implementación completa de \emph{NERd} está formada por 5 contenedores requ
 \begin{itemize}
 \tightlist
 \item
-  \textbf{app}: Contiene el servicio de \emph{API}.
+  \textbf{ui}: servidor \emph{web} de la página de administración y entrenamiento.
 \item
-  \textbf{mongodb}: Contiene la base de datos.
+  \textbf{app}: servidor de aplicaciones web de la \emph{API}.
 \item
-  \textbf{rabbitmq}: Contiene la cola de mensajes.
+  \textbf{worker}: servicio de \emph{NER}. (escalable)
 \item
-  \textbf{ui}: Contiene la página \emph{web} de administración y entrenamiento.
+  \textbf{rabbitmq}: cola de mensajes.
 \item
-  \textbf{worker}: Contiene a uno o más \emph{workers}.
+  \textbf{flower}: servicio de monitoreo de \emph{RabbitMQ} (opcional).
 \item
-  \textbf{flower}: Contiene el servicio de monitoreo de \emph{Flower} (Opcional).
+  \textbf{mongodb}: base de datos.
 \end{itemize}
 
-\hypertarget{deployment-docker-images}{%
-\subsubsection{\texorpdfstring{Deployment: \emph{Docker images}}{Deployment: Docker images}}\label{deployment-docker-images}}
+\hypertarget{deployment}{%
+\subsubsection{Deployment}\label{deployment}}
+
+\hypertarget{docker-images}{%
+\paragraph{\texorpdfstring{\emph{Docker images}}{Docker images}}\label{docker-images}}
 
 Para realizar un \emph{deployment} de nuevas versiones de cada contenedor de docker, existen comandos dentro del archivo \texttt{Makefile}:
 
@@ -1856,12 +1898,17 @@ Para realizar un \emph{deployment} de nuevas versiones de cada contenedor de doc
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{deployment-service}{%
-\subsubsection{Deployment: Service}\label{deployment-service}}
+Las imágenes base que utilizamos en todos los servicios son mantenidas por \emph{Bitnami} (``Bitnami,'' \protect\hyperlink{ref-bitnami}{2019}). Tomamos esta decisión para:
+1. Reducir el tamaño de las imágenes al reutilizar la capa de sistema operativo entre todas ellas.
+2. Se actualizan automáticamente con todos los parches de seguridad de las plataformas elegidas.
+3. Están implementadas siguiendo las mejores prácticas acerca del no uso de \emph{root} en containers.
 
-Para poder crear un entorno completo de \emph{NERd}, utilizamos una herramienta incluída en \emph{Docker} llamada \emph{Docker Compose} (``Docker compose,'' \protect\hyperlink{ref-dockercompose}{2019}), con la cual definimos cada uno de los servicios y las conexiones de red y disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \ref{fig:physical-overview} funcionen correctamente.
+\hypertarget{service}{%
+\paragraph{\texorpdfstring{\emph{Service}}{Service}}\label{service}}
 
-A su vez, dentro de un archivo \emph{Makefile} del proyecto definimos un conjunto de comandos que sirven para levantar un entorno de desarrollo de \emph{NERd}.
+Para poder crear un entorno completo de \emph{NERd}, utilizamos la herramienta llamada \texttt{docker-compose} (``Docker compose,'' \protect\hyperlink{ref-dockercompose}{2019}), con la cual definimos cada uno de los servicios, las conexiones de red y los volúmenes de disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \ref{fig:physical-overview} funcionen correctamente.
+
+A su vez, dentro de un archivo \emph{Makefile} del proyecto definimos un conjunto de comandos que sirven para crear un entorno de desarrollo de \emph{NERd}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1872,9 +1919,9 @@ A su vez, dentro de un archivo \emph{Makefile} del proyecto definimos un conjunt
 \end{Highlighting}
 \end{Shaded}
 
-Para realizar un deploy de la aplicación en un entorno productivo utilizaremos de ejemplo utilizando el servidor provisto por el \emph{ITBA}.
+Para realizar un \emph{deploy} de la aplicación en un entorno productivo utilizaremos de ejemplo utilizando el servidor provisto por el \emph{ITBA}.
 
-Primero es necesario contar con una configuración de SSH la cual defina el \emph{host} \emph{pf-nerd}:
+Primero es necesario contar con una configuración de \emph{SSH} que defina el \emph{host} \emph{pf-nerd}:
 
 \begin{verbatim}
 Host pampero
@@ -1891,7 +1938,7 @@ Host pf-nerd
     ControlPersist 600
 \end{verbatim}
 
-Con esa configuración en el archivo \texttt{\textasciitilde{}/.ssh/config} podemos ejecutar el comando para realizar el setup de una instancia con las configuraciones de producción.
+Con esa configuración en el archivo \texttt{\textasciitilde{}/.ssh/config} podemos ejecutar el comando para realizar el \emph{setup} de una instancia con las configuraciones de producción.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1899,26 +1946,39 @@ Con esa configuración en el archivo \texttt{\textasciitilde{}/.ssh/config} pode
 \end{Highlighting}
 \end{Shaded}
 
-Ese comando puede ser utilizado también para
+\hypertarget{servicios}{%
+\subsubsection{Servicios}\label{servicios}}
 
-\hypertarget{escalamiento-horizontal}{%
-\subsubsection{Escalamiento horizontal}\label{escalamiento-horizontal}}
+\hypertarget{cliente-web-2}{%
+\paragraph{\texorpdfstring{Cliente \emph{web}}{Cliente web}}\label{cliente-web-2}}
 
-En la figura \ref{fig:physical-overview} podemos ver a los 5 contenedores principales de \emph{NERd}. Cada uno de ellos fue pensado para que con cambios tanto a sus configuraciones puedan existir varias instancias de cada uno.
+Dentro del \emph{container} \texttt{ui}, incluimos \emph{nginx} (``Nginx,'' \protect\hyperlink{ref-nginx}{2019}) como servidor \emph{web} de la plataforma. El mismo tiene dos responsabilidades:
 
-\begin{figure}[H]
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Servir el contenido estático de la \emph{SPA}.
+\item
+  Redirigir los \emph{requests} de las urls que comienzan con \texttt{/api/} al container de \emph{API}.
+\end{enumerate}
 
-{\centering \includegraphics{assets/physical/overview.pdf} 
-
-}
-
-\caption{Interacción de servicios.}\label{fig:physical-overview}
-\end{figure}
-
-\hypertarget{nerd-cluster}{%
-\paragraph{\texorpdfstring{\emph{NERd cluster}}{NERd cluster}}\label{nerd-cluster}}
+\hypertarget{api-3}{%
+\paragraph{\texorpdfstring{\emph{API}}{API}}\label{api-3}}
 
 Debido a que el \emph{API} consume sus datos de \emph{MongoDB} así como también requiere de una conexión mediante \emph{Celery} a \emph{RabbitMQ} para poder realizar las tareas de \emph{NER}, es posible tener varias instancias del mismo de manera tal que cada una se conecte al cluster de los dos servicios. Es posible mediante el uso de un \emph{Load Balancer} generar un cluster de servicios de \emph{API}.
+
+\hypertarget{worker-2}{%
+\paragraph{\texorpdfstring{\emph{Worker}}{Worker}}\label{worker-2}}
+
+Dado que cada \emph{worker} está implementado como un \emph{Celery worker}, mientras la configuración del mismo sea correcta, al levantar nuevos containers será posible escalarlo horizontalmente. Incluído en el repositorio de \emph{NERd} está un comando de \emph{Makefile} que permite escalar el servicio worker:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{make}\NormalTok{ scale-up }\CommentTok{# Crea un nuevo worker localmente}
+\FunctionTok{make}\NormalTok{ scale-down }\CommentTok{# Destruye un worker localmente}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{rabbitmq-cluster}{%
 \paragraph{\texorpdfstring{\emph{RabbitMQ cluster}}{RabbitMQ cluster}}\label{rabbitmq-cluster}}
@@ -1930,18 +1990,6 @@ Debido a que el \emph{API} consume sus datos de \emph{MongoDB} así como tambié
 
 Al igual que \emph{RabbitMQ}, \emph{MongoDB} fue diseñado para escalar horizontalmente (ver \protect\hyperlink{MongoDBDev}{Base de datos}), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.
 
-\hypertarget{worker-cluster}{%
-\paragraph{\texorpdfstring{\emph{Worker cluster}}{Worker cluster}}\label{worker-cluster}}
-
-Dado que cada \emph{worker} está implementado como un \emph{Celery worker}, mientras la configuración del mismo sea correcta, al levantar nuevos containers será posible escalarlo horizontalmente. Incluído en el repositorio de \emph{NERd} está un comando de \emph{Makefile} que permite escalar el servicio worker:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{make}\NormalTok{ scale-up }\CommentTok{# Crea un nuevo worker localmente}
-\FunctionTok{make}\NormalTok{ scale-down }\CommentTok{# Destruye un worker localmente}
-\end{Highlighting}
-\end{Shaded}
-
 \hypertarget{escenarios}{%
 \subsection{Escenarios}\label{escenarios}}
 
@@ -1952,22 +2000,6 @@ Se utilizan para identificar elementos arquitectónicos y para ilustrar y valida
 También sirven como punto de partida para las pruebas de un prototipo de arquitectura.
 Esta vista también se conoce como vista de caso de uso.
 \end{quote}
-
-\hypertarget{web-relogin}{%
-\subsubsection{\texorpdfstring{\emph{Web}: \emph{relogin}}{Web: relogin}}\label{web-relogin}}
-
-Debido a como está diseñado \emph{JWT}, se espera que los tokens de acceso sean válidos por un tiempo acotado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el \emph{token} de acceso utilizando el \emph{token} de \emph{refresh}.
-
-Si el cliente tiene un \emph{token} de \emph{refresh}, en la figura \ref{fig:scenarios-relogin} podemos ver el flujo que realiza la implementación \emph{web} del entrenador para realizar el refresco de la sesión. Al recibir un \(401\) por parte del servidor, el SDK realiza un
-
-\begin{figure}[H]
-
-{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-relogin-1.pdf} 
-
-}
-
-\caption{Flujo de relogin}\label{fig:scenarios-relogin}
-\end{figure}
 
 \hypertarget{inferencia-de-entidades-utilizando-el-api}{%
 \subsubsection{Inferencia de entidades utilizando el API}\label{inferencia-de-entidades-utilizando-el-api}}
@@ -2017,29 +2049,10 @@ El proceso de la inferencia es el mismo que el mostrado en la figura \ref{fig:sc
 \caption{Pedido de texto para entrenamiento.}\label{fig:scenarios-web-train}
 \end{figure}
 
-\hypertarget{worker-entrenamiento-y-carga-del-modelo-de-spacy}{%
-\subsubsection{\texorpdfstring{\emph{Worker}: Entrenamiento y carga del modelo de spaCy}{Worker: Entrenamiento y carga del modelo de spaCy}}\label{worker-entrenamiento-y-carga-del-modelo-de-spacy}}
+\hypertarget{habilitar-snapshots}{%
+\subsubsection{Habilitar snapshots}\label{habilitar-snapshots}}
 
-Dado que pueden haber varios \emph{workers} utilizando el mismo modelo de \emph{spaCy}, es de vital importancia que si existe al menos un \emph{worker} leyendo un modelo desde el disco y otro worker quiere entrenar ese modelo, que no pueda hasta que el resto haya terminado de leerlo.
-Ésto se debe a que si el \emph{worker} que está entrenando el modelo sobreescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del \emph{worker} de lectura. Como no hay ninguna limitación en la lectura, más de un \emph{worker} puede leer en simultáneo.
-
-Para realizar ese control de concurrencia utilizamos el campo \texttt{semaphore} del modelo de \emph{snapshot} guardado en la base de datos (Figura \ref{fig:developer-db-snapshot}) el cual usualmente se encuentra en \(0\). El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.
-
-En la figura \ref{fig:scenarios-worker-train} podemos ver un escenario en el que tanto \emph{Worker 2} y \emph{Worker 3} pueden leer en simultáneo el modelo pero \emph{Worker 1} debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.
-
-\begin{figure}[H]
-
-{\centering \includegraphics{nerd-pf_files/figure-latex/scenarios-worker-train-1.pdf} 
-
-}
-
-\caption{Bloqueo de entrenamiento por lectura.}\label{fig:scenarios-worker-train}
-\end{figure}
-
-\hypertarget{worker-cambio-de-snapshot}{%
-\subsubsection{\texorpdfstring{\emph{Worker}: cambio de snapshot}{Worker: cambio de snapshot}}\label{worker-cambio-de-snapshot}}
-
-Como podemos ver en la figura \ref{fig:scenarios-worker-snapshot-change}, ante una tarea de reasignación de snapshot, el \emph{worker} se desuscribe de la cola de mensajes del \emph{snapshot} que está escuchando actualmente y se suscribe a la cola de mensajes del \emph{snapshot} al que se lo quiere cambiar. Luego, se recarga el modelo.
+Cuando un usuario necesita comparar dos snapshots, precisa tener al menos un \emph{worker} de cada versión levantado. En la figura \ref{fig:scenarios-worker-snapshot-change}, ante una tarea de reasignación de snapshot, el \emph{worker} se desuscribe de la cola de mensajes del \emph{snapshot} que está escuchando actualmente y se suscribe a la cola de mensajes del \emph{snapshot} al que se lo quiere cambiar. Luego, se recarga el modelo.
 
 \begin{figure}[H]
 
@@ -2316,11 +2329,15 @@ Por tal motivo recibimos el primer premio de dicha hackaton (``Mención itba,'' 
 \hypertarget{conclusiones}{%
 \section{Conclusiones}\label{conclusiones}}
 
-Utilizando \emph{spaCy} para la inferencia de entidades pudimos alcanzar un \(\text{valor-F}\) aceptable con 4000 documentos anotados. Por lo que recomendamos a las personas que quieran entrenar un modelo que realice \emph{NER} que, previo al uso del modelo de inferencia, realizar la etapa de entrenamiento con al menos esa cantidad documentos para alcanzar los 80 puntos de \(\text{valor-F}\).
+Utilizando \emph{spaCy} para la inferencia de entidades pudimos alcanzar una exactitud aceptable de 80 puntos de \(\text{valor-F}\) con 4000 documentos etiquetados.
 
-Mediante la implementación del proyecto \emph{NERd} pudimos realizar un sistema que permite tener un servicio que permita a cada comunidad generar modelos específicos para sus necesidades. A su vez, la implementación específica permite al proyecto escalar horizontalmente para poder servir tantos pedidos de \emph{NER} como sean necesarios sin sacrificar \emph{performance}.
+Recomendamos a quienes quieran entrenar un modelo \emph{NER} que realicen una etapa inicial de etiquetado con al menos la cantidad mencionada de textos. De esta manera las inferencias del modelo serán más exactas a la hora de realizar futuros entrenamientos. Además los entrenadores tendrán la experiencia para definir qué tipos de entidades serán necesarias para etiquetar el corpus provisto.
 
-Debido a que el proyecto es \emph{Open Source}, a futuro podrá ser beneficiado por aportes de la comunidad para incorporar funcionalidades nuevas, tales como la incorporación de técnicas de \emph{Named Entity Linking} para obtener mejores resultados en la detección de entidades nombradas.
+Gracias a la implementación del proyecto \emph{NERd} pudimos ofrecer un sistema que permita a cada comunidad generar modelos específicos para sus necesidades. A su vez, la implementación específica permite escalar al proyecto horizontalmente para poder servir tantos pedidos de \emph{NER} como sean necesarios sin sacrificar \emph{performance}.
+
+El proyecto posee un \emph{roadmap} atractivo para convertirse en una herramienta comercialmente viable y ser mejorada a futuro. La utilidad del mismo ha sido convalidada por expertos de la industria en la \texttt{MediaParty} donde fue premiada.
+
+Creemos que ofrecer el proyecto como una herramienta de código libre, permitirá que la comunidad de \emph{NLP} posea una poderosa herramienta para mejorar el estado del arte en cuanto a \emph{corpus} tagueados existentes.
 
 \newpage
 
@@ -2756,17 +2773,21 @@ Abreviación & Término\\
 \midrule
 API & Application Programming Interface\\
 CBU & Clave Bancaria Única\\
+CDN & Content Delivery Network\\
 CNN & Convolutional Neural Network\\
 JWT & JSON Web Token\\
-NEL & Named Entity Linking\\
 \addlinespace
+NEL & Named Entity Linking\\
 NER & Named Entity Recognition\\
 NLP & Natural Language Processing\\
 POS & Part of speech\\
 RB & Rule Based\\
-REST & Representational state transfer\\
 \addlinespace
+REST & Representational state transfer\\
 RNN & Recurrent Neural Network\\
+SPA & Single Page Application\\
+SSH & Secure Shell\\
+WSGI & Web Server Gateway Interface\\
 \bottomrule
 \end{tabular}
 
@@ -2775,6 +2796,9 @@ RNN & Recurrent Neural Network\\
 \addcontentsline{toc}{section}{Referencias}
 
 \hypertarget{refs}{}
+\leavevmode\hypertarget{ref-bitnami}{}%
+Bitnami. (2019). Retrieved November 22, 2019, from \url{https://bitnami.com/}
+
 \leavevmode\hypertarget{ref-brunstein2002}{}%
 Brunstein, A. (2002). Annotation guidelines for answer types. Retrieved from \url{https://catalog.ldc.upenn.edu/docs/LDC2005T33/BBN-Types-Subtypes.html}
 
@@ -2793,6 +2817,9 @@ Docker compose. (2019). Retrieved November 20, 2019, from \url{https://docs.dock
 \leavevmode\hypertarget{ref-cambridge_duh}{}%
 Duh definition. (2019). Retrieved October 14, 2019, from \url{https://dictionary.cambridge.org/es/diccionario/ingles/duh}
 
+\leavevmode\hypertarget{ref-pep-3333}{}%
+Eby, P. (2010). Python web server gateway interface. Retrieved from \url{https://www.python.org/dev/peps/pep-3333/}
+
 \leavevmode\hypertarget{ref-github_machine_learning}{}%
 Elliott, T. (2019). The state of the octoverse: Machine learning. Retrieved January 24, 2019, from \url{https://github.blog/2019-01-24-the-state-of-the-octoverse-machine-learning/}
 
@@ -2807,6 +2834,9 @@ Facebook. (2019). React: A javascript library for building user interfaces. Retr
 
 \leavevmode\hypertarget{ref-flask}{}%
 Flask: Lightweight wsgi web application framework. (2019). Retrieved November 20, 2019, from \url{https://palletsprojects.com/p/flask/}
+
+\leavevmode\hypertarget{ref-oauth2}{}%
+Group, I. O. W. (2017). OAuth 2.0. Retrieved October 1, 2017, from \url{https://oauth.net/2/}
 
 \leavevmode\hypertarget{ref-hackaton2019}{}%
 Hackaton. (2019). Retrieved August 31, 2019, from \url{https://mediaparty.info/}
@@ -2847,6 +2877,9 @@ MongoDB: The database for modern applications. (2019). Retrieved November 20, 20
 \leavevmode\hypertarget{ref-flower}{}%
 Movsisyan, M. (2016). Flower. Retrieved November 20, 2019, from \url{https://flower.readthedocs.io/}
 
+\leavevmode\hypertarget{ref-nginx}{}%
+Nginx. (2019). Retrieved November 22, 2019, from \url{https://www.nginx.com/}
+
 \leavevmode\hypertarget{ref-Nothman2017}{}%
 Nothman, J., Ringland, N., Radford, W., Murphy, T., \& Curran, J. R. (2017). \emph{Learning multilingual named entity recognition from Wikipedia}. \url{https://doi.org/10.6084/m9.figshare.5462500.v1}
 
@@ -2856,11 +2889,17 @@ Parikh, A., Täckström, O., Das, D., \& Uszkoreit, J. (2016). A decomposable at
 \leavevmode\hypertarget{ref-Poibeau2000ProperNE}{}%
 Poibeau, T., \& Kosseim, L. (2000). Proper name extraction from non-journalistic texts. \emph{CLIN}.
 
+\leavevmode\hypertarget{ref-python_gil}{}%
+Python: Thread state and the global interpreter lock. (2019). Retrieved from \url{https://docs.python.org/3/c-api/init.html\#thread-state-and-the-global-interpreter-lock}
+
 \leavevmode\hypertarget{ref-rabbitmq}{}%
 RabbitMQ. (2019). Retrieved November 20, 2019, from \url{https://www.rabbitmq.com/}
 
 \leavevmode\hypertarget{ref-Sekine-NER}{}%
 Sekine, S. (2007). \emph{The definition of sekine's extended named entities}. Retrieved from \url{https://nlp.cs.nyu.edu/ene/version7_1_0Beng.html}
+
+\leavevmode\hypertarget{ref-typescript}{}%
+Typescript. (2019). Retrieved November 22, 2019, from \url{https://www.typescriptlang.org/}
 
 \leavevmode\hypertarget{ref-wikidata_messi}{}%
 Wikidata - lionel messi. (2019). Retrieved November 19, 2019, from \url{https://www.wikidata.org/wiki/Q615}
