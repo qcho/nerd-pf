@@ -3,7 +3,6 @@
 
 Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de etiquetado de entidades.
 Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.
-El nombre de esta herramienta es **NERd**, sigla cuyo significado en inglés es _**N**amed **E**ntity **R**ecognition **D**uh_^[Expresión de obviedad. _Used to express your belief that what was said was extremely obvious_ [@cambridge_duh]]!
 
 Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura \@ref(fig:arq41)).
 
@@ -144,7 +143,7 @@ Cuando se crea un _snapshot_ se incrementa la última versión disponible en uno
 Sección en la cual podemos ver la lista completa de _snapshots_.
 Para cada _snapshot_, se muestra cuando fue la última vez que se entrenó así como también cuantos trabajadores tiene asignados. Finalmente es posible desde aquí forzar a entrenar el modelo para ese snapshot en particular y también se presenta la opción para desentrenar, borrando el modelo guardado en el disco.
 
-Cuando el sistema entrena un _snapshot_ se tendrá en cuenta todos los textos que hayan sido etiquetados previamente a la creación del mismo.
+Cuando el sistema entrena un _snapshot_ se tendrá en cuenta todos los textos que hayan sido anotados previamente a la creación del mismo.
 
 ###### Reasignar _worker_
 
@@ -438,7 +437,7 @@ end
    w->>+m: Decrementar semáforo para vXX;
    m-->>-w: Éxito;
    w->>+m: Pedir textos etoquetados para vXX;
-   m-->>-w: Textos etiquetados;
+   m-->>-w: Textos anotados;
    w->>w: Entrenar;
    w->>+m: Actualizar fecha de entrenamiento;
    m-->>-w: Éxito;
@@ -592,7 +591,7 @@ El proceso de _worker_ fue implementado en _Python_ utilizando la librería _Cel
 
 Por diseño, los _workers_ siempre tienen un modelo de inferencia cargado en memoria, por lo que cuando se crea uno nuevo se le asigna por defecto el _snapshot_ actual (`snapshot_id = 0`) para poder ayudar a distribuir la carga de los pedidos al _API_.
 
-Debido a que requieren de un _snapshot_ para poder realizar la tarea de _NER_ así como también requieren del _corpus_ etiquetado para poder entrenar el modelo, cada _worker_ debe tener acceso a la base de datos principal de _NERd_ (Figura \@ref(fig:process-overview-client)).
+Debido a que requieren de un _snapshot_ para poder realizar la tarea de _NER_ así como también requieren del _corpus_ anotado para poder entrenar el modelo, cada _worker_ debe tener acceso a la base de datos principal de _NERd_ (Figura \@ref(fig:process-overview-client)).
 
 Cada _worker_ puede realizar las siguientes tareas:
 

@@ -88,7 +88,7 @@ knitr::include_graphics('assets/deep-learning-formula-nlp_embed.svg')
 
 Es importante destacar que en la etapa de _embed_, toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razón es facilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras están relacionadas entre sí de manera eficiente y no supervisada).
 
-Esto permite al modelo poder inferir significado a partir de la información no etiquetada dentro del problema en particular a resolver (el de _NER_).
+Esto permite al modelo poder inferir significado a partir de la información no anotada dentro del problema en particular a resolver (el de _NER_).
 
 Una tabla de _word-embeddings_ mapea vectores largos binarios y esparsos en vectores cortos densos y continuos, cargados de significado relevante. Existen varias estrategias para enriquecer los _tokens_ con información adicional. Las dos fuentes más grandes de información embebida son las de **información lingüística** y los **_word-vectors_**.
 

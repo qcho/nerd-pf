@@ -43,9 +43,9 @@ Haciendo un análisis de dicha taxonomía encontramos que nuestro _corpus_ puede
 
 ## Semilla inicial
 
-Nuestro sistema ofrece al usuario una forma sencilla y ágil de entrenar modelos estadísticos y sumar nuevos tipos de entidad. Sin embargo, entrenar un nuevo tipo de entidad suele ser una tarea inicialmente lenta y difícil dado que se necesita un número mínimo de etiquetas para que la nueva entidad empiece a tener relevancia dentro del modelo y sea inferida.
+Nuestro sistema ofrece al usuario una forma sencilla y ágil de entrenar modelos estadísticos y sumar nuevos tipos de entidad. Sin embargo, entrenar un nuevo tipo de entidad suele ser una tarea inicialmente lenta y difícil dado que se necesita un número mínimo de anotaciones para que la nueva entidad empiece a tener relevancia dentro del modelo y sea inferida.
 
-Por ejemplo, suponga se quiere agregar el nuevo tipo de entidad "Droga" al modelo. Podemos estar horas etiquetando entidades hasta cruzarnos con la primera instancia de "marihuana" y luego varias etiquetas más hasta cruzarnos con "cocaína". Además, como el sistema no conoce previamente el significado abstracto de "Droga" dichas _keywords_ no van a ser identificadas previamente por el etiquetador.
+Por ejemplo, suponga se quiere agregar el nuevo tipo de entidad "Droga" al modelo. Podemos estar horas etiquetando entidades hasta cruzarnos con la primera instancia de "marihuana" y luego varias anotaciones más hasta cruzarnos con "cocaína". Además, como el sistema no conoce previamente el significado abstracto de "Droga" dichas _keywords_ no van a ser identificadas previamente por el anotador
 
 Una posible solución para evitar esta "curva de aprendizaje" es la de permitir al usuario definir una "semilla" de palabras clave (o _keywords_) a la hora de definir un tipo nuevo:
 
