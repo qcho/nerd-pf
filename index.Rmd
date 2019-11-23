@@ -1,5 +1,5 @@
 --- 
-title: Creación eficiente de modelos estadísticos para detección automática y precisa de entidades nombradas
+title: Creación eficiente de modelos estadísticos para la detección de entidades nombradas
 subtitle: Instituto Tecnológico de Buenos Aires
 author:
   - Horacio Miguel Gómez $(L:50825)$
