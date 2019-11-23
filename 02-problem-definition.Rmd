@@ -58,7 +58,6 @@ La segunda fase requiere elegir una ontología para organizar categorías de cos
 
 El estado del arte de _NER_ desde 2014 con la introducción de Redes Neuronales ha llegado a una meseta [@honnibal_NER]. En los últimos años el diferencial capitalizado por los diferentes grupos de investigación especializados fue muy reducido. Como puede verse en la figura \@ref(fig:spacy-algos).
 
-<!-- TODO: Cambiar este gráfico por una tabla escrita en r citando correctamente las personas así como también la fuente de la tabla -->
 ```{r spacy-algos, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Principales avances del estado del arte para NER en los últimos años.'}
 knitr::include_graphics('assets/state-of-the-art_difficulties.png')
 ```
