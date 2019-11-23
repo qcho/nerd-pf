@@ -1,8 +1,12 @@
 \newpage
 # Conclusiones
 
-Utilizando _spaCy_ para la inferencia de entidades pudimos alcanzar un $\text{valor-F}$ aceptable con 4000 documentos anotados. Por lo que recomendamos a las personas que quieran entrenar un modelo que realice _NER_ que, previo al uso del modelo de inferencia, realizar la etapa de entrenamiento con al menos esa cantidad documentos para alcanzar los 80 puntos de $\text{valor-F}$.
+Utilizando _spaCy_ para la inferencia de entidades pudimos alcanzar una exactitud aceptable de 80 puntos de $\text{valor-F}$ con 4000 documentos etiquetados.
 
-Mediante la implementación del proyecto _NERd_ pudimos realizar un sistema que permite tener un servicio que permita a cada comunidad generar modelos específicos para sus necesidades. A su vez, la implementación específica permite al proyecto escalar horizontalmente para poder servir tantos pedidos de _NER_ como sean necesarios sin sacrificar _performance_.
+Recomendamos a quienes quieran entrenar un modelo _NER_ que realicen una etapa inicial de etiquetado con al menos la cantidad mencionada de textos. De esta manera las inferencias del modelo serán más exactas a la hora de realizar futuros entrenamientos. Además los entrenadores tendrán la experiencia para definir qué tipos de entidades serán necesarias para etiquetar el corpus provisto.
 
-Debido a que el proyecto es _Open Source_, a futuro podrá ser beneficiado por aportes de la comunidad para incorporar funcionalidades nuevas, tales como la incorporación de técnicas de _Named Entity Linking_ para obtener mejores resultados en la detección de entidades nombradas.
+Gracias a la implementación del proyecto _NERd_ pudimos ofrecer un sistema que permita a cada comunidad generar modelos específicos para sus necesidades. A su vez, la implementación específica permite escalar al proyecto  horizontalmente para poder servir tantos pedidos de _NER_ como sean necesarios sin sacrificar _performance_.
+
+El proyecto posee un _roadmap_ atractivo para convertirse en una herramienta comercialmente viable y ser mejorada a futuro. La utilidad del mismo ha sido convalidada por expertos de la industria en la `MediaParty` donde fue premiada.
+
+Creemos que ofrecer el proyecto como una herramienta de código libre, permitirá que la comunidad de _NLP_ posea una poderosa herramienta para mejorar el estado del arte en cuanto a _corpus_ tagueados existentes.
