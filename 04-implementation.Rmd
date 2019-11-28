@@ -654,7 +654,7 @@ Las imágenes base que utilizamos en todos los servicios son mantenidas por _Bit
 
 #### _Service_
 
-Para poder crear un entorno completo de _NERd_, utilizamos la herramienta llamada `docker-compose` [@dockercompose], con la cual definimos cada uno de los servicios, las conexiones de red y los volúmenes de disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \@ref(fig:physical-overview) funcionen correctamente.
+Para poder crear un entorno completo de _NERd_, utilizamos la herramienta llamada `docker-compose` [@dockercompose], con la cual definimos cada uno de los servicios, las conexiones de red y los volúmenes de disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \@ref(fig:process-overview-client) funcionen correctamente.
 
 A su vez, dentro de un archivo _Makefile_ del proyecto definimos un conjunto de comandos que sirven para crear un entorno de desarrollo de _NERd_.
 
