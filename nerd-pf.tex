@@ -1,3 +1,6 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
 \documentclass[12pt,a4paper,]{scrartcl}
 \usepackage{lmodern}
 \usepackage{setspace}
@@ -8,29 +11,32 @@
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
 \else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
+  \usepackage{unicode-math}
   \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 \fi
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 % use microtype if available
 \IfFileExists{microtype.sty}{%
-\usepackage{microtype}
+\usepackage[]{microtype}
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\usepackage[margin=1in]{geometry}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
 \usepackage{hyperref}
-\hypersetup{unicode=true,
+\hypersetup{
             pdftitle={NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas},
-            pdfauthor={Horacio Miguel Gómez (L:50825); Juan Pablo Orsay (L:49373); Proyecto final de carrera},
+            pdfauthor={Horacio Miguel Gómez (L:50825); Juan Pablo Orsay (L:49373); Lic. Diego Ariel Aizemberg (Tutor); Proyecto final de carrera},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -72,11 +78,9 @@
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
-\usepackage{graphicx}
-% grffile has become a legacy package: https://ctan.org/pkg/grffile
-\IfFileExists{grffile.sty}{%
-\usepackage{grffile}
-}{}
+% Fix footnotes in tables (requires footnote package)
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
+\usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -85,12 +89,6 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -105,32 +103,10 @@
 \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
 
-%%% Use protect on footnotes to avoid problems with footnotes in titles
-\let\rmarkdownfootnote\footnote%
-\def\footnote{\protect\rmarkdownfootnote}
-
-%%% Change title format to be more compact
-\usepackage{titling}
-
-% Create subtitle command for use in maketitle
-\providecommand{\subtitle}[1]{
-  \posttitle{
-    \begin{center}\large#1\end{center}
-    }
-}
-
-\setlength{\droptitle}{-2em}
-
-  \title{NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas}
-    \pretitle{\vspace{\droptitle}\centering\huge}
-  \posttitle{\par}
-  \subtitle{Instituto Tecnológico de Buenos Aires}
-  \author{Horacio Miguel Gómez \((L:50825)\) \\ Juan Pablo Orsay \((L:49373)\) \\ Proyecto final de carrera}
-    \preauthor{\centering\large\emph}
-  \postauthor{\par}
-      \predate{\centering\large\emph}
-  \postdate{\par}
-    \date{2019-11-23}
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
 
 % Usefull information about documentclass
 % http://ctan.dcc.uchile.cl/macros/latex/contrib/koma-script/doc/scrguien.pdf
@@ -189,6 +165,18 @@
 \AtBeginDocument{\let\maketitle\relax}
 
 % \setlength{\parindent}{48pt} % Left margin on paragraphs
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+
+\title{NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas}
+\providecommand{\subtitle}[1]{}
+\subtitle{Instituto Tecnológico de Buenos Aires}
+\author{Horacio Miguel Gómez \((L:50825)\) \and Juan Pablo Orsay \((L:49373)\) \and Lic. Diego Ariel Aizemberg (Tutor) \and Proyecto final de carrera}
+\date{2019-12-15}
 
 \begin{document}
 \maketitle
@@ -207,7 +195,8 @@
         \vspace{1.5cm}
 
         \textbf{Juan Pablo Orsay} (L: 49373)\\
-        \textbf{Horacio Miguel Gómez} (L: 50825)
+        \textbf{Horacio Miguel Gómez} (L: 50825)\\
+        \textbf{Lic. Diego Ariel Aizemberg} (Tutor)
 
         \vfill
 
@@ -1907,7 +1896,7 @@ Las imágenes base que utilizamos en todos los servicios son mantenidas por \emp
 \hypertarget{service}{%
 \paragraph{\texorpdfstring{\emph{Service}}{Service}}\label{service}}
 
-Para poder crear un entorno completo de \emph{NERd}, utilizamos la herramienta llamada \texttt{docker-compose} (``Docker compose,'' \protect\hyperlink{ref-dockercompose}{2019}), con la cual definimos cada uno de los servicios, las conexiones de red y los volúmenes de disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \ref{fig:physical-overview} funcionen correctamente.
+Para poder crear un entorno completo de \emph{NERd}, utilizamos la herramienta llamada \texttt{docker-compose} (``Docker compose,'' \protect\hyperlink{ref-dockercompose}{2019}), con la cual definimos cada uno de los servicios, las conexiones de red y los volúmenes de disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura \ref{fig:process-overview-client} funcionen correctamente.
 
 A su vez, dentro de un archivo \emph{Makefile} del proyecto definimos un conjunto de comandos que sirven para crear un entorno de desarrollo de \emph{NERd}.
 
@@ -2907,6 +2896,5 @@ Wikidata - lionel messi. (2019). Retrieved November 19, 2019, from \url{https://
 
 \leavevmode\hypertarget{ref-ancora-es}{}%
 Zeman, D., \& Martínez Alonso, H. (2019). Spanish ud ancora corpus. Retrieved May 1, 2019, from \url{https://github.com/UniversalDependencies/UD_Spanish-AnCora}
-
 
 \end{document}

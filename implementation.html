@@ -23,10 +23,11 @@
 
 <meta name="author" content="Horacio Miguel Gómez (L:50825)" />
 <meta name="author" content="Juan Pablo Orsay (L:49373)" />
+<meta name="author" content="Lic. Diego Ariel Aizemberg (Tutor)" />
 <meta name="author" content="Proyecto final de carrera" />
 
 
-<meta name="date" content="2019-11-23" />
+<meta name="date" content="2019-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1003,7 +1004,7 @@ Esta vista también se conoce como la vista de <em>deployment</em>.</p>
 </div>
 <div id="service" class="section level4">
 <h4><span class="header-section-number">4.4.2.2</span> <em>Service</em></h4>
-<p>Para poder crear un entorno completo de <em>NERd</em>, utilizamos la herramienta llamada <code>docker-compose</code> <span class="citation">(“Docker compose,” <a href="#ref-dockercompose">2019</a>)</span>, con la cual definimos cada uno de los servicios, las conexiones de red y los volúmenes de disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura <a href="#fig:physical-overview"><strong>??</strong></a> funcionen correctamente.</p>
+<p>Para poder crear un entorno completo de <em>NERd</em>, utilizamos la herramienta llamada <code>docker-compose</code> <span class="citation">(“Docker compose,” <a href="#ref-dockercompose">2019</a>)</span>, con la cual definimos cada uno de los servicios, las conexiones de red y los volúmenes de disco necesarias entre cada contenedor de manera tal que las conexiones mostradas en la figura <a href="implementation.html#fig:process-overview-client">4.23</a> funcionen correctamente.</p>
 <p>A su vez, dentro de un archivo <em>Makefile</em> del proyecto definimos un conjunto de comandos que sirven para crear un entorno de desarrollo de <em>NERd</em>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">make</span> setup <span class="co"># Inicializa todos los contenedores de NERd, creando 2 workers</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="fu">make</span> down <span class="co"># Destruye todos los contenedores de NERd</span></a>
