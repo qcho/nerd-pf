@@ -77,7 +77,7 @@ Por todo lo mencionado, es evidente que el cuello de botella para el avance de e
 
 La **anotación** en el aprendizaje automático es el proceso de etiquetar datos. Con esto, las algoritmos pueden usar los datos anotados para aprender a reconocer patrones similares cuando se presentan datos nuevos. En particular para el estado actual del arte de _NER_ es necesario tener un subconjunto del cuerpo de textos a analizar (_corpus_) anotado de tal manera que se conozcan previamente la ubicación de entidades, sus nombres y tipo.
 
-Este aprendizaje se carga en lo que se reconoce como un **modelo estadístico** y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas, librerias, frameworks y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
+Este aprendizaje se carga en lo que se reconoce como un **modelo estadístico** y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas, librerias, _frameworks_ y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
 
 De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo).
 
