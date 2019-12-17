@@ -404,7 +404,7 @@ El análisis del estado del arte fue basado en la definición del problema.
 
 \emph{Python} es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial \emph{NLP} (Elliott, \protect\hyperlink{ref-github_machine_learning}{2019})
 
-Spacy es el \emph{framework} mejor ranqueado para la tarea de \emph{NLP} (Elliott, \protect\hyperlink{ref-github_machine_learning}{2019}) y sabemos por la figura \ref{fig:spacy-algos} que obtiene resultados a-la-par del estado del arte actual.
+\emph{SpaCy} es el \emph{framework} mejor ranqueado para la tarea de \emph{NLP} (Elliott, \protect\hyperlink{ref-github_machine_learning}{2019}) y sabemos por la figura \ref{fig:spacy-algos} que obtiene resultados a-la-par del estado del arte actual.
 
 Además la implementación de \emph{spaCy} es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de \emph{NLP} que sólo se utilizan con fines académicos.
 
@@ -599,7 +599,7 @@ Es facil de entender viendo la figura \ref{fig:vec-parallelogram} que al realiza
 \subsubsection{\texorpdfstring{\emph{Encode}}{Encode}}\label{encode}}
 
 \begin{quote}
-Resuelve el problema: el contexto de los significados es relevante y esta siendo descartado,
+Resuelve el problema: el contexto de los significados es relevante y está siendo descartado.
 \end{quote}
 
 El resultado de esta etapa es la de codificar vectores \textbf{independientes-de-contexto} en matrices de oración \textbf{sensibles-al-contexto}.
@@ -619,7 +619,7 @@ La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la
 \subsubsection{\texorpdfstring{\emph{Attend}}{Attend}}\label{attend}}
 
 \begin{quote}
-Resuelve el problema: tenemos demasiada información para inferir un significado específico al problema a resolver.
+Resuelve el problema: tenemos demasiada información para inferir un significado específico al problema.
 \end{quote}
 
 En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o tambien conocido como \enquote{vector de consulta} o \enquote{vector de contexto} representado en la figura \ref{fig:formula-attend} como un vector mas oscuro.
@@ -716,7 +716,7 @@ La predicción que realiza la \emph{CNN} tiene un puntaje de 0 a 1; un porcentaj
 \section{NERd (Implementación)}\label{implementation}}
 
 Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de etiquetado de entidades.
-Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.
+Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y \emph{API} para poder consultar entidades.
 
 Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura \ref{fig:arq41}).
 
@@ -1497,7 +1497,7 @@ Para la implementación de cada una de las partes tuvimos como primer objetivo l
 \hypertarget{cliente-web}{%
 \subsubsection{Cliente web}\label{cliente-web}}
 
-Es la interfaz del entrenador que se comunica con el API utilizando un \emph{SDK} auto-generado a partir de la definición de \emph{OpenAPI}. Implementado en este proyecto es un cliente \emph{web} el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
+Es la interfaz del entrenador que se comunica con el \emph{API} utilizando un \emph{SDK} auto-generado a partir de la definición de \emph{OpenAPI}. Implementado en este proyecto es un cliente \emph{web} el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
 
 \hypertarget{api-1}{%
 \subsubsection{\texorpdfstring{\emph{API}}{API}}\label{api-1}}
@@ -2115,7 +2115,7 @@ Decidimos realizar diferentes pruebas y combinaciones de cantidad de documentos 
 \begin{itemize}
 \tightlist
 \item
-  Entrenamiento: 0\% (0 documentos) y evaluación: 0\% (4000). Este escenario equivale a utilizar el modelo base de spaCy.
+  Entrenamiento: 0\% (0 documentos) y evaluación: 0\% (4000). Este escenario equivale a utilizar el modelo base de \emph{spaCy}.
 \item
   Entrenamiento: 50\% (2000 documentos) y evaluación: 50\% (2000).
 \item
@@ -2308,7 +2308,7 @@ Para poner a prueba nuestra herramienta \textbf{NERd} en un entorno real partici
 Nacido de Hacks/Hackers Buenos Aires, el evento fusiona a grandes empresas como New York Times, The Guardian, Vox, ProPublica, Watchup, Neo4J o DocumentCloud y comunidades regionales de la mayor red de periodistas y desarrolladores del mundo.
 \end{quote}
 
-Participamos en conjunto con otro proyecto final en el que van a utilizar nuestra API para hacer detección de entidades en documentos PDF.
+Participamos en conjunto con otro proyecto final en el que van a utilizar nuestra \emph{API} para hacer detección de entidades en documentos \emph{PDF}.
 
 La experiencia fue muy satisfactoria, recibimos buenas críticas sobre la usabilidad de nuestra aplicación y la gran utilidad que presta a la comunidad.
 
