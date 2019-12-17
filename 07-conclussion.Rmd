@@ -1,7 +1,7 @@
 \newpage
 # Conclusiones
 
-Utilizando _spaCy_ para la inferencia de entidades pudimos alcanzar una exactitud aceptable de 80 puntos de $\text{valor-F}$ con 4000 documentos anotados
+Utilizando _spaCy_ para la inferencia de entidades pudimos alcanzar una exactitud aceptable de 80 puntos de $\text{valor-F}$ con 4000 documentos anotados.
 
 Recomendamos a quienes quieran entrenar un modelo _NER_ que realicen una etapa inicial de anotación con al menos la cantidad mencionada de textos. De esta manera las inferencias del modelo serán más exactas a la hora de realizar futuros entrenamientos. Además los entrenadores tendrán la experiencia para definir qué tipos de entidades serán necesarias para etiquetar el corpus provisto.
 
