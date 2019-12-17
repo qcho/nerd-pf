@@ -93,7 +93,7 @@ Para poner a prueba nuestra herramienta **NERd** en un entorno real participamos
 > **[@hackaton2019]** es un evento de tres días en Argentina, que reúne a 2500 emprendedores, periodistas, programadores de software y diseñadores de cinco continentes para trabajar juntos para el futuro de los medios de comunicación.
 > Nacido de Hacks/Hackers Buenos Aires, el evento fusiona a grandes empresas como New York Times, The Guardian, Vox, ProPublica, Watchup, Neo4J o DocumentCloud y comunidades regionales de la mayor red de periodistas y desarrolladores del mundo.
 
-Participamos en conjunto con otro proyecto final en el que van a utilizar nuestra API para hacer detección de entidades en documentos PDF.
+Participamos en conjunto con otro proyecto final en el que van a utilizar nuestra _API_ para hacer detección de entidades en documentos _PDF_.
 
 La experiencia fue muy satisfactoria, recibimos buenas críticas sobre la usabilidad de nuestra aplicación y la gran utilidad que presta a la comunidad.
 

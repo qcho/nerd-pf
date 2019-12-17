@@ -45,7 +45,7 @@ En los entrenamientos por refuerzo es necesario tomar la decisión de cuantos te
 
 Decidimos realizar diferentes pruebas y combinaciones de cantidad de documentos de entrenamiento y evaluación para analizar el $\text{valor-F}$ del modelo resultante:
 
-* Entrenamiento:  0% (0 documentos) y evaluación: 0% (4000). Este escenario equivale a utilizar el modelo base de spaCy.
+* Entrenamiento:  0% (0 documentos) y evaluación: 0% (4000). Este escenario equivale a utilizar el modelo base de _spaCy_.
 * Entrenamiento: 50% (2000 documentos) y evaluación: 50% (2000).
 * Entrenamiento: 75% (3000 documentos) y evaluación: 25% (1000).
 * Entrenamiento: 80% (3200 documentos) y evaluación: 20% (800).

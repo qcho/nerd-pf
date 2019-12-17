@@ -2,7 +2,7 @@
 # NERd (Implementación) {#implementation}
 
 Definido el problema, queda claro que la creación de un modelo entrenado es de vital importancia para cualquier problema de etiquetado de entidades.
-Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y API para poder consultar entidades.
+Es por ello que en el presente proyecto final hemos creado una herramienta para el entrenamiento eficiente de modelos estadísticos así como también una interfaz y _API_ para poder consultar entidades.
 
 Para organizar este capítulo vamos a realizar una descripción basada en el modelo de vistas de arquitectura 4+1 (Figura \@ref(fig:arq41)).
 
@@ -378,7 +378,7 @@ knitr::include_graphics('assets/process/process-overview-client.png')
 
 ### Cliente web
 
-Es la interfaz del entrenador que se comunica con el API utilizando un _SDK_ auto-generado a partir de la definición de _OpenAPI_. Implementado en este proyecto es un cliente _web_ el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
+Es la interfaz del entrenador que se comunica con el _API_ utilizando un _SDK_ auto-generado a partir de la definición de _OpenAPI_. Implementado en este proyecto es un cliente _web_ el cual permite explotar las funcionalidades de entrenamiento así como de inferencia de entidades.
 
 ### _API_
 

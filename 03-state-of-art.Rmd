@@ -7,7 +7,7 @@ El análisis del estado del arte fue basado en la definición del problema.
 
 _Python_ es el lenguaje más utilizado para resolver problemas de Machine Learning, en especial _NLP_ [@github_machine_learning]
 
-Spacy es el _framework_ mejor ranqueado para la tarea de _NLP_ [@github_machine_learning] y sabemos por la figura \@ref(fig:spacy-algos) que obtiene resultados a-la-par del estado del arte actual.
+_SpaCy_ es el _framework_ mejor ranqueado para la tarea de _NLP_ [@github_machine_learning] y sabemos por la figura \@ref(fig:spacy-algos) que obtiene resultados a-la-par del estado del arte actual.
 
 Además la implementación de _spaCy_ es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de _NLP_ que sólo se utilizan con fines académicos.
 
@@ -129,7 +129,7 @@ $$\vec{Rey} - \vec{Hombre} \approx \vec{Realeza}$$
 $$\vec{Rey} - \vec{Hombre} + \vec{Mujer} \approx \vec{Reina}$$
 
 ### _Encode_ {#encode}
-> Resuelve el problema: el contexto de los significados es relevante y esta siendo descartado,
+> Resuelve el problema: el contexto de los significados es relevante y está siendo descartado.
 
 El resultado de esta etapa es la de codificar vectores **independientes-de-contexto** en matrices de oración **sensibles-al-contexto**.
 
@@ -140,7 +140,7 @@ knitr::include_graphics('assets/deep-learning-formula-nlp_encode.svg')
 La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizada como una _moving window_ de tres vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir, cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera, por lo que se genera naturalmente un "efecto de decaimiento" en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor. 
 
 ### _Attend_
-> Resuelve el problema: tenemos demasiada información para inferir un significado específico al problema a resolver.
+> Resuelve el problema: tenemos demasiada información para inferir un significado específico al problema.
 
 En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o tambien conocido como "vector de consulta" o "vector de contexto" representado en la figura \@ref(fig:formula-attend) como un vector mas oscuro.
 
