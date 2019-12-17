@@ -729,6 +729,18 @@ Figura 4.23: Componentes del sistema.
 <p>Servicio en el cual los clientes pueden pedir las <em>Entidades Nombradas</em> de textos así como también permite la carga de textos con sus respectivas correcciones que luego serán utilizadas para entrenar el modelo de inferencia.
 El <em>API</em> se comunica el servicio de <em>Bases de Datos</em> para obtener o modificar información sobre los usuarios, los textos pertenecientes al <em>corpus</em> o información de los distintos <em>snapshots</em> y envía mensajes al <em>Task Scheduler</em> para realizar diversas tareas relacionadas con <em>spaCy</em> así como también tareas de administración sobre los <em>workers</em> disponibles.</p>
 <p>Debido a que la <em>API</em> está implementada en <em>python</em> y este es un lenguaje cuyo intérprete posee un <em>lock</em> global <span class="citation">(“Python,” <a href="#ref-python_gil">2019</a>)</span>, debimos implementar la aplicación como un servicio que implementa <em>WSGI</em> <span class="citation">(Eby, <a href="#ref-pep-3333">2010</a>)</span>. Luego la aplicación es servida por <em>gunicorn</em>, un <em>application server</em> para este fin que escala horizontalmente su <em>pool</em> de <em>workers</em>.</p>
+<div id="autenticación-1" class="section level4">
+<h4><span class="header-section-number">4.2.2.1</span> Autenticación</h4>
+<p>El proceso de autenticación de la <em>API</em> sigue el flujo de <em>OAuth2</em> <span class="citation">(Group, <a href="#ref-oauth2">2017</a>)</span>, debido a como está definido, el usuario al autenticarse con <em>email</em> y <em>password</em> recibe par de identificadores únicos llamados <code>access_token</code> y <code>refresh_token</code>. A partir de este momento todos los requests del usuario a la <em>API</em> poseen en su encabezado el <code>access_token</code>. Ocurre que estos <em>tokens</em> de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el <code>access_token</code> utilizando el <code>refresh_token</code> provisto en el <em>login</em> inicial. Al hacer esto el usuario recibe un nuevo par de <em>tokens</em> de igual manera a como lo hizo en el <em>login</em> con sus credenciales.</p>
+<p>De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend <strong>una sola vez</strong> sus credenciales sensibles.</p>
+<p>En la figura <a href="implementation.html#fig:scenarios-relogin">4.24</a> podemos ver el flujo que realiza la implementación <em>web</em> del entrenador para realizar el refresco de la sesión al recibir un <span class="math inline">\(401\)</span> por parte del servidor.</p>
+<div class="figure" style="text-align: center"><span id="fig:scenarios-relogin"></span>
+<img src="assets/mermaid/scenarios-relogin.png" alt="Flujo de relogin"  />
+<p class="caption">
+Figura 4.24: Flujo de relogin
+</p>
+</div>
+</div>
 </div>
 <div id="worker" class="section level3">
 <h3><span class="header-section-number">4.2.3</span> Worker</h3>
@@ -741,11 +753,11 @@ El <em>API</em> se comunica el servicio de <em>Bases de Datos</em> para obtener 
 <p>Dado que pueden haber varios <em>workers</em> utilizando el mismo modelo de <em>spaCy</em>, es de vital importancia que si existe al menos un <em>worker</em> leyendo un modelo desde el disco y otro worker quiere entrenar ese modelo, que no pueda hasta que el resto haya terminado de leerlo.
 Ésto se debe a que si el <em>worker</em> que está entrenando el modelo sobreescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del <em>worker</em> de lectura. Como no hay ninguna limitación en la lectura, más de un <em>worker</em> puede leer en simultáneo.</p>
 <p>Para realizar ese control de concurrencia utilizamos el campo <code>semaphore</code> del modelo de <em>snapshot</em> guardado en la base de datos (Figura <a href="implementation.html#fig:developer-db-snapshot">4.35</a>) el cual usualmente se encuentra en <span class="math inline">\(0\)</span>. El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.</p>
-<p>En la figura <a href="implementation.html#fig:scenarios-worker-train">4.24</a> podemos ver un escenario en el que tanto <em>Worker 2</em> y <em>Worker 3</em> pueden leer en simultáneo el modelo pero <em>Worker 1</em> debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.</p>
+<p>En la figura <a href="implementation.html#fig:scenarios-worker-train">4.25</a> podemos ver un escenario en el que tanto <em>Worker 2</em> y <em>Worker 3</em> pueden leer en simultáneo el modelo pero <em>Worker 1</em> debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-worker-train"></span>
 <img src="assets/mermaid/scenarios-worker-train.png" alt="Bloqueo de entrenamiento por lectura."  />
 <p class="caption">
-Figura 4.24: Bloqueo de entrenamiento por lectura.
+Figura 4.25: Bloqueo de entrenamiento por lectura.
 </p>
 </div>
 </div>
@@ -760,18 +772,6 @@ Su funcionamiento es crítico para poder manejar grandes volúmenes de consultas
 <h3><span class="header-section-number">4.2.5</span> Base de datos</h3>
 <p>Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de <em>API</em> funcione así como también los datos necesarios por los workers (entrenamientos).</p>
 <p>Este proceso escala horizontalmente debido a que su implementación en la capa física es un <em>cluster</em>.</p>
-<div id="autenticación-1" class="section level4">
-<h4><span class="header-section-number">4.2.5.1</span> Autenticación</h4>
-<p>El proceso de autenticación de la <em>API</em> sigue el flujo de <em>OAuth2</em> <span class="citation">(Group, <a href="#ref-oauth2">2017</a>)</span>, debido a como está definido, el usuario al autenticarse con <em>email</em> y <em>password</em> recibe par de identificadores únicos llamados <code>access_token</code> y <code>refresh_token</code>. A partir de este momento todos los requests del usuario a la <em>API</em> poseen en su encabezado el <code>access_token</code>. Ocurre que estos <em>tokens</em> de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el <code>access_token</code> utilizando el <code>refresh_token</code> provisto en el <em>login</em> inicial. Al hacer esto el usuario recibe un nuevo par de <em>tokens</em> de igual manera a como lo hizo en el <em>login</em> con sus credenciales.</p>
-<p>De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend <strong>una sola vez</strong> sus credenciales sensibles.</p>
-<p>En la figura <a href="implementation.html#fig:scenarios-relogin">4.25</a> podemos ver el flujo que realiza la implementación <em>web</em> del entrenador para realizar el refresco de la sesión al recibir un <span class="math inline">\(401\)</span> por parte del servidor.</p>
-<div class="figure" style="text-align: center"><span id="fig:scenarios-relogin"></span>
-<img src="assets/mermaid/scenarios-relogin.png" alt="Flujo de relogin"  />
-<p class="caption">
-Figura 4.25: Flujo de relogin
-</p>
-</div>
-</div>
 </div>
 </div>
 <div id="vista-de-desarrollo" class="section level2">

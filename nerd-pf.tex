@@ -1507,6 +1507,24 @@ El \emph{API} se comunica el servicio de \emph{Bases de Datos} para obtener o mo
 
 Debido a que la \emph{API} está implementada en \emph{python} y este es un lenguaje cuyo intérprete posee un \emph{lock} global (``Python,'' \protect\hyperlink{ref-python_gil}{2019}), debimos implementar la aplicación como un servicio que implementa \emph{WSGI} (Eby, \protect\hyperlink{ref-pep-3333}{2010}). Luego la aplicación es servida por \emph{gunicorn}, un \emph{application server} para este fin que escala horizontalmente su \emph{pool} de \emph{workers}.
 
+\hypertarget{autenticaciuxf3n-1}{%
+\paragraph{Autenticación}\label{autenticaciuxf3n-1}}
+
+El proceso de autenticación de la \emph{API} sigue el flujo de \emph{OAuth2} (Group, \protect\hyperlink{ref-oauth2}{2017}), debido a como está definido, el usuario al autenticarse con \emph{email} y \emph{password} recibe par de identificadores únicos llamados \texttt{access\_token} y \texttt{refresh\_token}. A partir de este momento todos los requests del usuario a la \emph{API} poseen en su encabezado el \texttt{access\_token}. Ocurre que estos \emph{tokens} de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el \texttt{access\_token} utilizando el \texttt{refresh\_token} provisto en el \emph{login} inicial. Al hacer esto el usuario recibe un nuevo par de \emph{tokens} de igual manera a como lo hizo en el \emph{login} con sus credenciales.
+
+De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend \textbf{una sola vez} sus credenciales sensibles.
+
+En la figura \ref{fig:scenarios-relogin} podemos ver el flujo que realiza la implementación \emph{web} del entrenador para realizar el refresco de la sesión al recibir un \(401\) por parte del servidor.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{assets/mermaid/scenarios-relogin.png} 
+
+}
+
+\caption{Flujo de relogin}\label{fig:scenarios-relogin}
+\end{figure}
+
 \hypertarget{worker}{%
 \subsubsection{Worker}\label{worker}}
 
@@ -1551,24 +1569,6 @@ Este proceso escala horizontalmente debido a que su implementación en la capa f
 Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de \emph{API} funcione así como también los datos necesarios por los workers (entrenamientos).
 
 Este proceso escala horizontalmente debido a que su implementación en la capa física es un \emph{cluster}.
-
-\hypertarget{autenticaciuxf3n-1}{%
-\paragraph{Autenticación}\label{autenticaciuxf3n-1}}
-
-El proceso de autenticación de la \emph{API} sigue el flujo de \emph{OAuth2} (Group, \protect\hyperlink{ref-oauth2}{2017}), debido a como está definido, el usuario al autenticarse con \emph{email} y \emph{password} recibe par de identificadores únicos llamados \texttt{access\_token} y \texttt{refresh\_token}. A partir de este momento todos los requests del usuario a la \emph{API} poseen en su encabezado el \texttt{access\_token}. Ocurre que estos \emph{tokens} de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el \texttt{access\_token} utilizando el \texttt{refresh\_token} provisto en el \emph{login} inicial. Al hacer esto el usuario recibe un nuevo par de \emph{tokens} de igual manera a como lo hizo en el \emph{login} con sus credenciales.
-
-De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend \textbf{una sola vez} sus credenciales sensibles.
-
-En la figura \ref{fig:scenarios-relogin} podemos ver el flujo que realiza la implementación \emph{web} del entrenador para realizar el refresco de la sesión al recibir un \(401\) por parte del servidor.
-
-\begin{figure}[H]
-
-{\centering \includegraphics{assets/mermaid/scenarios-relogin.png} 
-
-}
-
-\caption{Flujo de relogin}\label{fig:scenarios-relogin}
-\end{figure}
 
 \hypertarget{vista-de-desarrollo}{%
 \subsection{Vista de desarrollo}\label{vista-de-desarrollo}}
@@ -2319,7 +2319,7 @@ Por tal motivo recibimos el primer premio de dicha hackaton (``Mención itba,'' 
 \hypertarget{conclusiones}{%
 \section{Conclusiones}\label{conclusiones}}
 
-Utilizando \emph{spaCy} para la inferencia de entidades pudimos alcanzar una exactitud aceptable de 80 puntos de \(\text{valor-F}\) con 4000 documentos anotados
+Utilizando \emph{spaCy} para la inferencia de entidades pudimos alcanzar una exactitud aceptable de 80 puntos de \(\text{valor-F}\) con 4000 documentos anotados.
 
 Recomendamos a quienes quieran entrenar un modelo \emph{NER} que realicen una etapa inicial de anotación con al menos la cantidad mencionada de textos. De esta manera las inferencias del modelo serán más exactas a la hora de realizar futuros entrenamientos. Además los entrenadores tendrán la experiencia para definir qué tipos de entidades serán necesarias para etiquetar el corpus provisto.
 
