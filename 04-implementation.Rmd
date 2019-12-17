@@ -387,6 +387,20 @@ El _API_ se comunica el servicio de _Bases de Datos_ para obtener o modificar in
 
 Debido a que la _API_ está implementada en _python_ y este es un lenguaje cuyo intérprete posee un _lock_ global [@python_gil], debimos implementar la aplicación como un servicio que implementa _WSGI_ [@pep-3333]. Luego la aplicación es servida por _gunicorn_, un _application server_ para este fin que escala horizontalmente su _pool_ de _workers_.
 
+#### Autenticación
+
+El proceso de autenticación de la _API_ sigue el flujo de _OAuth2_ [@oauth2], debido a como está definido, el usuario al autenticarse con _email_ y _password_ recibe par de identificadores únicos llamados `access_token` y `refresh_token`. A partir de este momento todos los requests del usuario a la _API_ poseen en su encabezado el `access_token`. Ocurre que estos _tokens_ de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el `access_token` utilizando el `refresh_token` provisto en el _login_ inicial. Al hacer esto el usuario recibe un nuevo par de _tokens_ de igual manera a como lo hizo en el _login_ con sus credenciales.
+
+De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend **una sola vez** sus credenciales sensibles.
+
+En la figura \@ref(fig:scenarios-relogin) podemos ver el flujo que realiza la implementación _web_ del entrenador para realizar el refresco de la sesión al recibir un $401$ por parte del servidor.
+
+```{r scenarios-relogin, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Flujo de relogin'}
+knitr::include_graphics('assets/mermaid/scenarios-relogin.png')
+```
+
+
+
 ### Worker
 
 Un _worker_ se encarga de realizar las operaciones de _NER_ incluyendo el entrenamiento de modelos de inferencia. Es un servicio que existe de manera independiente.
@@ -422,18 +436,6 @@ Este proceso escala horizontalmente debido a que su implementación en la capa f
 Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de _API_ funcione así como también los datos necesarios por los workers (entrenamientos).
 
 Este proceso escala horizontalmente debido a que su implementación en la capa física es un _cluster_.
-
-#### Autenticación
-
-El proceso de autenticación de la _API_ sigue el flujo de _OAuth2_ [@oauth2], debido a como está definido, el usuario al autenticarse con _email_ y _password_ recibe par de identificadores únicos llamados `access_token` y `refresh_token`. A partir de este momento todos los requests del usuario a la _API_ poseen en su encabezado el `access_token`. Ocurre que estos _tokens_ de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el `access_token` utilizando el `refresh_token` provisto en el _login_ inicial. Al hacer esto el usuario recibe un nuevo par de _tokens_ de igual manera a como lo hizo en el _login_ con sus credenciales.
-
-De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend **una sola vez** sus credenciales sensibles.
-
-En la figura \@ref(fig:scenarios-relogin) podemos ver el flujo que realiza la implementación _web_ del entrenador para realizar el refresco de la sesión al recibir un $401$ por parte del servidor.
-
-```{r scenarios-relogin, results = 'asis', echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Flujo de relogin'}
-knitr::include_graphics('assets/mermaid/scenarios-relogin.png')
-```
 
 ## Vista de desarrollo
 > La vista de desarrollo ilustra un sistema desde la perspectiva de un programador y se ocupa de la gestión de software.
