@@ -694,6 +694,10 @@ make prod-setup
 
 ### Servicios
 
+```{r deployment-physical-overview, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Relación entre servicios.'}
+knitr::include_graphics('assets/physical/overview.png')
+```
+
 #### Cliente _web_
 
 Dentro del _container_ `ui`, incluimos _nginx_ [@nginx] como servidor _web_ de la plataforma. El mismo tiene dos responsabilidades:
