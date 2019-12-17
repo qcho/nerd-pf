@@ -190,7 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#result-data"><i class="fa fa-check"></i><b>5.2</b> Resultados obtenidos</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Discusión</a><ul>
-<li class="chapter" data-level="6.1" data-path="discussion.html"><a href="discussion.html#analisis-de-resultados"><i class="fa fa-check"></i><b>6.1</b> Analisis de resultados</a></li>
+<li class="chapter" data-level="6.1" data-path="discussion.html"><a href="discussion.html#análisis-de-resultados"><i class="fa fa-check"></i><b>6.1</b> Análisis de resultados</a></li>
 <li class="chapter" data-level="6.2" data-path="discussion.html"><a href="discussion.html#tipos-de-entidades"><i class="fa fa-check"></i><b>6.2</b> Tipos de entidades</a></li>
 <li class="chapter" data-level="6.3" data-path="discussion.html"><a href="discussion.html#semilla-inicial"><i class="fa fa-check"></i><b>6.3</b> Semilla inicial</a></li>
 <li class="chapter" data-level="6.4" data-path="discussion.html"><a href="discussion.html#entrenamiento-live-vs-offline"><i class="fa fa-check"></i><b>6.4</b> Entrenamiento <em>live</em> vs <em>offline</em></a></li>
@@ -234,7 +234,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">2.1</span> Conceptos básicos</h2>
 <div id="entidad-nombrada" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Entidad nombrada</h3>
-<p>En el contexto de <em>extracción de información</em>, una <em>entidad nombrada</em> es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son “Mauricio Macri”, “Ciudad Autónoma de Buenos Aires”, “Apple Macbook”.
+<p>En el contexto de <em>extracción de información</em>, una <em>entidad nombrada</em> es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc.; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son “Mauricio Macri”, “Ciudad Autónoma de Buenos Aires”, “Apple Macbook”.
 También se suele definir sencillamente como aquellas entidades que se pueden ver como instancias de entidad (por ejemplo, la Ciudad Autónoma de Buenos Aires es una instancia de una ciudad).</p>
 <div id="ner-formal" class="section level4">
 <h4><span class="header-section-number">2.1.1.1</span> Definición formal</h4>
@@ -256,7 +256,7 @@ También se suele definir sencillamente como aquellas entidades que se pueden ve
 <li>“presidente” y “presidente de Argentina” no son <em>entidades nombradas</em>, ya que pueden usarse para referirse a muchos objetos diferentes en mundos diferentes:
 <ul>
 <li>“presidente” puede ser de diferentes países u organizaciones que se refieren a diferentes personas.</li>
-<li>“presidente de Argentina”, si bien hace referencia a un mismo pais, puede ser de diferentes períodos presidenciales que se refieren a diferentes personas.</li>
+<li>“presidente de Argentina”, si bien hace referencia a un mismo país, puede ser de diferentes períodos presidenciales que se refieren a diferentes personas.</li>
 </ul></li>
 </ul>
 </div>
@@ -302,9 +302,9 @@ Figura 2.1: Principales avances del estado del arte para NER en los últimos añ
 </div>
 <div id="los-datos-son-el-problema" class="section level2">
 <h2><span class="header-section-number">2.2</span> Los datos son el problema</h2>
-<p>Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la “Inteligencia Artificial” es el la captura de datos, no los algoritmos <span class="citation">(Honnibal &amp; Montani, <a href="#ref-montani_AI">2016</a>)</span>.</p>
+<p>Por todo lo mencionado, es evidente que el cuello de botella en el avance de ésta y muchas áreas de la inteligencia artificial es la captura de datos, no los algoritmos <span class="citation">(Honnibal &amp; Montani, <a href="#ref-montani_AI">2016</a>)</span>.</p>
 <p>La <strong>anotación</strong> en el aprendizaje automático es el proceso de etiquetar datos. Con esto, las algoritmos pueden usar los datos anotados para aprender a reconocer patrones similares cuando se presentan datos nuevos. En particular para el estado actual del arte de <em>NER</em> es necesario tener un subconjunto del cuerpo de textos a analizar (<em>corpus</em>) anotado de tal manera que se conozcan previamente la ubicación de entidades, sus nombres y tipo.</p>
-<p>Este aprendizaje se carga en lo que se reconoce como un <strong>modelo estadístico</strong> y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas, librerias, <em>frameworks</em> y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.</p>
+<p>Este aprendizaje se carga en lo que se reconoce como un <strong>modelo estadístico</strong> y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas, librerías, <em>frameworks</em> y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.</p>
 <p>De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo).</p>
 <blockquote>
 <p>NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas.</p>

@@ -190,7 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#result-data"><i class="fa fa-check"></i><b>5.2</b> Resultados obtenidos</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Discusión</a><ul>
-<li class="chapter" data-level="6.1" data-path="discussion.html"><a href="discussion.html#analisis-de-resultados"><i class="fa fa-check"></i><b>6.1</b> Analisis de resultados</a></li>
+<li class="chapter" data-level="6.1" data-path="discussion.html"><a href="discussion.html#análisis-de-resultados"><i class="fa fa-check"></i><b>6.1</b> Análisis de resultados</a></li>
 <li class="chapter" data-level="6.2" data-path="discussion.html"><a href="discussion.html#tipos-de-entidades"><i class="fa fa-check"></i><b>6.2</b> Tipos de entidades</a></li>
 <li class="chapter" data-level="6.3" data-path="discussion.html"><a href="discussion.html#semilla-inicial"><i class="fa fa-check"></i><b>6.3</b> Semilla inicial</a></li>
 <li class="chapter" data-level="6.4" data-path="discussion.html"><a href="discussion.html#entrenamiento-live-vs-offline"><i class="fa fa-check"></i><b>6.4</b> Entrenamiento <em>live</em> vs <em>offline</em></a></li>
@@ -230,13 +230,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="discussion" class="section level1">
 <h1><span class="header-section-number">Capítulo 6</span> Discusión</h1>
-<div id="analisis-de-resultados" class="section level2">
-<h2><span class="header-section-number">6.1</span> Analisis de resultados</h2>
+<div id="análisis-de-resultados" class="section level2">
+<h2><span class="header-section-number">6.1</span> Análisis de resultados</h2>
 <p>Los resultados indicados en la sección <a href="results.html#result-data">5.2</a> muestran que el <span class="math inline">\(\text{valor-F}\)</span> inicial de <em>spaCy</em> para nuestro <em>corpus</em> de noticias tiene una <em>score</em> de 66 puntos. Esta puntuación dista mucho del valor 89 que indica la librería en su documentación <span class="citation">(Honnibal &amp; Montani, <a href="#ref-spacy-spanish-model">2019</a>)</span> para este idioma.</p>
 <p>La razón de esta discrepancia ha sido mencionada en varias oportunidades a lo largo de este trabajo; el modelo de <em>spaCy</em> ha sido entrenado con un <em>corpus</em> de documentos diferente del que nosotros como usuarios de la librería tenemos interés. En particular el modelo inicial de <em>spaCy</em> ha sido entrenado con la siguiente información:</p>
 <ul>
 <li><strong><em>Spanish UD AnCora Corpus</em></strong>. Contiene más de 14mil documentos de entrenamiento provenientes de noticias españolas <span class="citation">(Zeman &amp; Martínez Alonso, <a href="#ref-ancora-es">2019</a>)</span>.</li>
-<li><strong><em>WikiNER</em></strong>. Proveniente de más de 50,000 documentos de wikipedia en español <span class="citation">(Nothman, Ringland, Radford, Murphy, &amp; Curran, <a href="#ref-Nothman2017">2017</a>)</span>.</li>
+<li><strong><em>WikiNER</em></strong>. Proveniente de más de 50,000 documentos de Wikipedia en español <span class="citation">(Nothman, Ringland, Radford, Murphy, &amp; Curran, <a href="#ref-Nothman2017">2017</a>)</span>.</li>
 </ul>
 <p>Este es un claro ejemplo de la fragilidad que poseen los modelos estadísticos en cuanto al corpus de interés. El modelo de <em>spaCy</em> ha sido entrenado con noticias de España, sin embargo, esas noticias no alcanzan para que el modelo pueda generalizar a las noticias de Argentina y mantener el alto grado de exactitud del modelo anterior.</p>
 <p>En este trabajo entrenando sobre el modelo de <em>spaCy</em> con 3600 documentos hemos alcanzado subir ese <span class="math inline">\(\text{valor-F}\)</span> de 66 a 80 puntos. Con una fracción de los documentos que <em>spaCy</em> utilizó en su entrenamiento base podemos ajustar cualquier corpus de documentos.</p>
@@ -244,7 +244,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="tipos-de-entidades" class="section level2">
 <h2><span class="header-section-number">6.2</span> Tipos de entidades</h2>
 <p>La detección de entidades por defecto en español de <em>spaCy</em>, incluye las entidades <code>Persona</code>, <code>Organización</code>, <code>Locación</code> y <code>Misceláneo</code>. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de <code>Fecha</code>.</p>
-<p>El hecho de que exista una clasificación de entidad como <code>Misceláneo</code> indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección <a href="problem-definition.html#ner-formal">2.1.1.1</a> se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.</p>
+<p>El hecho de que exista una clasificación de entidad como <code>Misceláneo</code> indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección <a href="problem-definition.html#ner-formal">2.1.1.1</a> se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad miscelánea.</p>
 <p>Existe literatura acerca de la posible taxonomía de las entidades. En <span class="citation">(Brunstein, <a href="#ref-brunstein2002">2002</a>)</span> se proponen 29 tipos y 64 subtipos.</p>
 <p>Esta discusión es producto de la necesidad de agregar nuevos tipos que experimentamos al finalizar el entrenamiento de las 4000 noticias. Sin embargo lo propuesto en <span class="citation">(Brunstein, <a href="#ref-brunstein2002">2002</a>)</span> no cubrió nuestras expectativas. Finalmente encontramos una taxonomía lo suficientemente completa para cubrir nuestras necesidades <span class="citation">(Sekine, <a href="#ref-Sekine-NER">2007</a>)</span> que puede ser resumida en la figura <a href="discussion.html#fig:fig-sekine">6.1</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:fig-sekine"></span>
@@ -257,23 +257,23 @@ Figura 6.1: Taxonomía extendida de Sekine.
 <ul>
 <li><strong><em>Political_Party</em></strong>: diferentes actores políticos.
 <ul>
-<li>ej: peronistas, kirchneristas, macristas.</li>
+<li>ej.: peronistas, kirchneristas, macristas.</li>
 </ul></li>
 <li><strong><em>Offence</em></strong>: ofensas.
 <ul>
-<li>ej: asesinato, abducción, fraude, aborto, robo.</li>
+<li>ej.: asesinato, abducción, fraude, aborto, robo.</li>
 </ul></li>
 <li><strong><em>Facility_Name</em></strong>: lugares específicos.
 <ul>
-<li>ej: Ecoparque, Disneyland, Canal de Suez, Aeropuerto de Ezeiza.</li>
+<li>ej.: Ecoparque, Disneyland, Canal de Suez, Aeropuerto de Ezeiza.</li>
 </ul></li>
 <li><strong><em>Product_Name</em></strong>: nombres de productos.
 <ul>
-<li>ej: Galaxy S10, Fiat Toro, Manaos.</li>
+<li>ej.: Galaxy S10, Fiat Toro, Manaos.</li>
 </ul></li>
 <li><strong><em>Game</em></strong>: nombres de juegos.
 <ul>
-<li>ej: futbol, football, basket, fortnite, ajedrez.</li>
+<li>ej.: futbol, football, basket, fortnite, ajedrez.</li>
 </ul></li>
 </ul>
 </div>
@@ -295,22 +295,22 @@ Figura 6.1: Taxonomía extendida de Sekine.
 <li><em>Offline</em>: cada nueva etiqueta que entrenamos es guardada para ser entrenada en otro momento.</li>
 </ul>
 <p>En nuestro sistemas hemos elegido la segunda opción porque al poseer la capacidad de escalar horizontalmente la cantidad de <em>workers</em>; el modelo se carga en varios servicios y de ser entrenado de manera <em>live</em> el entrenamiento iría a workers diferentes resultando en inconsistencias entre ellos. Existen maneras de migrar nuestro sistema a un modelo <em>online</em> y mantener la capacidad de escalar horizontalmente, pero escapa al alcance que decidimos darle a este trabajo por lo cual lo consideramos una propuesta de mejora a futuro.</p>
-<p>Uno de los mayores beneficios de tener un modelo online, ademas del trivial de que esta constantemente actualizado con las ultimas mejoras; es el de la capacidad de apuntar a los <em>tokens</em> que poseen una mayor incertidumbre. En la sección <a href="state-of-art.html#use-of-cnn">3.6</a> hemos mencionado que puede ocurrir que algunas palabras tengan una incerteza acerca de qué etiqueta debe ser predecida. En particular este tipo de técnicas están dentro de la literatura conocida como <em>“Uncertainty sampling”</em> que se puede resumir en buscar entidades que tengan un <em>score</em> <span class="math inline">\(~ 0.5\)</span> y dirigir el entrenamiento a esos <em>tokens</em> primero.</p>
+<p>Uno de los mayores beneficios de tener un modelo online, además del trivial de que esta constantemente actualizado con las ultimas mejoras; es el de la capacidad de apuntar a los <em>tokens</em> que poseen una mayor incertidumbre. En la sección <a href="state-of-art.html#use-of-cnn">3.6</a> hemos mencionado que puede ocurrir que algunas palabras tengan una incerteza acerca de qué etiqueta debe ser predicha. En particular este tipo de técnicas están dentro de la literatura conocida como <em>“Uncertainty sampling”</em> que se puede resumir en buscar entidades que tengan un <em>score</em> <span class="math inline">\(~ 0.5\)</span> y dirigir el entrenamiento a esos <em>tokens</em> primero.</p>
 </div>
 <div id="linkeo-de-entidades-con-knowledge-base" class="section level2">
 <h2><span class="header-section-number">6.5</span> <em>Linkeo</em> de entidades con <em>Knowledge Base</em></h2>
 <p>Existe otra tarea en el universo de <em>NLP</em> que está muy relacionada a la tarea de <em>NER</em>: es la tarea de <em>Named Entity Linking</em> <span class="citation">(“Entity linking,” <a href="#ref-wiki_nel">2019</a>)</span>.</p>
 <p>Un corolario de la definición de <strong>designador rígido</strong> en la sección <a href="problem-definition.html#ner-formal">2.1.1.1</a> es que una misma entidad puede tener varios designadores. Por ejemplo “Lionel Messi” también puede ser referido como “Leo Messi”, “Leo”, “La Pulga”, “Lionel Andrés ‘Leo’ Messi”, etc. Todos ellos son designadores rígidos de una misma entidad, del concepto de Messi. A este concepto abstracto de entidad se le puede asignar un identificador único dentro de una base de datos de conocimiento (<em>knowledge base</em> en inglés) para luego ser utilizado en la normalización de entidades.</p>
-<p>Ya existen <em>knowledge bases</em> universales en internet. Una de las más importante y completas es <strong><em>wikidata</em></strong>. El identificador de Messi es el <code>Q615</code> <span class="citation">(“Wikidata - lionel messi,” <a href="#ref-wikidata_messi">2019</a>)</span>.</p>
+<p>Ya existen <em>knowledge bases</em> universales en internet. Una de las más importante y completas es <strong><em>Wikidata</em></strong>. El identificador de Messi es el <code>Q615</code> <span class="citation">(“Wikidata - lionel messi,” <a href="#ref-wikidata_messi">2019</a>)</span>.</p>
 <p>Si al etiquetar una entidad, además de decirle a nuestro sistema de qué tipo es, sumamos la funcionalidad de indicar a que identificador de entidad corresponde, se podría luego entrenar un nuevo modelo de <em>NEL</em>, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.</p>
-<p>El sistema puede beneficiarse ya que tendría disponible, mediante <em>Wikidata</em>, de una gran cantidad información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura <a href="discussion.html#fig:fig-messi">6.2</a>.</p>
+<p>El sistema puede beneficiarse ya que tendría disponible, mediante <em>Wikidata</em>, de una gran cantidad información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc. como muestra la figura <a href="discussion.html#fig:fig-messi">6.2</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:fig-messi"></span>
 <img src="assets/wikidata_messi.png" alt="Wikidata - Lionel Messi."  />
 <p class="caption">
 Figura 6.2: Wikidata - Lionel Messi.
 </p>
 </div>
-<p>Desde el punto de vista del usuario, puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de “nubes de palabras” a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de “Mauricio” y en otros se hable de “Macri”; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada utilizando entidades encontradas por nuestro sistema en la figura <a href="discussion.html#fig:fig-cloud">6.3</a>.</p>
+<p>Desde el punto de vista del usuario, puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de “nubes de palabras” a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de “Mauricio” y en otros se hable de “Macri”; sin embargo sería necesario unificar estas dos palabras claves para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada utilizando entidades encontradas por nuestro sistema en la figura <a href="discussion.html#fig:fig-cloud">6.3</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:fig-cloud"></span>
 <img src="assets/LosPersonajesDelDia.png" alt="Con NEL se sumarían Messi con Lionel y Mauricio con Macri."  />
 <p class="caption">

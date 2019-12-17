@@ -265,7 +265,7 @@ Es por ello que en este trabajo final hemos tomado la decisión de implementar u
 \hypertarget{entidad-nombrada}{%
 \subsubsection{Entidad nombrada}\label{entidad-nombrada}}
 
-En el contexto de \emph{extracción de información}, una \emph{entidad nombrada} es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son \enquote{Mauricio Macri}, \enquote{Ciudad Autónoma de Buenos Aires}, \enquote{Apple Macbook}.
+En el contexto de \emph{extracción de información}, una \emph{entidad nombrada} es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc.; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son \enquote{Mauricio Macri}, \enquote{Ciudad Autónoma de Buenos Aires}, \enquote{Apple Macbook}.
 También se suele definir sencillamente como aquellas entidades que se pueden ver como instancias de entidad (por ejemplo, la Ciudad Autónoma de Buenos Aires es una instancia de una ciudad).
 
 \hypertarget{ner-formal}{%
@@ -307,7 +307,7 @@ Por ejemplo en la oración: \enquote{Mauricio Macri es el presidente de Argentin
   \item
     \enquote{presidente} puede ser de diferentes países u organizaciones que se refieren a diferentes personas.
   \item
-    \enquote{presidente de Argentina}, si bien hace referencia a un mismo pais, puede ser de diferentes períodos presidenciales que se refieren a diferentes personas.
+    \enquote{presidente de Argentina}, si bien hace referencia a un mismo país, puede ser de diferentes períodos presidenciales que se refieren a diferentes personas.
   \end{itemize}
 \end{itemize}
 
@@ -376,11 +376,11 @@ Se entiende por dominio a todos los textos que en su conjunto forman un \emph{co
 \hypertarget{los-datos-son-el-problema}{%
 \subsection{Los datos son el problema}\label{los-datos-son-el-problema}}
 
-Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la \enquote{Inteligencia Artificial} es el la captura de datos, no los algoritmos (Honnibal \& Montani, \protect\hyperlink{ref-montani_AI}{2016}).
+Por todo lo mencionado, es evidente que el cuello de botella en el avance de ésta y muchas áreas de la inteligencia artificial es la captura de datos, no los algoritmos (Honnibal \& Montani, \protect\hyperlink{ref-montani_AI}{2016}).
 
 La \textbf{anotación} en el aprendizaje automático es el proceso de etiquetar datos. Con esto, las algoritmos pueden usar los datos anotados para aprender a reconocer patrones similares cuando se presentan datos nuevos. En particular para el estado actual del arte de \emph{NER} es necesario tener un subconjunto del cuerpo de textos a analizar (\emph{corpus}) anotado de tal manera que se conozcan previamente la ubicación de entidades, sus nombres y tipo.
 
-Este aprendizaje se carga en lo que se reconoce como un \textbf{modelo estadístico} y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas, librerias, \emph{frameworks} y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
+Este aprendizaje se carga en lo que se reconoce como un \textbf{modelo estadístico} y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas, librerías, \emph{frameworks} y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
 
 De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo).
 
@@ -406,12 +406,12 @@ El análisis del estado del arte fue basado en la definición del problema.
 
 \emph{SpaCy} es el \emph{framework} mejor ranqueado para la tarea de \emph{NLP} (Elliott, \protect\hyperlink{ref-github_machine_learning}{2019}) y sabemos por la figura \ref{fig:spacy-algos} que obtiene resultados a-la-par del estado del arte actual.
 
-Además la implementación de \emph{spaCy} es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de \emph{NLP} que sólo se utilizan con fines académicos.
+Además la implementación de \emph{spaCy} es robusta y orientada a la creación de aplicaciones para producción, a diferencia de muchas otras librerías de \emph{NLP} que sólo se utilizan con fines académicos.
 
 \hypertarget{el-pipeline}{%
 \subsection{El pipeline}\label{el-pipeline}}
 
-Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados tienen como primer paso el de separar los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el \enquote{pipeline de procesamiento}. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de \emph{NER}.
+Todas las operaciones de análisis de lenguaje natural sobre textos no estructurados tienen como primer paso el de separar los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el \enquote{pipeline de procesamiento}. Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de \emph{NER}.
 
 Cada componente del pipeline mostrado en la figura \ref{fig:spacy-pipeline} devuelve el un documento \emph{Doc} procesado, que luego se pasa al siguiente componente.
 
@@ -468,14 +468,14 @@ Ejemplo:
 \hypertarget{modelos-basados-en-reglas}{%
 \subsection{Modelos basados en reglas}\label{modelos-basados-en-reglas}}
 
-Antes de entrar en detalles de cómo trabaja el modelo estadístico de spacy y entender sus fortalezas es importante esbozar brevemente el grupo de algorítmos más \enquote{naive} posible. El de los modelos basados en reglas fijas.
+Antes de entrar en detalles de cómo trabaja el modelo estadístico de spacy y entender sus fortalezas es importante esbozar brevemente el grupo de algorítmos más \enquote{naïve} posible. El de los modelos basados en reglas fijas.
 
 En estos modelos se implementan reglas finitas o expresiones regulares para la detección de las entidades. Las principales limitaciones de este enfoque son:
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Mucho trabajo manua}l: el sistema \emph{Rule Based} exige un profundo conocimiento del dominio, este analisis debe ser realizado por humanos expertos en el dominio.
+  \textbf{Mucho trabajo manua}l: el sistema \emph{Rule Based} exige un profundo conocimiento del dominio, este análisis debe ser realizado por humanos expertos en el dominio.
 \item
   \textbf{Consumo de tiempo}: la generación de reglas para un sistema complejo es difícil y requiere mucho tiempo.
 \item
@@ -530,14 +530,14 @@ La idea de \emph{word embeddings} es la de \enquote{embeber} el conjunto de toke
 \caption{Embed.}\label{fig:formula-embed}
 \end{figure}
 
-Es importante destacar que en la etapa de \emph{embed}, toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razón es facilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras están relacionadas entre sí de manera eficiente y no supervisada).
+Es importante destacar que en la etapa de \emph{embed}, toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razón es fácilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras están relacionadas entre sí de manera eficiente y no supervisada).
 
 Esto permite al modelo poder inferir significado a partir de la información no anotada dentro del problema en particular a resolver (el de \emph{NER}).
 
 Una tabla de \emph{word-embeddings} mapea vectores largos binarios y esparsos en vectores cortos densos y continuos, cargados de significado relevante. Existen varias estrategias para enriquecer los \emph{tokens} con información adicional. Las dos fuentes más grandes de información embebida son las de \textbf{información lingüística} y los \textbf{\emph{word-vectors}}.
 
-\hypertarget{informaciuxf3n-liguxfcuxedstica}{%
-\paragraph{Información ligüística}\label{informaciuxf3n-liguxfcuxedstica}}
+\hypertarget{informaciuxf3n-linguxfcuxedstica}{%
+\paragraph{Información lingüística}\label{informaciuxf3n-linguxfcuxedstica}}
 
 El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas están resumidas en el siguiente ejemplo.
 
@@ -555,7 +555,7 @@ El objetivo de ésta etapa es la de encontrar las características intrínsecas 
 \item
   \textbf{Text}: la palabra original texto.
 \item
-  \textbf{Lemma}: La forma básica de la palabra. \texttt{Es\ -\textgreater{}\ ser}. Esto permite a las siguientes etapas trabajar con una definicón canónica del token.
+  \textbf{Lemma}: La forma básica de la palabra. \texttt{Es\ -\textgreater{}\ ser}. Esto permite a las siguientes etapas trabajar con una definición canónica del token.
 \item
   \textbf{POS}: la etiqueta simple de parte-del-discurso (POS).
 \item
@@ -587,10 +587,10 @@ Otra forma interesante de analizar y entender los \emph{word-vectors} en su cont
 
 }
 
-\caption{Parallelogram structure in the vector space (by definition).}\label{fig:vec-parallelogram}
+\caption{Estructura de paralelogramo en el vector espacio (por definición).}\label{fig:vec-parallelogram}
 \end{figure}
 
-Es facil de entender viendo la figura \ref{fig:vec-parallelogram} que al realizar algebra entre los diferentes vectores de significado se pueden inferir nuevos conceptos:
+Es fácil de entender viendo la figura \ref{fig:vec-parallelogram} que al realizar algebra entre los diferentes vectores de significado se pueden inferir nuevos conceptos:
 
 \[\vec{Rey} - \vec{Hombre} \approx \vec{Realeza}\]
 \[\vec{Rey} - \vec{Hombre} + \vec{Mujer} \approx \vec{Reina}\]
@@ -613,7 +613,7 @@ El resultado de esta etapa es la de codificar vectores \textbf{independientes-de
 \caption{Encode.}\label{fig:formula-encode}
 \end{figure}
 
-La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizada como una \emph{moving window} de tres vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir, cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera, por lo que se genera naturalmente un \enquote{efecto de decaimiento} en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor.
+La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizada como una \emph{moving window} de tres vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir, cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evalúan de igual manera, por lo que se genera naturalmente un \enquote{efecto de decaimiento} en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor.
 
 \hypertarget{attend}{%
 \subsubsection{\texorpdfstring{\emph{Attend}}{Attend}}\label{attend}}
@@ -622,7 +622,7 @@ La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la
 Resuelve el problema: tenemos demasiada información para inferir un significado específico al problema.
 \end{quote}
 
-En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o tambien conocido como \enquote{vector de consulta} o \enquote{vector de contexto} representado en la figura \ref{fig:formula-attend} como un vector mas oscuro.
+En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o también conocido como \enquote{vector de consulta} o \enquote{vector de contexto} representado en la figura \ref{fig:formula-attend} como un vector mas oscuro.
 
 \begin{figure}[H]
 
@@ -660,7 +660,7 @@ Finalmente en esta etapa tenemos un nuevo \enquote{vector de significado} que re
 
 Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte mediante el uso de un \enquote{autómata finito determinístico de pila} en conjunto con una red neuronal (Lample, Ballesteros, Subramanian, Kawakami, \& Dyer, \protect\hyperlink{ref-DBLP:journalsux2fcorrux2fLampleBSKD16}{2016}).
 
-Este autómata de pila es el nexo entre la Red Neuronal Convolucional (\emph{CNN}) que contiene el modelo estadístico para predecir entidades en el texto completo. En el mismo, se envían cada uno de los estados porl los que se mueve para ir generando entidades con una herística del tipo \emph{greedy}.
+Este autómata de pila es el nexo entre la Red Neuronal Convolucional (\emph{CNN}) que contiene el modelo estadístico para predecir entidades en el texto completo. En el mismo, se envían cada uno de los estados por los que se mueve para ir generando entidades con una heurística del tipo \emph{greedy}.
 
 La figura \ref{fig:lampe-1} muestra las posibles acciones de transición de este autómata.
 
@@ -699,16 +699,16 @@ Para saber que acción tomar se consulta el modelo estadístico. En la figura \r
 \item
   Primero se empieza con un stack vacío.
 \item
-  Se consume \emph{\enquote{Mark}} y la \emph{CNN} predice que es una posible Persona. Lo envia al stack.
+  Se consume \emph{\enquote{Mark}} y la \emph{CNN} predice que es una posible Persona. Lo envía al \emph{stack}.
 \item
   Se consume \emph{\enquote{Watney}} y la \emph{CNN} predice que es una posible continuación de Persona. Lo envia al stack.
 \item
-  Se consume \emph{\enquote{visited}} y la \emph{CNN} predice que esto no forma parte de una entidad. Por lo tanto antes se \emph{REDUCE} la entidad \emph{\enquote{Mark Watney}} del stack actual.
+  Se consume \emph{\enquote{visited}} y la \emph{CNN} predice que esto no forma parte de una entidad. Por lo tanto antes se \emph{REDUCE} la entidad \emph{\enquote{Mark Watney}} del \emph{stack} actual.
 \item
   Análogamente se detecta la entidad \emph{\enquote{Mars}}
 \end{itemize}
 
-La predicción que realiza la \emph{CNN} tiene un puntaje de 0 a 1; un porcentaje de certeza de que la token sea de un tipo específico. A veces las tokens pueden tener más de una etiqueta candidata a ser utilizada y éste es el método para desempatar este conflicto. Cuanto más cercano a \(0.5\) es ese punaje mayor es la incerteza.
+La predicción que realiza la \emph{CNN} tiene un puntaje de 0 a 1; un porcentaje de certeza de que la token sea de un tipo específico. A veces las tokens pueden tener más de una etiqueta candidata a ser utilizada y éste es el método para desempatar este conflicto. Cuanto más cercano a \(0.5\) es ese puntaje mayor es la incerteza.
 
 \newpage
 
@@ -833,7 +833,7 @@ Dependiendo de la ubicación en la selección dentro del texto:
 \item
   Si no existen entidades en el texto actual, se le asigna por defecto el tipo \emph{MISC} y se muestran el resto de los tipos para permitir cambiarlo de ser necesario.
 \item
-  Si existen entidades antes o después, se ofrece la opción de unir la palabra actual con la entidada más próxima para el lado elegido.
+  Si existen entidades antes o después, se ofrece la opción de unir la palabra actual con la entidad más próxima para el lado elegido.
 \end{itemize}
 
 \begin{figure}[H]
@@ -922,7 +922,7 @@ Es esta columna a la izquierda se puede ver rápidamente que porcentaje de el \e
 
 Crear \emph{snapshot}
 
-En esta sección, el administrador puede crear un \emph{snapshot} del estado actual de entrenamiento del modelo. Esta funcionalidad es utiil para comparar el avance del entrenamiento en diferentes momentos de la historia del mismo.
+En esta sección, el administrador puede crear un \emph{snapshot} del estado actual de entrenamiento del modelo. Esta funcionalidad es util para comparar el avance del entrenamiento en diferentes momentos de la historia del mismo.
 
 Cuando se crea un \emph{snapshot} se incrementa la última versión disponible en uno y se gesta una nueva versión actual. Además existe la posibilidad de editar los posibles tipos de entidad del sistema en este momento. Como consecuencia de esto, el sistema se asegura que todo cambio de etiquetas tenga su correspondiente versión.
 
@@ -935,7 +935,7 @@ Cuando el sistema entrena un \emph{snapshot} se tendrá en cuenta todos los text
 
 Reasignar \emph{worker}
 
-Sección que permite reasignar \emph{workers} (los servicios encargados de realizar operaciones de \emph{NLP}) para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar pruebas sobre los mismos.
+Sección que permite reasignar \emph{workers} (los servicios encargados de realizar operaciones de \emph{NLP}) para que sirvan un \emph{snapshot} distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar pruebas sobre los mismos.
 
 \hypertarget{sandbox}{%
 \paragraph{Sandbox}\label{sandbox}}
@@ -955,7 +955,7 @@ Adicionalmente, si el usuario tiene el rol de entrenador, podrá corregir las en
 \hypertarget{comparar-snapshots}{%
 \paragraph{\texorpdfstring{Comparar (\emph{snapshots})}{Comparar (snapshots)}}\label{comparar-snapshots}}
 
-Esta sección es accesible únicamente por administradores y permite comparar las entidades inferidas por dos \emph{snapshots} distintos, con la opción de marcar visualmente aquellos textos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, podrá corregir de manera inline los errores en la inferencia del modelo actual (Figura \ref{fig:logic-compare}).
+Esta sección es accesible únicamente por administradores y permite comparar las entidades inferidas por dos \emph{snapshots} distintos, con la opción de marcar visualmente aquellos textos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, podrá corregir de manera \emph{inline} los errores en la inferencia del modelo actual (Figura \ref{fig:logic-compare}).
 
 \begin{figure}[H]
 
@@ -1021,7 +1021,7 @@ Cuando hay una sesión activa el usuario cuenta con el rol de \emph{USER} y/o de
 \caption{Usuario regular.}\label{fig:logic-status-user}
 \end{figure}
 
-Finalmente, cuando el usuario logueado tiene el rol de \emph{ADMIN}, tiene acceso a todas las secciones de administración del sistema (Figura \ref(fig:logic-status-admin)).
+Finalmente, cuando el usuario logueado tiene el rol de \emph{ADMIN}, tiene acceso a todas las secciones de administración del sistema (Figura \ref{fig:logic-status-admin}).
 
 \begin{figure}[H]
 
@@ -1035,7 +1035,7 @@ Finalmente, cuando el usuario logueado tiene el rol de \emph{ADMIN}, tiene acces
 \hypertarget{api}{%
 \subsubsection{\texorpdfstring{\emph{API}}{API}}\label{api}}
 
-Para este proyecto tomamos la decisión de ofrecer una \emph{API REST}. Dado que \emph{REST} es un estilo de arquitectura y \textbf{no un standard} históricamente ha sido dificil ofrecer este tipo de servicio de una manera amena para el developer.
+Para éste proyecto tomamos la decisión de ofrecer una \emph{API REST}. Dado que \emph{REST} es un estilo de arquitectura y \textbf{no un standard} históricamente ha sido difícil ofrecer este tipo de servicio de una manera amena para el desarrollador
 
 En los últimos años han surgido especificaciones bien formadas para la definición de \emph{REST APIs}, en particular \emph{The Linux Foundation} ha promovido que la industria utilice \emph{OPEN API}.
 
@@ -1312,7 +1312,7 @@ Rutas dedicadas a operaciones con el \emph{corpus} del sistema.
 \hypertarget{snapshots-1}{%
 \subparagraph{Snapshots}\label{snapshots-1}}
 
-Conjunto de operaciones relacionadas con los snapshots y workers.
+Conjunto de operaciones relacionadas con los \emph{snapshots} y \emph{workers}.
 
 \begin{itemize}
 \tightlist
@@ -1461,7 +1461,7 @@ Conjunto de operaciones relacionadas al \emph{Reconocimiento de Entidades Nombra
   \begin{itemize}
   \tightlist
   \item
-    Lista de los workers disponibles.
+    Lista de los \emph{workers} disponibles.
   \end{itemize}
 \item
   \textbf{POST} \texttt{/api/workers/reassign}
@@ -1510,9 +1510,9 @@ Debido a que la \emph{API} está implementada en \emph{python} y este es un leng
 \hypertarget{autenticaciuxf3n-1}{%
 \paragraph{Autenticación}\label{autenticaciuxf3n-1}}
 
-El proceso de autenticación de la \emph{API} sigue el flujo de \emph{OAuth2} (Group, \protect\hyperlink{ref-oauth2}{2017}), debido a como está definido, el usuario al autenticarse con \emph{email} y \emph{password} recibe par de identificadores únicos llamados \texttt{access\_token} y \texttt{refresh\_token}. A partir de este momento todos los requests del usuario a la \emph{API} poseen en su encabezado el \texttt{access\_token}. Ocurre que estos \emph{tokens} de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el \texttt{access\_token} utilizando el \texttt{refresh\_token} provisto en el \emph{login} inicial. Al hacer esto el usuario recibe un nuevo par de \emph{tokens} de igual manera a como lo hizo en el \emph{login} con sus credenciales.
+El proceso de autenticación de la \emph{API} sigue el flujo de \emph{OAuth2} (Group, \protect\hyperlink{ref-oauth2}{2017}), debido a como está definido, el usuario al autenticarse con \emph{email} y \emph{password} recibe par de identificadores únicos llamados \texttt{access\_token} y \texttt{refresh\_token}. A partir de este momento todos los \emph{requests} del usuario a la \emph{API} poseen en su encabezado el \texttt{access\_token}. Ocurre que estos \emph{tokens} de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el \texttt{access\_token} utilizando el \texttt{refresh\_token} provisto en el \emph{login} inicial. Al hacer esto el usuario recibe un nuevo par de \emph{tokens} de igual manera a como lo hizo en el \emph{login} con sus credenciales.
 
-De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend \textbf{una sola vez} sus credenciales sensibles.
+De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al \emph{backend} \textbf{una sola vez} sus credenciales sensibles.
 
 En la figura \ref{fig:scenarios-relogin} podemos ver el flujo que realiza la implementación \emph{web} del entrenador para realizar el refresco de la sesión al recibir un \(401\) por parte del servidor.
 
@@ -1530,7 +1530,7 @@ En la figura \ref{fig:scenarios-relogin} podemos ver el flujo que realiza la imp
 
 Un \emph{worker} se encarga de realizar las operaciones de \emph{NER} incluyendo el entrenamiento de modelos de inferencia. Es un servicio que existe de manera independiente.
 
-El modelo estadístico debe ser cargado en memoria para poder ser utilizado. El mismo requiere de muchos recursos y tiene una eficiencia limitada ya que puede atender una sóla consulta a la vez. Es por ello que decidimos, en lugar de que el modelo sea parte de la \emph{API} resultando en un cuello de botella, encapsular el modelo en un servicio externo para que pueda ser escalado horizontalmente.
+El modelo estadístico debe ser cargado en memoria para poder ser utilizado. El mismo requiere de muchos recursos y tiene una eficiencia limitada ya que puede atender una sola consulta a la vez. Es por ello que decidimos, en lugar de que el modelo sea parte de la \emph{API} resultando en un cuello de botella, encapsular el modelo en un servicio externo para que pueda ser escalado horizontalmente.
 
 Como el \emph{worker} es una unidad de trabajo que recibe tareas desde el \emph{task scheduler}, es posible tener varios \emph{workers} donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos \emph{snapshots}).
 
@@ -1540,9 +1540,9 @@ Cuando un \emph{worker} es creado, automáticamente carga el modelo actual (\emp
 \paragraph{Entrenamiento y carga de snapshots}\label{entrenamiento-y-carga-de-snapshots}}
 
 Dado que pueden haber varios \emph{workers} utilizando el mismo modelo de \emph{spaCy}, es de vital importancia que si existe al menos un \emph{worker} leyendo un modelo desde el disco y otro worker quiere entrenar ese modelo, que no pueda hasta que el resto haya terminado de leerlo.
-Ésto se debe a que si el \emph{worker} que está entrenando el modelo sobreescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del \emph{worker} de lectura. Como no hay ninguna limitación en la lectura, más de un \emph{worker} puede leer en simultáneo.
+Ésto se debe a que si el \emph{worker} que está entrenando el modelo sobrescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del \emph{worker} de lectura. Como no hay ninguna limitación en la lectura, más de un \emph{worker} puede leer en simultáneo.
 
-Para realizar ese control de concurrencia utilizamos el campo \texttt{semaphore} del modelo de \emph{snapshot} guardado en la base de datos (Figura \ref{fig:developer-db-snapshot}) el cual usualmente se encuentra en \(0\). El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.
+Para realizar ese control de concurrencia utilizamos el campo \texttt{semaphore} del modelo de \emph{snapshot} guardado en la base de datos (Figura \ref{fig:developer-db-snapshot}) el cual usualmente se encuentra en \(0\). El semáforo es incrementado en uno cuando un \emph{worker} comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.
 
 En la figura \ref{fig:scenarios-worker-train} podemos ver un escenario en el que tanto \emph{Worker 2} y \emph{Worker 3} pueden leer en simultáneo el modelo pero \emph{Worker 1} debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.
 
@@ -1566,7 +1566,7 @@ Este proceso escala horizontalmente debido a que su implementación en la capa f
 \hypertarget{base-de-datos}{%
 \subsubsection{Base de datos}\label{base-de-datos}}
 
-Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de \emph{API} funcione así como también los datos necesarios por los workers (entrenamientos).
+Servicio que contiene la base de datos con la información necesaria (usuarios, \emph{snapshots}) para que el servicio de \emph{API} funcione así como también los datos necesarios por los \emph{workers} (entrenamientos).
 
 Este proceso escala horizontalmente debido a que su implementación en la capa física es un \emph{cluster}.
 
@@ -1581,7 +1581,7 @@ Esta vista también se conoce como la vista de implementación.
 \hypertarget{cliente-web-1}{%
 \subsubsection{Cliente web}\label{cliente-web-1}}
 
-La página \emph{web} que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de \emph{Single Page Application} que nos permitió generar un \emph{bundle} que puede ser hosteado en \emph{CDNs} y nos permite tener ciclos de release independientes al los del servicio.
+La página \emph{web} que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de \emph{Single Page Application} que nos permitió generar un \emph{bundle} que puede ser hosteado en \emph{CDNs} y nos permite tener ciclos de \emph{release} independientes al los del servicio.
 
 Poder separar las \emph{releases} de la \emph{web} y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el \emph{API REST} y una baja por cambios a la interfaz de la \emph{web} no afecta la disponibilidad del servicio.
 
@@ -1602,18 +1602,18 @@ Provee de una biblioteca de componentes estilados siguiendo el patrón de diseñ
 \hypertarget{react-router}{%
 \subparagraph{React Router}\label{react-router}}
 
-Desarrollada por \emph{React Training}, proveé de mecanimos para la navegación en \emph{SPAs}.
+Desarrollada por \emph{React Training}, provewe de mecanismos para la navegación en \emph{SPAs}.
 
 \hypertarget{i18next}{%
 \subparagraph{i18next}\label{i18next}}
 
-Librería que proveé mecanismos de internacionalización. A su vez, nos permitió generar los archivos de traducción mediante su extracción del código fuente utilizando la herramienta \texttt{i18next-scanner}.
+Librería que provee mecanismos de internacionalización. A su vez, nos permitió generar los archivos de traducción mediante su extracción del código fuente utilizando la herramienta \texttt{i18next-scanner}.
 
 \hypertarget{openapi-generator}{%
 \subparagraph{OpenAPI Generator}\label{openapi-generator}}
 
 \emph{OpenAPI Generator} es una herramienta que permite generar código a partir de una definición de \emph{OpenAPI}.
-Debido a que el servicio implementado expone una definiciión de \emph{OpenAPI}, podemos utilizar ésta librería para auto-generar todo el código necesario para comunicarnos con el servicio usando el generador de \emph{Typescript}.
+Debido a que el servicio implementado expone una definición de \emph{OpenAPI}, podemos utilizar ésta librería para auto-generar todo el código necesario para comunicarnos con el servicio usando el generador de \emph{Typescript}.
 
 \hypertarget{arquitectura}{%
 \paragraph{Arquitectura}\label{arquitectura}}
@@ -1638,7 +1638,7 @@ Los módulos marcados en rojo son de utilidad, ya sea por que contienen todo el 
 
 El servicio \emph{web} ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el \emph{local storage} del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.
 
-Si en algún momento en el futuro el \emph{API} nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código \texttt{HTTP\ 401}) y el \emph{token} de refrescado dejó de ser válido, las credenciales se borran del \emph{local storage} y redirigimos al cliente a la pantalla de inicio.
+Si en algún momento en el futuro el \emph{API} nos retorna algún \emph{request} indicando que el usuario no tiene permisos para acceder a algún área (código \texttt{HTTP\ 401}) y el \emph{token} de refrescado dejó de ser válido, las credenciales se borran del \emph{local storage} y redirigimos al cliente a la pantalla de inicio.
 
 Ofrecemos también la posibilidad de no guardar la sesión, lo cual hará que una vez cerrada la pestaña, el usuario deba volver a ingresar al sistema para poder acceder a los distintos servicios.
 
@@ -1665,7 +1665,7 @@ Como base del proyecto utilizamos un \emph{microframework} de aplicaciones \emph
 
 \emph{Framework} que enriquece a \emph{Flask} agregando la posibilidad de poder crear \emph{APIs REST} generando una especificación de \emph{OpenAPI} que es expuesta a los usuarios del servicio en dos variantes de documentación: \emph{ReDoc} y \emph{Swagger UI}. Tener un \emph{API} que se auto-documenta nos permite ofrecerle a los clientes un lugar en el cual puedan consultar el funcionamiento completo de el servicio requiriendo poco trabajo extra a la hora de desarrollar el servicio.
 
-A su vez, provee facilidades de serialización y de-serialización de objetos en respuestas \emph{JSON} utilizando la librería de \emph{marshmallow} así como también utilizades para simplificar la creación de \emph{endpoints} que permitan paginar sus resultados (particularmente útil para listar entidades como entrenamientos, usuarios o textos).
+A su vez, provee facilidades de serialización y de-serialización de objetos en respuestas \emph{JSON} utilizando la librería de \emph{marshmallow} así como también para simplificar la creación de \emph{endpoints} que permitan paginar sus resultados (particularmente útil para listar entidades como entrenamientos, usuarios o textos).
 
 \hypertarget{flask-jwt-extended}{%
 \subparagraph{\texorpdfstring{\emph{flask-jwt-extended}}{flask-jwt-extended}}\label{flask-jwt-extended}}
@@ -1698,7 +1698,7 @@ Cada \emph{worker} puede realizar las siguientes tareas:
 \item
   \textbf{train}: Entrenar el modelo de inferencia de \emph{spaCy} utilizando el \emph{snapshot} para el cual fue configurado.
 \item
-  \textbf{un\_train}: Borra el modelo guardado en el disco, efectivamente \enquote{des-entrenandose}. Principalmente utilizado para liberar recursos.
+  \textbf{un\_train}: Borra el modelo guardado en el disco, efectivamente \enquote{des-entrenándose}. Principalmente utilizado para liberar recursos.
 \item
   \textbf{reload}: Recarga el modelo de inferencia desde el disco. Utilizado cuando algún \emph{worker} entrenó el modelo y el actual quedó desactualizado.
 \item
@@ -1713,7 +1713,7 @@ Cada \emph{worker} puede realizar las siguientes tareas:
 El \emph{task scheduler} que utilizamos en el \emph{API} para poder orquestar todas las tareas relacionadas con \emph{NER} así como también la de la administración de los \emph{workers} es \emph{Celery} (``Celery,'' \protect\hyperlink{ref-celery}{2019}). \emph{Celery} es una cola de tareas asincrónica especializada en procesamiento distribuido.
 Si bien soporta distintos \emph{backends} para la funcionalidad de cola de mensajes, decidimos utilizar \emph{RabbitMQ} (``RabbitMQ,'' \protect\hyperlink{ref-rabbitmq}{2019}) debido a su robustez y la posibilidad de escalar horizontalmente.
 
-Para el monitoreo de las tareas de \emph{Celery} utilizamos la herramienta llamada \emph{Flower} (Movsisyan, \protect\hyperlink{ref-flower}{2016}), que permite consultar el estado de cada worker (Figura \ref{fig:developer-flower-dashboard}), historial de tareas (Figura \ref{fig:developer-flower-task-history}) así como también estadísticas en tiempo real sobre el sistema (Figura \ref{fig:developer-flower-monitoring}) y detalles de todos los \emph{workers} que están conectados a la cola de mensajes (Figura \ref{fig:developer-flower-monitoring}).
+Para el monitoreo de las tareas de \emph{Celery} utilizamos la herramienta llamada \emph{Flower} (Movsisyan, \protect\hyperlink{ref-flower}{2016}), que permite consultar el estado de cada \emph{worker} (Figura \ref{fig:developer-flower-dashboard}), historial de tareas (Figura \ref{fig:developer-flower-task-history}) así como también estadísticas en tiempo real sobre el sistema (Figura \ref{fig:developer-flower-monitoring}) y detalles de todos los \emph{workers} que están conectados a la cola de mensajes (Figura \ref{fig:developer-flower-monitoring}).
 
 \begin{figure}[H]
 
@@ -1891,7 +1891,7 @@ Para realizar un \emph{deployment} de nuevas versiones de cada contenedor de doc
 Las imágenes base que utilizamos en todos los servicios son mantenidas por \emph{Bitnami} (``Bitnami,'' \protect\hyperlink{ref-bitnami}{2019}). Tomamos esta decisión para:
 1. Reducir el tamaño de las imágenes al reutilizar la capa de sistema operativo entre todas ellas.
 2. Se actualizan automáticamente con todos los parches de seguridad de las plataformas elegidas.
-3. Están implementadas siguiendo las mejores prácticas acerca del no uso de \emph{root} en containers.
+3. Están implementadas siguiendo las mejores prácticas acerca del no uso de \emph{root} en \emph{containers}.
 
 \hypertarget{service}{%
 \paragraph{\texorpdfstring{\emph{Service}}{Service}}\label{service}}
@@ -1959,18 +1959,18 @@ Dentro del \emph{container} \texttt{ui}, incluimos \emph{nginx} (``Nginx,'' \pro
 \item
   Servir el contenido estático de la \emph{SPA}.
 \item
-  Redirigir los \emph{requests} de las urls que comienzan con \texttt{/api/} al container de \emph{API}.
+  Redirigir los \emph{requests} de las urls que comienzan con \texttt{/api/} al \emph{container} de \emph{API}.
 \end{enumerate}
 
 \hypertarget{api-3}{%
 \paragraph{\texorpdfstring{\emph{API}}{API}}\label{api-3}}
 
-Debido a que el \emph{API} consume sus datos de \emph{MongoDB} así como también requiere de una conexión mediante \emph{Celery} a \emph{RabbitMQ} para poder realizar las tareas de \emph{NER}, es posible tener varias instancias del mismo de manera tal que cada una se conecte al cluster de los dos servicios. Es posible mediante el uso de un \emph{Load Balancer} generar un cluster de servicios de \emph{API}.
+Debido a que el \emph{API} consume sus datos de \emph{MongoDB} así como también requiere de una conexión mediante \emph{Celery} a \emph{RabbitMQ} para poder realizar las tareas de \emph{NER}, es posible tener varias instancias del mismo de manera tal que cada una se conecte al \emph{cluster} de los dos servicios. Es posible mediante el uso de un \emph{Load Balancer} generar un cluster de servicios de \emph{API}.
 
 \hypertarget{worker-2}{%
 \paragraph{\texorpdfstring{\emph{Worker}}{Worker}}\label{worker-2}}
 
-Dado que cada \emph{worker} está implementado como un \emph{Celery worker}, mientras la configuración del mismo sea correcta, al levantar nuevos containers será posible escalarlo horizontalmente. Incluído en el repositorio de \emph{NERd} está un comando de \emph{Makefile} que permite escalar el servicio worker:
+Dado que cada \emph{worker} está implementado como un \emph{Celery worker}, mientras la configuración del mismo sea correcta, al levantar nuevos \emph{containers} será posible escalarlo horizontalmente. Incluido en el repositorio de \emph{NERd} está un comando de \emph{Makefile} que permite escalar el servicio \emph{worker}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1987,7 +1987,7 @@ Dado que cada \emph{worker} está implementado como un \emph{Celery worker}, mie
 \hypertarget{mongodb-cluster}{%
 \paragraph{\texorpdfstring{\emph{MongoDB cluster}}{MongoDB cluster}}\label{mongodb-cluster}}
 
-Al igual que \emph{RabbitMQ}, \emph{MongoDB} fue diseñado para escalar horizontalmente (ver \protect\hyperlink{MongoDBDev}{Base de datos}), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.
+Al igual que \emph{RabbitMQ}, \emph{MongoDB} fue diseñado para escalar horizontalmente (ver \protect\hyperlink{MongoDBDev}{Base de datos}), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un \emph{cluster}.
 
 \hypertarget{escenarios}{%
 \subsection{Escenarios}\label{escenarios}}
@@ -2005,7 +2005,7 @@ Esta vista también se conoce como vista de caso de uso.
 
 Como podemos ver en la figura \ref{fig:scenarios-ner}, para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.
 
-Cuando un \emph{cliente} realiza un pedido al \emph{API}, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el \emph{request} en \emph{RabbitMQ}. Luego, un único \emph{worker} que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, \emph{RabbitMQ} notifica al \emph{API} de la tarea y este puede devolver finalmente el resultado al \emph{cliente}.
+Cuando un \emph{cliente} realiza un pedido al \emph{API}, crea una nueva tarea en la cola correspondiente al \emph{snapshot} especificado por la versión en el \emph{request} en \emph{RabbitMQ}. Luego, un único \emph{worker} que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, \emph{RabbitMQ} notifica al \emph{API} de la tarea y este puede devolver finalmente el resultado al \emph{cliente}.
 
 \begin{figure}[H]
 
@@ -2051,7 +2051,7 @@ El proceso de la inferencia es el mismo que el mostrado en la figura \ref{fig:sc
 \hypertarget{habilitar-snapshots}{%
 \subsubsection{Habilitar snapshots}\label{habilitar-snapshots}}
 
-Cuando un usuario necesita comparar dos snapshots, precisa tener al menos un \emph{worker} de cada versión levantado. En la figura \ref{fig:scenarios-worker-snapshot-change}, ante una tarea de reasignación de snapshot, el \emph{worker} se desuscribe de la cola de mensajes del \emph{snapshot} que está escuchando actualmente y se suscribe a la cola de mensajes del \emph{snapshot} al que se lo quiere cambiar. Luego, se recarga el modelo.
+Cuando un usuario necesita comparar dos \emph{snapshots}, precisa tener al menos un \emph{worker} de cada versión levantado. En la figura \ref{fig:scenarios-worker-snapshot-change}, ante una tarea de reasignación de \emph{snapshot}, el \emph{worker} se da de baja de la cola de mensajes del \emph{snapshot} que está escuchando actualmente y se suscribe a la cola de mensajes del \emph{snapshot} al que se lo quiere cambiar. Luego, se recarga el modelo.
 
 \begin{figure}[H]
 
@@ -2145,7 +2145,7 @@ En la figura \ref{fig:fig-boxplot} se puede ver que nuestro sistema alcanza una 
 
 }
 
-\caption{Boxplot del Valor-F vs vantidad de documentos de entrenamiento}\label{fig:fig-boxplot}
+\caption{Boxplot del Valor-F vs cantidad de documentos de entrenamiento}\label{fig:fig-boxplot}
 \end{figure}
 
 Sobre la cantidad de documentos necesarios para el entrenamiento vs evaluación podemos concluir que una relación 85\% / 15\% es la más acertada para un conjunto de \(4000\) documentos.
@@ -2155,8 +2155,8 @@ Sobre la cantidad de documentos necesarios para el entrenamiento vs evaluación 
 \hypertarget{discussion}{%
 \section{Discusión}\label{discussion}}
 
-\hypertarget{analisis-de-resultados}{%
-\subsection{Analisis de resultados}\label{analisis-de-resultados}}
+\hypertarget{anuxe1lisis-de-resultados}{%
+\subsection{Análisis de resultados}\label{anuxe1lisis-de-resultados}}
 
 Los resultados indicados en la sección \ref{result-data} muestran que el \(\text{valor-F}\) inicial de \emph{spaCy} para nuestro \emph{corpus} de noticias tiene una \emph{score} de 66 puntos. Esta puntuación dista mucho del valor 89 que indica la librería en su documentación (Honnibal \& Montani, \protect\hyperlink{ref-spacy-spanish-model}{2019}) para este idioma.
 
@@ -2167,7 +2167,7 @@ La razón de esta discrepancia ha sido mencionada en varias oportunidades a lo l
 \item
   \textbf{\emph{Spanish UD AnCora Corpus}}. Contiene más de 14mil documentos de entrenamiento provenientes de noticias españolas (Zeman \& Martínez Alonso, \protect\hyperlink{ref-ancora-es}{2019}).
 \item
-  \textbf{\emph{WikiNER}}. Proveniente de más de 50,000 documentos de wikipedia en español (Nothman, Ringland, Radford, Murphy, \& Curran, \protect\hyperlink{ref-Nothman2017}{2017}).
+  \textbf{\emph{WikiNER}}. Proveniente de más de 50,000 documentos de Wikipedia en español (Nothman, Ringland, Radford, Murphy, \& Curran, \protect\hyperlink{ref-Nothman2017}{2017}).
 \end{itemize}
 
 Este es un claro ejemplo de la fragilidad que poseen los modelos estadísticos en cuanto al corpus de interés. El modelo de \emph{spaCy} ha sido entrenado con noticias de España, sin embargo, esas noticias no alcanzan para que el modelo pueda generalizar a las noticias de Argentina y mantener el alto grado de exactitud del modelo anterior.
@@ -2179,7 +2179,7 @@ En este trabajo entrenando sobre el modelo de \emph{spaCy} con 3600 documentos h
 
 La detección de entidades por defecto en español de \emph{spaCy}, incluye las entidades \texttt{Persona}, \texttt{Organización}, \texttt{Locación} y \texttt{Misceláneo}. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de \texttt{Fecha}.
 
-El hecho de que exista una clasificación de entidad como \texttt{Misceláneo} indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección \ref{ner-formal} se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.
+El hecho de que exista una clasificación de entidad como \texttt{Misceláneo} indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección \ref{ner-formal} se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad miscelánea.
 
 Existe literatura acerca de la posible taxonomía de las entidades. En (Brunstein, \protect\hyperlink{ref-brunstein2002}{2002}) se proponen 29 tipos y 64 subtipos.
 
@@ -2204,7 +2204,7 @@ Haciendo un análisis de dicha taxonomía encontramos que nuestro \emph{corpus} 
   \begin{itemize}
   \tightlist
   \item
-    ej: peronistas, kirchneristas, macristas.
+    ej.: peronistas, kirchneristas, macristas.
   \end{itemize}
 \item
   \textbf{\emph{Offence}}: ofensas.
@@ -2212,7 +2212,7 @@ Haciendo un análisis de dicha taxonomía encontramos que nuestro \emph{corpus} 
   \begin{itemize}
   \tightlist
   \item
-    ej: asesinato, abducción, fraude, aborto, robo.
+    ej.: asesinato, abducción, fraude, aborto, robo.
   \end{itemize}
 \item
   \textbf{\emph{Facility\_Name}}: lugares específicos.
@@ -2220,7 +2220,7 @@ Haciendo un análisis de dicha taxonomía encontramos que nuestro \emph{corpus} 
   \begin{itemize}
   \tightlist
   \item
-    ej: Ecoparque, Disneyland, Canal de Suez, Aeropuerto de Ezeiza.
+    ej.: Ecoparque, Disneyland, Canal de Suez, Aeropuerto de Ezeiza.
   \end{itemize}
 \item
   \textbf{\emph{Product\_Name}}: nombres de productos.
@@ -2228,7 +2228,7 @@ Haciendo un análisis de dicha taxonomía encontramos que nuestro \emph{corpus} 
   \begin{itemize}
   \tightlist
   \item
-    ej: Galaxy S10, Fiat Toro, Manaos.
+    ej.: Galaxy S10, Fiat Toro, Manaos.
   \end{itemize}
 \item
   \textbf{\emph{Game}}: nombres de juegos.
@@ -2236,7 +2236,7 @@ Haciendo un análisis de dicha taxonomía encontramos que nuestro \emph{corpus} 
   \begin{itemize}
   \tightlist
   \item
-    ej: futbol, football, basket, fortnite, ajedrez.
+    ej.: futbol, football, basket, fortnite, ajedrez.
   \end{itemize}
 \end{itemize}
 
@@ -2270,7 +2270,7 @@ Existen dos maneras de entrenar un modelo de predicción NLP:
 
 En nuestro sistemas hemos elegido la segunda opción porque al poseer la capacidad de escalar horizontalmente la cantidad de \emph{workers}; el modelo se carga en varios servicios y de ser entrenado de manera \emph{live} el entrenamiento iría a workers diferentes resultando en inconsistencias entre ellos. Existen maneras de migrar nuestro sistema a un modelo \emph{online} y mantener la capacidad de escalar horizontalmente, pero escapa al alcance que decidimos darle a este trabajo por lo cual lo consideramos una propuesta de mejora a futuro.
 
-Uno de los mayores beneficios de tener un modelo online, ademas del trivial de que esta constantemente actualizado con las ultimas mejoras; es el de la capacidad de apuntar a los \emph{tokens} que poseen una mayor incertidumbre. En la sección \ref{use-of-cnn} hemos mencionado que puede ocurrir que algunas palabras tengan una incerteza acerca de qué etiqueta debe ser predecida. En particular este tipo de técnicas están dentro de la literatura conocida como \emph{\enquote{Uncertainty sampling}} que se puede resumir en buscar entidades que tengan un \emph{score} \(~ 0.5\) y dirigir el entrenamiento a esos \emph{tokens} primero.
+Uno de los mayores beneficios de tener un modelo online, además del trivial de que esta constantemente actualizado con las ultimas mejoras; es el de la capacidad de apuntar a los \emph{tokens} que poseen una mayor incertidumbre. En la sección \ref{use-of-cnn} hemos mencionado que puede ocurrir que algunas palabras tengan una incerteza acerca de qué etiqueta debe ser predicha. En particular este tipo de técnicas están dentro de la literatura conocida como \emph{\enquote{Uncertainty sampling}} que se puede resumir en buscar entidades que tengan un \emph{score} \(~ 0.5\) y dirigir el entrenamiento a esos \emph{tokens} primero.
 
 \hypertarget{linkeo-de-entidades-con-knowledge-base}{%
 \subsection{\texorpdfstring{\emph{Linkeo} de entidades con \emph{Knowledge Base}}{Linkeo de entidades con Knowledge Base}}\label{linkeo-de-entidades-con-knowledge-base}}
@@ -2279,11 +2279,11 @@ Existe otra tarea en el universo de \emph{NLP} que está muy relacionada a la ta
 
 Un corolario de la definición de \textbf{designador rígido} en la sección \ref{ner-formal} es que una misma entidad puede tener varios designadores. Por ejemplo \enquote{Lionel Messi} también puede ser referido como \enquote{Leo Messi}, \enquote{Leo}, \enquote{La Pulga}, \enquote{Lionel Andrés \enquote{Leo} Messi}, etc. Todos ellos son designadores rígidos de una misma entidad, del concepto de Messi. A este concepto abstracto de entidad se le puede asignar un identificador único dentro de una base de datos de conocimiento (\emph{knowledge base} en inglés) para luego ser utilizado en la normalización de entidades.
 
-Ya existen \emph{knowledge bases} universales en internet. Una de las más importante y completas es \textbf{\emph{wikidata}}. El identificador de Messi es el \texttt{Q615} (``Wikidata - lionel messi,'' \protect\hyperlink{ref-wikidata_messi}{2019}).
+Ya existen \emph{knowledge bases} universales en internet. Una de las más importante y completas es \textbf{\emph{Wikidata}}. El identificador de Messi es el \texttt{Q615} (``Wikidata - lionel messi,'' \protect\hyperlink{ref-wikidata_messi}{2019}).
 
 Si al etiquetar una entidad, además de decirle a nuestro sistema de qué tipo es, sumamos la funcionalidad de indicar a que identificador de entidad corresponde, se podría luego entrenar un nuevo modelo de \emph{NEL}, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.
 
-El sistema puede beneficiarse ya que tendría disponible, mediante \emph{Wikidata}, de una gran cantidad información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura \ref{fig:fig-messi}.
+El sistema puede beneficiarse ya que tendría disponible, mediante \emph{Wikidata}, de una gran cantidad información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc. como muestra la figura \ref{fig:fig-messi}.
 
 \begin{figure}[H]
 
@@ -2294,7 +2294,7 @@ El sistema puede beneficiarse ya que tendría disponible, mediante \emph{Wikidat
 \caption{Wikidata - Lionel Messi.}\label{fig:fig-messi}
 \end{figure}
 
-Desde el punto de vista del usuario, puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de \enquote{nubes de palabras} a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de \enquote{Mauricio} y en otros se hable de \enquote{Macri}; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada utilizando entidades encontradas por nuestro sistema en la figura \ref{fig:fig-cloud}.
+Desde el punto de vista del usuario, puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de \enquote{nubes de palabras} a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de \enquote{Mauricio} y en otros se hable de \enquote{Macri}; sin embargo sería necesario unificar estas dos palabras claves para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada utilizando entidades encontradas por nuestro sistema en la figura \ref{fig:fig-cloud}.
 
 \begin{figure}[H]
 

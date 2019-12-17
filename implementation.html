@@ -190,7 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#result-data"><i class="fa fa-check"></i><b>5.2</b> Resultados obtenidos</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Discusión</a><ul>
-<li class="chapter" data-level="6.1" data-path="discussion.html"><a href="discussion.html#analisis-de-resultados"><i class="fa fa-check"></i><b>6.1</b> Analisis de resultados</a></li>
+<li class="chapter" data-level="6.1" data-path="discussion.html"><a href="discussion.html#análisis-de-resultados"><i class="fa fa-check"></i><b>6.1</b> Análisis de resultados</a></li>
 <li class="chapter" data-level="6.2" data-path="discussion.html"><a href="discussion.html#tipos-de-entidades"><i class="fa fa-check"></i><b>6.2</b> Tipos de entidades</a></li>
 <li class="chapter" data-level="6.3" data-path="discussion.html"><a href="discussion.html#semilla-inicial"><i class="fa fa-check"></i><b>6.3</b> Semilla inicial</a></li>
 <li class="chapter" data-level="6.4" data-path="discussion.html"><a href="discussion.html#entrenamiento-live-vs-offline"><i class="fa fa-check"></i><b>6.4</b> Entrenamiento <em>live</em> vs <em>offline</em></a></li>
@@ -311,7 +311,7 @@ Figura 4.6: Ayuda del entrenador.
 Dependiendo de la ubicación en la selección dentro del texto:</p>
 <ul>
 <li>Si no existen entidades en el texto actual, se le asigna por defecto el tipo <em>MISC</em> y se muestran el resto de los tipos para permitir cambiarlo de ser necesario.</li>
-<li>Si existen entidades antes o después, se ofrece la opción de unir la palabra actual con la entidada más próxima para el lado elegido.</li>
+<li>Si existen entidades antes o después, se ofrece la opción de unir la palabra actual con la entidad más próxima para el lado elegido.</li>
 </ul>
 <div class="figure" style="text-align: center"><span id="fig:logic-train-popup"></span>
 <img src="assets/logic/train-popup.png" alt="Edición de entidad."  />
@@ -377,7 +377,7 @@ Figura 4.11: Información de corpus y manejo de workers.
 </div>
 <div id="crear-snapshot" class="section level6">
 <h6><span class="header-section-number">4.1.1.6.1.2</span> Crear <em>snapshot</em></h6>
-<p>En esta sección, el administrador puede crear un <em>snapshot</em> del estado actual de entrenamiento del modelo. Esta funcionalidad es utiil para comparar el avance del entrenamiento en diferentes momentos de la historia del mismo.</p>
+<p>En esta sección, el administrador puede crear un <em>snapshot</em> del estado actual de entrenamiento del modelo. Esta funcionalidad es util para comparar el avance del entrenamiento en diferentes momentos de la historia del mismo.</p>
 <p>Cuando se crea un <em>snapshot</em> se incrementa la última versión disponible en uno y se gesta una nueva versión actual. Además existe la posibilidad de editar los posibles tipos de entidad del sistema en este momento. Como consecuencia de esto, el sistema se asegura que todo cambio de etiquetas tenga su correspondiente versión.</p>
 </div>
 <div id="snapshots" class="section level6">
@@ -388,7 +388,7 @@ Para cada <em>snapshot</em>, se muestra cuando fue la última vez que se entren�
 </div>
 <div id="reasignar-worker" class="section level6">
 <h6><span class="header-section-number">4.1.1.6.1.4</span> Reasignar <em>worker</em></h6>
-<p>Sección que permite reasignar <em>workers</em> (los servicios encargados de realizar operaciones de <em>NLP</em>) para que sirvan un snapshot distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar pruebas sobre los mismos.</p>
+<p>Sección que permite reasignar <em>workers</em> (los servicios encargados de realizar operaciones de <em>NLP</em>) para que sirvan un <em>snapshot</em> distinto. De esta manera se pueden servir distintas versiones del modelo de inferencia para poder realizar pruebas sobre los mismos.</p>
 </div>
 </div>
 </div>
@@ -405,7 +405,7 @@ Figura 4.12: Inferencia de entidades en sandbox.
 </div>
 <div id="comparar-snapshots" class="section level4">
 <h4><span class="header-section-number">4.1.1.8</span> Comparar (<em>snapshots</em>)</h4>
-<p>Esta sección es accesible únicamente por administradores y permite comparar las entidades inferidas por dos <em>snapshots</em> distintos, con la opción de marcar visualmente aquellos textos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, podrá corregir de manera inline los errores en la inferencia del modelo actual (Figura <a href="implementation.html#fig:logic-compare">4.13</a>).</p>
+<p>Esta sección es accesible únicamente por administradores y permite comparar las entidades inferidas por dos <em>snapshots</em> distintos, con la opción de marcar visualmente aquellos textos cuyas entidades difieren. A su vez, si el usuario logueado tiene el permiso de entrenador, podrá corregir de manera <em>inline</em> los errores en la inferencia del modelo actual (Figura <a href="implementation.html#fig:logic-compare">4.13</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-compare"></span>
 <img src="assets/logic/compare.png" alt="Comparativa de modelos."  />
 <p class="caption">
@@ -450,7 +450,7 @@ Figura 4.16: Usuario anónimo.
 Figura 4.17: Usuario regular.
 </p>
 </div>
-<p>Finalmente, cuando el usuario logueado tiene el rol de <em>ADMIN</em>, tiene acceso a todas las secciones de administración del sistema (Figura (fig:logic-status-admin)).</p>
+<p>Finalmente, cuando el usuario logueado tiene el rol de <em>ADMIN</em>, tiene acceso a todas las secciones de administración del sistema (Figura <a href="implementation.html#fig:logic-status-admin">4.18</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:logic-status-admin"></span>
 <img src="assets/logic/status-admin.png" alt="Usuario administrador."  />
 <p class="caption">
@@ -461,7 +461,7 @@ Figura 4.18: Usuario administrador.
 </div>
 <div id="api" class="section level3">
 <h3><span class="header-section-number">4.1.2</span> <em>API</em></h3>
-<p>Para este proyecto tomamos la decisión de ofrecer una <em>API REST</em>. Dado que <em>REST</em> es un estilo de arquitectura y <strong>no un standard</strong> históricamente ha sido dificil ofrecer este tipo de servicio de una manera amena para el developer.</p>
+<p>Para éste proyecto tomamos la decisión de ofrecer una <em>API REST</em>. Dado que <em>REST</em> es un estilo de arquitectura y <strong>no un standard</strong> históricamente ha sido difícil ofrecer este tipo de servicio de una manera amena para el desarrollador</p>
 <p>En los últimos años han surgido especificaciones bien formadas para la definición de <em>REST APIs</em>, en particular <em>The Linux Foundation</em> ha promovido que la industria utilice <em>OPEN API</em>.</p>
 <p>Es por ello que toda la especificación de nuestra <em>API</em> es <em>OpenAPI 3</em> compliant.</p>
 <div id="documentación" class="section level4">
@@ -617,7 +617,7 @@ Figura 4.22: Ejemplo de documentación con ReDoc.
 </div>
 <div id="snapshots-1" class="section level5">
 <h5><span class="header-section-number">4.1.2.2.5</span> Snapshots</h5>
-<p>Conjunto de operaciones relacionadas con los snapshots y workers.</p>
+<p>Conjunto de operaciones relacionadas con los <em>snapshots</em> y <em>workers</em>.</p>
 <ul>
 <li><strong>GET</strong> <code>/api/snapshots</code>
 <ul>
@@ -695,7 +695,7 @@ Figura 4.22: Ejemplo de documentación con ReDoc.
 <ul>
 <li><strong>GET</strong> <code>/api/workers/</code>
 <ul>
-<li>Lista de los workers disponibles.</li>
+<li>Lista de los <em>workers</em> disponibles.</li>
 </ul></li>
 <li><strong>POST</strong> <code>/api/workers/reassign</code>
 <ul>
@@ -731,8 +731,8 @@ El <em>API</em> se comunica el servicio de <em>Bases de Datos</em> para obtener 
 <p>Debido a que la <em>API</em> está implementada en <em>python</em> y este es un lenguaje cuyo intérprete posee un <em>lock</em> global <span class="citation">(“Python,” <a href="#ref-python_gil">2019</a>)</span>, debimos implementar la aplicación como un servicio que implementa <em>WSGI</em> <span class="citation">(Eby, <a href="#ref-pep-3333">2010</a>)</span>. Luego la aplicación es servida por <em>gunicorn</em>, un <em>application server</em> para este fin que escala horizontalmente su <em>pool</em> de <em>workers</em>.</p>
 <div id="autenticación-1" class="section level4">
 <h4><span class="header-section-number">4.2.2.1</span> Autenticación</h4>
-<p>El proceso de autenticación de la <em>API</em> sigue el flujo de <em>OAuth2</em> <span class="citation">(Group, <a href="#ref-oauth2">2017</a>)</span>, debido a como está definido, el usuario al autenticarse con <em>email</em> y <em>password</em> recibe par de identificadores únicos llamados <code>access_token</code> y <code>refresh_token</code>. A partir de este momento todos los requests del usuario a la <em>API</em> poseen en su encabezado el <code>access_token</code>. Ocurre que estos <em>tokens</em> de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el <code>access_token</code> utilizando el <code>refresh_token</code> provisto en el <em>login</em> inicial. Al hacer esto el usuario recibe un nuevo par de <em>tokens</em> de igual manera a como lo hizo en el <em>login</em> con sus credenciales.</p>
-<p>De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al backend <strong>una sola vez</strong> sus credenciales sensibles.</p>
+<p>El proceso de autenticación de la <em>API</em> sigue el flujo de <em>OAuth2</em> <span class="citation">(Group, <a href="#ref-oauth2">2017</a>)</span>, debido a como está definido, el usuario al autenticarse con <em>email</em> y <em>password</em> recibe par de identificadores únicos llamados <code>access_token</code> y <code>refresh_token</code>. A partir de este momento todos los <em>requests</em> del usuario a la <em>API</em> poseen en su encabezado el <code>access_token</code>. Ocurre que estos <em>tokens</em> de acceso son sólo válidos por un tiempo limitado (en nuestra implementación ese tiempo es de 15 minutos). Debido a eso, es necesario refrescar el <code>access_token</code> utilizando el <code>refresh_token</code> provisto en el <em>login</em> inicial. Al hacer esto el usuario recibe un nuevo par de <em>tokens</em> de igual manera a como lo hizo en el <em>login</em> con sus credenciales.</p>
+<p>De esta manera se mejora la seguridad del sistema dado que el usuario sólo necesita enviarle al <em>backend</em> <strong>una sola vez</strong> sus credenciales sensibles.</p>
 <p>En la figura <a href="implementation.html#fig:scenarios-relogin">4.24</a> podemos ver el flujo que realiza la implementación <em>web</em> del entrenador para realizar el refresco de la sesión al recibir un <span class="math inline">\(401\)</span> por parte del servidor.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-relogin"></span>
 <img src="assets/mermaid/scenarios-relogin.png" alt="Flujo de relogin"  />
@@ -745,14 +745,14 @@ Figura 4.24: Flujo de relogin
 <div id="worker" class="section level3">
 <h3><span class="header-section-number">4.2.3</span> Worker</h3>
 <p>Un <em>worker</em> se encarga de realizar las operaciones de <em>NER</em> incluyendo el entrenamiento de modelos de inferencia. Es un servicio que existe de manera independiente.</p>
-<p>El modelo estadístico debe ser cargado en memoria para poder ser utilizado. El mismo requiere de muchos recursos y tiene una eficiencia limitada ya que puede atender una sóla consulta a la vez. Es por ello que decidimos, en lugar de que el modelo sea parte de la <em>API</em> resultando en un cuello de botella, encapsular el modelo en un servicio externo para que pueda ser escalado horizontalmente.</p>
+<p>El modelo estadístico debe ser cargado en memoria para poder ser utilizado. El mismo requiere de muchos recursos y tiene una eficiencia limitada ya que puede atender una sola consulta a la vez. Es por ello que decidimos, en lugar de que el modelo sea parte de la <em>API</em> resultando en un cuello de botella, encapsular el modelo en un servicio externo para que pueda ser escalado horizontalmente.</p>
 <p>Como el <em>worker</em> es una unidad de trabajo que recibe tareas desde el <em>task scheduler</em>, es posible tener varios <em>workers</em> donde cada uno utiliza un modelo de inferencia distinto (generados a partir de distintos <em>snapshots</em>).</p>
 <p>Cuando un <em>worker</em> es creado, automáticamente carga el modelo actual (<em>snapshot</em> actual) y se suscribe a la cola de mensajes para esa versión en particular.</p>
 <div id="entrenamiento-y-carga-de-snapshots" class="section level4">
 <h4><span class="header-section-number">4.2.3.1</span> Entrenamiento y carga de snapshots</h4>
 <p>Dado que pueden haber varios <em>workers</em> utilizando el mismo modelo de <em>spaCy</em>, es de vital importancia que si existe al menos un <em>worker</em> leyendo un modelo desde el disco y otro worker quiere entrenar ese modelo, que no pueda hasta que el resto haya terminado de leerlo.
-Ésto se debe a que si el <em>worker</em> que está entrenando el modelo sobreescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del <em>worker</em> de lectura. Como no hay ninguna limitación en la lectura, más de un <em>worker</em> puede leer en simultáneo.</p>
-<p>Para realizar ese control de concurrencia utilizamos el campo <code>semaphore</code> del modelo de <em>snapshot</em> guardado en la base de datos (Figura <a href="implementation.html#fig:developer-db-snapshot">4.35</a>) el cual usualmente se encuentra en <span class="math inline">\(0\)</span>. El semáforo es incrementado en uno cuando un worker comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.</p>
+Ésto se debe a que si el <em>worker</em> que está entrenando el modelo sobrescribe los archivos del disco mientras otro los está leyendo, va a llevar a llevar a la falla del <em>worker</em> de lectura. Como no hay ninguna limitación en la lectura, más de un <em>worker</em> puede leer en simultáneo.</p>
+<p>Para realizar ese control de concurrencia utilizamos el campo <code>semaphore</code> del modelo de <em>snapshot</em> guardado en la base de datos (Figura <a href="implementation.html#fig:developer-db-snapshot">4.35</a>) el cual usualmente se encuentra en <span class="math inline">\(0\)</span>. El semáforo es incrementado en uno cuando un <em>worker</em> comienza a leer o termina de entrenar el modelo; es decrementado en uno cuando termina de leer o comienza a entrenar el modelo. Con esas cuatro acciones es posible controlar la correcta lectura/escritura del modelo desde el disco en un entorno distribuido sin causar problemas de concurrencia.</p>
 <p>En la figura <a href="implementation.html#fig:scenarios-worker-train">4.25</a> podemos ver un escenario en el que tanto <em>Worker 2</em> y <em>Worker 3</em> pueden leer en simultáneo el modelo pero <em>Worker 1</em> debe quedarse esperando hasta que el semáforo vuelva a cero (nadie leyendo o entrenando el modelo) para poder realizar la tarea de entrenamiento.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-worker-train"></span>
 <img src="assets/mermaid/scenarios-worker-train.png" alt="Bloqueo de entrenamiento por lectura."  />
@@ -770,7 +770,7 @@ Su funcionamiento es crítico para poder manejar grandes volúmenes de consultas
 </div>
 <div id="base-de-datos" class="section level3">
 <h3><span class="header-section-number">4.2.5</span> Base de datos</h3>
-<p>Servicio que contiene la base de datos con la información necesaria (usuarios, snapshots) para que el servicio de <em>API</em> funcione así como también los datos necesarios por los workers (entrenamientos).</p>
+<p>Servicio que contiene la base de datos con la información necesaria (usuarios, <em>snapshots</em>) para que el servicio de <em>API</em> funcione así como también los datos necesarios por los <em>workers</em> (entrenamientos).</p>
 <p>Este proceso escala horizontalmente debido a que su implementación en la capa física es un <em>cluster</em>.</p>
 </div>
 </div>
@@ -782,7 +782,7 @@ Esta vista también se conoce como la vista de implementación.</p>
 </blockquote>
 <div id="cliente-web-1" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Cliente web</h3>
-<p>La página <em>web</em> que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de <em>Single Page Application</em> que nos permitió generar un <em>bundle</em> que puede ser hosteado en <em>CDNs</em> y nos permite tener ciclos de release independientes al los del servicio.</p>
+<p>La página <em>web</em> que contiene la interfaz de administración así como también la de entrenamiento. Para implementarla decidimos utilizar el modelo de <em>Single Page Application</em> que nos permitió generar un <em>bundle</em> que puede ser hosteado en <em>CDNs</em> y nos permite tener ciclos de <em>release</em> independientes al los del servicio.</p>
 <p>Poder separar las <em>releases</em> de la <em>web</em> y el servicio es importante ya que los clientes del servicio no necesariamente necesitan de la web, ya que pueden acceder al servicio mediante el <em>API REST</em> y una baja por cambios a la interfaz de la <em>web</em> no afecta la disponibilidad del servicio.</p>
 <div id="tecnologías" class="section level4">
 <h4><span class="header-section-number">4.3.1.1</span> Tecnologías</h4>
@@ -795,16 +795,16 @@ Esta vista también se conoce como la vista de implementación.</p>
 </div>
 <div id="react-router" class="section level5">
 <h5><span class="header-section-number">4.3.1.1.2</span> React Router</h5>
-<p>Desarrollada por <em>React Training</em>, proveé de mecanimos para la navegación en <em>SPAs</em>.</p>
+<p>Desarrollada por <em>React Training</em>, provewe de mecanismos para la navegación en <em>SPAs</em>.</p>
 </div>
 <div id="i18next" class="section level5">
 <h5><span class="header-section-number">4.3.1.1.3</span> i18next</h5>
-<p>Librería que proveé mecanismos de internacionalización. A su vez, nos permitió generar los archivos de traducción mediante su extracción del código fuente utilizando la herramienta <code>i18next-scanner</code>.</p>
+<p>Librería que provee mecanismos de internacionalización. A su vez, nos permitió generar los archivos de traducción mediante su extracción del código fuente utilizando la herramienta <code>i18next-scanner</code>.</p>
 </div>
 <div id="openapi-generator" class="section level5">
 <h5><span class="header-section-number">4.3.1.1.4</span> OpenAPI Generator</h5>
 <p><em>OpenAPI Generator</em> es una herramienta que permite generar código a partir de una definición de <em>OpenAPI</em>.
-Debido a que el servicio implementado expone una definiciión de <em>OpenAPI</em>, podemos utilizar ésta librería para auto-generar todo el código necesario para comunicarnos con el servicio usando el generador de <em>Typescript</em>.</p>
+Debido a que el servicio implementado expone una definición de <em>OpenAPI</em>, podemos utilizar ésta librería para auto-generar todo el código necesario para comunicarnos con el servicio usando el generador de <em>Typescript</em>.</p>
 </div>
 </div>
 <div id="arquitectura" class="section level4">
@@ -822,7 +822,7 @@ Figura 4.26: Módulos de la página web.
 <div id="sesión" class="section level4">
 <h4><span class="header-section-number">4.3.1.3</span> Sesión</h4>
 <p>El servicio <em>web</em> ofrece la posibilidad de recordar la sesión de un usuario en el momento de realizar el login. De elegirse, las credenciales son guardadas en el <em>local storage</em> del cliente web, de manera tal que el usuario pueda utilizar la misma sesión por más de que haya cerrado el cliente web.</p>
-<p>Si en algún momento en el futuro el <em>API</em> nos retorna algún request indicando que el usuario no tiene permisos para acceder a algún área (código <code>HTTP 401</code>) y el <em>token</em> de refrescado dejó de ser válido, las credenciales se borran del <em>local storage</em> y redirigimos al cliente a la pantalla de inicio.</p>
+<p>Si en algún momento en el futuro el <em>API</em> nos retorna algún <em>request</em> indicando que el usuario no tiene permisos para acceder a algún área (código <code>HTTP 401</code>) y el <em>token</em> de refrescado dejó de ser válido, las credenciales se borran del <em>local storage</em> y redirigimos al cliente a la pantalla de inicio.</p>
 <p>Ofrecemos también la posibilidad de no guardar la sesión, lo cual hará que una vez cerrada la pestaña, el usuario deba volver a ingresar al sistema para poder acceder a los distintos servicios.</p>
 </div>
 <div id="internacionalización" class="section level4">
@@ -842,7 +842,7 @@ Figura 4.26: Módulos de la página web.
 <div id="flask-smorest" class="section level5">
 <h5><span class="header-section-number">4.3.2.1.2</span> <em>flask-smorest</em></h5>
 <p><em>Framework</em> que enriquece a <em>Flask</em> agregando la posibilidad de poder crear <em>APIs REST</em> generando una especificación de <em>OpenAPI</em> que es expuesta a los usuarios del servicio en dos variantes de documentación: <em>ReDoc</em> y <em>Swagger UI</em>. Tener un <em>API</em> que se auto-documenta nos permite ofrecerle a los clientes un lugar en el cual puedan consultar el funcionamiento completo de el servicio requiriendo poco trabajo extra a la hora de desarrollar el servicio.</p>
-<p>A su vez, provee facilidades de serialización y de-serialización de objetos en respuestas <em>JSON</em> utilizando la librería de <em>marshmallow</em> así como también utilizades para simplificar la creación de <em>endpoints</em> que permitan paginar sus resultados (particularmente útil para listar entidades como entrenamientos, usuarios o textos).</p>
+<p>A su vez, provee facilidades de serialización y de-serialización de objetos en respuestas <em>JSON</em> utilizando la librería de <em>marshmallow</em> así como también para simplificar la creación de <em>endpoints</em> que permitan paginar sus resultados (particularmente útil para listar entidades como entrenamientos, usuarios o textos).</p>
 </div>
 <div id="flask-jwt-extended" class="section level5">
 <h5><span class="header-section-number">4.3.2.1.3</span> <em>flask-jwt-extended</em></h5>
@@ -866,7 +866,7 @@ Figura 4.26: Módulos de la página web.
 <p>Cada <em>worker</em> puede realizar las siguientes tareas:</p>
 <ul>
 <li><strong>train</strong>: Entrenar el modelo de inferencia de <em>spaCy</em> utilizando el <em>snapshot</em> para el cual fue configurado.</li>
-<li><strong>un_train</strong>: Borra el modelo guardado en el disco, efectivamente “des-entrenandose”. Principalmente utilizado para liberar recursos.</li>
+<li><strong>un_train</strong>: Borra el modelo guardado en el disco, efectivamente “des-entrenándose”. Principalmente utilizado para liberar recursos.</li>
 <li><strong>reload</strong>: Recarga el modelo de inferencia desde el disco. Utilizado cuando algún <em>worker</em> entrenó el modelo y el actual quedó desactualizado.</li>
 <li><strong>nlp</strong>: Realiza la tarea de <em>NER</em> utilizando el modelo cargado.</li>
 <li><strong>change_snapshot</strong>: Cambia el <em>snapshot</em> utilizado en el <em>worker</em>.</li>
@@ -876,7 +876,7 @@ Figura 4.26: Módulos de la página web.
 <h3><span class="header-section-number">4.3.4</span> <em>Task Scheduler</em></h3>
 <p>El <em>task scheduler</em> que utilizamos en el <em>API</em> para poder orquestar todas las tareas relacionadas con <em>NER</em> así como también la de la administración de los <em>workers</em> es <em>Celery</em> <span class="citation">(“Celery,” <a href="#ref-celery">2019</a>)</span>. <em>Celery</em> es una cola de tareas asincrónica especializada en procesamiento distribuido.
 Si bien soporta distintos <em>backends</em> para la funcionalidad de cola de mensajes, decidimos utilizar <em>RabbitMQ</em> <span class="citation">(“RabbitMQ,” <a href="#ref-rabbitmq">2019</a>)</span> debido a su robustez y la posibilidad de escalar horizontalmente.</p>
-<p>Para el monitoreo de las tareas de <em>Celery</em> utilizamos la herramienta llamada <em>Flower</em> <span class="citation">(Movsisyan, <a href="#ref-flower">2016</a>)</span>, que permite consultar el estado de cada worker (Figura <a href="implementation.html#fig:developer-flower-dashboard">4.27</a>), historial de tareas (Figura <a href="implementation.html#fig:developer-flower-task-history">4.28</a>) así como también estadísticas en tiempo real sobre el sistema (Figura <a href="implementation.html#fig:developer-flower-monitoring">4.29</a>) y detalles de todos los <em>workers</em> que están conectados a la cola de mensajes (Figura <a href="implementation.html#fig:developer-flower-monitoring">4.29</a>).</p>
+<p>Para el monitoreo de las tareas de <em>Celery</em> utilizamos la herramienta llamada <em>Flower</em> <span class="citation">(Movsisyan, <a href="#ref-flower">2016</a>)</span>, que permite consultar el estado de cada <em>worker</em> (Figura <a href="implementation.html#fig:developer-flower-dashboard">4.27</a>), historial de tareas (Figura <a href="implementation.html#fig:developer-flower-task-history">4.28</a>) así como también estadísticas en tiempo real sobre el sistema (Figura <a href="implementation.html#fig:developer-flower-monitoring">4.29</a>) y detalles de todos los <em>workers</em> que están conectados a la cola de mensajes (Figura <a href="implementation.html#fig:developer-flower-monitoring">4.29</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:developer-flower-dashboard"></span>
 <img src="assets/developer/flower-dashboard.png" alt="Página principal de Flower."  />
 <p class="caption">
@@ -1000,7 +1000,7 @@ Esta vista también se conoce como la vista de <em>deployment</em>.</p>
 <p>Las imágenes base que utilizamos en todos los servicios son mantenidas por <em>Bitnami</em> <span class="citation">(“Bitnami,” <a href="#ref-bitnami">2019</a>)</span>. Tomamos esta decisión para:
 1. Reducir el tamaño de las imágenes al reutilizar la capa de sistema operativo entre todas ellas.
 2. Se actualizan automáticamente con todos los parches de seguridad de las plataformas elegidas.
-3. Están implementadas siguiendo las mejores prácticas acerca del no uso de <em>root</em> en containers.</p>
+3. Están implementadas siguiendo las mejores prácticas acerca del no uso de <em>root</em> en <em>containers</em>.</p>
 </div>
 <div id="service" class="section level4">
 <h4><span class="header-section-number">4.4.2.2</span> <em>Service</em></h4>
@@ -1041,16 +1041,16 @@ Figura 4.37: Relación entre servicios.
 <p>Dentro del <em>container</em> <code>ui</code>, incluimos <em>nginx</em> <span class="citation">(“Nginx,” <a href="#ref-nginx">2019</a>)</span> como servidor <em>web</em> de la plataforma. El mismo tiene dos responsabilidades:</p>
 <ol style="list-style-type: decimal">
 <li>Servir el contenido estático de la <em>SPA</em>.</li>
-<li>Redirigir los <em>requests</em> de las urls que comienzan con <code>/api/</code> al container de <em>API</em>.</li>
+<li>Redirigir los <em>requests</em> de las urls que comienzan con <code>/api/</code> al <em>container</em> de <em>API</em>.</li>
 </ol>
 </div>
 <div id="api-3" class="section level4">
 <h4><span class="header-section-number">4.4.3.2</span> <em>API</em></h4>
-<p>Debido a que el <em>API</em> consume sus datos de <em>MongoDB</em> así como también requiere de una conexión mediante <em>Celery</em> a <em>RabbitMQ</em> para poder realizar las tareas de <em>NER</em>, es posible tener varias instancias del mismo de manera tal que cada una se conecte al cluster de los dos servicios. Es posible mediante el uso de un <em>Load Balancer</em> generar un cluster de servicios de <em>API</em>.</p>
+<p>Debido a que el <em>API</em> consume sus datos de <em>MongoDB</em> así como también requiere de una conexión mediante <em>Celery</em> a <em>RabbitMQ</em> para poder realizar las tareas de <em>NER</em>, es posible tener varias instancias del mismo de manera tal que cada una se conecte al <em>cluster</em> de los dos servicios. Es posible mediante el uso de un <em>Load Balancer</em> generar un cluster de servicios de <em>API</em>.</p>
 </div>
 <div id="worker-2" class="section level4">
 <h4><span class="header-section-number">4.4.3.3</span> <em>Worker</em></h4>
-<p>Dado que cada <em>worker</em> está implementado como un <em>Celery worker</em>, mientras la configuración del mismo sea correcta, al levantar nuevos containers será posible escalarlo horizontalmente. Incluído en el repositorio de <em>NERd</em> está un comando de <em>Makefile</em> que permite escalar el servicio worker:</p>
+<p>Dado que cada <em>worker</em> está implementado como un <em>Celery worker</em>, mientras la configuración del mismo sea correcta, al levantar nuevos <em>containers</em> será posible escalarlo horizontalmente. Incluido en el repositorio de <em>NERd</em> está un comando de <em>Makefile</em> que permite escalar el servicio <em>worker</em>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="fu">make</span> scale-up <span class="co"># Crea un nuevo worker localmente</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="fu">make</span> scale-down <span class="co"># Destruye un worker localmente</span></a></code></pre></div>
 </div>
@@ -1060,7 +1060,7 @@ Figura 4.37: Relación entre servicios.
 </div>
 <div id="mongodb-cluster" class="section level4">
 <h4><span class="header-section-number">4.4.3.5</span> <em>MongoDB cluster</em></h4>
-<p>Al igual que <em>RabbitMQ</em>, <em>MongoDB</em> fue diseñado para escalar horizontalmente (ver <a href="implementation.html#MongoDBDev">Base de datos</a>), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un cluster.</p>
+<p>Al igual que <em>RabbitMQ</em>, <em>MongoDB</em> fue diseñado para escalar horizontalmente (ver <a href="implementation.html#MongoDBDev">Base de datos</a>), por lo que para poder escalar horizontalmente la base de datos será necesario modificar la configuración del contenedor para que forme parte de un <em>cluster</em>.</p>
 </div>
 </div>
 </div>
@@ -1076,7 +1076,7 @@ Esta vista también se conoce como vista de caso de uso.</p>
 <div id="inferencia-de-entidades-utilizando-el-api" class="section level3">
 <h3><span class="header-section-number">4.5.1</span> Inferencia de entidades utilizando el API</h3>
 <p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-ner">4.38</a>, para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.</p>
-<p>Cuando un <em>cliente</em> realiza un pedido al <em>API</em>, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el <em>request</em> en <em>RabbitMQ</em>. Luego, un único <em>worker</em> que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, <em>RabbitMQ</em> notifica al <em>API</em> de la tarea y este puede devolver finalmente el resultado al <em>cliente</em>.</p>
+<p>Cuando un <em>cliente</em> realiza un pedido al <em>API</em>, crea una nueva tarea en la cola correspondiente al <em>snapshot</em> especificado por la versión en el <em>request</em> en <em>RabbitMQ</em>. Luego, un único <em>worker</em> que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, <em>RabbitMQ</em> notifica al <em>API</em> de la tarea y este puede devolver finalmente el resultado al <em>cliente</em>.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-ner"></span>
 <img src="assets/mermaid/scenarios-ner.png" alt="Flujo de NER."  />
 <p class="caption">
@@ -1105,7 +1105,7 @@ Figura 4.39: Pedido de texto para entrenamiento.
 </div>
 <div id="habilitar-snapshots" class="section level3">
 <h3><span class="header-section-number">4.5.3</span> Habilitar snapshots</h3>
-<p>Cuando un usuario necesita comparar dos snapshots, precisa tener al menos un <em>worker</em> de cada versión levantado. En la figura <a href="implementation.html#fig:scenarios-worker-snapshot-change">4.40</a>, ante una tarea de reasignación de snapshot, el <em>worker</em> se desuscribe de la cola de mensajes del <em>snapshot</em> que está escuchando actualmente y se suscribe a la cola de mensajes del <em>snapshot</em> al que se lo quiere cambiar. Luego, se recarga el modelo.</p>
+<p>Cuando un usuario necesita comparar dos <em>snapshots</em>, precisa tener al menos un <em>worker</em> de cada versión levantado. En la figura <a href="implementation.html#fig:scenarios-worker-snapshot-change">4.40</a>, ante una tarea de reasignación de <em>snapshot</em>, el <em>worker</em> se da de baja de la cola de mensajes del <em>snapshot</em> que está escuchando actualmente y se suscribe a la cola de mensajes del <em>snapshot</em> al que se lo quiere cambiar. Luego, se recarga el modelo.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-worker-snapshot-change"></span>
 <img src="assets/mermaid/scenarios-worker-snapshot-change.png" alt="Cambio de modelo."  />
 <p class="caption">
