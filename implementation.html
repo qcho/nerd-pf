@@ -1030,6 +1030,12 @@ Host pf-nerd
 </div>
 <div id="servicios" class="section level3">
 <h3><span class="header-section-number">4.4.3</span> Servicios</h3>
+<div class="figure" style="text-align: center"><span id="fig:deployment-physical-overview"></span>
+<img src="assets/physical/overview.png" alt="Relación entre servicios."  />
+<p class="caption">
+Figura 4.37: Relación entre servicios.
+</p>
+</div>
 <div id="cliente-web-2" class="section level4">
 <h4><span class="header-section-number">4.4.3.1</span> Cliente <em>web</em></h4>
 <p>Dentro del <em>container</em> <code>ui</code>, incluimos <em>nginx</em> <span class="citation">(“Nginx,” <a href="#ref-nginx">2019</a>)</span> como servidor <em>web</em> de la plataforma. El mismo tiene dos responsabilidades:</p>
@@ -1069,12 +1075,12 @@ Esta vista también se conoce como vista de caso de uso.</p>
 </blockquote>
 <div id="inferencia-de-entidades-utilizando-el-api" class="section level3">
 <h3><span class="header-section-number">4.5.1</span> Inferencia de entidades utilizando el API</h3>
-<p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-ner">4.37</a>, para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.</p>
+<p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-ner">4.38</a>, para realizar el reconocimiento de entidades nombradas, deben intervenir cuatro actores.</p>
 <p>Cuando un <em>cliente</em> realiza un pedido al <em>API</em>, crea una nueva tarea en la cola correspondiente al snapshot especificado por la versión en el <em>request</em> en <em>RabbitMQ</em>. Luego, un único <em>worker</em> que esté escuchando la cola para esa versión va a tomar la tarea, realizar la tarea de inferencia y asignarle un resultado a esa tarea. Finalmente, <em>RabbitMQ</em> notifica al <em>API</em> de la tarea y este puede devolver finalmente el resultado al <em>cliente</em>.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-ner"></span>
 <img src="assets/mermaid/scenarios-ner.png" alt="Flujo de NER."  />
 <p class="caption">
-Figura 4.37: Flujo de NER.
+Figura 4.38: Flujo de NER.
 </p>
 </div>
 </div>
@@ -1088,22 +1094,22 @@ Figura 4.37: Flujo de NER.
 <li>Revisar las entidades y corregir como sea necesario.</li>
 <li>Hacer <em>click</em> en el botón <strong>ACEPTAR</strong>.</li>
 </ul>
-<p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-web-train">4.38</a>, para poder mostrar un texto a entrenar son necesarios cinco servicios.</p>
-<p>El proceso de la inferencia es el mismo que el mostrado en la figura <a href="implementation.html#fig:scenarios-ner">4.37</a>, agregándose la consulta a <em>MongoDB</em> al principio para poder obtener un texto que aún no haya sido entrenado por el usuario logueado.</p>
+<p>Como podemos ver en la figura <a href="implementation.html#fig:scenarios-web-train">4.39</a>, para poder mostrar un texto a entrenar son necesarios cinco servicios.</p>
+<p>El proceso de la inferencia es el mismo que el mostrado en la figura <a href="implementation.html#fig:scenarios-ner">4.38</a>, agregándose la consulta a <em>MongoDB</em> al principio para poder obtener un texto que aún no haya sido entrenado por el usuario logueado.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-web-train"></span>
 <img src="assets/mermaid/scenarios-web-train.png" alt="Pedido de texto para entrenamiento."  />
 <p class="caption">
-Figura 4.38: Pedido de texto para entrenamiento.
+Figura 4.39: Pedido de texto para entrenamiento.
 </p>
 </div>
 </div>
 <div id="habilitar-snapshots" class="section level3">
 <h3><span class="header-section-number">4.5.3</span> Habilitar snapshots</h3>
-<p>Cuando un usuario necesita comparar dos snapshots, precisa tener al menos un <em>worker</em> de cada versión levantado. En la figura <a href="implementation.html#fig:scenarios-worker-snapshot-change">4.39</a>, ante una tarea de reasignación de snapshot, el <em>worker</em> se desuscribe de la cola de mensajes del <em>snapshot</em> que está escuchando actualmente y se suscribe a la cola de mensajes del <em>snapshot</em> al que se lo quiere cambiar. Luego, se recarga el modelo.</p>
+<p>Cuando un usuario necesita comparar dos snapshots, precisa tener al menos un <em>worker</em> de cada versión levantado. En la figura <a href="implementation.html#fig:scenarios-worker-snapshot-change">4.40</a>, ante una tarea de reasignación de snapshot, el <em>worker</em> se desuscribe de la cola de mensajes del <em>snapshot</em> que está escuchando actualmente y se suscribe a la cola de mensajes del <em>snapshot</em> al que se lo quiere cambiar. Luego, se recarga el modelo.</p>
 <div class="figure" style="text-align: center"><span id="fig:scenarios-worker-snapshot-change"></span>
 <img src="assets/mermaid/scenarios-worker-snapshot-change.png" alt="Cambio de modelo."  />
 <p class="caption">
-Figura 4.39: Cambio de modelo.
+Figura 4.40: Cambio de modelo.
 </p>
 </div>
 
