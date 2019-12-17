@@ -2,8 +2,8 @@
 title: "NERd: anotador eficiente de modelos estadísticos para el reconocimiento de entidades nombradas"
 subtitle: Instituto Tecnológico de Buenos Aires
 author:
-  - Horacio Miguel Gómez $(L:50825)$
-  - Juan Pablo Orsay $(L:49373)$
+  - Horacio Miguel Gómez (L:50825)
+  - Juan Pablo Orsay (L:49373)
   - Lic. Diego Ariel Aizemberg (Tutor)
   - Proyecto final de carrera
 date: "`r Sys.Date()`"
