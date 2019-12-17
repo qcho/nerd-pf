@@ -54,7 +54,7 @@ Decidimos realizar diferentes pruebas y combinaciones de cantidad de documentos 
 
 En la figura \@ref(fig:fig-boxplot) se puede ver que nuestro sistema alcanza una exactitud en $\text{valor-F}$ de aproximadamente 80 puntos con relativamente pocos documentos.
 
-```{r fig-boxplot, echo = FALSE, fig.pos="H", fig.align = 'center', out.width='80%', fig.asp=.75, fig.cap='Boxplot del Valor-F vs vantidad de documentos de entrenamiento'}
+```{r fig-boxplot, echo = FALSE, fig.pos="H", fig.align = 'center', out.width='80%', fig.asp=.75, fig.cap='Boxplot del Valor-F vs cantidad de documentos de entrenamiento'}
 columns <- cols(
    Itn = col_double(),
    NER_Loss = col_double(),

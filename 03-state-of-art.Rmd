@@ -9,11 +9,11 @@ _Python_ es el lenguaje más utilizado para resolver problemas de Machine Learni
 
 _SpaCy_ es el _framework_ mejor ranqueado para la tarea de _NLP_ [@github_machine_learning] y sabemos por la figura \@ref(fig:spacy-algos) que obtiene resultados a-la-par del estado del arte actual.
 
-Además la implementación de _spaCy_ es robusta y orientada a la creación de apliciones para producción, a diferencia de muchas otras librerías de _NLP_ que sólo se utilizan con fines académicos.
+Además la implementación de _spaCy_ es robusta y orientada a la creación de aplicaciones para producción, a diferencia de muchas otras librerías de _NLP_ que sólo se utilizan con fines académicos.
 
 ## El pipeline
 
-Todas las operaciones de analisis de lenguaje natural sobre textos no estructurados tienen como primer paso el de separar los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el "pipeline de procesamiento". Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de _NER_.
+Todas las operaciones de análisis de lenguaje natural sobre textos no estructurados tienen como primer paso el de separar los mismos en tokens. Luego, el documento se procesa en varios pasos diferentes que consisten en el "pipeline de procesamiento". Usualmente los pasos consisten en un etiquetador, un analizador sintáctico y un reconocedor de entidades en el caso de _NER_.
 
 Cada componente del pipeline mostrado en la figura \@ref(fig:spacy-pipeline) devuelve el un documento _Doc_ procesado, que luego se pasa al siguiente componente.
 
@@ -46,11 +46,11 @@ knitr::include_graphics('assets/spacy_tokenization.png')
 
 ## Modelos basados en reglas
 
-Antes de entrar en detalles de cómo trabaja el modelo estadístico de spacy y entender sus fortalezas es importante esbozar brevemente el grupo de algorítmos más "naive" posible. El de los modelos basados en reglas fijas.
+Antes de entrar en detalles de cómo trabaja el modelo estadístico de spacy y entender sus fortalezas es importante esbozar brevemente el grupo de algorítmos más "naïve" posible. El de los modelos basados en reglas fijas.
 
 En estos modelos se implementan reglas finitas o expresiones regulares para la detección de las entidades. Las principales limitaciones de este enfoque son:
 
-* **Mucho trabajo manua**l: el sistema _Rule Based_ exige un profundo conocimiento del dominio, este analisis debe ser realizado por humanos expertos en el dominio.
+* **Mucho trabajo manua**l: el sistema _Rule Based_ exige un profundo conocimiento del dominio, este análisis debe ser realizado por humanos expertos en el dominio.
 * **Consumo de tiempo**: la generación de reglas para un sistema complejo es difícil y requiere mucho tiempo.
 * **Menor capacidad de aprendizaje**: el sistema generará el resultado según las reglas, por lo que la capacidad de aprendizaje del sistema por sí mismo es baja.
 * **Dominios complejos**: si el corpus demasiado complejo, la creación del sistema RB puede llevar mucho tiempo y análisis. La identificación de patrones complejos es una tarea desafiante en el enfoque RB.
@@ -86,13 +86,13 @@ La idea de _word embeddings_ es la de "embeber" el conjunto de  tokens que compo
 knitr::include_graphics('assets/deep-learning-formula-nlp_embed.svg')
 ```
 
-Es importante destacar que en la etapa de _embed_, toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razón es facilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras están relacionadas entre sí de manera eficiente y no supervisada).
+Es importante destacar que en la etapa de _embed_, toda la información de significado es principalmente independiente del contexto en el cual esta siendo utilizada y por esta razón es fácilmente obtenible del corpus no tagueado de datos (los algoritmos pueden darse cuenta de que palabras están relacionadas entre sí de manera eficiente y no supervisada).
 
 Esto permite al modelo poder inferir significado a partir de la información no anotada dentro del problema en particular a resolver (el de _NER_).
 
 Una tabla de _word-embeddings_ mapea vectores largos binarios y esparsos en vectores cortos densos y continuos, cargados de significado relevante. Existen varias estrategias para enriquecer los _tokens_ con información adicional. Las dos fuentes más grandes de información embebida son las de **información lingüística** y los **_word-vectors_**.
 
-#### Información ligüística
+#### Información lingüística
 
 El objetivo de ésta etapa es la de encontrar las características intrínsecas de cada palabra. Las principales características lingüísticas detectadas están resumidas en el siguiente ejemplo.
 
@@ -101,7 +101,7 @@ knitr::include_graphics('assets/pos.png')
 ```
 
 * **Text**: la palabra original texto.
-* **Lemma**: La forma básica de la palabra. `Es -> ser`. Esto permite a las siguientes etapas trabajar con una definicón canónica del token.
+* **Lemma**: La forma básica de la palabra. `Es -> ser`. Esto permite a las siguientes etapas trabajar con una definición canónica del token.
 * **POS**: la etiqueta simple de parte-del-discurso (POS).
 * **Tag**: la etiqueta detallada de parte del discurso (POS).
 * **Dep**: dependencia sintáctica, es decir, la relación entre tokens.
@@ -119,11 +119,11 @@ Los _word-vectors_ ponen ese hecho a disposición del modelo de reconocimiento d
 
 Otra forma interesante de analizar y entender los _word-vectors_ en su contexto de espacio vectorial multidimensional de significados es a través del algebra de vectores, como se muestra en el trabajo "_Towards Understanding Linear Word Analogies_" [@ethayarajh-etal-2019-towards]:
 
-```{r vec-parallelogram, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Parallelogram structure in the vector space (by definition).', out.width='60%'}
+```{r vec-parallelogram, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Estructura de paralelogramo en el vector espacio (por definición).', out.width='60%'}
 knitr::include_graphics('assets/parallelogram.png')
 ```
 
-Es facil de entender viendo la figura \@ref(fig:vec-parallelogram) que al realizar algebra entre los diferentes vectores de significado se pueden inferir nuevos conceptos:
+Es fácil de entender viendo la figura \@ref(fig:vec-parallelogram) que al realizar algebra entre los diferentes vectores de significado se pueden inferir nuevos conceptos:
 
 $$\vec{Rey} - \vec{Hombre} \approx \vec{Realeza}$$
 $$\vec{Rey} - \vec{Hombre} + \vec{Mujer} \approx \vec{Reina}$$
@@ -137,12 +137,12 @@ El resultado de esta etapa es la de codificar vectores **independientes-de-conte
 knitr::include_graphics('assets/deep-learning-formula-nlp_encode.svg')
 ```
 
-La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizada como una _moving window_ de tres vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir, cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evaluan de igual manera, por lo que se genera naturalmente un "efecto de decaimiento" en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor. 
+La tecnología utilizada para esta etapa es una Red Neuronal Convolucional en la que la oración es analizada como una _moving window_ de tres vectores en la que cada vector analiza su significado en relación con un vector previo y un vector posterior. Es decir, cada vector se estudia dentro del contexto de los dos vectores que lo rodean. Luego los vectores subsiguientes se evalúan de igual manera, por lo que se genera naturalmente un "efecto de decaimiento" en el que el contexto de los vectores más lejanos tiene una relevancia cada vez menor. 
 
 ### _Attend_
 > Resuelve el problema: tenemos demasiada información para inferir un significado específico al problema.
 
-En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o tambien conocido como "vector de consulta" o "vector de contexto" representado en la figura \@ref(fig:formula-attend) como un vector mas oscuro.
+En esta etapa toda la información generada en las etapas anteriores es analizada a través de un vector de entrada o también conocido como "vector de consulta" o "vector de contexto" representado en la figura \@ref(fig:formula-attend) como un vector mas oscuro.
 
 ```{r formula-attend, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Attend.'}
 knitr::include_graphics('assets/deep-learning-formula-nlp_attend.svg')
@@ -165,7 +165,7 @@ knitr::include_graphics('assets/deep-learning-formula-nlp_predict.svg')
 
 Experimentos en inglés, holandés, alemán y español muestran que se pueden obtener resultados a-la-par del estado del arte mediante el uso de un "autómata finito determinístico de pila" en conjunto con una red neuronal [@DBLP:journals/corr/LampleBSKD16].
 
-Este autómata de pila es el nexo entre la Red Neuronal Convolucional (_CNN_) que contiene el modelo estadístico para predecir entidades en el texto completo. En el mismo, se envían cada uno de los estados porl los que se mueve para ir generando entidades con una herística del tipo _greedy_.
+Este autómata de pila es el nexo entre la Red Neuronal Convolucional (_CNN_) que contiene el modelo estadístico para predecir entidades en el texto completo. En el mismo, se envían cada uno de los estados por los que se mueve para ir generando entidades con una heurística del tipo _greedy_.
 
 La figura \@ref(fig:lampe-1) muestra las posibles acciones de transición de este autómata.
 
@@ -184,11 +184,11 @@ knitr::include_graphics('assets/lampe_2.png')
 ```
 
 * Primero se empieza con un stack vacío.
-* Se consume _"Mark"_ y la _CNN_ predice que es una posible Persona. Lo envia al stack.
+* Se consume _"Mark"_ y la _CNN_ predice que es una posible Persona. Lo envía al _stack_.
 * Se consume _"Watney"_ y la _CNN_ predice que es una posible continuación de Persona. Lo envia al stack.
-* Se consume _"visited"_ y la _CNN_ predice que esto no forma parte de una entidad. Por lo tanto antes se _REDUCE_ la entidad _"Mark Watney"_ del stack actual.
+* Se consume _"visited"_ y la _CNN_ predice que esto no forma parte de una entidad. Por lo tanto antes se _REDUCE_ la entidad _"Mark Watney"_ del _stack_ actual.
 * Análogamente se detecta la entidad _"Mars"_
 
-La predicción que realiza la _CNN_ tiene un puntaje de 0 a 1; un porcentaje de certeza de que la token sea de un tipo específico. A veces las tokens pueden tener más de una etiqueta candidata a ser utilizada y éste es el método para desempatar este conflicto. Cuanto más cercano a $0.5$ es ese punaje mayor es la incerteza.
+La predicción que realiza la _CNN_ tiene un puntaje de 0 a 1; un porcentaje de certeza de que la token sea de un tipo específico. A veces las tokens pueden tener más de una etiqueta candidata a ser utilizada y éste es el método para desempatar este conflicto. Cuanto más cercano a $0.5$ es ese puntaje mayor es la incerteza.
 
 

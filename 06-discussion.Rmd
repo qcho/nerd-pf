@@ -1,14 +1,14 @@
 \newpage
 # Discusión {#discussion}
 
-## Analisis de resultados
+## Análisis de resultados
 
 Los resultados indicados en la sección \@ref(result-data) muestran que el $\text{valor-F}$ inicial de _spaCy_ para nuestro _corpus_ de noticias tiene una _score_ de 66 puntos. Esta puntuación dista mucho del valor 89 que indica la librería en su documentación [@spacy-spanish-model] para este idioma.
 
 La razón de esta discrepancia ha sido mencionada en varias oportunidades a lo largo de este trabajo; el modelo de _spaCy_ ha sido entrenado con un _corpus_ de documentos diferente del que nosotros como usuarios de la librería tenemos interés. En particular el modelo inicial de _spaCy_ ha sido entrenado con la siguiente información:
 
 * **_Spanish UD AnCora Corpus_**. Contiene más de 14mil documentos de entrenamiento provenientes de noticias españolas [@ancora-es].
-* **_WikiNER_**. Proveniente de más de 50,000 documentos de wikipedia en español [@Nothman2017].
+* **_WikiNER_**. Proveniente de más de 50,000 documentos de Wikipedia en español [@Nothman2017].
 
 Este es un claro ejemplo de la fragilidad que poseen los modelos estadísticos en cuanto al corpus de interés. El modelo de _spaCy_ ha sido entrenado con noticias de España, sin embargo, esas noticias no alcanzan para que el modelo pueda generalizar a las noticias de Argentina y mantener el alto grado de exactitud del modelo anterior.
 
@@ -18,7 +18,7 @@ En este trabajo entrenando sobre el modelo de _spaCy_ con 3600 documentos hemos 
 
 La detección de entidades por defecto en español de _spaCy_, incluye las entidades `Persona`, `Organización`, `Locación` y `Misceláneo`. Cómo nuestro sistema soporta el entrenamiento de nuevas entidades tomamos la decisión de incluir un quinto tipo de entidad el de `Fecha`.
 
-El hecho de que exista una clasificación de entidad como `Misceláneo` indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección \@ref(ner-formal) se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad Miscelanea.
+El hecho de que exista una clasificación de entidad como `Misceláneo` indica que hay otro tipo de entidades que no están siendo clasificadas específicamente y entran en esta categoría genérica. En la sección \@ref(ner-formal) se define formalmente que es una entidad, por lo que se puede inferir que toda entidad nombrada que cumpla la definición formal y no posea un tipo de entidad específicamente definido entra en la categoría de entidad miscelánea.
 
 Existe literatura acerca de la posible taxonomía de las entidades. En [@brunstein2002] se proponen 29 tipos y 64 subtipos.
 
@@ -31,15 +31,15 @@ knitr::include_graphics('assets/sekine.png')
 Haciendo un análisis de dicha taxonomía encontramos que nuestro _corpus_ puede beneficiarse de los siguientes nuevos tipos de entidad:
 
 * **_Political_Party_**: diferentes actores políticos.
-  * ej: peronistas, kirchneristas, macristas.
+  * ej.: peronistas, kirchneristas, macristas.
 * **_Offence_**: ofensas.
-  * ej: asesinato, abducción, fraude, aborto, robo.
+  * ej.: asesinato, abducción, fraude, aborto, robo.
 * **_Facility_Name_**: lugares específicos.
-  * ej: Ecoparque, Disneyland, Canal de Suez, Aeropuerto de Ezeiza.
+  * ej.: Ecoparque, Disneyland, Canal de Suez, Aeropuerto de Ezeiza.
 * **_Product_Name_**: nombres de productos.
-  * ej: Galaxy S10, Fiat Toro, Manaos.
+  * ej.: Galaxy S10, Fiat Toro, Manaos.
 * **_Game_**: nombres de juegos.
-  * ej: futbol, football, basket, fortnite, ajedrez.
+  * ej.: futbol, football, basket, fortnite, ajedrez.
 
 ## Semilla inicial
 
@@ -62,24 +62,24 @@ Existen dos maneras de entrenar un modelo de predicción NLP:
 
 En nuestro sistemas hemos elegido la segunda opción porque al poseer la capacidad de escalar horizontalmente la cantidad de _workers_; el modelo se carga en varios servicios y de ser entrenado de manera _live_ el entrenamiento iría a workers diferentes resultando en inconsistencias entre ellos. Existen maneras de migrar nuestro sistema a un modelo _online_ y mantener la capacidad de escalar horizontalmente, pero escapa al alcance que decidimos darle a este trabajo por lo cual lo consideramos una propuesta de mejora a futuro.
 
-Uno de los mayores beneficios de tener un modelo online, ademas del trivial de que esta constantemente actualizado con las ultimas mejoras; es el de la capacidad de apuntar a los _tokens_ que poseen una mayor incertidumbre. En la sección \@ref(use-of-cnn) hemos mencionado que puede ocurrir que algunas palabras tengan una incerteza acerca de qué etiqueta debe ser predecida. En particular este tipo de técnicas están dentro de la literatura conocida como _"Uncertainty sampling"_ que se puede resumir en buscar entidades que tengan un _score_ $~ 0.5$ y dirigir el entrenamiento a esos _tokens_ primero.
+Uno de los mayores beneficios de tener un modelo online, además del trivial de que esta constantemente actualizado con las ultimas mejoras; es el de la capacidad de apuntar a los _tokens_ que poseen una mayor incertidumbre. En la sección \@ref(use-of-cnn) hemos mencionado que puede ocurrir que algunas palabras tengan una incerteza acerca de qué etiqueta debe ser predicha. En particular este tipo de técnicas están dentro de la literatura conocida como _"Uncertainty sampling"_ que se puede resumir en buscar entidades que tengan un _score_ $~ 0.5$ y dirigir el entrenamiento a esos _tokens_ primero.
 
 ## _Linkeo_ de entidades con _Knowledge Base_
 Existe otra tarea en el universo de _NLP_ que está muy relacionada a la tarea de _NER_: es la tarea de _Named Entity Linking_ [@wiki_nel].
 
 Un corolario de la definición de **designador rígido** en la sección \@ref(ner-formal) es que una misma entidad puede tener varios designadores. Por ejemplo "Lionel Messi" también puede ser referido como "Leo Messi", "Leo", "La Pulga", "Lionel Andrés 'Leo' Messi", etc. Todos ellos son designadores rígidos de una misma entidad, del concepto de Messi. A este concepto abstracto de entidad se le puede asignar un identificador único dentro de una base de datos de conocimiento (_knowledge base_ en inglés) para luego ser utilizado en la normalización de entidades.
 
-Ya existen _knowledge bases_ universales en internet. Una de las más importante y completas es **_wikidata_**. El identificador de Messi es el `Q615` [@wikidata_messi].
+Ya existen _knowledge bases_ universales en internet. Una de las más importante y completas es **_Wikidata_**. El identificador de Messi es el `Q615` [@wikidata_messi].
 
 Si al etiquetar una entidad, además de decirle a nuestro sistema de qué tipo es, sumamos la funcionalidad de indicar a que identificador de entidad corresponde, se podría luego entrenar un nuevo modelo de _NEL_, separado del modelo predictor de entidades, cuya tarea exclusiva sea la de normalizar y predecir identificadores de entidades.
 
-El sistema puede beneficiarse ya que tendría disponible, mediante _Wikidata_, de una gran cantidad información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc como muestra la figura \@ref(fig:fig-messi).
+El sistema puede beneficiarse ya que tendría disponible, mediante _Wikidata_, de una gran cantidad información adicional acerca de la entidad incluyendo, fotos, aliases, palabras clave, etc. como muestra la figura \@ref(fig:fig-messi).
 
 ```{r fig-messi, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Wikidata - Lionel Messi.'}
 knitr::include_graphics('assets/wikidata_messi.png')
 ```
 
-Desde el punto de vista del usuario, puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de "nubes de palabras" a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de "Mauricio" y en otros se hable de "Macri"; sin embargo sería necesario unificar estos dos keywords para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada utilizando entidades encontradas por nuestro sistema en la figura \@ref(fig:fig-cloud).
+Desde el punto de vista del usuario, puede beneficiarse porque obtener una representación normalizada de las entidades de un texto es una tarea importante en la sumarización de las mismas. Por ejemplo en la creación de "nubes de palabras" a partir de muchos artículos, puede ocurrir que en algunos artículos hablen de "Mauricio" y en otros se hable de "Macri"; sin embargo sería necesario unificar estas dos palabras claves para que el ítem tenga una relevancia mayor. Se puede observar una nube de palabras generada utilizando entidades encontradas por nuestro sistema en la figura \@ref(fig:fig-cloud).
 
 ```{r fig-cloud, echo = FALSE, fig.pos="H", fig.align = 'center', fig.cap='Con NEL se sumarían Messi con Lionel y Mauricio con Macri.'}
 knitr::include_graphics('assets/LosPersonajesDelDia.png')

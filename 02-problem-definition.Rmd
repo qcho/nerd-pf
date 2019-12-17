@@ -5,7 +5,7 @@
 
 ### Entidad nombrada
 
-En el contexto de _extracción de información_, una _entidad nombrada_ es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son "Mauricio Macri", "Ciudad Autónoma de Buenos Aires", "Apple Macbook".
+En el contexto de _extracción de información_, una _entidad nombrada_ es un objeto del mundo real como lo son personas, ubicaciones, organizaciones, productos, etc.; que pueden denotarse con un nombre propio. La entidad puede ser abstracto o tener existencia física. Ejemplos de entidades nombradas son "Mauricio Macri", "Ciudad Autónoma de Buenos Aires", "Apple Macbook".
 También se suele definir sencillamente como aquellas entidades que se pueden ver como instancias de entidad (por ejemplo, la Ciudad Autónoma de Buenos Aires es una instancia de una ciudad).
 
 
@@ -29,7 +29,7 @@ Por ejemplo en la oración: "Mauricio Macri es el presidente de Argentina":
 * "Mauricio Macri" y "Argentina" son _entidades nombradas_, ya que se refieren a objetos específicos.
 * "presidente" y "presidente de Argentina" no son _entidades nombradas_, ya que pueden usarse para referirse a muchos objetos diferentes en mundos diferentes:
   * "presidente" puede ser de diferentes países u organizaciones que se refieren a diferentes personas.
-  * "presidente de Argentina", si bien hace referencia a un mismo pais, puede ser de diferentes períodos presidenciales que se refieren a diferentes personas.
+  * "presidente de Argentina", si bien hace referencia a un mismo país, puede ser de diferentes períodos presidenciales que se refieren a diferentes personas.
 
 #### Definición no estricta
 
@@ -73,11 +73,11 @@ Se entiende por dominio a todos los textos que en su conjunto forman un _corpus_
 
 ## Los datos son el problema
 
-Por todo lo mencionado, es evidente que el cuello de botella para el avance de esta y muchas areas de la "Inteligencia Artificial" es el la captura de datos, no los algoritmos [@montani_AI].
+Por todo lo mencionado, es evidente que el cuello de botella en el avance de ésta y muchas áreas de la inteligencia artificial es la captura de datos, no los algoritmos [@montani_AI].
 
 La **anotación** en el aprendizaje automático es el proceso de etiquetar datos. Con esto, las algoritmos pueden usar los datos anotados para aprender a reconocer patrones similares cuando se presentan datos nuevos. En particular para el estado actual del arte de _NER_ es necesario tener un subconjunto del cuerpo de textos a analizar (_corpus_) anotado de tal manera que se conozcan previamente la ubicación de entidades, sus nombres y tipo.
 
-Este aprendizaje se carga en lo que se reconoce como un **modelo estadístico** y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas, librerias, _frameworks_ y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
+Este aprendizaje se carga en lo que se reconoce como un **modelo estadístico** y es a ese modelo al que se le pide inferir nuevos resultados. En nuestra experiencia los modelos pre-entrenados de las diferentes plataformas, librerías, _frameworks_ y trabajos académicos resultan siempre insuficientes para el uso en producción de los mismos.
 
 De esta manera queda bien definido el problema que queremos atacar (y el título de este trabajo).
 
